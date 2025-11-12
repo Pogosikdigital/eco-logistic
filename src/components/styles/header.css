@@ -1,0 +1,230 @@
+/* ======= HEADER BASE ======= */
+.header {
+  width: 100%;
+  background: transparent;
+  color: white;
+  padding: 12px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ======= LOGO ======= */
+/* ======== LOGO LINK & ANIMATION ======== */
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.logo-section:hover {
+  transform: scale(1.05);
+  opacity: 0.95;
+}
+
+.logo {
+  border-radius: 5px;
+  width: 42px;
+  height: 42px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo-section:hover .logo {
+  transform: rotate(-5deg) scale(1.08);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+.logo-text h1 {
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.logo-text p {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+/* ======= NAVIGATION ======= */
+.nav {
+  display: flex;
+}
+
+.nav__list {
+  list-style: none;
+  display: flex;
+  gap: 22px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav__item {
+  display: flex;
+  align-items: center;
+}
+
+.nav__link {
+  color: #e2e8f0;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.nav__link::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: #38bdf8;
+  transition: width 0.3s ease;
+}
+
+.nav__link:hover {
+  color: #38bdf8;
+}
+
+.nav__link:hover::after {
+  width: 100%;
+}
+
+/* ======= CTA BUTTON ======= */
+.main-cta {
+  background: linear-gradient(135deg, #22d3ee, #3b82f6);
+  color: #ffffff;
+  font-weight: 800;
+  border-radius: 14px;
+  padding: 12px 22px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 22px rgba(59, 130, 246, 0.5);
+  transition: all 0.4s ease;
+  cursor: pointer;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+  animation: pulse 6s ease-in-out infinite, glow 8s ease-in-out infinite;
+}
+
+.main-cta:hover {
+  background: linear-gradient(135deg, #facc15, #f59e0b);
+  transform: scale(1.08);
+  filter: brightness(1.1);
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* ======= BURGER ======= */
+.burger {
+  display: none;
+  cursor: pointer;
+  width: 28px;
+  height: 22px;
+  position: relative;
+  background: none;
+  border: none;
+}
+
+.burger span {
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background: #fff;
+  left: 0;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+}
+
+.burger span:nth-child(1) { top: 0; }
+.burger span:nth-child(2) { top: 9px; }
+.burger span:nth-child(3) { top: 18px; }
+
+.burger.active span:nth-child(1) {
+  transform: rotate(45deg);
+  top: 9px;
+}
+
+.burger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.active span:nth-child(3) {
+  transform: rotate(-45deg);
+  top: 9px;
+}
+
+/* ======= ANIMATIONS ======= */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+  50% { box-shadow: 0 0 45px rgba(34, 211, 238, 0.8); }
+}
+
+/* ======================================
+   📱 RESPONSIVE: MOBILE
+   ====================================== */
+@media (max-width: 768px) {
+  .header-container {
+    position: relative;
+  }
+
+  .nav,
+  .main-cta {
+    display: none;
+  }
+
+  .burger {
+    display: block;
+  }
+
+  .nav.open {
+    display: block;
+    position: absolute;
+    top: 150%;
+    right: 5%;
+    width: 50%;
+    background: rgba(15, 23, 42, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    animation: slideDown 0.3s ease forwards;
+  }
+
+  .nav__list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 12px;
+  }
+
+  .nav__link {
+    font-size: 1rem;
+    color: #fff;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
