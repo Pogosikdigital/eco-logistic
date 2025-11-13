@@ -1,91 +1,142 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { Helmet } from "react-helmet-async";
 import logo from "../assets/logo.png";
 import "./styles/header.css";
 
-const Header = () => {
+const navLinks = [
+  { id: "home", label: "Home" },
+  { id: "services", label: "Services" },
+  { id: "about", label: "About Us" },
+  { id: "reviews", label: "Reviews" },
+  { id: "earn", label: "Earn With Us" },
+  { id: "contact", label: "Contact" },
+];
+
+export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [activeSection, setActiveSection] = useState("home");
+  const [theme, setTheme] = useState("dark");
+
+  // SCROLL
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+
+      const total =
+        document.documentElement.scrollHeight - window.innerHeight;
+      setProgress((window.scrollY / total) * 100);
+
+      navLinks.forEach((link) => {
+        const el = document.getElementById(link.id);
+        if (!el) return;
+
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= 150 && rect.bottom >= 150) {
+          setActiveSection(link.id);
+        }
+      });
+    };
+
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // THEME
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  // LOCK BODY WHEN MENU OPEN
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "auto";
+  }, [menuOpen]);
 
   return (
     <>
-      {/* SEO meta tags for Header */}
       <Helmet>
         <title>EcoHub Logistics — Auto Transport Across the USA</title>
-        <meta
-          name="description"
-          content="EcoHub Logistics offers professional auto transport services across the USA — transparent pricing, insured drivers, and nationwide coverage."
-        />
-        <meta
-          name="keywords"
-          content="car shipping, auto transport, vehicle delivery, enclosed transport, open carrier, logistics USA, nationwide car shipping"
-        />
-        <meta name="robots" content="index, follow" />
       </Helmet>
 
-      <header className="header" role="banner">
+      {/* TOP PROGRESS */}
+      <div className="scroll-progress" style={{ width: `${progress}%` }} />
+
+      {/* HEADER */}
+      <header className={`header ${scrolled ? "scrolled shrink" : ""}`}>
         <div className="header-container">
-          {/* ===== LOGO ===== */}
-          <a href="/" className="logo-section" aria-label="EcoHub Logistics Homepage">
-            <img src={logo} alt="EcoHub Logistics company logo" className="logo" />
+
+          <a href="#home" className="logo-section">
+            <img src={logo} alt="EcoHub logo" className="logo" />
             <div className="logo-text">
-              <h1 className="company-title">EcoHub Logistics</h1>
-              <p className="company-subtitle">Auto Transport Across the USA</p>
+              <h1>EcoHub Logistics</h1>
+              <p>Auto Transport USA</p>
             </div>
           </a>
 
-          {/* ===== BURGER MENU ===== */}
-          <button
-            className={`burger ${menuOpen ? "active" : ""}`}
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-            aria-controls="main-navigation"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-
-          {/* ===== NAVIGATION ===== */}
-          <nav
-            id="main-navigation"
-            className={`nav ${menuOpen ? "open" : ""}`}
-            role="navigation"
-            aria-label="Main Navigation"
-          >
+          {/* DESKTOP NAV */}
+          <nav className="nav desktop-nav">
             <ul className="nav__list">
-              <li className="nav__item">
-                <a href="#home" className="nav__link">Home</a>
-              </li>
-              <li className="nav__item">
-                <a href="#services" className="nav__link">Services</a>
-              </li>
-              <li className="nav__item">
-                <a href="#blog" className="nav__link">Blog</a>
-              </li>
-              <li className="nav__item">
-                <a href="#about" className="nav__link">About Us</a>
-              </li>
-              <li className="nav__item">
-                <a href="#earn" className="nav__link">Earn With Us</a>
-              </li>
-              <li className="nav__item">
-                <a href="#contact" className="nav__link">Contact</a>
-              </li>
-              <li className="nav__item">
-                <a href="#reviews" className="nav__link">Reviews</a>
-              </li>
+              {navLinks.map((item) => (
+                <li key={item.id} className="nav__item">
+                  <a
+                    href={`#${item.id}`}
+                    className={`nav__link ${
+                      activeSection === item.id ? "active" : ""
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </nav>
 
-          {/* ===== CTA BUTTON ===== */}
-          <a href="#quote" className="main-cta" aria-label="Get a free auto shipping quote">
-            Get a Free Quote ▷
-          </a>
+          {/* CTA */}
+          <a href="#quote" className="main-cta">Get a Free Quote ▷</a>
+
+          {/* THEME SWITCH */}
+          <button
+            className="theme-switch"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          >
+            {theme === "dark" ? "🌞" : "🌙"}
+          </button>
+
+          {/* BURGER */}
+          <button
+            className={`burger ${menuOpen ? "active" : ""}`}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <span></span><span></span><span></span>
+          </button>
+
         </div>
       </header>
+
+      {/* MOBILE MENU — OUTSIDE HEADER!! */}
+      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+        <ul>
+          {navLinks.map((link) => (
+            <li key={link.id}>
+              <a
+                href={`#${link.id}`}
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <a
+          href="#quote"
+          className="mobile-cta"
+          onClick={() => setMenuOpen(false)}
+        >
+          Get a Free Quote ▷
+        </a>
+      </div>
     </>
   );
-};
-
-export default Header;
+}

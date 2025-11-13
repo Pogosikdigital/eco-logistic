@@ -1,0 +1,161 @@
+/* ===========================================================
+   HOW IT WORKS SECTION — matches hero style + page gradient
+   =========================================================== */
+
+.how-section {
+  padding: 5rem 2rem;
+  background: radial-gradient(circle at 20% 20%, #0b132b 0%, #010409 80%);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+.how-container {
+  max-width: 1100px;
+  width: 100%;
+  animation: fadeIn 1.2s ease forwards;
+}
+
+.how-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: #f9fafb;
+}
+
+.how-subtitle {
+  color: #c5cbd3;
+  font-size: 1.05rem;
+  margin-bottom: 3rem;
+}
+
+.how-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* STEP BLOCK */
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.3rem;
+}
+
+.step-number {
+  min-width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #2fb5ff, #007bff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(0, 123, 255, 0.4);
+}
+
+.step-content h3 {
+  margin: 0 0 0.35rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.step-content p {
+  margin: 0;
+  color: #cdd3dd;
+  line-height: 1.55;
+  max-width: 650px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .how-section {
+    padding: 3rem 1.4rem;
+  }
+
+  .how-title {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .how-subtitle {
+    text-align: center;
+  }
+
+  .how-steps {
+    gap: 2.2rem;
+  }
+
+  .step {
+    gap: 1rem;
+  }
+
+  .step-number {
+    min-width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Fade-in reuse */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* ===== Glow-анимация справа ===== */
+
+.how-section {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Базовый стиль всех точек */
+.how-particle {
+  position: absolute;
+  background: rgba(0, 162, 255, 0.2);
+  border-radius: 50%;
+  filter: blur(2.5px);
+  animation: floatDot 7s infinite ease-in-out alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== 9 точек с разными координатами ===== */
+
+.how-p1 { width: 10px; height: 10px; right: 300px; top: 200px; animation-delay: 0s; }
+.how-p2 { width: 12px; height: 12px; right: 350px; top: 320px; animation-delay: 1s; }
+.how-p3 { width: 8px; height: 8px;   right: 90px; top: 380px; animation-delay: 2s; }
+.how-p4 { width: 14px; height: 14px; right: 100px; top: 260px; animation-delay: 2.5s; }
+.how-p5 { width: 9px;  height: 9px;  right: 250px;  top: 420px; animation-delay: 3s; }
+.how-p6 { width: 13px; height: 13px; right: 70px; top: 310px; animation-delay: 3.7s; }
+.how-p7 { width: 7px;  height: 7px;  right: 410px; top: 210px; animation-delay: 4.2s; }
+.how-p8 { width: 15px; height: 15px; right: 380px; top: 420px; animation-delay: 5s; }
+.how-p9 { width: 11px; height: 11px; right: 370px; top: 350px; animation-delay: 5.5s; }
+
+@keyframes floatDot {
+  0% {
+    transform: translateY(0px) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(45px) scale(1.6);
+    opacity: 1;
+  }
+}
+
+/* Контент всегда поверх */
+.how-container {
+  position: relative;
+  z-index: 5;
+}
