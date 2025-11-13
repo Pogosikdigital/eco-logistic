@@ -28,6 +28,56 @@
   justify-content: center;
   gap: 1.2rem;
 }
+/* ===========================================================
+   FEATURE CARDS (точно как на скрине)
+   =========================================================== */
+
+.hero-features {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  width: 100%;
+  max-width: 520px; /* ровно как на макете */
+}
+
+/* третья карточка занимает всю ширину */
+.feature-card:nth-child(3) {
+  grid-column: span 2;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.08); /* как на скрине: тёмно-серый */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.5rem 1.8rem;
+  border-radius: 16px;
+
+  height: 115px; /* ровно по твоему скрину */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  transition: background 0.3s ease;
+}
+
+.feature-card:hover {
+  background: rgba(61, 64, 77, 0.75);
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 0.35rem 0;
+}
+
+.feature-card p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+
 
 .hero-label {
   display: inline-block;
