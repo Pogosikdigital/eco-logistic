@@ -1,0 +1,258 @@
+/* ===========================================================
+   HERO SECTION (SEO + Accessibility + Performance optimized)
+   =========================================================== */
+
+.hero {
+  background: radial-gradient(circle at 20% 20%, #0b132b 0%, #010409 80%);
+  color: #fff;
+  padding: 5rem 2rem;
+  display: flex;
+  justify-content: center;
+  scroll-margin-top: 80px; /* чтобы якорные ссылки прокручивались корректно */
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  max-width: 1200px;
+  width: 100%;
+  gap: 3rem;
+  animation: fadeIn 1.2s ease forwards;
+}
+
+/* ===== Левая колонка ===== */
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.hero-label {
+  display: inline-block;
+  background: rgba(0, 162, 255, 0.12);
+  border: 1px solid rgba(0, 162, 255, 0.35);
+  color: #8ecfff;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-top: 0.8rem;
+  line-height: 1.15;
+  color: #f9fafb;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+.hero-description {
+  color: #c5cbd3;
+  font-size: 1.05rem;
+  margin: 1.2rem 0 2rem;
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+/* ===== Кнопки ===== */
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #00aaff, #007bff);
+  border: none;
+  color: #fff;
+  padding: 0.95rem 1.7rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0, 162, 255, 0.5);
+  outline: none;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e8e8e8;
+  padding: 0.95rem 1.7rem;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.25);
+  outline: none;
+}
+
+/* ===== Статистика ===== */
+.hero-stats {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.stat {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 1.2rem 1.5rem;
+  width: 170px;
+  text-align: center;
+  transition: all 0.3s ease;
+  will-change: transform;
+}
+
+.stat:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.stat strong {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.stat p {
+  color: #b5bcc5;
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+}
+
+/* ===== Правая колонка (изображение) ===== */
+.hero-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-right::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: radial-gradient(circle at top right, rgba(0, 123, 255, 0.12), transparent 70%);
+  z-index: 0;
+}
+
+.hero-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* 🔹 не обрезает фото */
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-right img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65);
+}
+
+/* ===== Анимация появления ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Мобильная версия ===== */
+@media (max-width: 900px) {
+  .hero {
+    padding: 2rem 1.5rem;
+  }
+
+  .hero-inner {
+    padding-top: 1rem;
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero-left {
+    align-items: center;
+  }
+
+  .hero h1 {
+    padding-top: 1rem;
+    font-size: 2.2rem;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-stats {
+    justify-content: center;
+  }
+
+  .hero-right {
+    margin-top: 2rem;
+  }
+}
+.hero-label {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  --shimmer-duration: 2.8s;
+  --shimmer-opacity: 0.45;
+}
+
+/* полоса теперь проходит всю ширину */
+.hero-label::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%; /* начинаем за пределами слева */
+  width: 200%; /* тянем полосу шире таблетки */
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,var(--shimmer-opacity)) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  animation: heroShimmer var(--shimmer-duration) linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes heroShimmer {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(50%); } /* смещение — проходит всю ширину */
+}
+
+/* чтобы текст был поверх */
+.hero-label, .hero-label * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-label::after { animation: none; }
+}
