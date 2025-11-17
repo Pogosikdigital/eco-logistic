@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import truckImage from "../assets/truck.jpg";
+import truckImage from "../assets/hero.png";
 import "./styles/hero.css";
 
 export default function Hero() {

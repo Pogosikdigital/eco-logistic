@@ -4,6 +4,8 @@ import App from "./App";
 import { HelmetProvider } from "react-helmet-async";
 import "./components/styles/hero.css"; // ✅ правильный путь к твоему css
 
+import "./App.css"
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <HelmetProvider>

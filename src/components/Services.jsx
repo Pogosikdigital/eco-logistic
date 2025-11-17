@@ -15,7 +15,7 @@ export default function Services() {
         <title>Vehicle Transport Services — EcoHub Logistics</title>
         <meta
           name="description"
-          content="Premium nationwide transport services for cars, RVs, motorcycles, and heavy-duty vehicles."
+          content="Premium nationwide transport services for cars, RVs, boats, motorcycles, and oversized vehicles."
         />
       </Helmet>
 

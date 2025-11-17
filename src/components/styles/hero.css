@@ -210,21 +210,25 @@
   z-index: 0;
 }
 
+.hero-right {
+  width: 100%;
+  max-width: 600px; /* контролируем ширину */
+  aspect-ratio: 4 / 5; /* гармоничное вертикальное фото */
+  overflow: hidden;
+  border-radius: 20px;
+  position: relative;
+}
+
 .hero-right img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* 🔹 не обрезает фото */
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  object-fit: cover; /* 🔹 фото теперь заполняет весь блок */
+  object-position: center; /* 🔹 центрируем */
+  border-radius: 20px;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
-  position: relative;
-  z-index: 1;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
 }
 
-.hero-right img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65);
-}
 
 /* ===== Анимация появления ===== */
 @keyframes fadeIn {

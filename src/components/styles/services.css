@@ -1,5 +1,5 @@
 /* ===========================================================
-   SERVICES SECTION — Premium EcoHub UI
+   SERVICES SECTION — Premium EcoHub UI (Senior Level)
    =========================================================== */
 
 .services-section {
@@ -8,23 +8,62 @@
   color: #fff;
   display: flex;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Premium glow balls */
+.services-section::before,
+.services-section::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.35;
+  pointer-events: none;
+  animation: slowMove 18s infinite ease-in-out;
+}
+
+.services-section::before {
+  background: rgba(0, 162, 255, 0.2);
+  top: -120px;
+  left: -160px;
+}
+
+.services-section::after {
+  background: rgba(65, 125, 255, 0.18);
+  bottom: -180px;
+  right: -160px;
+  animation-duration: 26s;
+}
+
+@keyframes slowMove {
+  0% { transform: translateY(-40px); }
+  50% { transform: translateY(40px); }
+  100% { transform: translateY(-40px); }
 }
 
 .services-container {
+  position: relative;
+  z-index: 2;
   max-width: 1200px;
   width: 100%;
   animation: fadeIn 1s ease forwards;
 }
 
+/* ===== TITLE ===== */
 .services-title {
-  font-size: 2.6rem;
+  font-size: 2.7rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.5px;
 }
 
 .services-subtitle {
   color: #bfc5cf;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   margin-bottom: 3rem;
 }
 
@@ -32,30 +71,53 @@
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-  gap: 2rem;
+  gap: 2.2rem;
 }
 
-/* ===== CARD ===== */
+/* ===========================================================
+   SERVICE CARD — premium glass + floating + smooth animations
+   =========================================================== */
+
 .service-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
   overflow: hidden;
   transition: 0.35s ease;
   cursor: pointer;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
+  box-shadow: inset 0 0 22px rgba(255, 255, 255, 0.04);
   animation: cardFade 0.8s ease both;
+  position: relative;
+}
+
+/* soft inner glow */
+.service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(circle at 45% 45%, rgba(0, 150, 255, 0.16), transparent 70%);
+  transition: 0.4s ease;
+  z-index: 0;
+}
+
+.service-card:hover::before {
+  opacity: 1;
 }
 
 .service-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(0, 162, 255, 0.35);
-  box-shadow: 0 12px 28px rgba(0, 162, 255, 0.15);
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(0, 162, 255, 0.4);
+  box-shadow:
+    0 12px 30px rgba(0, 162, 255, 0.2),
+    0 8px 20px rgba(0, 0, 0, 0.55);
 }
 
+/* IMAGE */
 .service-img-wrapper {
   width: 100%;
-  height: 210px;
+  height: 230px;
   overflow: hidden;
 }
 
@@ -63,44 +125,86 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: 0.4s ease;
+  transition: 0.45s ease;
 }
 
 .service-card:hover img {
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 
+/* TEXT */
 .service-info {
-  padding: 1.4rem 1.6rem;
+  padding: 1.5rem 1.7rem;
+  position: relative;
+  z-index: 3;
 }
 
 .service-info h3 {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 600;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.55rem;
 }
 
 .service-info p {
   color: #c3c9d4;
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1.55;
 }
 
-/* Aнимация */
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes cardFade {
-  from { opacity: 0; transform: translateY(15px); }
+  from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Mobile */
+/* ===========================================================
+   RESPONSIVE — Tablet + Phone
+   =========================================================== */
+
+@media (max-width: 1024px) {
+  .services-title {
+    font-size: 2.4rem;
+  }
+
+  .services-grid {
+    gap: 1.8rem;
+  }
+}
+
 @media (max-width: 768px) {
   .services-title,
   .services-subtitle {
     text-align: center;
+  }
+
+  .services-title {
+    font-size: 2.1rem;
+  }
+
+  .service-img-wrapper {
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-section {
+    padding: 4rem 1.2rem;
+  }
+
+  .services-title {
+    font-size: 1.9rem;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-img-wrapper {
+    height: 180px;
   }
 }
