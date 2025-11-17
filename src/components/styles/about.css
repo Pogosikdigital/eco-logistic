@@ -1,0 +1,261 @@
+/* =========================================
+   ABOUT SECTION – base
+========================================= */
+
+.about-section {
+  padding: 4.5rem 1.5rem 4rem;
+  background: transparent;
+  color: var(--text-color, #ffffff);
+}
+
+.about-container {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* =========================================
+   HEADER / TITLES
+========================================= */
+
+.about-header {
+  margin-bottom: 2.5rem;
+}
+
+.about-kicker {
+  display: inline-flex;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(15, 23, 42, 0.85);
+  color: #cbd5f5;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  margin-bottom: 0.8rem;
+}
+
+.about-title {
+  font-size: 2.3rem;
+  font-weight: 800;
+  margin: 0 0 0.6rem;
+}
+
+.about-subtitle {
+  max-width: 620px;
+  font-size: 0.98rem;
+  color: #a0aec0;
+  margin: 0;
+}
+
+/* =========================================
+   GRID
+========================================= */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* =========================================
+   LEFT – IMAGE CARD
+========================================= */
+
+.about-media {
+  margin: 0;
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.about-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+  transition: transform 0.7s ease;
+}
+
+.about-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.25), transparent 55%),
+              radial-gradient(circle at 90% 100%, rgba(59, 130, 246, 0.2), transparent 55%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.about-media:hover .about-image {
+  transform: scale(1.05);
+}
+
+/* =========================================
+   RIGHT – TEXT CARD
+========================================= */
+
+.about-content {
+  background: radial-gradient(circle at top, rgba(148, 163, 184, 0.25), rgba(15, 23, 42, 0.95));
+  border-radius: 24px;
+  padding: 26px 26px 24px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.about-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #e2e8f0;
+  margin-bottom: 0.4rem;
+}
+
+.about-tag::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #22d3ee, #3b82f6);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.8);
+}
+
+.about-content-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  margin: 0 0 0.7rem;
+}
+
+.about-content-text {
+  font-size: 0.95rem;
+  color: #cbd5f5;
+  margin: 0 0 1.1rem;
+}
+
+/* =========================================
+   LIST
+========================================= */
+
+.about-list {
+  list-style: none;
+  margin: 0 0 1.7rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.about-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.92rem;
+  color: #e2e8f0;
+}
+
+.about-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  margin-top: 4px;
+  background: radial-gradient(circle at 30% 30%, #facc15, #f97316);
+  box-shadow: 0 0 14px rgba(250, 204, 21, 0.7);
+  flex-shrink: 0;
+}
+
+/* =========================================
+   ACTIONS / BUTTONS
+========================================= */
+
+.about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Кнопка в стиле Get a Free Quote, но чуть компактнее */
+.about-primary-cta {
+  padding: 10px 22px !important;
+  font-size: 0.95rem !important;
+  border-radius: 16px !important;
+}
+
+/* Вторичная кнопка */
+.about-secondary-cta {
+  padding: 10px 20px;
+  font-size: 0.92rem;
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(15, 23, 42, 0.7);
+  color: #e5e7eb;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease,
+    box-shadow 0.25s ease, color 0.25s ease;
+}
+
+.about-secondary-cta:hover {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: #38bdf8;
+  color: #f9fafb;
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1024px) {
+  .about-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about-media {
+    max-height: 340px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-section {
+    padding: 3.5rem 1.25rem 3.5rem;
+  }
+
+  .about-title {
+    font-size: 1.9rem;
+  }
+
+  .about-content-title {
+    font-size: 1.5rem;
+  }
+
+  .about-content {
+    padding: 22px 18px 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .about-primary-cta,
+  .about-secondary-cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
