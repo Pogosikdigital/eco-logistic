@@ -181,14 +181,18 @@
 .main-cta {
   background: var(--cta-bg);
   color: #ffffff;
-  padding: 12px 22px;
+  padding: 10px 20px;
   border-radius: 16px;
   font-weight: 700;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   box-shadow: 0 0 18px rgba(59, 130, 246, 0.5);
+  font-size: 1.1rem;
   transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+  border: none;
 }
 
 .main-cta:hover {

@@ -1,0 +1,156 @@
+/* ===========================================================
+   CONTACT SECTION BASE
+   =========================================================== */
+.contact-section {
+  padding: 80px 20px;
+  max-width: 1220px;
+  margin: 0 auto;
+  color: #ffffff;
+}
+
+.contact-container {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 26px;
+  padding: 50px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+}
+
+/* ===========================================================
+   HEADER
+   =========================================================== */
+.contact-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.contact-badge {
+  display: inline-block;
+  padding: 6px 18px;
+  font-size: 0.8rem;
+  color: #a5b4fc;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 12px;
+}
+
+.contact-title {
+  font-size: 2.3rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.contact-subtitle {
+  color: #cbd5e1;
+  font-size: 1.04rem;
+  margin-top: 8px;
+}
+
+/* ===========================================================
+   FORM
+   =========================================================== */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.form-row {
+  display: flex;
+  gap: 24px;
+}
+
+.form-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  color: #e2e8f0;
+}
+
+.form-field input,
+.form-field textarea {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.form-field textarea {
+  height: 120px;
+  resize: none;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 14px rgba(59, 130, 246, 0.45);
+}
+
+/* ===========================================================
+   CTA BUTTON (SAME HEADER STYLE)
+   =========================================================== */
+.contact-cta {
+  margin: 20px auto 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+
+  background: var(--cta-bg);
+  border: none;
+  border-radius: 16px;
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 700;
+
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.5);
+
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.contact-cta:hover {
+  background: var(--cta-hover);
+  transform: scale(1.08);
+  filter: brightness(1.15);
+}
+
+.contact-cta .arrow {
+  margin-left: 8px;
+  font-size: 1.4rem;
+}
+
+/* ===========================================================
+   RESPONSIVE
+   =========================================================== */
+@media (max-width: 900px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .contact-container {
+    padding: 30px;
+  }
+
+  .contact-title {
+    font-size: 1.9rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .contact-section {
+    padding: 60px 16px;
+  }
+}
