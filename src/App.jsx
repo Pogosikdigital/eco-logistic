@@ -1,25 +1,40 @@
-// src/App.jsx
+import { Routes, Route } from "react-router-dom";
+
 import Header from "./components/Header";
 import Hero from "./components/Hero";
-import QuoteSection from "./components/QuoteSection";
 import HowItWorks from "./components/HowItWorks";
 import Services from "./components/Services";
 import Reviews from "./components/Reviews";
 import About from "./components/About";
-import Contact from "./components/Contact"; // 🔹 ВАЖНО: импорт Contact
+import Contact from "./components/Contact";
+import ReviewsPage from "./pages/ReviewsPage";
+import QuotePage from "./pages/QuotePage";
 
 function App() {
   return (
-    <>
-      <Header />
-      <Hero />
-      <HowItWorks />
-      <Services />
-      <QuoteSection />
-      <Reviews />
-      <About />
-      <Contact /> 
-    </>
+    <Routes>
+      {/* === Страница формы === */}
+      <Route path="/quote" element={<QuotePage />} />
+
+      {/* === Страница отзывов === */}
+      <Route path="/reviews" element={<ReviewsPage />} />
+
+      {/* === Главная страница === */}
+      <Route
+        path="/"
+        element={
+          <>
+            <Header />
+            <Hero />
+            <HowItWorks />
+            <Services />
+            <About />
+            <Reviews />
+            <Contact />
+          </>
+        }
+      />
+    </Routes>
   );
 }
 

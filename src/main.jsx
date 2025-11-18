@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { HelmetProvider } from "react-helmet-async";
-import "./components/styles/hero.css"; // ✅ правильный путь к твоему css
+import { BrowserRouter } from "react-router-dom";
 
-import "./App.css"
+import "./components/styles/hero.css";
+import "./App.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <HelmetProvider>
+    <BrowserRouter>
       <App />
-    </HelmetProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

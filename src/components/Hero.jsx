@@ -1,18 +1,11 @@
 import React from "react";
-import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import truckImage from "../assets/hero.png";
 import "./styles/hero.css";
 
 export default function Hero() {
   return (
     <section className="hero" id="home" aria-label="EcoHub Logistics Hero Section">
-      <Helmet>
-        <title>EcoHub Logistics — Vehicle Shipping Across the USA</title>
-        <meta
-          name="description"
-          content="Ship your car, motorcycle, boat, or RV safely and on time with EcoHub Logistics. Transparent pricing and reliable delivery across all 50 states."
-        />
-      </Helmet>
 
       <div className="hero-inner">
         <div className="hero-left">
@@ -29,15 +22,15 @@ export default function Hero() {
           </p>
 
           <div className="hero-buttons">
-            <a href="#quote" className="btn-primary">
+            <Link to="/quote" className="btn-primary">
               Get a Free Quote ▸
-            </a>
+            </Link>
+
             <a href="#how" className="btn-secondary">
               How it works
             </a>
           </div>
 
-          {/* 🔥 ДОБАВЛЕННЫЙ БЛОК – ТРИ КАРТОЧКИ */}
           <div className="hero-features">
             <div className="feature-card">
               <h3>50+ States</h3>
@@ -52,7 +45,6 @@ export default function Hero() {
               <p>From booking to delivery</p>
             </div>
           </div>
-          {/* 🔥 КОНЕЦ НОВОГО БЛОКА */}
         </div>
 
         <div className="hero-right">

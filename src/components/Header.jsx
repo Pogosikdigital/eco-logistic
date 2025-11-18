@@ -1,5 +1,4 @@
-import { useState, useEffect} from "react";
-import { Helmet } from "react-helmet-async";
+import { useState, useEffect } from "react";
 import logo from "../assets/logo.png";
 import "./styles/header.css";
 
@@ -19,8 +18,12 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState("home");
   const [theme, setTheme] = useState("dark");
 
-  // SCROLL
+  const isQuotePage = window.location.pathname === "/quote";
+
+  // SCROLL logic (only on main page)
   useEffect(() => {
+    if (isQuotePage) return;
+
     const onScroll = () => {
       setScrolled(window.scrollY > 40);
 
@@ -41,32 +44,30 @@ export default function Header() {
 
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isQuotePage]);
 
-  // THEME
+  // Theme switcher
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  // LOCK BODY WHEN MENU OPEN
+  // Lock body on mobile menu
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
   }, [menuOpen]);
 
   return (
     <>
-      <Helmet>
-        <title>EcoHub Logistics — Auto Transport Across the USA</title>
-      </Helmet>
-
-      {/* TOP PROGRESS */}
-      <div className="scroll-progress" style={{ width: `${progress}%` }} />
+      {/* Progress bar (hide on quote page) */}
+      {!isQuotePage && (
+        <div className="scroll-progress" style={{ width: `${progress}%` }} />
+      )}
 
       {/* HEADER */}
       <header className={`header ${scrolled ? "scrolled shrink" : ""}`}>
         <div className="header-container">
 
-          <a href="#home" className="logo-section">
+          <a href="/#home" className="logo-section">
             <img src={logo} alt="EcoHub logo" className="logo" />
             <div className="logo-text">
               <h1>EcoHub Logistics</h1>
@@ -80,9 +81,9 @@ export default function Header() {
               {navLinks.map((item) => (
                 <li key={item.id} className="nav__item">
                   <a
-                    href={`#${item.id}`}
+                    href={`/#${item.id}`}
                     className={`nav__link ${
-                      activeSection === item.id ? "active" : ""
+                      activeSection === item.id && !isQuotePage ? "active" : ""
                     }`}
                   >
                     {item.label}
@@ -93,7 +94,7 @@ export default function Header() {
           </nav>
 
           {/* CTA */}
-          <a href="#quote" className="main-cta">Get a Free Quote ▷</a>
+          <a href="/quote" className="main-cta">Get a Free Quote ▷</a>
 
           {/* THEME SWITCH */}
           <button
@@ -114,13 +115,13 @@ export default function Header() {
         </div>
       </header>
 
-      {/* MOBILE MENU — OUTSIDE HEADER!! */}
+      {/* MOBILE MENU */}
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         <ul>
           {navLinks.map((link) => (
             <li key={link.id}>
               <a
-                href={`#${link.id}`}
+                href={`/#${link.id}`}
                 onClick={() => setMenuOpen(false)}
               >
                 {link.label}
@@ -130,7 +131,7 @@ export default function Header() {
         </ul>
 
         <a
-          href="#quote"
+          href="/quote"
           className="mobile-cta"
           onClick={() => setMenuOpen(false)}
         >

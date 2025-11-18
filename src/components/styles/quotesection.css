@@ -3,7 +3,6 @@
    =========================================================== */
 
 .quote-section {
-  background: radial-gradient(circle at 10% 0%, #0b132b 0%, #010409 55%, #020814 100%);
   padding: 5rem 2rem 3.2rem;
   display: flex;
   justify-content: center;

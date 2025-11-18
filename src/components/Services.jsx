@@ -1,5 +1,4 @@
 import React from "react";
-import { Helmet } from "react-helmet-async";
 import ServiceCard from "./ServiceCard";
 import { servicesData } from "../data/servicesData";
 import "./styles/services.css";
@@ -11,14 +10,6 @@ export default function Services() {
       id="services"
       aria-label="EcoHub Logistics Transport Services"
     >
-      <Helmet>
-        <title>Vehicle Transport Services — EcoHub Logistics</title>
-        <meta
-          name="description"
-          content="Premium nationwide transport services for cars, RVs, boats, motorcycles, and oversized vehicles."
-        />
-      </Helmet>
-
       <div className="services-container">
         <h2 className="services-title">Vehicle Transport Services</h2>
         <p className="services-subtitle">

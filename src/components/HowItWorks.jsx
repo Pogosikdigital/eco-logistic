@@ -1,5 +1,4 @@
 import React from "react";
-import { Helmet } from "react-helmet-async";
 import "./styles/how.css";
 
 export default function HowItWorks() {
@@ -9,14 +8,6 @@ export default function HowItWorks() {
       id="how"
       aria-label="How EcoHub Logistics vehicle transport works"
     >
-      <Helmet>
-        <title>How It Works — EcoHub Logistics</title>
-        <meta
-          name="description"
-          content="Simple and transparent steps for shipping your vehicle with EcoHub Logistics — from requesting a quote to final delivery and inspection."
-        />
-      </Helmet>
-
       {/* 🔵 9 плавающих точек (премиальная анимация) */}
       <div className="how-particle how-p1"></div>
       <div className="how-particle how-p2"></div>

@@ -1,0 +1,179 @@
+/* ===========================================================
+   GLOBAL PAGE WRAPPER — with FULL BACKGROUND like HERO
+   =========================================================== */
+
+.reviews-page-section {
+  min-height: 100vh;
+  width: 100%;
+  padding: 140px 20px 120px;
+
+  background: radial-gradient(circle at 20% 20%, #0b132b 0%, #010409 80%);
+  background-attachment: fixed;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  color: #fff;
+  animation: fadePage 0.7s ease;
+}
+
+/* Fade page */
+@keyframes fadePage {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===========================================================
+   TITLES
+   =========================================================== */
+
+.reviews-page-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  letter-spacing: 0.6px;
+  color: #fff;
+
+  text-shadow: 0 0 18px rgba(59, 130, 246, 0.4);
+}
+
+.reviews-page-subtitle {
+  font-size: 1.2rem;
+  color: #94a3b8;
+  margin-bottom: 60px;
+  max-width: 620px;
+}
+
+/* ===========================================================
+   GRID — CENTERED, PREMIUM SPACING
+   =========================================================== */
+
+.reviews-page-grid {
+  width: 100%;
+  max-width: 1250px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 32px;
+
+  animation: fadeGrid 0.6s ease-out;
+}
+
+@keyframes fadeGrid {
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===========================================================
+   CARD — PREMIUM GLASS STYLE
+   =========================================================== */
+
+.review-card.big {
+  position: relative;
+  padding: 32px;
+  border-radius: 22px;
+
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.45),
+    inset 0 0 16px rgba(255, 255, 255, 0.04);
+
+  transition: all 0.35s ease;
+  overflow: hidden;
+}
+
+/* Glow hover effect */
+.review-card.big:hover {
+  transform: translateY(-8px) scale(1.03);
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.65),
+    0 0 32px rgba(59, 130, 246, 0.22);
+
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Light gradient glow */
+.review-card.big::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at top right,
+    rgba(59, 130, 246, 0.18),
+    transparent 55%
+  );
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ===========================================================
+   HEADER
+   =========================================================== */
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.review-avatar {
+  width: 56px;
+  height: 56px;
+
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+}
+
+.review-author {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.review-rating {
+  color: #facc15;
+  font-size: 1.3rem;
+  margin-top: 2px;
+}
+
+/* ===========================================================
+   TEXT
+   =========================================================== */
+
+.review-text {
+  line-height: 1.6;
+  font-size: 1.05rem;
+  color: #cbd5e1;
+  letter-spacing: 0.25px;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+}
+
+/* ===========================================================
+   RESPONSIVE
+   =========================================================== */
+
+@media (max-width: 768px) {
+  .reviews-page-title {
+    font-size: 2.4rem;
+  }
+
+  .review-card.big {
+    padding: 24px;
+  }
+}
