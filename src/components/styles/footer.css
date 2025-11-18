@@ -1,0 +1,183 @@
+/* =====================================
+   FOOTER BASE
+===================================== */
+.footer-section {
+  background: rgba(0, 0, 0, 0.55);
+  padding: 70px 20px 30px;
+  color: #dbeafe;
+  backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-container {
+  max-width: 1250px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
+}
+
+/* =====================================
+   NEON LOGO
+===================================== */
+.footer-logo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+  transition: 0.3s ease;
+}
+
+.neon-logo {
+  box-shadow: 0 0 14px rgba(59, 130, 246, 0.65),
+              0 0 28px rgba(59, 130, 246, 0.4);
+}
+
+.neon-logo:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 22px rgba(59, 130, 246, 0.9),
+              0 0 38px rgba(59, 130, 246, 0.6);
+}
+
+/* =====================================
+   TEXT
+===================================== */
+.footer-text {
+  line-height: 1.6;
+  color: #cbd5e1;
+  max-width: 280px;
+  margin-top: 16px;
+}
+
+/* =====================================
+   CTA BUTTON
+===================================== */
+.footer-cta {
+  margin-top: 22px;
+  padding: 12px 30px;
+  border-radius: 14px;
+  border: none;
+  color: #fff;
+  background: linear-gradient(90deg, #4fc3ff, #3b82f6);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s ease;
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.5);
+}
+
+.footer-cta:hover {
+  transform: scale(1.06);
+  filter: brightness(1.2);
+}
+
+.footer-cta .arrow {
+  font-size: 1.3rem;
+}
+
+/* =====================================
+   TITLES
+===================================== */
+.footer-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+/* =====================================
+   LINKS
+===================================== */
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.footer-links a:hover {
+  color: #60a5fa;
+  padding-left: 4px;
+}
+
+/* =====================================
+   SOCIAL ICONS
+===================================== */
+.footer-social {
+  margin-top: 20px;
+  display: flex;
+  gap: 16px;
+}
+
+.social-link {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.35s ease;
+  cursor: pointer;
+}
+
+.social-img {
+  width: 26px;
+  height: 26px;
+}
+
+/* Hover effects */
+.social-link:hover:nth-child(1) {
+  background: #1877f2;
+  box-shadow: 0 0 18px rgba(24, 119, 242, 0.9);
+  transform: scale(1.12);
+}
+
+.social-link:hover:nth-child(2) {
+  background: #e1306c;
+  box-shadow: 0 0 18px rgba(225, 48, 108, 0.9);
+  transform: scale(1.12);
+}
+
+/* =====================================
+   COPYRIGHT
+===================================== */
+.footer-bottom {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+@media (max-width: 900px) {
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+}
