@@ -9,6 +9,7 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import ReviewsPage from "./pages/ReviewsPage";
 import QuotePage from "./pages/QuotePage";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <About />
             <Reviews />
             <Contact />
+            <Footer/>
           </>
         }
       />
