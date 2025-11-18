@@ -1,39 +1,54 @@
+// src/App.jsx
 import { Routes, Route } from "react-router-dom";
 
-import Header from "./components/Header";
+import MainLayout from "./layouts/MainLayout";
+
+// Pages / Sections
 import Hero from "./components/Hero";
 import HowItWorks from "./components/HowItWorks";
 import Services from "./components/Services";
-import Reviews from "./components/Reviews";
 import About from "./components/About";
+import Reviews from "./components/Reviews";
 import Contact from "./components/Contact";
-import ReviewsPage from "./pages/ReviewsPage";
+
 import QuotePage from "./pages/QuotePage";
-import Footer from "./components/Footer";
+import ReviewsPage from "./pages/ReviewsPage";
 
 function App() {
   return (
     <Routes>
-      {/* === Страница формы === */}
-      <Route path="/quote" element={<QuotePage />} />
-
-      {/* === Страница отзывов === */}
-      <Route path="/reviews" element={<ReviewsPage />} />
-
-      {/* === Главная страница === */}
+      {/* Главная страница */}
       <Route
         path="/"
         element={
-          <>
-            <Header />
+          <MainLayout>
             <Hero />
             <HowItWorks />
             <Services />
             <About />
             <Reviews />
             <Contact />
-            <Footer/>
-          </>
+          </MainLayout>
+        }
+      />
+
+      {/* Страница формы */}
+      <Route
+        path="/quote"
+        element={
+          <MainLayout>
+            <QuotePage />
+          </MainLayout>
+        }
+      />
+
+      {/* Страница отзывов */}
+      <Route
+        path="/reviews"
+        element={
+          <MainLayout>
+            <ReviewsPage />
+          </MainLayout>
         }
       />
     </Routes>
