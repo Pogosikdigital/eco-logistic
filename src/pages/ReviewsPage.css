@@ -6,8 +6,6 @@
   min-height: 100vh;
   width: 100%;
   padding: 140px 20px 120px;
-
-  background: radial-gradient(circle at 20% 20%, #0b132b 0%, #010409 80%);
   background-attachment: fixed;
 
   display: flex;
@@ -177,3 +175,97 @@
     padding: 24px;
   }
 }
+/* ================================
+   3D TILT GLOBAL STYLES
+   ================================ */
+
+.review-card,
+.review-card.big {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.3s ease, box-shadow 0.35s ease;
+  will-change: transform;
+}
+
+/* Soft glow on hover */
+.review-card:hover,
+.review-card.big:hover {
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.65),
+    0 0 40px rgba(59,130,246,0.35);
+}
+
+/* gradient lighting on hover */
+.review-card::after,
+.review-card.big::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right,
+      rgba(255,255,255,0.1),
+      transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.review-card:hover::after,
+.review-card.big:hover::after {
+  opacity: 1;
+}
+/* ===========================================================
+   TRUE MOBILE ADAPTATION — PHONES ONLY (<480px)
+   =========================================================== */
+
+@media (max-width: 360px) {
+  .reviews-page-section {
+    padding: 100px 10px 60px;
+  }
+
+  .reviews-page-title {
+    font-size: 1.9rem;
+    margin-bottom: 6px;
+  }
+
+  .reviews-page-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 35px;
+    padding: 0 6px;
+  }
+
+  .reviews-page-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .review-card.big {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .review-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .review-author {
+    font-size: 0.95rem;
+  }
+
+  .review-rating {
+    font-size: 1rem;
+  }
+
+  .review-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  /* Disable 3D on phones */
+  .review-card,
+  .review-card.big {
+    transform: none !important;
+  }
+}
+
+
