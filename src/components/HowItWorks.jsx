@@ -1,3 +1,4 @@
+// src/components/HowItWorks.jsx
 import React from "react";
 import "./styles/how.css";
 
@@ -8,71 +9,73 @@ export default function HowItWorks() {
       id="how"
       aria-label="How EcoHub Logistics vehicle transport works"
     >
-      {/* 🔵 9 плавающих точек (премиальная анимация) */}
-      <div className="how-particle how-p1"></div>
-      <div className="how-particle how-p2"></div>
-      <div className="how-particle how-p3"></div>
-      <div className="how-particle how-p4"></div>
-      <div className="how-particle how-p5"></div>
-      <div className="how-particle how-p6"></div>
-      <div className="how-particle how-p7"></div>
-      <div className="how-particle how-p8"></div>
-      <div className="how-particle how-p9"></div>
+      {/* плавающие точки-глоу */}
+      <div className="how-particle how-p1" />
+      <div className="how-particle how-p2" />
+      <div className="how-particle how-p3" />
+      <div className="how-particle how-p4" />
+      <div className="how-particle how-p5" />
+      <div className="how-particle how-p6" />
+      <div className="how-particle how-p7" />
+      <div className="how-particle how-p8" />
+      <div className="how-particle how-p9" />
 
       <div className="how-container">
+        <span className="how-label">Step-by-step process</span>
+
         <h2 className="how-title">How it works</h2>
         <p className="how-subtitle">
           Simple, transparent steps from pickup to delivery.
         </p>
 
-        <div className="how-steps">
+        <div className="how-grid">
           {/* STEP 1 */}
-          <div className="step">
-            <div className="step-number">1</div>
-            <div className="step-content">
+          <article className="how-card">
+            <div className="how-card-header">
+              <div className="step-number">1</div>
               <h3>Request a Quote</h3>
-              <p>
-                Share your pickup & delivery ZIPs, vehicle type, and timing
-                preferences.
-              </p>
             </div>
-          </div>
+            <p>
+              Share your pickup &amp; delivery ZIPs, vehicle type, and timing
+              preferences.
+            </p>
+          </article>
 
           {/* STEP 2 */}
-          <div className="step">
-            <div className="step-number">2</div>
-            <div className="step-content">
-              <h3>Book & Schedule</h3>
-              <p>
-                Lock in your rate, select open or enclosed transport, and choose a
-                pickup window.
-              </p>
+          <article className="how-card">
+            <div className="how-card-header">
+              <div className="step-number">2</div>
+              <h3>Book &amp; Schedule</h3>
             </div>
-          </div>
+            <p>
+              Lock in your rate, select open or enclosed transport, and choose a
+              pickup window.
+            </p>
+          </article>
 
           {/* STEP 3 */}
-          <div className="step">
-            <div className="step-number">3</div>
-            <div className="step-content">
-              <h3>Pickup & Transit</h3>
-              <p>
-                Licensed, insured carriers load your vehicle and provide real-time
-                updates.
-              </p>
+          <article className="how-card">
+            <div className="how-card-header">
+              <div className="step-number">3</div>
+              <h3>Pickup &amp; Transit</h3>
             </div>
-          </div>
+            <p>
+              Licensed, insured carriers load your vehicle and provide
+              real-time updates.
+            </p>
+          </article>
 
           {/* STEP 4 */}
-          <div className="step">
-            <div className="step-number">4</div>
-            <div className="step-content">
-              <h3>Delivery & Inspection</h3>
-              <p>
-                Inspect upon arrival. Pay remaining balance and rate your
-                experience.
-              </p>
+          <article className="how-card">
+            <div className="how-card-header">
+              <div className="step-number">4</div>
+              <h3>Delivery &amp; Inspection</h3>
             </div>
-          </div>
+            <p>
+              Inspect upon arrival, pay the remaining balance, and rate your
+              experience.
+            </p>
+          </article>
         </div>
       </div>
     </section>

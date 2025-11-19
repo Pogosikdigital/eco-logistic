@@ -1,41 +1,84 @@
-/* =======================================
-   🌍 GLOBAL BASE STYLES — Clean & Modern
-   ======================================= */
+/* ===============================
+   GLOBAL THEME (EcoHub Logistics)
+   =============================== */
 
-/* ----- Reset ----- */
-* {
-  margin: 0;
-  padding: 0;
+:root {
+  /* 🌓 Background */
+  --bg-main-1: #041c35;
+  --bg-main-2: #062242;
+  --bg-main-3: #09315a;
+  --bg-gradient: linear-gradient(
+    140deg,
+    #031629 0%,
+    #082a4a 35%,
+    #083b60 70%,
+    #0c3f6e 100%
+  );
+
+  /* 🔤 Text */
+  --text-main: #ffffff;     /* главный текст (hero title) */
+  --text-muted: #c9d4e1;    /* саб-текст / описания */
+  --text-label: #bfc6ff;    /* маленькие лейблы */
+
+  /* 🧊 Glass cards */
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --card-border: rgba(255, 255, 255, 0.14);
+  --glass-blur: 14px;
+
+  /* 🎨 Accents */
+  --accent-primary: #0e8bff;        /* основной голубой (кнопка) */
+  --accent-secondary: #4d88ff;      /* второй голубой */
+  --accent-neon-1: #6fdbff;         /* неоновый подсвет */
+  --accent-neon-2: #9febff;
+  --accent-neon-soft: rgba(100, 220, 255, 0.75);
+
+  /* 🔘 CTA buttons */
+  --cta-bg: linear-gradient(90deg, #0e8bff, #4d88ff);
+  --cta-hover: linear-gradient(90deg, #19a0ff, #5f95ff);
+}
+
+/* ====== GLOBAL LAYOUT ====== */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
-}
-
-/* === BACKGROUND GRADIENT CIRCLES === */
+html,
 body {
-  background-color: #0a0f24;
-  background-image:
-    radial-gradient(at 20% 30%, rgba(0, 255, 255, 0.2) 0%, transparent 60%),
-    radial-gradient(at 80% 20%, rgba(0, 102, 255, 0.15) 0%, transparent 60%),
-    radial-gradient(at 50% 100%, rgba(0, 255, 128, 0.1) 0%, transparent 70%);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  scroll-behavior: smooth;
 }
 
-/* ----- Containers ----- */
+body {
+  min-height: 100vh;
+}
+
+/* Глобальный контейнер (used in MainLayout) */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 1.5rem 4rem;
 }
 
-/* ----- Typography ----- */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.1;
+/* Сброс ссылок */
+a {
+  color: inherit;
+  text-decoration: none;
 }
+
+a:hover {
+  text-decoration: none;
+}
+
+/* Для секций, если нужно выравнивать отступы */
+section {
+  position: relative;
+}
+
+/* Можно добавить общую анимацию появления секций при желании */

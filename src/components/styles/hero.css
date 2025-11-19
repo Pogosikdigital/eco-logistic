@@ -1,13 +1,9 @@
-/* ===========================================================
-   HERO SECTION (SEO + Accessibility + Performance optimized)
-   =========================================================== */
-
 .hero {
-  color: #fff;
+  color: var(--text-main);
   padding: 5rem 2rem;
   display: flex;
   justify-content: center;
-  scroll-margin-top: 80px; /* чтобы якорные ссылки прокручивались корректно */
+  scroll-margin-top: 80px;
 }
 
 .hero-inner {
@@ -17,7 +13,7 @@
   max-width: 1200px;
   width: 100%;
   gap: 3rem;
-  animation: fadeIn 1.2s ease forwards;
+  animation: heroFadeIn 1.2s ease forwards;
 }
 
 /* ===== Левая колонка ===== */
@@ -27,68 +23,51 @@
   justify-content: center;
   gap: 1.2rem;
 }
-/* ===========================================================
-   FEATURE CARDS (точно как на скрине)
-   =========================================================== */
 
-.hero-features {
-  margin-top: 2rem;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.2rem;
-  width: 100%;
-  max-width: 520px; /* ровно как на макете */
-}
-
-/* третья карточка занимает всю ширину */
-.feature-card:nth-child(3) {
-  grid-column: span 2;
-}
-
-.feature-card {
-  background: rgba(255, 255, 255, 0.08); /* как на скрине: тёмно-серый */
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 1.5rem 1.8rem;
-  border-radius: 16px;
-
-  height: 115px; /* ровно по твоему скрину */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  transition: background 0.3s ease;
-}
-
-.feature-card:hover {
-  background: rgba(61, 64, 77, 0.75);
-}
-
-.feature-card h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #fff;
-  margin: 0 0 0.35rem 0;
-}
-
-.feature-card p {
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.6);
-  margin: 0;
-}
-
-
-
+/* Лейбл сверху */
 .hero-label {
   display: inline-block;
-  background: rgba(0, 162, 255, 0.12);
-  border: 1px solid rgba(0, 162, 255, 0.35);
-  color: #8ecfff;
   padding: 0.45rem 1rem;
   border-radius: 999px;
   font-size: 0.85rem;
   letter-spacing: 0.4px;
   text-transform: uppercase;
   font-weight: 500;
+
+  background: rgba(14, 139, 255, 0.12);
+  border: 1px solid rgba(14, 139, 255, 0.45);
+  color: var(--text-label);
+
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  --shimmer-duration: 2.8s;
+  --shimmer-opacity: 0.45;
+}
+
+/* shimmer эффект */
+.hero-label::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, var(--shimmer-opacity)) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: heroShimmer var(--shimmer-duration) linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-label,
+.hero-label * {
+  position: relative;
+  z-index: 1;
 }
 
 .hero h1 {
@@ -96,12 +75,12 @@
   font-weight: 700;
   margin-top: 0.8rem;
   line-height: 1.15;
-  color: #f9fafb;
+  color: var(--text-main);
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
 }
 
 .hero-description {
-  color: #c5cbd3;
+  color: var(--text-muted);
   font-size: 1.05rem;
   margin: 1.2rem 0 2rem;
   max-width: 520px;
@@ -117,7 +96,7 @@
 }
 
 .btn-primary {
-  background: linear-gradient(90deg, #00aaff, #007bff);
+  background: var(--cta-bg);
   border: none;
   color: #fff;
   padding: 0.95rem 1.7rem;
@@ -125,13 +104,14 @@
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 6px 16px rgba(14, 139, 255, 0.45);
 }
 
 .btn-primary:hover,
 .btn-primary:focus-visible {
   transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(0, 162, 255, 0.5);
+  box-shadow: 0 8px 22px rgba(14, 139, 255, 0.7);
+  background: var(--cta-hover);
   outline: none;
 }
 
@@ -152,93 +132,130 @@
   outline: none;
 }
 
-/* ===== Статистика ===== */
-.hero-stats {
-  display: flex;
-  gap: 1.2rem;
-  flex-wrap: wrap;
+/* ===== Feature cards ===== */
+.hero-features {
   margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  width: 100%;
+  max-width: 520px;
 }
 
-.stat {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  padding: 1.2rem 1.5rem;
-  width: 170px;
-  text-align: center;
-  transition: all 0.3s ease;
-  will-change: transform;
+.feature-card:nth-child(3) {
+  grid-column: span 2;
 }
 
-.stat:hover {
+.feature-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 1.5rem 1.8rem;
+  border-radius: 16px;
+  backdrop-filter: blur(var(--glass-blur));
+
+  height: 115px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: background 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  background: rgba(255, 255, 255, 0.12);
   transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
 }
 
-.stat strong {
-  display: block;
-  font-size: 1.05rem;
+.feature-card h3 {
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-main);
+  margin: 0 0 0.35rem 0;
 }
 
-.stat p {
-  color: #b5bcc5;
-  font-size: 0.9rem;
-  margin-top: 0.2rem;
+.feature-card p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
 }
 
-/* ===== Правая колонка (изображение) ===== */
+/* ===== Правая колонка ===== */
 .hero-right {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 14px;
-  overflow: hidden;
+  border-radius: 20px;
   position: relative;
+  max-width: 600px;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
 }
 
 .hero-right::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 16px;
-  background: radial-gradient(circle at top right, rgba(0, 123, 255, 0.12), transparent 70%);
-  z-index: 0;
-}
-
-.hero-right {
-  width: 100%;
-  max-width: 600px; /* контролируем ширину */
-  aspect-ratio: 4 / 5; /* гармоничное вертикальное фото */
-  overflow: hidden;
   border-radius: 20px;
-  position: relative;
+  background: radial-gradient(
+    circle at top right,
+    rgba(14, 139, 255, 0.18),
+    transparent 70%
+  );
+  z-index: 0;
 }
 
 .hero-right img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 🔹 фото теперь заполняет весь блок */
-  object-position: center; /* 🔹 центрируем */
+  object-fit: cover;
+  object-position: center;
   border-radius: 20px;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+  z-index: 1;
 }
 
-
-/* ===== Анимация появления ===== */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(25px); }
-  to { opacity: 1; transform: translateY(0); }
+.hero-right:hover img {
+  transform: scale(1.03);
+  box-shadow: 0 14px 46px rgba(0, 0, 0, 0.7);
 }
 
-/* ===== Мобильная версия ===== */
+/* ===== Animations ===== */
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroShimmer {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-inner {
+    animation: none;
+  }
+  .hero-label::after {
+    animation: none;
+  }
+}
+
+/* ===== Responsive ===== */
 @media (max-width: 900px) {
   .hero {
-    padding: 2rem 1.5rem;
+    padding: 2.5rem 1.5rem 3rem;
   }
 
   .hero-inner {
@@ -256,56 +273,17 @@
     font-size: 2.2rem;
   }
 
-  .hero-buttons {
-    justify-content: center;
+  .hero-description {
+    max-width: 100%;
   }
 
-  .hero-stats {
+  .hero-buttons {
     justify-content: center;
   }
 
   .hero-right {
     margin-top: 2rem;
+    max-width: 420px;
+    margin-inline: auto;
   }
-}
-.hero-label {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-  --shimmer-duration: 2.8s;
-  --shimmer-opacity: 0.45;
-}
-
-/* полоса теперь проходит всю ширину */
-.hero-label::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%; /* начинаем за пределами слева */
-  width: 200%; /* тянем полосу шире таблетки */
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(255,255,255,0) 0%,
-    rgba(255,255,255,var(--shimmer-opacity)) 50%,
-    rgba(255,255,255,0) 100%
-  );
-  animation: heroShimmer var(--shimmer-duration) linear infinite;
-  pointer-events: none;
-  z-index: 0;
-}
-
-@keyframes heroShimmer {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(50%); } /* смещение — проходит всю ширину */
-}
-
-/* чтобы текст был поверх */
-.hero-label, .hero-label * {
-  position: relative;
-  z-index: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-label::after { animation: none; }
 }
