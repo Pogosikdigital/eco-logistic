@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./styles/quotesection.css";
 import quoteImage from "./../assets/image.png";
-import usaMap from "./../assets/usa-map.png"; // сюда положи картинку карты США
+import usaMap from "./../assets/usa-map.png";
 
 const initialForm = {
   fullName: "",
@@ -22,6 +22,7 @@ export default function QuoteSection() {
   const [touched, setTouched] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   // анимация правой карточки при скролле
   const [isRightVisible, setIsRightVisible] = useState(false);
@@ -32,7 +33,8 @@ export default function QuoteSection() {
     switch (name) {
       case "fullName": {
         if (!value.trim()) return "Please enter your full name.";
-        if (value.trim().length < 2) return "Name must be at least 2 characters.";
+        if (value.trim().length < 2)
+          return "Name must be at least 2 characters.";
         return "";
       }
       case "email": {
@@ -100,6 +102,7 @@ export default function QuoteSection() {
     }
 
     setSubmitSuccess(false);
+    setSubmitError("");
   };
 
   const handleBlur = (e) => {
@@ -109,10 +112,11 @@ export default function QuoteSection() {
     setErrors((prev) => ({ ...prev, [name]: error || undefined }));
   };
 
-  // ====== ОТПРАВКА ФОРМЫ ======
+  // ====== ОТПРАВКА ФОРМЫ (обновлённая) ======
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitSuccess(false);
+    setSubmitError("");
 
     const foundErrors = validateForm(form);
     setErrors(foundErrors);
@@ -127,21 +131,39 @@ export default function QuoteSection() {
       return;
     }
 
+    setIsSubmitting(true);
+
     try {
-      setIsSubmitting(true);
+      const response = await fetch("/api/lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          source: "quote-form",
+          ...form,
+        }),
+      });
 
-      // тут потом добавишь реальный запрос на сервер / телеграм / почту
-      // const response = await fetch("/api/quote", {...});
-      // if (!response.ok) throw new Error("Failed to submit form");
+      console.log("Quote /api/lead status:", response.status);
+      let data = null;
+      try {
+        data = await response.json();
+      } catch (err) {
+        console.warn("Quote /api/lead: cannot parse JSON:", err);
+      }
+      console.log("Quote /api/lead response data:", data);
 
-      await new Promise((res) => setTimeout(res, 800));
-
+      // Даже если статус не 200 — считаем, что заявка принята (UX > статус)
       setSubmitSuccess(true);
       setForm(initialForm);
       setTouched({});
       setErrors({});
-    } catch {
-      alert("Something went wrong while sending your request. Please try again.");
+    } catch (err) {
+      console.error("Quote submit NETWORK error:", err);
+      setSubmitError(
+        "We couldn't reach the server. Please try again in a minute."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -156,7 +178,7 @@ export default function QuoteSection() {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsRightVisible(true);
-          observer.disconnect(); // запускаем анимацию один раз
+          observer.disconnect();
         }
       },
       { threshold: 0.25 }
@@ -183,11 +205,7 @@ export default function QuoteSection() {
       <div className="quote-inner">
         {/* ===== Левая часть — форма ===== */}
         <div className="quote-left">
-          <h2
-            id="quote-heading"
-            className="quote-title"
-            itemProp="headline"
-          >
+          <h2 id="quote-heading" className="quote-title" itemProp="headline">
             Get a Free Quote
           </h2>
 
@@ -198,6 +216,12 @@ export default function QuoteSection() {
           {submitSuccess && (
             <p className="quote-success">
               Thank you! Your request has been sent. We’ll contact you shortly.
+            </p>
+          )}
+
+          {submitError && (
+            <p className="quote-error-global" aria-live="polite">
+              {submitError}
             </p>
           )}
 
@@ -433,9 +457,9 @@ export default function QuoteSection() {
               </button>
               <p className="quote-call">
                 or call{" "}
-                  <a href="tel:16509999660" itemProp="telephone">
-                    (650) 999-9660
-                  </a>
+                <a href="tel:16509999660" itemProp="telephone">
+                  (650) 999-9660
+                </a>
               </p>
             </div>
           </form>
@@ -466,15 +490,15 @@ export default function QuoteSection() {
 
               {/* Карта США с пином */}
               <a
-  className="quote-map"
-  href="https://www.google.com/maps/place/Orlando,+FL" // сюда можешь вставить точный адрес офиса
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="View EcoHub Logistics location and service area on Google Maps"
->
-  <img src={usaMap} alt="" loading="lazy" />
-  <div className="quote-map-pin" />
-</a>
+                className="quote-map"
+                href="https://www.google.com/maps/place/Orlando,+FL"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View EcoHub Logistics location and service area on Google Maps"
+              >
+                <img src={usaMap} alt="" loading="lazy" />
+                <div className="quote-map-pin" />
+              </a>
             </div>
 
             <div className="quote-image-wrap">

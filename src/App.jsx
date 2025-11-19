@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import MainLayout from "./layouts/MainLayout";
 
-// Pages / Sections
+// Sections for home page
 import Hero from "./components/Hero";
 import HowItWorks from "./components/HowItWorks";
 import Services from "./components/Services";
@@ -11,6 +11,7 @@ import About from "./components/About";
 import Reviews from "./components/Reviews";
 import Contact from "./components/Contact";
 
+// Pages
 import QuotePage from "./pages/QuotePage";
 import ReviewsPage from "./pages/ReviewsPage";
 

@@ -1,143 +1,160 @@
 /* ===========================================================
-   HOW IT WORKS SECTION — matches hero style + page gradient
+   HOW IT WORKS — 2-column glass cards + glow
    =========================================================== */
 
 .how-section {
   padding: 5rem 2rem;
-  color: #fff;
+  color: var(--text-main);
   display: flex;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
 }
 
 .how-container {
   max-width: 1100px;
   width: 100%;
-  animation: fadeIn 1.2s ease forwards;
+  animation: howFadeIn 1.2s ease forwards;
+  position: relative;
+  z-index: 5;
+}
+
+/* LABEL + TITLES */
+
+.how-label {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 0.8rem;
+
+  background: rgba(14, 139, 255, 0.12);
+  border: 1px solid rgba(14, 139, 255, 0.4);
+  color: var(--text-label);
 }
 
 .how-title {
   font-size: 2.4rem;
   font-weight: 700;
   margin-bottom: 0.4rem;
-  color: #f9fafb;
+  color: var(--text-main);
 }
 
 .how-subtitle {
-  color: #c5cbd3;
+  color: var(--text-muted);
   font-size: 1.05rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2.6rem;
 }
 
-.how-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+/* GRID: 2 колонки на десктопе, 1 на мобилках */
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  gap: 1.7rem 2.2rem;
 }
 
-/* STEP BLOCK */
-.step {
+/* CARD */
+
+.how-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 1.4rem 1.7rem;
+  backdrop-filter: blur(var(--glass-blur));
+  box-shadow:
+    inset 0 0 18px rgba(255, 255, 255, 0.03),
+    0 10px 26px rgba(0, 0, 0, 0.55);
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s ease;
+}
+
+.how-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 40% 0%,
+    rgba(14, 139, 255, 0.18),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: 0.35s ease;
+  pointer-events: none;
+}
+
+.how-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(14, 139, 255, 0.55);
+  box-shadow:
+    0 18px 40px rgba(14, 139, 255, 0.28),
+    0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.how-card:hover::before {
+  opacity: 1;
+}
+
+/* CARD HEADER — номер + заголовок */
+
+.how-card-header {
   display: flex;
-  align-items: flex-start;
-  gap: 1.3rem;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
 }
 
 .step-number {
-  min-width: 48px;
-  height: 48px;
-  border-radius: 12px;
+  min-width: 46px;
+  height: 46px;
+  border-radius: 14px;
   background: linear-gradient(180deg, #2fb5ff, #007bff);
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-weight: 700;
   font-size: 1.2rem;
   color: #fff;
   box-shadow: 0 4px 16px rgba(0, 123, 255, 0.4);
 }
 
-.step-content h3 {
-  margin: 0 0 0.35rem 0;
+.how-card-header h3 {
+  margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
+  color: var(--text-main);
 }
 
-.step-content p {
+.how-card p {
   margin: 0;
   color: #cdd3dd;
-  line-height: 1.55;
-  max-width: 650px;
+  line-height: 1.6;
+  font-size: 0.98rem;
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
-  .how-section {
-    padding: 3rem 1.4rem;
-  }
+/* FLOATING DOTS (справа, как на твоём скрине) */
 
-  .how-title {
-    font-size: 2rem;
-    text-align: center;
-  }
-
-  .how-subtitle {
-    text-align: center;
-  }
-
-  .how-steps {
-    gap: 2.2rem;
-  }
-
-  .step {
-    gap: 1rem;
-  }
-
-  .step-number {
-    min-width: 42px;
-    height: 42px;
-    border-radius: 10px;
-    font-size: 1.1rem;
-  }
-}
-
-/* Fade-in reuse */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(25px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-/* ===== Glow-анимация справа ===== */
-
-.how-section {
-  position: relative;
-  overflow: hidden;
-  z-index: 0;
-}
-
-/* Базовый стиль всех точек */
 .how-particle {
   position: absolute;
-  background: rgba(0, 162, 255, 0.2);
+  background: rgba(14, 139, 255, 0.22);
   border-radius: 50%;
   filter: blur(2.5px);
   animation: floatDot 7s infinite ease-in-out alternate;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
-
-/* ===== 9 точек с разными координатами ===== */
 
 .how-p1 { width: 10px; height: 10px; right: 300px; top: 200px; animation-delay: 0s; }
 .how-p2 { width: 12px; height: 12px; right: 350px; top: 320px; animation-delay: 1s; }
-.how-p3 { width: 8px; height: 8px;   right: 90px; top: 380px; animation-delay: 2s; }
+.how-p3 { width: 8px;  height: 8px;  right: 90px;  top: 380px; animation-delay: 2s; }
 .how-p4 { width: 14px; height: 14px; right: 100px; top: 260px; animation-delay: 2.5s; }
-.how-p5 { width: 9px;  height: 9px;  right: 250px;  top: 420px; animation-delay: 3s; }
-.how-p6 { width: 13px; height: 13px; right: 70px; top: 310px; animation-delay: 3.7s; }
+.how-p5 { width: 9px;  height: 9px;  right: 250px; top: 420px; animation-delay: 3s; }
+.how-p6 { width: 13px; height: 13px; right: 70px;  top: 310px; animation-delay: 3.7s; }
 .how-p7 { width: 7px;  height: 7px;  right: 410px; top: 210px; animation-delay: 4.2s; }
 .how-p8 { width: 15px; height: 15px; right: 380px; top: 420px; animation-delay: 5s; }
 .how-p9 { width: 11px; height: 11px; right: 370px; top: 350px; animation-delay: 5.5s; }
@@ -153,8 +170,51 @@
   }
 }
 
-/* Контент всегда поверх */
-.how-container {
-  position: relative;
-  z-index: 5;
+/* ANIMATIONS */
+
+@keyframes howFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .how-section {
+    padding: 3.8rem 1.6rem;
+  }
+
+  .how-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .how-title,
+  .how-subtitle,
+  .how-label {
+    text-align: center;
+  }
+
+  .how-label {
+    margin-inline: auto;
+  }
+
+  .how-subtitle {
+    margin-bottom: 2.4rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .how-section {
+    padding: 3.5rem 1.3rem;
+  }
+
+  .how-title {
+    font-size: 2rem;
+  }
 }

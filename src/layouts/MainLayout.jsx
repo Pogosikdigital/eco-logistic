@@ -7,10 +7,12 @@ export default function MainLayout({ children }) {
     <>
       <Header />
 
-      {/* Глобальный контейнер — центрует ВСЕ секции */}
-      <div className="container">
-        {children}
-      </div>
+      {/* Основной контент страницы */}
+      <main>
+        <div className="container">
+          {children}
+        </div>
+      </main>
 
       <Footer />
     </>

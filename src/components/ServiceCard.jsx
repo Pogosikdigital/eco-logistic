@@ -2,7 +2,7 @@ import React from "react";
 
 export default function ServiceCard({ title, desc, img }) {
   return (
-    <div className="service-card">
+    <article className="service-card">
       <div className="service-img-wrapper">
         <img src={img} alt={title} loading="lazy" />
       </div>
@@ -11,6 +11,6 @@ export default function ServiceCard({ title, desc, img }) {
         <h3>{title}</h3>
         <p>{desc}</p>
       </div>
-    </div>
+    </article>
   );
 }

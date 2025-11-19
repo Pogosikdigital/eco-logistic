@@ -11,6 +11,8 @@ export default function Services() {
       aria-label="EcoHub Logistics Transport Services"
     >
       <div className="services-container">
+        <span className="services-label">What we ship</span>
+
         <h2 className="services-title">Vehicle Transport Services</h2>
         <p className="services-subtitle">
           Professional, insured, and nationwide vehicle shipping.
