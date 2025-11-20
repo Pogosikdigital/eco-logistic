@@ -8,17 +8,15 @@ export default function Hero() {
   const heroRef = useRef(null);
   const [cardsDown, setCardsDown] = useState(false);
 
-  // 👇 Логика скролла: карточки вниз / вверх, грузовик прячется
+  // Логика скролла: карточки опускаются, грузовик прячется
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
 
-      // если пользователь скроллит вниз — карточки плавно опускаются, грузовик исчезает
       if (scrollY > 0) {
         setCardsDown(true);
       }
 
-      // если вернулся почти в самый верх — вернуть карточки наверх, показать грузовик
       if (scrollY <= 2) {
         setCardsDown(false);
       }
@@ -45,15 +43,17 @@ export default function Hero() {
             Reliable vehicle delivery nationwide
           </span>
 
-          <h1>
-            EcoHub Logistics — <br /> Vehicle Shipping Across the USA
-          </h1>
+          <div className="hero-title-group">
+            <h1 className="hero-title-primary">EcoHub Logistics</h1>
+            <h2 className="hero-title-secondary">
+              Vehicle Shipping Across the USA
+            </h2>
+          </div>
 
           <p className="hero-description">
             Ship your vehicle across the USA quickly and safely. We specialize
             in transporting passenger cars, box trucks, and Amazon vans.
-            Transparent pricing, on-time delivery, and continuous status
-            updates.
+            Transparent pricing, on-time delivery, and continuous status updates.
           </p>
 
           <div className="hero-buttons">
@@ -67,9 +67,14 @@ export default function Hero() {
         </div>
 
         {/* ПРАВАЯ КОЛОНКА — ФОТО ТРАКА */}
-        <div className="hero-photo-wrapper rim-light" aria-hidden="true">
-          <div className="hero-photo">
-            <img src={heroTruck} alt="EcoHub Logistics truck" />
+        <div
+          className="hero-photo-col"
+          aria-hidden="true"
+        >
+          <div className="hero-photo-wrapper rim-light">
+            <div className="hero-photo-frame">
+              <img src={heroTruck} alt="EcoHub Logistics truck" />
+            </div>
           </div>
         </div>
       </div>
@@ -78,7 +83,7 @@ export default function Hero() {
       <div className={`hero-features ${cardsDown ? "down" : "up"}`}>
         <div className="feature-card">
           <div className="feature-icon">
-            <svg viewBox="0 0 64 64">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
               <path
                 d="M4 28L10 18L20 14L28 10L40 12L50 18L58 26L60 34L54 42L46 46L36 48L24 46L14 40L6 34L4 28Z"
                 stroke="currentColor"
@@ -87,7 +92,7 @@ export default function Hero() {
               />
             </svg>
           </div>
-          <div>
+          <div className="feature-card-text">
             <h3>50+ States</h3>
             <p>Nationwide coverage</p>
           </div>
@@ -95,7 +100,7 @@ export default function Hero() {
 
         <div className="feature-card">
           <div className="feature-icon">
-            <svg viewBox="0 0 64 64">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
               <circle
                 cx="32"
                 cy="32"
@@ -112,7 +117,7 @@ export default function Hero() {
               />
             </svg>
           </div>
-          <div>
+          <div className="feature-card-text">
             <h3>Price Lock</h3>
             <p>No hidden fees</p>
           </div>
@@ -120,7 +125,7 @@ export default function Hero() {
 
         <div className="feature-card">
           <div className="feature-icon">
-            <svg viewBox="0 0 64 64">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
               <rect
                 x="16"
                 y="12"
@@ -139,16 +144,16 @@ export default function Hero() {
               />
             </svg>
           </div>
-          <div>
+          <div className="feature-card-text">
             <h3>Live Updates</h3>
             <p>From booking to delivery</p>
           </div>
         </div>
       </div>
 
-      {/* ЛИНИЯ С ГРУЗОВИКОМ, ЕДЕТ СПРАВА НАЛЕВО */}
+      {/* ЛИНИЯ С ГРУЗОВИКОМ */}
       <div className={`truck-line ${cardsDown ? "hidden" : ""}`}>
-        <svg viewBox="0 0 120 60" fill="none">
+        <svg viewBox="0 0 120 60" fill="none" aria-hidden="true">
           <path
             d="M8 42V24H52V42H8Z
                M52 42V18H78L92 30V42H52Z

@@ -1,7 +1,6 @@
 // src/components/Footer.jsx
 import React from "react";
 import "./styles/footer.css";
-import logo from "../assets/logo.png";
 
 export default function Footer() {
   // Smooth scroll helper
@@ -11,107 +10,139 @@ export default function Footer() {
   };
 
   return (
-    <footer className="footer-section" itemScope itemType="https://schema.org/Organization">
-      
-      <div className="footer-container">
+    <footer
+      className="footer-section"
+      itemScope
+      itemType="https://schema.org/Organization"
+    >
+      {/* ВНУТРЕННИЙ КОНТЕЙНЕР */}
+      <div className="footer-inner">
+        <div className="footer-container">
+          
+          {/* LOGO + ABOUT */}
+          <div className="footer-col footer-about">
 
-        {/* LOGO + ABOUT */}
-        <div className="footer-col footer-about">
-          <img
-            src={logo}
-            alt="EcoHub Logistics"
-            className="footer-logo neon-logo"
-            itemProp="logo"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          />
+            {/* ✔ ТЕКСТОВЫЙ НЕОНОВЫЙ ЛОГО */}
+            <h2
+              className="footer-logo-text neon-text-logo"
+              itemProp="name"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            >
+              EcoHub Logistics
+            </h2>
 
-          <p className="footer-text" itemProp="description">
-            Reliable auto transport across the USA. Professional service,
-            vetted carriers, real-time tracking & zero hidden fees.
-          </p>
+            {/* FREE QUOTE BUTTON */}
+            <button
+              className="footer-cta"
+              onClick={() => scrollTo("#quote")}
+            >
+              Get a Free Quote <span className="arrow">›</span>
+            </button>
+          </div>
 
-          {/* FREE QUOTE BUTTON */}
-          <button
-            className="footer-cta"
-            onClick={() => scrollTo("#quote")}
+          {/* NAVIGATION – 2 КОЛОНКИ */}
+          <div className="footer-col footer-nav">
+            <h4 className="footer-title">Navigation</h4>
+
+            <div className="footer-nav-grid">
+              <ul className="footer-links">
+                <li>
+                  <button
+                    type="button"
+                    className="footer-link-btn"
+                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  >
+                    Home
+                  </button>
+                </li>
+                <li>
+                  <button type="button" className="footer-link-btn" onClick={() => scrollTo("#services")}>
+                    Services
+                  </button>
+                </li>
+                <li>
+                  <button type="button" className="footer-link-btn" onClick={() => scrollTo("#reviews")}>
+                    Reviews
+                  </button>
+                </li>
+              </ul>
+
+              <ul className="footer-links">
+                <li>
+                  <button type="button" className="footer-link-btn" onClick={() => scrollTo("#about")}>
+                    About Us
+                  </button>
+                </li>
+                <li>
+                  <button type="button" className="footer-link-btn" onClick={() => scrollTo("#earn")}>
+                    Earn With Us
+                  </button>
+                </li>
+                <li>
+                  <button type="button" className="footer-link-btn" onClick={() => scrollTo("#contact")}>
+                    Contact
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* CONTACT */}
+          <div
+            className="footer-col footer-contact"
+            itemProp="address"
+            itemScope
+            itemType="https://schema.org/PostalAddress"
           >
-            Get a Free Quote <span className="arrow">›</span>
-          </button>
-        </div>
+            <h4 className="footer-title">Contact</h4>
 
-        {/* NAVIGATION LINKS */}
-        <div className="footer-col">
-          <h4 className="footer-title">Navigation</h4>
+            <p>
+              <span itemProp="streetAddress">1142 John Young Pkwy</span>,{" "}
+              <span itemProp="addressLocality">Orlando</span>,{" "}
+              <span itemProp="addressRegion">FL</span> 32808
+            </p>
 
-          <ul className="footer-links">
-            <li><a onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Home</a></li>
+            <p itemProp="email">Info@Ecohublogistics.com</p>
+            <p itemProp="telephone">(650) 999-9660</p>
 
-            <li><a onClick={() => scrollTo("#services")}>Services</a></li>
+            <div className="footer-social">
 
-            <li><a onClick={() => scrollTo("#about")}>About Us</a></li>
+              {/* FACEBOOK */}
+              <a
+                href="https://www.facebook.com/profile.php?id=61572534053753"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-link"
+              >
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+                  alt="Facebook"
+                  className="social-img"
+                />
+              </a>
 
-            <li><a onClick={() => scrollTo("#reviews")}>Reviews</a></li>
-
-            <li><a onClick={() => scrollTo("#earn")}>Earn With Us</a></li>
-
-            <li><a onClick={() => scrollTo("#contact")}>Contact</a></li>
-          </ul>
-        </div>
-
-        {/* CONTACT INFO */}
-        <div className="footer-col" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
-          <h4 className="footer-title">Contact</h4>
-
-          <p>
-            <span itemProp="streetAddress">1142 John Young Pkwy</span>,{" "}
-            <span itemProp="addressLocality">Orlando</span>,{" "}
-            <span itemProp="addressRegion">FL</span> 32808
-          </p>
-
-          <p itemProp="email">Info@Ecohublogistics.com</p>
-          <p itemProp="telephone">(650) 999-9660</p>
-
-          {/* SOCIAL ICONS */}
-          <div className="footer-social">
-
-            {/* FACEBOOK */}
-            <a
-              href="https://www.facebook.com/profile.php?id=61572534053753"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-link"
-            >
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
-                alt="Facebook"
-                className="social-img"
-              />
-            </a>
-
-            {/* INSTAGRAM */}
-            <a
-              href="https://www.instagram.com/eco.hub.logistics"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-link"
-            >
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg"
-                alt="Instagram"
-                className="social-img"
-              />
-            </a>
-
+              {/* INSTAGRAM */}
+              <a
+                href="https://www.instagram.com/eco.hub.logistics"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-link"
+              >
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg"
+                  alt="Instagram"
+                  className="social-img"
+                />
+              </a>
+            </div>
           </div>
         </div>
 
+        {/* COPYRIGHT */}
+        <div className="footer-bottom">
+          <p>© 2025 EcoHub Logistics — All Rights Reserved.</p>
+        </div>
       </div>
-
-      {/* COPYRIGHT */}
-      <div className="footer-bottom">
-        <p>© 2025 EcoHub Logistics — All Rights Reserved.</p>
-      </div>
-
     </footer>
   );
 }

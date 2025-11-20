@@ -20,7 +20,9 @@ export default function Header() {
 
   const isQuotePage = window.location.pathname === "/quote";
 
-  // SCROLL logic (only on main page)
+  /* ===============================
+     SCROLL LOGIC
+     =============================== */
   useEffect(() => {
     if (isQuotePage) return;
 
@@ -29,6 +31,7 @@ export default function Header() {
 
       const total =
         document.documentElement.scrollHeight - window.innerHeight;
+
       setProgress((window.scrollY / total) * 100);
 
       navLinks.forEach((link) => {
@@ -46,27 +49,24 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [isQuotePage]);
 
-  // Theme switcher
+  /* THEME */
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  // Lock body on mobile menu
+  /* LOCK BODY ON MOBILE MENU */
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
   }, [menuOpen]);
 
   return (
     <>
-      {/* Progress bar (hide on quote page) */}
       {!isQuotePage && (
         <div className="scroll-progress" style={{ width: `${progress}%` }} />
       )}
 
-      {/* HEADER */}
       <header className={`header ${scrolled ? "scrolled shrink" : ""}`}>
         <div className="header-container">
-
           <a href="/#home" className="logo-section">
             <img src={logo} alt="EcoHub logo" className="logo" />
             <div className="logo-text">
@@ -75,15 +75,14 @@ export default function Header() {
             </div>
           </a>
 
-          {/* DESKTOP NAV */}
-          <nav className="nav desktop-nav">
+          <nav className="desktop-nav">
             <ul className="nav__list">
               {navLinks.map((item) => (
                 <li key={item.id} className="nav__item">
                   <a
                     href={`/#${item.id}`}
                     className={`nav__link ${
-                      activeSection === item.id && !isQuotePage ? "active" : ""
+                      activeSection === item.id ? "active" : ""
                     }`}
                   >
                     {item.label}
@@ -93,10 +92,8 @@ export default function Header() {
             </ul>
           </nav>
 
-          {/* CTA */}
           <a href="/quote" className="main-cta">Get a Free Quote ▷</a>
 
-          {/* THEME SWITCH */}
           <button
             className="theme-switch"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
@@ -104,18 +101,15 @@ export default function Header() {
             {theme === "dark" ? "🌞" : "🌙"}
           </button>
 
-          {/* BURGER */}
           <button
             className={`burger ${menuOpen ? "active" : ""}`}
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <span></span><span></span><span></span>
           </button>
-
         </div>
       </header>
 
-      {/* MOBILE MENU */}
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         <ul>
           {navLinks.map((link) => (

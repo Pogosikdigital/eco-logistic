@@ -12,7 +12,7 @@
 
   color: #ffffff;
 
-  /* Главный фирменный фон (как на твоих скринах) */
+  /* Главный фирменный фон */
   background: linear-gradient(
     140deg,
     #031529 0%,
@@ -58,9 +58,9 @@
 
 .hero-inner {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 500px;
+  grid-template-columns: minmax(0, 1.3fr) minmax(320px, 440px);
   gap: 4rem;
-  align-items: start;
+  align-items: center;
   z-index: 10;
   position: relative;
 }
@@ -88,11 +88,55 @@
   border: 1px solid rgba(0, 140, 255, 0.35);
 }
 
-.hero h1 {
+/* Группа заголовков */
+.hero-title-group {
+  margin-top: 0.6rem;
+}
+
+/* Основной заголовок с неоновой подсветкой + линией */
+.hero-title-primary {
+  position: relative;
+  padding-top: 8px;
   font-size: 3.7rem;
-  line-height: 1.13;
+  line-height: 1.1;
   font-weight: 700;
   margin: 0;
+
+  text-shadow:
+    0 0 1px rgba(80, 180, 255, 0.8),
+    0 0 8px rgba(0, 140, 255, 0.75),
+    0 0 10px rgba(0, 220, 255, 0.55);
+}
+
+/* Неоновая линия под заголовком */
+.hero-title-primary::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -14px;
+  width: 230px;
+  height: 3px;
+  border-radius: 999px;
+
+  background: linear-gradient(90deg, #00c6ff, #4db8ff, #00ffd5);
+  box-shadow:
+    0 0 12px rgba(0, 198, 255, 0.9),
+    0 0 26px rgba(0, 198, 255, 0.6);
+
+  opacity: 0.95;
+}
+
+/* Подзаголовок */
+.hero-title-secondary {
+  padding-top: 24px;
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin: 0;
+  color: #d3e3ff;
+
+  text-shadow:
+    0 0 4px rgba(120, 190, 255, 0.7),
+    0 0 16px rgba(0, 120, 255, 0.4);
 }
 
 .hero-description {
@@ -100,7 +144,7 @@
   max-width: 540px;
   line-height: 1.7;
   color: #c9d4e1;
-  margin-bottom: 2rem;
+  margin: 2rem 0 0;
 }
 
 /* ===========================================================
@@ -108,6 +152,7 @@
    =========================================================== */
 
 .hero-buttons {
+  padding-top: 30px;
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
@@ -150,10 +195,16 @@
    PHOTO BLOCK + RIM LIGHT
    =========================================================== */
 
+.hero-photo-col {
+  display: flex;
+  justify-content: center;
+}
+
 .hero-photo-wrapper {
   position: relative;
-  width: 500px;
-  height: 650px;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 3 / 4;        /* фиксированные пропорции, без растягивания */
 }
 
 /* rim light вокруг wrapper-а */
@@ -173,7 +224,7 @@
   pointer-events: none;
 }
 
-.hero-photo {
+.hero-photo-frame {
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -182,10 +233,11 @@
   position: relative;
 }
 
-.hero-photo img {
+.hero-photo-frame img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover;         /* не тянет картинку, а аккуратно кадрирует */
+  object-position: center;
 }
 
 /* ===========================================================
@@ -268,13 +320,13 @@
   height: 36px;
 }
 
-.feature-card h3 {
+.feature-card-text h3 {
   margin: 0 0 0.4rem 0;
   font-size: 1.42rem;
   font-weight: 600;
 }
 
-.feature-card p {
+.feature-card-text p {
   margin: 0;
   color: #c9d4e1;
 }
@@ -336,32 +388,105 @@
    =========================================================== */
 
 @media (max-width: 1100px) {
-  .hero-inner {
-    grid-template-columns: 1fr;
+  .hero {
+    padding: 4rem 2rem 10rem;
   }
 
-  .hero-photo-wrapper {
-    width: 100%;
-    height: 480px;
-    max-width: 500px;
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .hero-left {
+    max-width: 640px;
     margin: 0 auto;
   }
 
-  .truck-line {
-    display: none;
+  .hero-photo-col {
+    justify-content: center;
+  }
+
+  .hero-photo-wrapper {
+    max-width: 360px;
+  }
+
+  .hero-features {
+    grid-template-columns: 1fr 1fr;
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 3.5rem 1.6rem 9rem;
+  }
+
+  .hero-title-primary {
+    font-size: 3rem;
+  }
+
+  .hero-title-primary::after {
+    width: 190px;
+    bottom: -12px;
+  }
+
+  .hero-title-secondary {
+    font-size: 1.4rem;
+    padding-top: 18px;
+  }
+
+  .hero-description {
+    font-size: 1.02rem;
+    max-width: 100%;
   }
 
   .hero-features {
     grid-template-columns: 1fr;
+    margin-top: -3rem;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 480px) {
   .hero {
-    padding: 3rem 1.3rem 10rem;
+    padding: 3rem 1.2rem 9rem;
+    border-radius: 32px;
   }
 
-  .hero h1 {
-    font-size: 2.6rem;
+  .hero-title-primary {
+    text-align: center;
+    font-size: 2.4rem;
   }
+
+
+  .hero-title-primary::after {
+   left: 50%;
+    bottom: -10px;
+    width: 70%;
+    max-width: 75%;
+    transform: translateX(-50%);
+  }
+
+  .hero-title-secondary {
+    text-align: center;
+    padding-top: 2rem;
+    font-size: 1.2rem;
+  }
+   .hero-description {
+    text-align: center;
+    font-size: 1rem;
+    max-width: 100%;
+  }
+
+  .hero-buttons {
+  justify-content: center;
+  }
+
+  .hero-photo-wrapper {
+    max-width: 400px;
+  }
+
+  .feature-card {
+    margin-bottom: 45px;
+  }
+  
 }

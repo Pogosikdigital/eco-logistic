@@ -16,9 +16,9 @@
   );
 
   /* 🔤 Text */
-  --text-main: #ffffff;     /* главный текст (hero title) */
-  --text-muted: #c9d4e1;    /* саб-текст / описания */
-  --text-label: #bfc6ff;    /* маленькие лейблы */
+  --text-main: #ffffff;    
+  --text-muted: #c9d4e1;   
+  --text-label: #bfc6ff;   
 
   /* 🧊 Glass cards */
   --card-bg: rgba(255, 255, 255, 0.08);
@@ -26,9 +26,9 @@
   --glass-blur: 14px;
 
   /* 🎨 Accents */
-  --accent-primary: #0e8bff;        /* основной голубой (кнопка) */
-  --accent-secondary: #4d88ff;      /* второй голубой */
-  --accent-neon-1: #6fdbff;         /* неоновый подсвет */
+  --accent-primary: #0e8bff;
+  --accent-secondary: #4d88ff;
+  --accent-neon-1: #6fdbff;
   --accent-neon-2: #9febff;
   --accent-neon-soft: rgba(100, 220, 255, 0.75);
 
@@ -53,20 +53,27 @@ body {
   background: var(--bg-gradient);
   color: var(--text-main);
   scroll-behavior: smooth;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  overflow-x: hidden;
 }
 
 body {
   min-height: 100vh;
 }
 
-/* Глобальный контейнер (used in MainLayout) */
+/* GLOBAL CONTAINER */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem 4rem;
 }
 
-/* Сброс ссылок */
+/* Links reset */
 a {
   color: inherit;
   text-decoration: none;
@@ -76,9 +83,14 @@ a:hover {
   text-decoration: none;
 }
 
-/* Для секций, если нужно выравнивать отступы */
+/* Section default */
 section {
   position: relative;
 }
 
-/* Можно добавить общую анимацию появления секций при желании */
+/* ==========================
+   FIX HORIZONTAL SCROLL
+   ========================== */
+html, body, #root {
+  overflow-x: hidden !important;
+}

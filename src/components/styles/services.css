@@ -253,4 +253,9 @@
   .services-grid {
     grid-template-columns: 1fr;
   }
+
+  .services-label {
+    display: block;
+    align-items: center;
+  }
 }

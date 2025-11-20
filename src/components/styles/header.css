@@ -1,330 +1,345 @@
+  /* ===============================
+    GLOBAL THEME (EcoHub Logistics)
+    =============================== */
 
-:root {
+  :root {
+    --text-color: #ffffff;
+    --subtext-color: #a0aec0;
 
+    --nav-link: #e2e8f0;
+    --nav-hover: #38bdf8;
 
-  --text-color: #ffffff;
-  --subtext-color: #a0aec0;
+    --underline: linear-gradient(90deg, #3b82f6, #22d3ee);
 
-  --nav-link: #e2e8f0;
-  --nav-hover: #38bdf8;
+    --cta-bg: linear-gradient(135deg, #22d3ee, #3b82f6);
+    --cta-hover: linear-gradient(135deg, #facc15, #f59e0b);
 
-  --underline: linear-gradient(90deg, #3b82f6, #22d3ee);
-
-  --cta-bg: linear-gradient(135deg, #22d3ee, #3b82f6);
-  --cta-hover: linear-gradient(135deg, #facc15, #f59e0b);
-}
-
-[data-theme="light"] {
-  --header-bg: rgba(255, 255, 255, 0.7);
-  --header-bg-scroll: rgba(255, 255, 255, 0.92);
-
-  --text-color: #0f172a;
-  --subtext-color: #475569;
-
-  --nav-link: #1e293b;
-  --nav-hover: #2563eb;
-
-  --underline: linear-gradient(90deg, #2563eb, #3b82f6);
-
-  --cta-bg: linear-gradient(135deg, #2563eb, #3b82f6);
-  --cta-hover: linear-gradient(135deg, #facc15, #fb923c);
-}
-
-/* ===========================================================
-   HEADER BASE
-   =========================================================== */
-
-.header {
-  width: 100%;
-  background: var(--header-bg);
-  backdrop-filter: blur(14px);
-  color: var(--text-color);
-  padding: 16px 0;
-  position: sticky;
-  top: 0;
-  z-index: 1100;
-  transition: padding 0.3s ease, background 0.4s ease, box-shadow 0.4s ease;
-}
-
-.header.shrink {
-  padding: 8px 0;
-}
-
-.header.scrolled {
-  background: var(--header-bg-scroll);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
-}
-
-.header-container {
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* ===========================================================
-   SCROLL PROGRESS BAR (Tesla style)
-   =========================================================== */
-
-.scroll-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #22d3ee, #3b82f6);
-  z-index: 2000;
-  transition: width 0.2s ease;
-}
-
-/* ===========================================================
-   LOGO
-   =========================================================== */
-
-.logo-section {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  transition: transform 0.35s ease, opacity 0.35s ease;
-}
-
-.logo {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  transition: transform 0.35s ease, filter 0.35s ease;
-}
-
-.logo-section:hover .logo {
-  transform: scale(1.1) rotate(-3deg);
-  filter: drop-shadow(0 0 18px rgba(59, 130, 246, 0.5));
-}
-
-.logo-text h1 {
-  margin: 0;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text-color);
-}
-
-.logo-text p {
-  margin: 0;
-  font-size: 0.8rem;
-  color: var(--subtext-color);
-}
-
-/* ===========================================================
-   DESKTOP NAV
-   =========================================================== */
-
-.desktop-nav {
-  display: flex;
-}
-
-.nav__list {
-  list-style: none;
-  display: flex;
-  gap: 26px;
-  margin: 0;
-  padding: 0;
-}
-
-.nav__item {
-  transition: transform 0.2s ease;
-}
-
-.nav__item:hover {
-  transform: translateY(-2px);
-}
-
-.nav__link {
-  color: var(--nav-link);
-  text-decoration: none;
-  position: relative;
-  padding-bottom: 4px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.nav__link::after {
-  content: "";
-  height: 2px;
-  width: 0%;
-  background: var(--underline);
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  transition: width 0.35s ease;
-}
-
-.nav__link:hover,
-.nav__link.active {
-  color: var(--nav-hover);
-}
-
-.nav__link:hover::after,
-.nav__link.active::after {
-  width: 100%;
-}
-
-/* ===========================================================
-   CTA BUTTON
-   =========================================================== */
-
-.main-cta {
-  background: var(--cta-bg);
-  color: #ffffff;
-  padding: 10px 20px;
-  border-radius: 16px;
-  font-weight: 700;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 18px rgba(59, 130, 246, 0.5);
-  font-size: 1.1rem;
-  transition: transform 0.3s ease, filter 0.3s ease;
-  cursor: pointer;
-  border: none;
-}
-
-.main-cta:hover {
-  background: var(--cta-hover);
-  transform: scale(1.08);
-  filter: brightness(1.15);
-}
-
-/* ===========================================================
-   THEME SWITCH
-   =========================================================== */
-
-.theme-switch {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  margin-left: 14px;
-  color: var(--text-color);
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.theme-switch:hover {
-  transform: scale(1.2);
-}
-
-/* ===========================================================
-   BURGER (MOBILE)
-   =========================================================== */
-
-.burger {
-  display: none;
-  width: 32px;
-  height: 24px;
-  position: relative;
-  cursor: pointer;
-  background: none;
-  border: none;
-}
-
-.burger span {
-  position: absolute;
-  width: 100%;
-  height: 3px;
-  background: var(--text-color);
-  left: 0;
-  border-radius: 4px;
-  transition: 0.35s ease;
-}
-
-.burger span:nth-child(1) { top: 0; }
-.burger span:nth-child(2) { top: 10px; }
-.burger span:nth-child(3) { top: 20px; }
-
-.burger.active span:nth-child(1) {
-  transform: rotate(45deg);
-  top: 10px;
-}
-.burger.active span:nth-child(2) { opacity: 0; }
-.burger.active span:nth-child(3) {
-  transform: rotate(-45deg);
-  top: 10px;
-}
-
-/* ===========================================================
-   MOBILE MENU (FULLSCREEN — FIXED, NOT INSIDE HEADER!)
-   =========================================================== */
-
-.mobile-menu {
-  position: fixed;
-  inset: 0;
-  background: rgba(10, 15, 25, 0.97);
-  backdrop-filter: blur(16px);
-  z-index: 2000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transform: translateY(-100%);
-  transition: transform 0.45s ease;
-}
-
-.mobile-menu.open {
-  transform: translateY(0);
-}
-
-.mobile-menu ul {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 40px;
-  text-align: center;
-}
-
-.mobile-menu li {
-  margin: 20px 0;
-}
-
-.mobile-menu a {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #fff;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.mobile-menu a:hover {
-  color: #38bdf8;
-}
-
-.mobile-cta {
-  padding: 14px 26px;
-  border-radius: 16px;
-  background: var(--cta-bg);
-  font-weight: 700;
-  color: #fff;
-  font-size: 1.2rem;
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.45);
-  text-decoration: none;
-}
-
-/* ===========================================================
-   RESPONSIVE
-   =========================================================== */
-
-@media (max-width: 1024px) {
-  .main-cta {
-    display: none;
+    --header-bg: rgba(0, 0, 0, 0.4);
+    --header-bg-scroll: rgba(0, 0, 0, 0.75);
   }
-}
 
-@media (max-width: 768px) {
+  [data-theme="light"] {
+    --header-bg: rgba(255, 255, 255, 0.7);
+    --header-bg-scroll: rgba(255, 255, 255, 0.92);
+
+    --text-color: #0f172a;
+    --subtext-color: #475569;
+
+    --nav-link: #1e293b;
+    --nav-hover: #2563eb;
+
+    --underline: linear-gradient(90deg, #2563eb, #3b82f6);
+
+    --cta-bg: linear-gradient(135deg, #2563eb, #3b82f6);
+    --cta-hover: linear-gradient(135deg, #facc15, #fb923c);
+  }
+
+  /* ===========================================================
+    HEADER BASE
+    =========================================================== */
+
+  .header {
+    width: 100%;
+    background: var(--header-bg);
+    backdrop-filter: blur(14px);
+    color: var(--text-color);
+    padding: 16px 0;
+    position: fixed;          /* <<< шапка абсолютная */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1100;
+    transition: 
+      padding 0.3s ease,
+      background 0.4s ease,
+      box-shadow 0.4s ease,
+      transform 0.35s ease;   /* <<< для скрытия */
+  }
+
+  .header.shrink {
+    padding: 8px 0;
+  }
+
+  .header.scrolled {
+    background: var(--header-bg-scroll);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+  }
+
+  .header-hidden {
+    transform: translateY(-100%);
+  }
+
+  /* ===========================================================
+    HEADER CONTENT
+    =========================================================== */
+
+  .header-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* ===========================================================
+    PROGRESS BAR
+    =========================================================== */
+
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #22d3ee, #3b82f6);
+    z-index: 2000;
+    transition: width 0.2s ease;
+  }
+
+  /* ===========================================================
+    LOGO
+    =========================================================== */
+
+  .logo-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    transition: transform 0.35s ease;
+  }
+
+  .logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    transition: transform 0.35s ease, filter 0.35s ease;
+  }
+
+  .logo-section:hover .logo {
+    transform: scale(1.1) rotate(-3deg);
+    filter: drop-shadow(0 0 18px rgba(59, 130, 246, 0.5));
+  }
+
+  .logo-text h1 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-color);
+  }
+
+  .logo-text p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--subtext-color);
+  }
+
+  /* ===========================================================
+    NAVIGATION
+    =========================================================== */
+
   .desktop-nav {
-    display: none;
+    display: flex;
   }
+
+  .nav__list {
+    list-style: none;
+    display: flex;
+    gap: 26px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav__item {
+    transition: transform 0.2s ease;
+  }
+
+  .nav__item:hover {
+    transform: translateY(-2px);
+  }
+
+  .nav__link {
+    color: var(--nav-link);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 4px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .nav__link::after {
+    content: "";
+    height: 2px;
+    width: 0%;
+    background: var(--underline);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width 0.35s ease;
+  }
+
+  .nav__link:hover,
+  .nav__link.active {
+    color: var(--nav-hover);
+  }
+
+  .nav__link:hover::after,
+  .nav__link.active::after {
+    width: 100%;
+  }
+
+  /* ===========================================================
+    CTA
+    =========================================================== */
+
+  .main-cta {
+    background: var(--cta-bg);
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 16px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 18px rgba(59, 130, 246, 0.5);
+    font-size: 1.1rem;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+    border: none;
+  }
+
+  .main-cta:hover {
+    background: var(--cta-hover);
+    transform: scale(1.08);
+    filter: brightness(1.15);
+  }
+
+  /* ===========================================================
+    THEME SWITCH
+    =========================================================== */
+
+  .theme-switch {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    margin-left: 14px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .theme-switch:hover {
+    transform: scale(1.2);
+  }
+
+  /* ===========================================================
+    BURGER
+    =========================================================== */
 
   .burger {
-    display: block;
+    display: none;
+    width: 32px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    background: none;
+    border: none;
   }
-}
+
+  .burger span {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: var(--text-color);
+    left: 0;
+    border-radius: 4px;
+    transition: 0.35s ease;
+  }
+
+  .burger span:nth-child(1) { top: 0; }
+  .burger span:nth-child(2) { top: 10px; }
+  .burger span:nth-child(3) { top: 20px; }
+
+  .burger.active span:nth-child(1) {
+    transform: rotate(45deg);
+    top: 10px;
+  }
+  .burger.active span:nth-child(2) { opacity: 0; }
+  .burger.active span:nth-child(3) {
+    transform: rotate(-45deg);
+    top: 10px;
+  }
+
+  /* ===========================================================
+    MOBILE MENU
+    =========================================================== */
+
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 15, 25, 0.97);
+    backdrop-filter: blur(16px);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-100%);
+    transition: transform 0.45s ease;
+  }
+
+  .mobile-menu.open {
+    transform: translateY(0);
+  }
+
+  .mobile-menu ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  .mobile-menu li {
+    margin: 20px 0;
+  }
+
+  .mobile-menu a {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #fff;
+    transition: color 0.3s ease;
+  }
+
+  .mobile-menu a:hover {
+    color: #38bdf8;
+  }
+
+  .mobile-cta {
+    padding: 14px 26px;
+    border-radius: 16px;
+    background: var(--cta-bg);
+    font-weight: 700;
+    color: #fff;
+    font-size: 1.2rem;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.45);
+  }
+
+  /* ===========================================================
+    RESPONSIVE
+    =========================================================== */
+
+  @media (max-width: 1024px) {
+    .main-cta {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .desktop-nav {
+      display: none;
+    }
+
+    .burger {
+      display: block;
+    }
+  }
