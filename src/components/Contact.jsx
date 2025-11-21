@@ -120,6 +120,7 @@ export default function Contact() {
   return (
     <section id="contact" className="contact-section">
       <div className="contact-container">
+      <div className="border-runner"></div>
         {/* CLICKABLE CONTACT BADGE */}
         <button
           type="button"
