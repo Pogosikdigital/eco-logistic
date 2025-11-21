@@ -97,7 +97,7 @@ app.post("/api/lead", async (req, res) => {
     if (!tgRes.ok) {
       const errText = await tgRes.text();
       console.error("Telegram error:", errText);
-      // ❗ ВАЖНО: никаких 502, всегда 200 OK
+
       return res.json({
         ok: true,
         telegram: false,
@@ -109,7 +109,7 @@ app.post("/api/lead", async (req, res) => {
     res.json({ ok: true, telegram: true });
   } catch (err) {
     console.error("Lead error:", err);
-    // ❗ Тоже 200 OK
+
     res.json({
       ok: true,
       telegram: false,
