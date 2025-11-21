@@ -1,5 +1,5 @@
 /* ===========================================================
-   GLOBAL PAGE WRAPPER — with FULL BACKGROUND like HERO
+   GLOBAL PAGE WRAPPER — FULL HERO STYLE
    =========================================================== */
 
 .reviews-page-section {
@@ -28,7 +28,7 @@
    =========================================================== */
 
 .reviews-page-title {
-  font-size: 3rem;
+  font-size: clamp(2.2rem, 4vw, 3rem);
   font-weight: 800;
   margin-bottom: 12px;
   letter-spacing: 0.6px;
@@ -38,7 +38,7 @@
 }
 
 .reviews-page-subtitle {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
   color: #94a3b8;
   margin-bottom: 60px;
   max-width: 620px;
@@ -83,7 +83,7 @@
     0 12px 28px rgba(0, 0, 0, 0.45),
     inset 0 0 16px rgba(255, 255, 255, 0.04);
 
-  transition: all 0.35s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
   overflow: hidden;
 }
 
@@ -136,6 +136,7 @@
 
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+  object-fit: cover;
 }
 
 .review-author {
@@ -163,28 +164,14 @@
 }
 
 /* ===========================================================
-   RESPONSIVE
-   =========================================================== */
-
-@media (max-width: 768px) {
-  .reviews-page-title {
-    font-size: 2.4rem;
-  }
-
-  .review-card.big {
-    padding: 24px;
-  }
-}
-/* ================================
    3D TILT GLOBAL STYLES
-   ================================ */
+   =========================================================== */
 
 .review-card,
 .review-card.big {
   transform-style: preserve-3d;
   perspective: 1000px;
-  transition: transform 0.3s ease, box-shadow 0.35s ease;
-  will-change: transform;
+  will-change: transform, box-shadow;
 }
 
 /* Soft glow on hover */
@@ -213,10 +200,30 @@
 .review-card.big:hover::after {
   opacity: 1;
 }
+
 /* ===========================================================
-   TRUE MOBILE ADAPTATION — PHONES ONLY (<480px)
+   RESPONSIVE
    =========================================================== */
 
+@media (max-width: 768px) {
+  .reviews-page-section {
+    padding: 110px 16px 80px;
+  }
+
+  .reviews-page-title {
+    font-size: 2.4rem;
+  }
+
+  .review-card.big {
+    padding: 24px;
+  }
+
+  .reviews-page-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* TRUE MOBILE ADAPTATION — PHONES ONLY (<360px) */
 @media (max-width: 360px) {
   .reviews-page-section {
     padding: 100px 10px 60px;
@@ -261,11 +268,9 @@
     line-height: 1.4;
   }
 
-  /* Disable 3D on phones */
+  /* Disable 3D on very small phones */
   .review-card,
   .review-card.big {
     transform: none !important;
   }
 }
-
-

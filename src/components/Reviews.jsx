@@ -3,20 +3,41 @@ import React, { useEffect, useRef } from "react";
 import "./styles/reviews.css";
 
 const reviewsData = [
-  { author: "Daniel M.", avatar: "https://api.iconify.design/ph:user-circle-light.svg?color=%23a6c8ff", rating: 5, text: "Delivered my motorcycle from CA to FL. Zero issues. Very smooth and fast." },
-  { author: "Marcus L.", avatar: "https://api.iconify.design/ph:user-circle-light.svg?color=%23a6c8ff", rating: 5, text: "Booked enclosed for my classic. Professional loading, on time, and super friendly coordinator." },
-  { author: "Jenna S.", avatar: "https://api.iconify.design/ph:user-circle-light.svg?color=%23a6c8ff", rating: 5, text: "Great value. Picked up within 24h and delivered early morning." },
-  { author: "Omar R.", avatar: "https://api.iconify.design/ph:user-circle-light.svg?color=%23a6c8ff", rating: 4, text: "Needed winch service for a project car. Smooth and clear expectations." }
+  {
+    author: "Daniel M.",
+    avatar: "https://api.iconify.design/ph:user-circle-light.svg?color=%23a6c8ff",
+    rating: 5,
+    text: "Delivered my motorcycle from CA to FL. Zero issues. Very smooth and fast."
+  },
+  {
+    author: "Marcus L.",
+    avatar: "https://api.iconify.design/ph:user-circle-light.svg?color=%23a6c8ff",
+    rating: 5,
+    text: "Booked enclosed for my classic. Professional loading, on time, and super friendly coordinator."
+  },
+  {
+    author: "Jenna S.",
+    avatar: "https://api.iconify.design/ph:user-circle-light.svg?color=%23a6c8ff",
+    rating: 5,
+    text: "Great value. Picked up within 24h and delivered early morning."
+  },
+  {
+    author: "Omar R.",
+    avatar: "https://api.iconify.design/ph:user-circle-light.svg?color=%23a6c8ff",
+    rating: 4,
+    text: "Needed winch service for a project car. Smooth and clear expectations."
+  }
 ];
 
+// Дублируем 3 раза для бесконечной дорожки
 const duplicated = [...reviewsData, ...reviewsData, ...reviewsData];
 
 export default function Reviews() {
   const trackRef = useRef(null);
 
-  /* -------------------------------------------
-     🔥 3D Tilt for CARDS
-  -------------------------------------------- */
+  /* --------------------------------------------------------------------
+     🔥 3D TILT EFFECT
+  -------------------------------------------------------------------- */
   useEffect(() => {
     const cards = document.querySelectorAll(".review-card");
 
@@ -32,7 +53,7 @@ export default function Reviews() {
         perspective(900px)
         rotateX(${rotateX}deg)
         rotateY(${rotateY}deg)
-        scale(1.05)
+        scale(1.06)
       `;
     };
 
@@ -58,29 +79,26 @@ export default function Reviews() {
     };
   }, []);
 
-  /* -------------------------------------------
-     Auto-scroll
-  -------------------------------------------- */
+  /* --------------------------------------------------------------------
+     🔥 AUTO-SCROLL LOOP
+  -------------------------------------------------------------------- */
   useEffect(() => {
     const track = trackRef.current;
     let position = 0;
-    let frame;
 
-    const move = () => {
-      position -= 0.4;
+    const speed = 0.45; // плавность/скорость
+
+    const animate = () => {
+      position -= speed;
       track.style.transform = `translateX(${position}px)`;
 
+      // Когда проскроллили трек на треть — сброс
       if (Math.abs(position) > track.scrollWidth / 3) position = 0;
-      frame = requestAnimationFrame(move);
+
+      requestAnimationFrame(animate);
     };
 
-    move();
-
-    const container = document.querySelector(".reviews-carousel");
-    container.onmouseenter = () => cancelAnimationFrame(frame);
-    container.onmouseleave = () => move();
-
-    return () => cancelAnimationFrame(frame);
+    animate();
   }, []);
 
   return (
@@ -99,13 +117,17 @@ export default function Reviews() {
                   <p className="review-rating">{"★".repeat(rev.rating)}</p>
                 </div>
               </div>
+
               <p className="review-text">{rev.text}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <button className="reviews-cta" onClick={() => (window.location.href = "/reviews")}>
+      <button
+        className="reviews-cta"
+        onClick={() => (window.location.href = "/reviews")}
+      >
         Read More Reviews ›
       </button>
     </section>
