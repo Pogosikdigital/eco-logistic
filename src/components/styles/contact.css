@@ -37,7 +37,7 @@
 }
 
 .contact-title {
-  font-size: 2.3rem;
+  font-size: 3.3rem;
   font-weight: 800;
 }
 
@@ -91,7 +91,7 @@
 }
 
 .phone-number {
-  font-size: 1.7rem;
+  font-size: 1.1rem;
   font-weight: 800;
   margin-top: 10px;
   color: #eff3f9;
@@ -398,5 +398,50 @@
 @media (max-width: 600px) {
   .contact-section {
     padding: 60px 16px;
+  }
+}
+/* ===========================================================
+   BORDER RUNNER ANIMATION
+   =========================================================== */
+
+.border-runner {
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  pointer-events: none;
+  z-index: 5;
+
+  /* 4 стороны рамки — каждая это отдельный linear-gradient */
+  background:
+    /* top */
+    linear-gradient(90deg, rgba(59,130,246,0.8), rgba(59,130,246,0) 70%) top left/200% 2px no-repeat,
+
+    /* right */
+    linear-gradient(180deg, rgba(59,130,246,0.8), rgba(59,130,246,0) 70%) top right/2px 200% no-repeat,
+
+    /* bottom */
+    linear-gradient(270deg, rgba(59,130,246,0.8), rgba(59,130,246,0) 70%) bottom right/200% 2px no-repeat,
+
+    /* left */
+    linear-gradient(0deg, rgba(59,130,246,0.8), rgba(59,130,246,0) 70%) bottom left/2px 200% no-repeat;
+
+  animation: runBorder 4s linear infinite;
+}
+
+/* Movement of the glowing lines */
+@keyframes runBorder {
+  0% {
+    background-position:
+      200% 0,        /* top strip starts right */
+      100% -200%,    /* right strip starts above */
+      -200% 100%,    /* bottom strip starts left */
+      0 200%;        /* left strip starts below */
+  }
+  100% {
+    background-position:
+      -200% 0,       /* top strip ends left */
+      100% 200%,      /* right strip ends below */
+      200% 100%,      /* bottom ends right */
+      0 -200%;        /* left ends above */
   }
 }
