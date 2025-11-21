@@ -5,10 +5,15 @@ import { reviewsData } from "../data/reviewsData";
 
 export default function ReviewsPage() {
   /* -------------------------------------------
-     🔥 3D Tilt
+     🔥 3D Tilt (with proper cleanup + mobile disable)
   -------------------------------------------- */
   useEffect(() => {
     const cards = document.querySelectorAll(".review-card.big");
+
+    // Disable on mobile for performance
+    if (window.innerWidth < 768) return;
+
+    const listeners = [];
 
     const tilt = (e, card) => {
       const rect = card.getBoundingClientRect();
@@ -36,21 +41,30 @@ export default function ReviewsPage() {
     };
 
     cards.forEach((card) => {
-      card.addEventListener("mousemove", (e) => tilt(e, card));
-      card.addEventListener("mouseleave", () => reset(card));
+      const onMove = (e) => tilt(e, card);
+      const onLeave = () => reset(card);
+
+      card.addEventListener("mousemove", onMove);
+      card.addEventListener("mouseleave", onLeave);
+
+      listeners.push({ card, onMove, onLeave });
     });
 
     return () => {
-      cards.forEach((card) => {
-        card.removeEventListener("mousemove", tilt);
-        card.removeEventListener("mouseleave", reset);
+      listeners.forEach(({ card, onMove, onLeave }) => {
+        card.removeEventListener("mousemove", onMove);
+        card.removeEventListener("mouseleave", onLeave);
       });
     };
   }, []);
 
+  /* -------------------------------------------
+     JSX — PAGE
+  -------------------------------------------- */
   return (
     <section className="reviews-page-section">
       <h1 className="reviews-page-title">Customer Reviews</h1>
+
       <p className="reviews-page-subtitle">
         Honest feedback from real clients across the USA.
       </p>
@@ -60,11 +74,13 @@ export default function ReviewsPage() {
           <div className="review-card big" key={i}>
             <div className="review-header">
               <img src={r.avatar} alt={r.author} className="review-avatar" />
+
               <div>
                 <p className="review-author">{r.author}</p>
                 <p className="review-rating">{"★".repeat(r.rating)}</p>
               </div>
             </div>
+
             <p className="review-text">{r.text}</p>
           </div>
         ))}

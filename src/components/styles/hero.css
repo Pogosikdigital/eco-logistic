@@ -12,7 +12,6 @@
 
   color: #ffffff;
 
-  /* Главный фирменный фон */
   background: linear-gradient(
     140deg,
     #031529 0%,
@@ -34,21 +33,9 @@
   z-index: -1;
 
   background:
-    radial-gradient(
-      circle at 22% 36%,
-      rgba(41, 135, 255, 0.26),
-      transparent 60%
-    ),
-    radial-gradient(
-      circle at 85% 72%,
-      rgba(0, 209, 255, 0.22),
-      transparent 65%
-    ),
-    radial-gradient(
-      circle at 60% 18%,
-      rgba(0, 255, 215, 0.18),
-      transparent 55%
-    );
+    radial-gradient(circle at 22% 36%, rgba(41, 135, 255, 0.26), transparent 60%),
+    radial-gradient(circle at 85% 72%, rgba(0, 209, 255, 0.22), transparent 65%),
+    radial-gradient(circle at 60% 18%, rgba(0, 255, 215, 0.18), transparent 55%);
   filter: blur(26px);
 }
 
@@ -88,12 +75,11 @@
   border: 1px solid rgba(0, 140, 255, 0.35);
 }
 
-/* Группа заголовков */
 .hero-title-group {
   margin-top: 0.6rem;
 }
 
-/* Основной заголовок с неоновой подсветкой + линией */
+/* Основной заголовок */
 .hero-title-primary {
   position: relative;
   padding-top: 8px;
@@ -108,7 +94,7 @@
     0 0 10px rgba(0, 220, 255, 0.55);
 }
 
-/* Неоновая линия под заголовком */
+/* Неоновая линия */
 .hero-title-primary::after {
   content: "";
   position: absolute;
@@ -192,7 +178,7 @@
 }
 
 /* ===========================================================
-   PHOTO BLOCK + RIM LIGHT
+   PHOTO BLOCK
    =========================================================== */
 
 .hero-photo-col {
@@ -204,10 +190,9 @@
   position: relative;
   width: 100%;
   max-width: 420px;
-  aspect-ratio: 3 / 4;        /* фиксированные пропорции, без растягивания */
+  aspect-ratio: 3 / 4;
 }
 
-/* rim light вокруг wrapper-а */
 .rim-light::before {
   content: "";
   position: absolute;
@@ -221,7 +206,6 @@
   );
   filter: blur(45px);
   z-index: -1;
-  pointer-events: none;
 }
 
 .hero-photo-frame {
@@ -236,12 +220,11 @@
 .hero-photo-frame img {
   width: 100%;
   height: 100%;
-  object-fit: cover;         /* не тянет картинку, а аккуратно кадрирует */
-  object-position: center;
+  object-fit: cover;
 }
 
 /* ===========================================================
-   FEATURE CARDS GRID (под херо)
+   FEATURE CARDS
    =========================================================== */
 
 .hero-features {
@@ -259,20 +242,8 @@
   transform-origin: center top;
 }
 
-/* карточки уезжают вниз при скролле */
-.hero-features.down {
-  transform: translateY(160px);
-  opacity: 0.98;
-}
-
-.hero-features.up {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/* ===========================================================
-   FEATURE CARD ITEM
-   =========================================================== */
+.hero-features.down { transform: translateY(160px); opacity: 0.98; }
+.hero-features.up { transform: translateY(0); opacity: 1; }
 
 .feature-card {
   padding: 2rem 2rem;
@@ -284,7 +255,6 @@
   display: flex;
   gap: 1.5rem;
   align-items: center;
-
   transition: 0.35s ease;
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
 }
@@ -303,11 +273,7 @@
   align-items: center;
   justify-content: center;
 
-  background: radial-gradient(
-    circle at 30% 20%,
-    rgba(255, 255, 255, 0.45),
-    transparent 55%
-  );
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.45), transparent 55%);
   color: #ffffff;
 
   box-shadow:
@@ -315,24 +281,13 @@
     0 0 32px rgba(60, 190, 255, 0.45);
 }
 
-.feature-icon svg {
-  width: 36px;
-  height: 36px;
-}
-
 .feature-card-text h3 {
-  margin: 0 0 0.4rem 0;
   font-size: 1.42rem;
-  font-weight: 600;
-}
-
-.feature-card-text p {
-  margin: 0;
-  color: #c9d4e1;
+  margin: 0 0 0.4rem;
 }
 
 /* ===========================================================
-   TRUCK ANIMATION LINE
+   TRUCK ANIMATION
    =========================================================== */
 
 .truck-line {
@@ -347,11 +302,6 @@
   opacity: 0.9;
 
   animation: truckDrive 13s linear infinite;
-  transition: opacity 0.4s ease;
-}
-
-.truck-line.hidden {
-  opacity: 0;
 }
 
 .truck-line svg {
@@ -363,30 +313,18 @@
 }
 
 @keyframes truckDrive {
-  0% {
-    transform: translateX(0);
-    opacity: 0.1;
-  }
-  10% {
-    opacity: 0.45;
-  }
-  50% {
-    transform: translateX(1250px);
-    opacity: 0.35;
-  }
-  80% {
-    opacity: 0.07;
-  }
-  100% {
-    transform: translateX(1550px);
-    opacity: 0;
-  }
+  0% { transform: translateX(0); opacity: 0.1; }
+  10% { opacity: 0.45; }
+  50% { transform: translateX(1250px); opacity: 0.35; }
+  80% { opacity: 0.07; }
+  100% { transform: translateX(1550px); opacity: 0; }
 }
 
 /* ===========================================================
    RESPONSIVE
    =========================================================== */
 
+/* ---------- LAPTOPS < 1100px ---------- */
 @media (max-width: 1100px) {
   .hero {
     padding: 4rem 2rem 10rem;
@@ -400,10 +338,12 @@
   .hero-left {
     max-width: 640px;
     margin: 0 auto;
+    text-align: center;
   }
 
-  .hero-photo-col {
-    justify-content: center;
+  .hero-title-primary::after {
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .hero-photo-wrapper {
@@ -413,80 +353,80 @@
   .hero-features {
     grid-template-columns: 1fr 1fr;
     max-width: 900px;
+    margin-top: -2rem;
   }
 }
 
+/* ---------- TABLETS < 768px ---------- */
 @media (max-width: 768px) {
   .hero {
     padding: 3.5rem 1.6rem 9rem;
   }
 
   .hero-title-primary {
-    font-size: 3rem;
+    font-size: 2.8rem;
   }
 
   .hero-title-primary::after {
     width: 190px;
-    bottom: -12px;
+    bottom: -10px;
   }
 
   .hero-title-secondary {
-    font-size: 1.4rem;
-    padding-top: 18px;
+    font-size: 1.35rem;
   }
 
   .hero-description {
     font-size: 1.02rem;
-    max-width: 100%;
+    text-align: center;
   }
 
   .hero-features {
     grid-template-columns: 1fr;
-    margin-top: -3rem;
+    gap: 1.3rem;
   }
 }
 
-@media (max-width: 480px) {
+/* ---------- PHONES < 480px ---------- */
+@media (max-width: 460px) {
   .hero {
     padding: 3rem 1.2rem 9rem;
     border-radius: 32px;
   }
 
   .hero-title-primary {
+    font-size: 2.3rem;
     text-align: center;
-    font-size: 2.4rem;
   }
 
-
   .hero-title-primary::after {
-   left: 50%;
-    bottom: -10px;
     width: 70%;
-    max-width: 75%;
+    max-width: 260px;
+    left: 50%;
     transform: translateX(-50%);
   }
 
   .hero-title-secondary {
     text-align: center;
-    padding-top: 2rem;
-    font-size: 1.2rem;
+    padding-top: 1.7rem;
+    font-size: 1.15rem;
   }
-   .hero-description {
-    text-align: center;
+
+  .hero-description {
     font-size: 1rem;
-    max-width: 100%;
+    text-align: center;
   }
 
   .hero-buttons {
-  justify-content: center;
+   justify-content: center;
   }
 
+  
   .hero-photo-wrapper {
-    max-width: 400px;
+    max-width: 300px;
   }
 
   .feature-card {
-    margin-bottom: 45px;
+    margin-bottom: 40px;
   }
-  
 }
