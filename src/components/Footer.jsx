@@ -1,5 +1,6 @@
 // src/components/Footer.jsx
 import React from "react";
+import { Link } from "react-router-dom";
 import "./styles/footer.css";
 
 export default function Footer() {
@@ -15,14 +16,13 @@ export default function Footer() {
       itemScope
       itemType="https://schema.org/Organization"
     >
-      {/* ВНУТРЕННИЙ КОНТЕЙНЕР */}
       <div className="footer-inner">
         <div className="footer-container">
           
           {/* LOGO + ABOUT */}
           <div className="footer-col footer-about">
 
-            {/* ✔ ТЕКСТОВЫЙ НЕОНОВЫЙ ЛОГО */}
+            {/* LOGO */}
             <h2
               className="footer-logo-text neon-text-logo"
               itemProp="name"
@@ -40,7 +40,7 @@ export default function Footer() {
             </button>
           </div>
 
-          {/* NAVIGATION – 2 КОЛОНКИ */}
+          {/* NAVIGATION */}
           <div className="footer-col footer-nav">
             <h4 className="footer-title">Navigation</h4>
 
@@ -50,18 +50,30 @@ export default function Footer() {
                   <button
                     type="button"
                     className="footer-link-btn"
-                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                    onClick={() =>
+                      window.scrollTo({ top: 0, behavior: "smooth" })
+                    }
                   >
                     Home
                   </button>
                 </li>
+
                 <li>
-                  <button type="button" className="footer-link-btn" onClick={() => scrollTo("#services")}>
+                  <button
+                    type="button"
+                    className="footer-link-btn"
+                    onClick={() => scrollTo("#services")}
+                  >
                     Services
                   </button>
                 </li>
+
                 <li>
-                  <button type="button" className="footer-link-btn" onClick={() => scrollTo("#reviews")}>
+                  <button
+                    type="button"
+                    className="footer-link-btn"
+                    onClick={() => scrollTo("#reviews")}
+                  >
                     Reviews
                   </button>
                 </li>
@@ -69,17 +81,31 @@ export default function Footer() {
 
               <ul className="footer-links">
                 <li>
-                  <button type="button" className="footer-link-btn" onClick={() => scrollTo("#about")}>
+                  <button
+                    type="button"
+                    className="footer-link-btn"
+                    onClick={() => scrollTo("#about")}
+                  >
                     About Us
                   </button>
                 </li>
+
+                {/* ===== EARN WITH US — ведёт на отдельную страницу ===== */}
                 <li>
-                  <button type="button" className="footer-link-btn" onClick={() => scrollTo("#earn")}>
+                  <Link
+                    to="/earn"
+                    className="footer-link-btn footer-link-router"
+                  >
                     Earn With Us
-                  </button>
+                  </Link>
                 </li>
+
                 <li>
-                  <button type="button" className="footer-link-btn" onClick={() => scrollTo("#contact")}>
+                  <button
+                    type="button"
+                    className="footer-link-btn"
+                    onClick={() => scrollTo("#contact")}
+                  >
                     Contact
                   </button>
                 </li>
@@ -138,7 +164,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* COPYRIGHT */}
         <div className="footer-bottom">
           <p>© 2025 EcoHub Logistics — All Rights Reserved.</p>
         </div>
