@@ -1,0 +1,19 @@
+.earn-section {
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #fff;
+}
+
+.earn-title {
+  font-size: 3rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.earn-subtitle {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 12px;
+  opacity: 0.8;
+}

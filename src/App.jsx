@@ -14,6 +14,7 @@ import Contact from "./components/Contact";
 // Pages
 import QuotePage from "./pages/QuotePage";
 import ReviewsPage from "./pages/ReviewsPage";
+import EarnWithUs from "./pages/EarnWithUs";   // ← добавили страницу
 
 function App() {
   return (
@@ -49,6 +50,16 @@ function App() {
         element={
           <MainLayout>
             <ReviewsPage />
+          </MainLayout>
+        }
+      />
+
+      {/* Страница Earn With Us */}
+      <Route
+        path="/earn"
+        element={
+          <MainLayout>
+            <EarnWithUs />
           </MainLayout>
         }
       />

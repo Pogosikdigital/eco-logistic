@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import "./styles/header.css";
 
 const navLinks = [
-  { id: "home", label: "Home" },
-  { id: "services", label: "Services" },
-  { id: "about", label: "About Us" },
-  { id: "reviews", label: "Reviews" },
-  { id: "earn", label: "Earn With Us" },
-  { id: "contact", label: "Contact" },
+  { id: "home", label: "Home", type: "anchor" },
+  { id: "services", label: "Services", type: "anchor" },
+  { id: "about", label: "About Us", type: "anchor" },
+  { id: "reviews", label: "Reviews", type: "anchor" },
+  { id: "earn", label: "Earn With Us", type: "page" }, // страница
+  { id: "contact", label: "Contact", type: "anchor" },
 ];
 
 export default function Header() {
@@ -35,6 +36,8 @@ export default function Header() {
       setProgress((window.scrollY / total) * 100);
 
       navLinks.forEach((link) => {
+        if (link.type !== "anchor") return;
+
         const el = document.getElementById(link.id);
         if (!el) return;
 
@@ -54,7 +57,7 @@ export default function Header() {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  /* LOCK BODY ON MOBILE MENU */
+  /* LOCK BODY WHEN MOBILE MENU OPEN */
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
   }, [menuOpen]);
@@ -75,18 +78,25 @@ export default function Header() {
             </div>
           </a>
 
+          {/* DESKTOP NAV */}
           <nav className="desktop-nav">
             <ul className="nav__list">
               {navLinks.map((item) => (
                 <li key={item.id} className="nav__item">
-                  <a
-                    href={`/#${item.id}`}
-                    className={`nav__link ${
-                      activeSection === item.id ? "active" : ""
-                    }`}
-                  >
-                    {item.label}
-                  </a>
+                  {item.type === "anchor" ? (
+                    <a
+                      href={`/#${item.id}`}
+                      className={`nav__link ${
+                        activeSection === item.id ? "active" : ""
+                      }`}
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    <Link to="/earn" className="nav__link">
+                      {item.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -110,16 +120,26 @@ export default function Header() {
         </div>
       </header>
 
+      {/* MOBILE MENU */}
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         <ul>
-          {navLinks.map((link) => (
-            <li key={link.id}>
-              <a
-                href={`/#${link.id}`}
-                onClick={() => setMenuOpen(false)}
-              >
-                {link.label}
-              </a>
+          {navLinks.map((item) => (
+            <li key={item.id}>
+              {item.type === "anchor" ? (
+                <a
+                  href={`/#${item.id}`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  to="/earn"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              )}
             </li>
           ))}
         </ul>
