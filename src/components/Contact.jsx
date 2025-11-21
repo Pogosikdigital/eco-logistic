@@ -79,27 +79,32 @@ export default function Contact() {
     setSubmitted(false);
 
     try {
-      const response = await fetch("/api/lead", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          source: "contact-form",
-          ...formData,
-        }),
-      });
+      const response = await fetch(
+        "https://untransparent-transpolar-tequila.ngrok-free.dev/api/lead",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            source: "contact-form",
+            ...formData,
+          }),
+        }
+      );
 
       console.log("Contact /api/lead status:", response.status);
+
       let data = null;
       try {
         data = await response.json();
       } catch (err) {
         console.warn("Contact /api/lead: cannot parse JSON:", err);
       }
+
       console.log("Contact /api/lead response data:", data);
 
-      // UX: даже если телега не ответила идеально, для пользователя считаем, что всё ок
+      // UX: считаем, что всё отправилось
       setSubmitted(true);
       setFormData(initialFormData);
     } catch (error) {
@@ -327,7 +332,6 @@ export default function Contact() {
           )}
         </form>
 
-        {/* SOCIAL ICONS — можно будет наполнить позже */}
         <div className="social-row"></div>
       </div>
     </section>

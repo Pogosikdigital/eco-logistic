@@ -112,7 +112,7 @@ export default function QuoteSection() {
     setErrors((prev) => ({ ...prev, [name]: error || undefined }));
   };
 
-  // ====== ОТПРАВКА ФОРМЫ (обновлённая) ======
+  // ====== ОТПРАВКА ФОРМЫ (НОВЫЙ fetch) ======
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitSuccess(false);
@@ -134,18 +134,22 @@ export default function QuoteSection() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/lead", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          source: "quote-form",
-          ...form,
-        }),
-      });
+      const response = await fetch(
+        "https://untransparent-transpolar-tequila.ngrok-free.dev/api/lead",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            source: "quote-form",
+            ...form,
+          }),
+        }
+      );
 
       console.log("Quote /api/lead status:", response.status);
+
       let data = null;
       try {
         data = await response.json();
@@ -154,7 +158,6 @@ export default function QuoteSection() {
       }
       console.log("Quote /api/lead response data:", data);
 
-      // Даже если статус не 200 — считаем, что заявка принята (UX > статус)
       setSubmitSuccess(true);
       setForm(initialForm);
       setTouched({});
@@ -169,7 +172,7 @@ export default function QuoteSection() {
     }
   };
 
-  // ====== АНИМАЦИЯ ПРАВОЙ КАРТОЧКИ ПРИ СКРОЛЛЕ ======
+  // ====== АНИМАЦИЯ ПРАВОЙ КАРТОЧКИ ======
   useEffect(() => {
     const node = rightRef.current;
     if (!node) return;
@@ -203,7 +206,7 @@ export default function QuoteSection() {
       />
 
       <div className="quote-inner">
-        {/* ===== Левая часть — форма ===== */}
+        {/* LEFT AREA */}
         <div className="quote-left">
           <h2 id="quote-heading" className="quote-title" itemProp="headline">
             Get a Free Quote
@@ -238,6 +241,7 @@ export default function QuoteSection() {
               content="Request a free auto transport quote from EcoHub Logistics."
             />
 
+            {/* GRID */}
             <div className="quote-form-grid">
               {/* FULL NAME */}
               <div className="field">
@@ -465,7 +469,7 @@ export default function QuoteSection() {
           </form>
         </div>
 
-        {/* ===== Правая часть — карточка с картинкой ===== */}
+        {/* RIGHT SIDE CARD */}
         <aside className="quote-right" ref={rightRef}>
           <div
             className={
@@ -477,6 +481,7 @@ export default function QuoteSection() {
             itemType="https://schema.org/Organization"
           >
             <meta itemProp="name" content="EcoHub Logistics" />
+
             <div className="quote-right-gradient" />
 
             <div className="quote-right-content">
@@ -488,7 +493,6 @@ export default function QuoteSection() {
                 Reliable nationwide vehicle shipping with real-time updates.
               </p>
 
-              {/* Карта США с пином */}
               <a
                 className="quote-map"
                 href="https://www.google.com/maps/place/Orlando,+FL"
