@@ -1,6 +1,6 @@
 // src/pages/EarnWithUs.jsx
 import React from "react";
-import "./styles/earnwithus.css";
+import "../pages/earnwithus.css"
 
 export default function EarnWithUs() {
   return (
