@@ -34,21 +34,21 @@ export default function EarnWithUs() {
           <div className="earn-icon-grid">
             <div className="earn-icon-card">
               <div className="earn-icon-frame">
-                <img src={iconPaperwork} alt="" />
+                <img src={iconPaperwork} alt="Paperwork icon" />
               </div>
               <p className="earn-icon-text">No paperwork</p>
             </div>
 
             <div className="earn-icon-card">
               <div className="earn-icon-frame">
-                <img src={iconProfit} alt="" />
+                <img src={iconProfit} alt="Profit icon" />
               </div>
               <p className="earn-icon-text">Up to 40% profit share</p>
             </div>
 
             <div className="earn-icon-card">
               <div className="earn-icon-frame">
-                <img src={iconSideIncome} alt="" />
+                <img src={iconSideIncome} alt="Side income icon" />
               </div>
               <p className="earn-icon-text">Perfect as a side-income</p>
             </div>
@@ -71,6 +71,7 @@ export default function EarnWithUs() {
             />
           </div>
         </div>
+
       </div>
     </section>
   );

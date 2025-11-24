@@ -1,5 +1,6 @@
 // src/App.jsx
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 import MainLayout from "./layouts/MainLayout";
 
@@ -14,12 +15,33 @@ import Contact from "./components/Contact";
 // Pages
 import QuotePage from "./pages/QuotePage";
 import ReviewsPage from "./pages/ReviewsPage";
-import EarnWithUs from "./pages/EarnWithUs";   // ← добавили страницу
+import EarnWithUs from "./pages/EarnWithUs";
 
 function App() {
+  const location = useLocation();
+
+  // 🔥 Авто-скролл к секции при переходе типа /#services, /#about, /#how...
+  useEffect(() => {
+    // скроллим ТОЛЬКО если мы на главной /
+    if (location.pathname === "/" && location.hash) {
+      const id = location.hash.replace("#", "");
+      
+      // ждём один тик, чтобы секции успели отрисоваться
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      }, 0);
+    }
+  }, [location]);
+
   return (
     <Routes>
-      {/* Главная страница */}
+      {/* Главная */}
       <Route
         path="/"
         element={
@@ -54,7 +76,7 @@ function App() {
         }
       />
 
-      {/* Страница Earn With Us */}
+      {/* Earn With Us */}
       <Route
         path="/earn"
         element={
