@@ -147,6 +147,12 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.earn-icon-card:hover {
+  transform: translateY(-6px) scale(1.06);
 }
 
 .earn-icon-frame {
@@ -165,12 +171,28 @@
     inset 0 0 18px rgba(0,255,255,0.45);
 
   animation: iconGlow 3.2s ease-in-out infinite;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* усиленный эффект при наведении */
+.earn-icon-card:hover .earn-icon-frame {
+  transform: scale(1.12);
+  box-shadow:
+    0 0 40px rgba(0,255,255,1),
+    inset 0 0 26px rgba(0,255,255,0.7);
 }
 
 .earn-icon-frame img {
   width: 64px;
   height: auto;
   filter: drop-shadow(0 0 10px rgba(0,255,255,1));
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+/* пиксельное увеличение самой иконки */
+.earn-icon-card:hover .earn-icon-frame img {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 16px rgba(0,255,255,1));
 }
 
 .earn-icon-text {
@@ -179,6 +201,26 @@
   font-weight: 500;
   color: #d5e9ff;
   line-height: 1.25;
+  transition: color 0.3s ease;
+}
+
+/* лёгкое свечение текста при hover */
+.earn-icon-card:hover .earn-icon-text {
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(0,255,255,0.9);
+}
+
+/* существующая анимация */
+@keyframes iconGlow {
+  0% {
+    box-shadow: 0 0 20px rgba(0,255,255,0.7), inset 0 0 10px rgba(0,255,255,0.35);
+  }
+  50% {
+    box-shadow: 0 0 32px rgba(0,255,255,1), inset 0 0 18px rgba(0,255,255,0.55);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(0,255,255,0.7), inset 0 0 10px rgba(0,255,255,0.35);
+  }
 }
 
 /* ===========================================================

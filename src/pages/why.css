@@ -1,0 +1,168 @@
+/* ===========================================================
+   WHY PARTNER — SECTION WRAPPER
+   =========================================================== */
+
+.why-wrapper {
+  max-width: 1380px;
+  margin: 5rem auto 7rem;
+  padding: 3rem 3rem;
+  border-radius: 40px;
+  position: relative;
+
+  background: linear-gradient(150deg, #04182e 0%, #072a48 60%, #0a3b60 100%);
+  border: 1px solid rgba(0, 255, 255, 0.08);
+  box-shadow: 0 35px 90px rgba(0, 0, 0, 0.65);
+  overflow: hidden;
+}
+
+.why-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.why-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #d8ecff;
+  text-shadow: 0 0 12px rgba(0,255,255,0.45);
+}
+
+.why-subtitle {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: #a8c9e8;
+}
+
+/* ===========================================================
+   GRID
+   =========================================================== */
+
+.why-grid {
+  margin-top: 4rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.8rem;
+}
+
+/* ===========================================================
+   CARD
+   =========================================================== */
+
+.why-card {
+  padding: 2.5rem 1.4rem;
+  border-radius: 28px;
+  background: rgba(0, 0, 0, 0.25);
+
+  border: 1px solid rgba(0,255,255,0.28);
+  box-shadow:
+    0 0 25px rgba(0,255,255,0.25),
+    inset 0 0 16px rgba(0,255,255,0.18);
+
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+}
+
+/* ВНУТРЕННЕЕ ДЫХАНИЕ */
+.why-card-inner {
+  animation: breathe 6.5s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Hover — наклон + подъём */
+.why-card:hover {
+  transform: translateY(-14px) scale(1.04) rotate(0.8deg);
+  box-shadow:
+    0 0 35px rgba(0,255,255,0.65),
+    inset 0 0 24px rgba(0,255,255,0.35);
+}
+
+/* Индивидуальные эффекты для разных карточек */
+.why-card:nth-child(1):hover {
+  transform: translate(8px, -12px) rotate(1.2deg) scale(1.04);
+}
+.why-card:nth-child(2):hover {
+  transform: translate(-8px, -14px) rotate(-1deg) scale(1.04);
+}
+.why-card:nth-child(3):hover {
+  transform: translate(6px, -10px) rotate(0.9deg) scale(1.04);
+}
+
+/* ===========================================================
+   IMAGE FRAME
+   =========================================================== */
+
+.why-img-frame {
+  width: 100%;
+  height: 190px;
+
+  border-radius: 20px;
+  border: 2px solid #00eaff;
+
+  overflow: hidden;
+  background: #0b2238;
+
+  box-shadow:
+    0 0 25px rgba(0,255,255,0.55),
+    inset 0 0 16px rgba(0,255,255,0.4);
+
+  transition: 0.35s ease;
+}
+
+.why-card:hover .why-img-frame {
+  box-shadow:
+    0 0 38px rgba(0,255,255,0.9),
+    inset 0 0 22px rgba(0,255,255,0.7);
+
+  transform: scale(1.02);
+}
+
+.why-img-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* TEXT */
+.why-text {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #d7ebff;
+  line-height: 1.45;
+}
+
+/* ===========================================================
+   RESPONSIVE
+   =========================================================== */
+
+@media (max-width: 960px) {
+  .why-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .why-card {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .why-img-frame {
+    height: 210px;
+  }
+}
+
+@media (max-width: 520px) {
+  .why-title {
+    font-size: 2.3rem;
+  }
+
+  .why-img-frame {
+    height: 160px;
+  }
+}
