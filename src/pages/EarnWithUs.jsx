@@ -5,7 +5,8 @@ import iconPaperwork from "../assets/icon-paperwork.png";
 import iconProfit from "../assets/icon-profit.png";
 import iconSideIncome from "../assets/icon-sideincome.png";
 
-import heroTruck from "../assets/hero-truck.png";
+import heroTruck from "../assets/truck1.png";
+import WhyPartner from "./WhyPartner";
 
 export default function EarnWithUs() {
   return (
@@ -73,6 +74,8 @@ export default function EarnWithUs() {
         </div>
 
       </div>
+
+      <WhyPartner/>
     </section>
   );
 }
