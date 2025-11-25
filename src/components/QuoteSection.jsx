@@ -1,5 +1,10 @@
 // src/components/QuoteSection.jsx
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from "react";
 import "./styles/quotesection.css";
 import quoteImage from "./../assets/image.png";
 import usaMap from "./../assets/usa-map.png";
@@ -16,6 +21,16 @@ const initialForm = {
   notes: "",
 };
 
+// simple US phone formatter: 6509999660 -> (650) 999-9660
+const formatPhoneUS = (value) => {
+  const digits = value.replace(/\D/g, "").slice(0, 10);
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 6) {
+    return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+  }
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+};
+
 export default function QuoteSection() {
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
@@ -27,6 +42,9 @@ export default function QuoteSection() {
   // анимация правой карточки при скролле
   const [isRightVisible, setIsRightVisible] = useState(false);
   const rightRef = useRef(null);
+
+  // tilt для правой карточки
+  const [enableTilt, setEnableTilt] = useState(false);
 
   // ====== ВАЛИДАЦИЯ ОДНОГО ПОЛЯ ======
   const validateField = (name, value) => {
@@ -94,10 +112,17 @@ export default function QuoteSection() {
   // ====== ОБРАБОТКА ИЗМЕНЕНИЙ ======
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+
+    let nextValue = value;
+    // автоформат телефона
+    if (name === "phone") {
+      nextValue = formatPhoneUS(value);
+    }
+
+    setForm((prev) => ({ ...prev, [name]: nextValue }));
 
     if (touched[name]) {
-      const error = validateField(name, value);
+      const error = validateField(name, nextValue);
       setErrors((prev) => ({ ...prev, [name]: error || undefined }));
     }
 
@@ -112,7 +137,7 @@ export default function QuoteSection() {
     setErrors((prev) => ({ ...prev, [name]: error || undefined }));
   };
 
-  // ====== ОТПРАВКА ФОРМЫ (НОВЫЙ fetch) ======
+  // ====== ОТПРАВКА ФОРМЫ (fetch) ======
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitSuccess(false);
@@ -172,7 +197,7 @@ export default function QuoteSection() {
     }
   };
 
-  // ====== АНИМАЦИЯ ПРАВОЙ КАРТОЧКИ ======
+  // ====== АНИМАЦИЯ ПРАВОЙ КАРТОЧКИ (вход) ======
   useEffect(() => {
     const node = rightRef.current;
     if (!node) return;
@@ -191,6 +216,52 @@ export default function QuoteSection() {
 
     return () => observer.disconnect();
   }, []);
+
+  // ====== Включаем tilt только на десктопах ======
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const check = () => {
+      setEnableTilt(window.innerWidth >= 768);
+    };
+
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // 3D tilt для правой карточки
+  const handleCardMove = useCallback(
+    (event) => {
+      if (!enableTilt) return;
+      const card = event.currentTarget;
+      const rect = card.getBoundingClientRect();
+
+      const x = event.clientX - rect.left - rect.width / 2;
+      const y = event.clientY - rect.top - rect.height / 2;
+
+      const rotateX = (y / rect.height) * -8;
+      const rotateY = (x / rect.width) * 10;
+
+      card.style.transform = `
+        perspective(1100px)
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+        translateY(-4px)
+      `;
+    },
+    [enableTilt]
+  );
+
+  const handleCardLeave = useCallback(
+    (event) => {
+      if (!enableTilt) return;
+      const card = event.currentTarget;
+      card.style.transform =
+        "perspective(1100px) rotateX(0deg) rotateY(0deg) translateY(0)";
+    },
+    [enableTilt]
+  );
 
   return (
     <section
@@ -217,9 +288,20 @@ export default function QuoteSection() {
           </p>
 
           {submitSuccess && (
-            <p className="quote-success">
-              Thank you! Your request has been sent. We’ll contact you shortly.
-            </p>
+            <div
+              className="quote-success"
+              role="status"
+              aria-live="polite"
+            >
+              <span className="quote-success-icon" aria-hidden="true">
+                <span className="quote-success-circle" />
+                <span className="quote-success-check" />
+              </span>
+              <span className="quote-success-text">
+                Thank you! Your request has been sent. We’ll contact you
+                shortly.
+              </span>
+            </div>
           )}
 
           {submitError && (
@@ -479,6 +561,8 @@ export default function QuoteSection() {
             itemProp="publisher"
             itemScope
             itemType="https://schema.org/Organization"
+            onMouseMove={handleCardMove}
+            onMouseLeave={handleCardLeave}
           >
             <meta itemProp="name" content="EcoHub Logistics" />
 
