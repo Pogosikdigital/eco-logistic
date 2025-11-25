@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+// src/components/Header.jsx
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import "./styles/header.css";
@@ -21,43 +22,24 @@ export default function Header() {
   const [theme, setTheme] = useState("dark");
 
   const location = useLocation();
-  const isQuotePage = location.pathname === "/quote";
+
+  const isQuotePage = useMemo(
+    () => location.pathname === "/quote",
+    [location.pathname]
+  );
+
+  const isHomePage = useMemo(
+    () => location.pathname === "/",
+    [location.pathname]
+  );
 
   /* ===========================================================
-     SCROLL LOGIC
+     THEME SWITCH — мемоизированный хэндлер
   ============================================================ */
-  useEffect(() => {
-    if (isQuotePage) return;
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  }, []);
 
-    const onScroll = () => {
-      setScrolled(window.scrollY > 40);
-
-      const total =
-        document.documentElement.scrollHeight - window.innerHeight;
-
-      setProgress((window.scrollY / total) * 100);
-
-      // ACTIVE SECTION DETECT
-      navLinks.forEach((link) => {
-        if (link.type !== "anchor") return;
-
-        const el = document.getElementById(link.id);
-        if (!el) return;
-
-        const rect = el.getBoundingClientRect();
-        if (rect.top <= 150 && rect.bottom >= 150) {
-          setActiveSection(link.id);
-        }
-      });
-    };
-
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [isQuotePage]);
-
-  /* ===========================================================
-     THEME SWITCH
-  ============================================================ */
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
@@ -69,43 +51,99 @@ export default function Header() {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
   }, [menuOpen]);
 
+  /* ===========================================================
+     SCROLL LOGIC — оптимизированный обработчик
+  ============================================================ */
+  const handleScroll = useCallback(() => {
+    // прогресс скролла
+    const total =
+      document.documentElement.scrollHeight - window.innerHeight || 1;
+
+    const currentScroll = window.scrollY || window.pageYOffset || 0;
+    const percent = Math.min(Math.max((currentScroll / total) * 100, 0), 100);
+
+    setScrolled(currentScroll > 40);
+    setProgress(percent);
+
+    // активная секция
+    navLinks.forEach((link) => {
+      if (link.type !== "anchor") return;
+
+      const el = document.getElementById(link.id);
+      if (!el) return;
+
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= 150 && rect.bottom >= 150) {
+        setActiveSection(link.id);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isQuotePage) return;
+
+    // сразу посчитать состояние при монтировании
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isQuotePage, handleScroll]);
 
   /* ===========================================================
-     UNIVERSAL ANCHOR HANDLER
+     UNIVERSAL ANCHOR HANDLER (desktop + mobile + logo)
   ============================================================ */
-  const handleAnchorClick = (e, id) => {
-    // 1. Если сейчас НЕ на / → просто allow default (#scroll)
-    if (location.pathname !== "/") {
-      e.preventDefault();
-      window.location.href = `/#${id}`;
-      return;
-    }
+  const handleAnchorClick = useCallback(
+    (event, id) => {
+      // Если НЕ на главной — делаем переход с якорем
+      if (!isHomePage) {
+        event.preventDefault();
+        window.location.href = `/#${id}`;
+        return;
+      }
 
-    // 2. На главной → smooth scroll
-    const el = document.getElementById(id);
-    if (el) {
-      e.preventDefault();
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
+      // Уже на главной → плавно скроллим
+      const el = document.getElementById(id);
+      if (el) {
+        event.preventDefault();
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    },
+    [isHomePage]
+  );
 
+  /* ===========================================================
+     RENDER
+  ============================================================ */
 
   return (
     <>
       {!isQuotePage && (
-        <div className="scroll-progress" style={{ width: `${progress}%` }} />
+        <div
+          className="scroll-progress"
+          style={{ width: `${progress}%` }}
+          aria-hidden="true"
+        />
       )}
 
-      <header className={`header ${scrolled ? "scrolled shrink" : ""}`}>
+      <header
+        className={`header ${scrolled ? "scrolled shrink" : ""}`}
+        role="banner"
+      >
         <div className="header-container">
-
           {/* LOGO */}
           <a
             href="/#home"
             className="logo-section"
             onClick={(e) => handleAnchorClick(e, "home")}
+            aria-label="EcoHub Logistics – back to top"
           >
-            <img src={logo} alt="EcoHub logo" className="logo" />
+            <img
+              src={logo}
+              alt="EcoHub Logistics logo"
+              className="logo"
+            />
             <div className="logo-text">
               <h1>EcoHub Logistics</h1>
               <p>Auto Transport USA</p>
@@ -113,7 +151,10 @@ export default function Header() {
           </a>
 
           {/* DESKTOP NAV */}
-          <nav className="desktop-nav">
+          <nav
+            className="desktop-nav"
+            aria-label="Primary navigation"
+          >
             <ul className="nav__list">
               {navLinks.map((item) => (
                 <li key={item.id} className="nav__item">
@@ -144,25 +185,40 @@ export default function Header() {
 
           {/* THEME BUTTON */}
           <button
+            type="button"
             className="theme-switch"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            onClick={toggleTheme}
+            aria-label={
+              theme === "dark"
+                ? "Switch to light theme"
+                : "Switch to dark theme"
+            }
           >
             {theme === "dark" ? "🌞" : "🌙"}
           </button>
 
           {/* BURGER */}
           <button
+            type="button"
             className={`burger ${menuOpen ? "active" : ""}`}
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={() => setMenuOpen((prev) => !prev)}
+            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
           >
-            <span></span><span></span><span></span>
+            <span></span>
+            <span></span>
+            <span></span>
           </button>
         </div>
       </header>
 
-
       {/* MOBILE MENU */}
-      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+      <div
+        id="mobile-menu"
+        className={`mobile-menu ${menuOpen ? "open" : ""}`}
+        aria-hidden={!menuOpen}
+      >
         <ul>
           {navLinks.map((item) => (
             <li key={item.id}>

@@ -1,5 +1,5 @@
 /* ===========================================================
-   HERO SECTION WRAPPER
+   HERO SECTION WRAPPER — FINAL PREMIUM VERSION (EcoHub Theme)
    =========================================================== */
 
 .hero {
@@ -12,15 +12,29 @@
 
   color: #ffffff;
 
-  background: linear-gradient(
-    140deg,
-    #031529 0%,
-    #082a4a 38%,
-    #0b3860 78%,
-    #0c3f6e 100%
-  );
+  /* Используем глобальный градиент темы */
+  background: var(--bg-gradient);
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: 0 35px 90px rgba(0, 0, 0, 0.65);
+
+  will-change: transform, opacity;
+  transform-origin: center top;
+
+  /* для анимации появления через hero--hidden / hero--visible */
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+}
+
+/* Состояния появления (IntersectionObserver) */
+.hero--hidden {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.hero--visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ===========================================================
@@ -37,10 +51,11 @@
     radial-gradient(circle at 85% 72%, rgba(0, 209, 255, 0.22), transparent 65%),
     radial-gradient(circle at 60% 18%, rgba(0, 255, 215, 0.18), transparent 55%);
   filter: blur(26px);
+  pointer-events: none;
 }
 
 /* ===========================================================
-   HERO CONTENT GRID
+   HERO INNER GRID
    =========================================================== */
 
 .hero-inner {
@@ -53,7 +68,7 @@
 }
 
 /* ===========================================================
-   TEXT BLOCK
+   LEFT — TEXT BLOCK
    =========================================================== */
 
 .hero-left {
@@ -79,7 +94,7 @@
   margin-top: 0.6rem;
 }
 
-/* Основной заголовок */
+/* MAIN TITLE */
 .hero-title-primary {
   position: relative;
   padding-top: 8px;
@@ -94,7 +109,7 @@
     0 0 10px rgba(0, 220, 255, 0.55);
 }
 
-/* Неоновая линия */
+/* NEON LINE UNDER TITLE */
 .hero-title-primary::after {
   content: "";
   position: absolute;
@@ -112,7 +127,6 @@
   opacity: 0.95;
 }
 
-/* Подзаголовок */
 .hero-title-secondary {
   padding-top: 24px;
   font-size: 1.6rem;
@@ -151,7 +165,7 @@
   text-decoration: none;
   color: #ffffff;
 
-  background: linear-gradient(90deg, #0e8bff, #4db8ff);
+  background: var(--cta-bg);
   box-shadow: 0 10px 25px rgba(0, 140, 255, 0.55);
   transition: 0.3s ease;
 }
@@ -159,6 +173,7 @@
 .btn-primary:hover {
   transform: translateY(-4px);
   box-shadow: 0 15px 35px rgba(0, 160, 255, 0.7);
+  background: var(--cta-hover);
 }
 
 .btn-secondary {
@@ -178,7 +193,7 @@
 }
 
 /* ===========================================================
-   PHOTO BLOCK
+   RIGHT — TRUCK IMAGE
    =========================================================== */
 
 .hero-photo-col {
@@ -193,6 +208,7 @@
   aspect-ratio: 3 / 4;
 }
 
+/* Rim light / outer glow */
 .rim-light::before {
   content: "";
   position: absolute;
@@ -240,17 +256,25 @@
     transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.6s ease;
   transform-origin: center top;
+  will-change: transform, opacity;
 }
 
-.hero-features.down { transform: translateY(160px); opacity: 0.98; }
-.hero-features.up { transform: translateY(0); opacity: 1; }
+.hero-features.down {
+  transform: translateY(160px);
+  opacity: 0.98;
+}
+
+.hero-features.up {
+  transform: translateY(0);
+  opacity: 1;
+}
 
 .feature-card {
   padding: 2rem 2rem;
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(16px);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(var(--glass-blur));
 
   display: flex;
   gap: 1.5rem;
@@ -273,7 +297,11 @@
   align-items: center;
   justify-content: center;
 
-  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.45), transparent 55%);
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(255, 255, 255, 0.45),
+    transparent 55%
+  );
   color: #ffffff;
 
   box-shadow:
@@ -287,7 +315,7 @@
 }
 
 /* ===========================================================
-   TRUCK ANIMATION
+   TRUCK ANIMATION LINE
    =========================================================== */
 
 .truck-line {
@@ -298,10 +326,17 @@
   width: 260px;
   height: 130px;
 
-  color: #6fdbff;
+  color: var(--accent-neon-1, #6fdbff);
   opacity: 0.9;
 
   animation: truckDrive 13s linear infinite;
+  will-change: transform, opacity;
+  transition: opacity 0.35s ease;
+}
+
+.truck-line.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .truck-line svg {
@@ -313,18 +348,40 @@
 }
 
 @keyframes truckDrive {
-  0% { transform: translateX(0); opacity: 0.1; }
-  10% { opacity: 0.45; }
-  50% { transform: translateX(1250px); opacity: 0.35; }
-  80% { opacity: 0.07; }
-  100% { transform: translateX(1550px); opacity: 0; }
+  0% {
+    transform: translateX(0);
+    opacity: 0.1;
+  }
+  10% {
+    opacity: 0.45;
+  }
+  50% {
+    transform: translateX(1250px);
+    opacity: 0.35;
+  }
+  80% {
+    opacity: 0.07;
+  }
+  100% {
+    transform: translateX(1550px);
+    opacity: 0;
+  }
 }
 
 /* ===========================================================
-   RESPONSIVE
+   RESPONSIVE ADAPTATION
    =========================================================== */
 
-/* ---------- LAPTOPS < 1100px ---------- */
+@media (min-width: 1440px) {
+  .hero {
+    margin-top: 5rem;
+  }
+
+  .hero-title-primary {
+    font-size: 4rem;
+  }
+}
+
 @media (max-width: 1100px) {
   .hero {
     padding: 4rem 2rem 10rem;
@@ -346,6 +403,10 @@
     transform: translateX(-50%);
   }
 
+  .hero-description {
+    text-align: center;
+  }
+
   .hero-photo-wrapper {
     max-width: 360px;
   }
@@ -357,7 +418,6 @@
   }
 }
 
-/* ---------- TABLETS < 768px ---------- */
 @media (max-width: 768px) {
   .hero {
     padding: 3.5rem 1.6rem 9rem;
@@ -365,6 +425,7 @@
 
   .hero-title-primary {
     font-size: 2.8rem;
+    text-align: center;
   }
 
   .hero-title-primary::after {
@@ -374,11 +435,17 @@
 
   .hero-title-secondary {
     font-size: 1.35rem;
+    text-align: center;
+    padding-top: 1.7rem;
   }
 
   .hero-description {
     font-size: 1.02rem;
     text-align: center;
+  }
+
+  .hero-buttons {
+    justify-content: center;
   }
 
   .hero-features {
@@ -387,7 +454,6 @@
   }
 }
 
-/* ---------- PHONES < 480px ---------- */
 @media (max-width: 460px) {
   .hero {
     padding: 3rem 1.2rem 9rem;
@@ -417,11 +483,6 @@
     text-align: center;
   }
 
-  .hero-buttons {
-   justify-content: center;
-  }
-
-  
   .hero-photo-wrapper {
     max-width: 300px;
   }

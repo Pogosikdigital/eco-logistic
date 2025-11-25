@@ -1,115 +1,243 @@
 /* ===========================================================
-   GLOBAL PAGE WRAPPER — FULL HERO STYLE
+   REVIEWS PAGE — Full-page, Soft Premium (Style B)
    =========================================================== */
 
 .reviews-page-section {
+  position: relative;
   min-height: 100vh;
   width: 100%;
   padding: 140px 20px 120px;
-  background-attachment: fixed;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  color: #ffffff;
   text-align: center;
 
-  color: #fff;
-  animation: fadePage 0.7s ease;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.7s ease-out;
+  will-change: opacity, transform;
+  overflow: hidden;
 }
 
-/* Fade page */
-@keyframes fadePage {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* появление */
+.reviews-page-section--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===================== BACKGROUND GLOW (как About) ===================== */
+
+.reviews-page-section::before,
+.reviews-page-section::after {
+  content: "";
+  position: absolute;
+  width: 460px;
+  height: 460px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.26;
+  pointer-events: none;
+  animation: reviewsPageFloat 22s ease-in-out infinite;
+  z-index: -1;
+}
+
+.reviews-page-section::before {
+  top: -200px;
+  left: -180px;
+  background: rgba(37, 99, 235, 0.35);
+}
+
+.reviews-page-section::after {
+  bottom: -210px;
+  right: -160px;
+  background: rgba(56, 189, 248, 0.22);
+  animation-duration: 28s;
+}
+
+@keyframes reviewsPageFloat {
+  0% {
+    transform: translateY(-40px);
+  }
+  50% {
+    transform: translateY(40px);
+  }
+  100% {
+    transform: translateY(-40px);
+  }
 }
 
 /* ===========================================================
-   TITLES
+   HEAD
    =========================================================== */
 
-.reviews-page-title {
-  font-size: clamp(2.2rem, 4vw, 3rem);
-  font-weight: 800;
-  margin-bottom: 12px;
-  letter-spacing: 0.6px;
-  color: #fff;
+.reviews-page-head {
+  max-width: 780px;
+  margin: 0 auto 3.5rem;
+  text-align: center;
+}
 
-  text-shadow: 0 0 18px rgba(59, 130, 246, 0.4);
+/* как about-kicker */
+.reviews-page-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  max-width: 100%;
+
+  padding: 6px 18px;
+  margin-bottom: 0.85rem;
+
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+
+  color: #cbd5f5;
+  background: rgba(14, 139, 255, 0.17);
+  border-radius: 999px;
+  border: 1px solid rgba(14, 139, 255, 0.55);
+  text-shadow: 0 0 8px rgba(14, 139, 255, 0.4);
+}
+
+.reviews-page-title {
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  margin-bottom: 0.6rem;
+
+  text-shadow:
+    0 0 1px rgba(148, 163, 184, 0.8),
+    0 0 16px rgba(37, 99, 235, 0.4);
 }
 
 .reviews-page-subtitle {
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  color: #94a3b8;
-  margin-bottom: 60px;
-  max-width: 620px;
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: #c1ccde;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
 /* ===========================================================
-   GRID — CENTERED, PREMIUM SPACING
+   GRID — CENTERED PREMIUM
    =========================================================== */
 
 .reviews-page-grid {
   width: 100%;
-  max-width: 1250px;
+  max-width: 1240px;
+
+  margin-top: 2.5rem;
 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 32px;
 
-  animation: fadeGrid 0.6s ease-out;
+  animation: reviewsGridFade 0.6s ease-out;
+  will-change: transform, opacity;
 }
 
-@keyframes fadeGrid {
-  from { opacity: 0; transform: translateY(15px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes reviewsGridFade {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ===========================================================
-   CARD — PREMIUM GLASS STYLE
+   CARD — Soft Glass, Corporate Premium (Style B)
    =========================================================== */
 
 .review-card.big {
   position: relative;
-  padding: 32px;
-  border-radius: 22px;
+  padding: 28px 26px 26px;
+  border-radius: 24px;
 
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  /* мягкий navy-glass как в about */
+  background: radial-gradient(
+      circle at top left,
+      rgba(15, 23, 42, 0.96),
+      rgba(15, 23, 42, 0.9)
+    );
+  border: 1px solid rgba(148, 163, 184, 0.55);
 
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 
   box-shadow:
-    0 12px 28px rgba(0, 0, 0, 0.45),
-    inset 0 0 16px rgba(255, 255, 255, 0.04);
+    0 20px 55px rgba(15, 23, 42, 0.95),
+    inset 0 0 18px rgba(255, 255, 255, 0.02);
 
-  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease,
+    background 0.35s ease;
   overflow: hidden;
+
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  will-change: transform, box-shadow;
 }
 
-/* Glow hover effect */
-.review-card.big:hover {
-  transform: translateY(-8px) scale(1.03);
-
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.65),
-    0 0 32px rgba(59, 130, 246, 0.22);
-
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
-/* Light gradient glow */
+/* Мягкий свет сверху справа как в about */
 .review-card.big::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(56, 189, 248, 0.2),
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(59, 130, 246, 0.22),
+      transparent 65%
+    );
+  mix-blend-mode: screen;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Дополнительный soft highlight при hover */
+.review-card.big::after {
   content: "";
   position: absolute;
   inset: 0;
   background: radial-gradient(
     circle at top right,
-    rgba(59, 130, 246, 0.18),
-    transparent 55%
+    rgba(255, 255, 255, 0.12),
+    transparent 72%
   );
-  opacity: 0.5;
+  opacity: 0;
+  transition: opacity 0.4s ease;
   pointer-events: none;
+}
+
+/* Hover — без яркого неона, но очень премиум */
+.review-card.big:hover {
+  background: radial-gradient(
+      circle at top left,
+      rgba(15, 23, 42, 0.98),
+      rgba(15, 23, 42, 0.94)
+    );
+  border-color: rgba(226, 232, 240, 0.7);
+
+  box-shadow:
+    0 24px 70px rgba(15, 23, 42, 0.98),
+    0 0 32px rgba(15, 118, 220, 0.35);
+}
+
+.review-card.big:hover::after {
+  opacity: 1;
 }
 
 /* ===========================================================
@@ -120,35 +248,55 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
-.review-avatar {
+/* Оболочка аватара — как небольшая мини-карточка */
+.review-avatar-shell {
   width: 56px;
   height: 56px;
+  border-radius: 999px;
+  padding: 2px;
 
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.07);
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(248, 250, 252, 0.9),
+    rgba(148, 163, 184, 0.4)
+  );
+  box-shadow:
+    0 0 18px rgba(148, 163, 184, 0.8),
+    0 0 24px rgba(30, 64, 175, 0.9);
 
   display: flex;
   align-items: center;
   justify-content: center;
+}
 
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+.review-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
   object-fit: cover;
+  background: #020617;
 }
 
 .review-author {
   font-weight: 700;
   font-size: 1.1rem;
-  color: #fff;
+  color: #f9fafb;
+  letter-spacing: 0.3px;
 }
 
 .review-rating {
   color: #facc15;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   margin-top: 2px;
+}
+
+.review-rating-outof {
+  font-size: 0.8rem;
+  margin-left: 4px;
+  color: #e2e8f0;
 }
 
 /* ===========================================================
@@ -156,77 +304,93 @@
    =========================================================== */
 
 .review-text {
-  line-height: 1.6;
-  font-size: 1.05rem;
-  color: #cbd5e1;
-  letter-spacing: 0.25px;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+  margin-top: 6px;
+  line-height: 1.7;
+  font-size: 1.02rem;
+  color: #d1ddf4;
+  letter-spacing: 0.22px;
+}
+
+/* чуть подчёркиваем читабельность */
+.review-text::first-letter {
+  font-size: 1.12rem;
 }
 
 /* ===========================================================
-   3D TILT GLOBAL STYLES
+   3D TILT SAFETY
    =========================================================== */
 
-.review-card,
 .review-card.big {
   transform-style: preserve-3d;
   perspective: 1000px;
-  will-change: transform, box-shadow;
-}
-
-/* Soft glow on hover */
-.review-card:hover,
-.review-card.big:hover {
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.65),
-    0 0 40px rgba(59,130,246,0.35);
-}
-
-/* gradient lighting on hover */
-.review-card::after,
-.review-card.big::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at top right,
-      rgba(255,255,255,0.1),
-      transparent 70%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-
-.review-card:hover::after,
-.review-card.big:hover::after {
-  opacity: 1;
 }
 
 /* ===========================================================
    RESPONSIVE
    =========================================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .reviews-page-section {
-    padding: 110px 16px 80px;
+    padding: 120px 20px 90px;
   }
 
   .reviews-page-title {
     font-size: 2.4rem;
   }
 
+  .reviews-page-grid {
+    gap: 26px;
+  }
+
   .review-card.big {
-    padding: 24px;
+    padding: 24px 22px 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .reviews-page-section {
+    padding: 110px 18px 80px;
+  }
+
+  .reviews-page-head {
+    margin-bottom: 2.6rem;
+  }
+
+  .reviews-page-title {
+    font-size: 2.1rem;
+  }
+
+  .reviews-page-subtitle {
+    font-size: 0.98rem;
   }
 
   .reviews-page-grid {
     grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+
+  .review-card.big {
+    padding: 22px 20px 20px;
+  }
+
+  .review-avatar-shell {
+    width: 50px;
+    height: 50px;
+  }
+
+  .review-author {
+    font-size: 1rem;
+  }
+
+  .review-text {
+    font-size: 0.98rem;
   }
 }
 
-/* TRUE MOBILE ADAPTATION — PHONES ONLY (<360px) */
+/* TRUE MOBILE — <360px */
 @media (max-width: 360px) {
   .reviews-page-section {
-    padding: 100px 10px 60px;
+    padding: 100px 12px 60px;
   }
 
   .reviews-page-title {
@@ -235,24 +399,22 @@
   }
 
   .reviews-page-subtitle {
-    font-size: 0.95rem;
-    margin-bottom: 35px;
-    padding: 0 6px;
+    font-size: 0.93rem;
+    margin-bottom: 28px;
   }
 
   .reviews-page-grid {
-    grid-template-columns: 1fr;
     gap: 16px;
   }
 
   .review-card.big {
-    padding: 18px;
-    border-radius: 16px;
+    padding: 18px 16px 18px;
+    border-radius: 18px;
   }
 
-  .review-avatar {
-    width: 40px;
-    height: 40px;
+  .review-avatar-shell {
+    width: 42px;
+    height: 42px;
   }
 
   .review-author {
@@ -260,16 +422,15 @@
   }
 
   .review-rating {
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
 
   .review-text {
     font-size: 0.9rem;
-    line-height: 1.4;
+    line-height: 1.5;
   }
 
-  /* Disable 3D on very small phones */
-  .review-card,
+  /* отключаем tilt для совсем маленьких экранов */
   .review-card.big {
     transform: none !important;
   }
