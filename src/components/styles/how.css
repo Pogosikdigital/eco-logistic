@@ -1,6 +1,5 @@
 /* ===========================================================
-   HOW IT WORKS — PREMIUM HERO-STYLE SECTION
-   Variant: A (Hero glass) + P3 (electric sparks) + G1 (2×2 grid)
+   HOW IT WORKS — PREMIUM HERO-STYLE SECTION (OPTIMIZED)
    =========================================================== */
 
 .how-section {
@@ -24,10 +23,7 @@
     transform 0.65s ease;
 }
 
-/* чуть-чуть подчищаем, когда прогресс > 0.05 */
-.how-section[style*="--how-progress: 0.0"] {
-  opacity: 0;
-}
+/* когда прогресс уже не нулевой — аккуратно показываем секцию */
 .how-section[style*="--how-progress: 0.1"],
 .how-section[style*="--how-progress: 0.2"],
 .how-section[style*="--how-progress: 0.3"],
@@ -49,122 +45,74 @@
 }
 
 /* ===========================================================
-   GLOW BACKGROUND / ELECTRIC SPARKS (P3)
+   GLOW BACKGROUND / ELECTRIC SPARKS (P3) — LIGHTER VERSION
    =========================================================== */
 
 .how-section::before,
 .how-section::after {
   content: "";
   position: absolute;
-  width: 420px;
-  height: 420px;
+  width: 340px;
+  height: 340px;
   border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.2;
+  filter: blur(80px); /* БЫЛО 120px — стало легче для GPU */
+  opacity: 0.18;
   pointer-events: none;
   z-index: 0;
 }
 
 .how-section::before {
-  top: -180px;
-  left: -160px;
-  background: rgba(14, 139, 255, 0.32);
+  top: -150px;
+  left: -130px;
+  background: rgba(14, 139, 255, 0.28);
 }
 
 .how-section::after {
-  bottom: -190px;
-  right: -160px;
-  background: rgba(34, 211, 238, 0.26);
+  bottom: -150px;
+  right: -130px;
+  background: rgba(34, 211, 238, 0.22);
 }
 
-/* базовый стиль "частицы" */
+/* базовый стиль "частицы" — только мерцание, без сложных transform */
 .how-particle {
   position: absolute;
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   pointer-events: none;
   z-index: 1;
 
   background: radial-gradient(circle, var(--accent-neon-1), transparent 65%);
   box-shadow:
-    0 0 10px rgba(111, 219, 255, 0.9),
-    0 0 22px rgba(159, 235, 255, 0.8);
-  opacity: 0.35;
+    0 0 8px rgba(111, 219, 255, 0.8),
+    0 0 18px rgba(159, 235, 255, 0.7);
+  opacity: 0.3;
 
-  /* небольшое мерцание без трогания transform */
+  /* лёгкое мерцание без постоянного пересчёта transform JS-ом */
   animation: howSparkPulse 4.6s ease-in-out infinite;
 }
 
-/* разные позиции + лёгкий параллакс по --how-progress */
-.how-p1 {
-  top: 6%;
-  left: 12%;
-  transform: translate3d(
-    calc(var(--how-progress) * -12px),
-    calc(var(--how-progress) * 10px),
-    0
-  );
-}
-.how-p2 {
-  top: 18%;
-  right: 10%;
-  transform: translate3d(
-    calc(var(--how-progress) * 18px),
-    calc(var(--how-progress) * -12px),
-    0
-  );
-}
-.how-p3 {
-  top: 40%;
-  left: 6%;
-  transform: translate3d(
-    calc(var(--how-progress) * -20px),
-    calc(var(--how-progress) * 6px),
-    0
-  );
-}
-.how-p4 {
-  top: 48%;
-  right: 6%;
-  transform: translate3d(
-    calc(var(--how-progress) * 12px),
-    calc(var(--how-progress) * -16px),
-    0
-  );
-}
-.how-p5 {
-  bottom: 22%;
-  left: 18%;
-  transform: translate3d(
-    calc(var(--how-progress) * -10px),
-    calc(var(--how-progress) * 14px),
-    0
-  );
-}
-.how-p6 {
-  bottom: 16%;
-  right: 14%;
-  transform: translate3d(
-    calc(var(--how-progress) * 10px),
-    calc(var(--how-progress) * -10px),
-    0
-  );
-}
+/* позиции частиц — СТАТИЧНЫЕ (без var(--how-progress)) */
+.how-p1 { top: 6%;   left: 12%; }
+.how-p2 { top: 18%;  right: 10%; }
+.how-p3 { top: 40%;  left: 6%; }
+.how-p4 { top: 48%;  right: 6%; }
+.how-p5 { bottom: 22%; left: 18%; }
+.how-p6 { bottom: 16%; right: 14%; }
 
-/* ещё пару мелких искорок ближе к сетке */
+/* ещё пара маленьких искорок ближе к сетке */
 .how-p7 {
   top: 30%;
   left: 48%;
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   opacity: 0.4;
 }
 .how-p8 {
   bottom: 32%;
   right: 46%;
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   opacity: 0.35;
 }
 .how-p9 {
@@ -178,27 +126,27 @@
 /* лёгкое мерцание как электрический spark */
 @keyframes howSparkPulse {
   0% {
-    opacity: 0.15;
+    opacity: 0.16;
     box-shadow:
-      0 0 6px rgba(111, 219, 255, 0.6),
-      0 0 14px rgba(159, 235, 255, 0.4);
+      0 0 5px rgba(111, 219, 255, 0.5),
+      0 0 12px rgba(159, 235, 255, 0.35);
   }
   50% {
-    opacity: 0.5;
+    opacity: 0.55;
     box-shadow:
-      0 0 12px rgba(111, 219, 255, 1),
-      0 0 26px rgba(159, 235, 255, 0.9);
+      0 0 10px rgba(111, 219, 255, 0.95),
+      0 0 22px rgba(159, 235, 255, 0.85);
   }
   100% {
     opacity: 0.2;
     box-shadow:
-      0 0 6px rgba(111, 219, 255, 0.6),
-      0 0 14px rgba(159, 235, 255, 0.4);
+      0 0 5px rgba(111, 219, 255, 0.5),
+      0 0 12px rgba(159, 235, 255, 0.35);
   }
 }
 
 /* ===========================================================
-   HEADER (лейбл / title / subtitle) — стиль как HERO
+   HEADER (лейбл / title / subtitle)
    =========================================================== */
 
 .how-label {
@@ -260,16 +208,16 @@
   gap: 1.8rem;
   margin-top: 0.5rem;
 
-  /* вся сетка тихо "поднимается", когда прогресс растёт */
-  transform: translateY(calc((1 - var(--how-progress)) * 26px));
-  opacity: calc(0.45 + var(--how-progress) * 0.55);
+  /* сетка мягко "поднимается" в зависимости от scroll-прогресса */
+  transform: translateY(calc((1 - var(--how-progress)) * 20px));
+  opacity: calc(0.5 + var(--how-progress) * 0.5);
   transition:
     transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.6s ease;
 }
 
 /* ===========================================================
-   CARDS — HERO GLASS STYLE (как в Hero, но компактно)
+   CARDS — HERO GLASS STYLE (облегчённый)
    =========================================================== */
 
 .how-card {
@@ -283,8 +231,8 @@
   -webkit-backdrop-filter: blur(var(--glass-blur));
 
   box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.6),
-    0 0 42px rgba(56, 189, 248, 0.16);
+    0 16px 36px rgba(0, 0, 0, 0.55),
+    0 0 32px rgba(56, 189, 248, 0.14);
 
   display: flex;
   flex-direction: column;
@@ -300,7 +248,7 @@
     transform 0.35s ease;
 }
 
-/* лёгкий верхний неон как в HERO */
+/* лёгкий верхний неон */
 .how-card::before {
   content: "";
   position: absolute;
@@ -314,27 +262,21 @@
   pointer-events: none;
 }
 
-/* hover: чуть глубже и светлее */
+/* базовый "слегка снизу" эффект через прогресс — без жёстких значений */
+.how-card:nth-child(odd) {
+  transform: translateY(calc((1 - var(--how-progress)) * 10px));
+}
+.how-card:nth-child(even) {
+  transform: translateY(calc((1 - var(--how-progress)) * 16px));
+}
+
+/* hover поверх базовой позиции */
 .how-card:hover {
   background: rgba(15, 23, 42, 0.98);
   border-color: rgba(248, 250, 252, 0.22);
   box-shadow:
     0 24px 60px rgba(0, 0, 0, 0.75),
     0 0 70px rgba(59, 130, 246, 0.35);
-  transform: translateY(-6px);
-}
-
-/* немного "степовой" stagger: левый столбец чуть иначе чем правый */
-.how-card:nth-child(odd) {
-  transform: translateY(calc((1 - var(--how-progress)) * 20px));
-}
-.how-card:nth-child(even) {
-  transform: translateY(calc((1 - var(--how-progress)) * 28px));
-}
-
-/* + небольшой hover-эффект, поверх анимации скролла */
-.how-card:nth-child(odd):hover,
-.how-card:nth-child(even):hover {
   transform: translateY(-6px);
 }
 
@@ -361,8 +303,8 @@
 
   background: radial-gradient(circle at 30% 20%, #e0f2fe, #38bdf8);
   box-shadow:
-    0 0 18px rgba(59, 130, 246, 0.9),
-    0 0 28px rgba(56, 189, 248, 0.5);
+    0 0 16px rgba(59, 130, 246, 0.9),
+    0 0 24px rgba(56, 189, 248, 0.5);
 }
 
 .how-card-header h3 {
@@ -407,7 +349,7 @@
   .how-grid {
     grid-template-columns: minmax(0, 1fr);
     gap: 1.4rem;
-    transform: translateY(calc((1 - var(--how-progress)) * 20px));
+    transform: translateY(calc((1 - var(--how-progress)) * 16px));
   }
 
   .how-card {

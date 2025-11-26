@@ -80,13 +80,17 @@
 
   background:
     /* top */
-    linear-gradient(90deg, rgba(59,130,246,0.8), rgba(59,130,246,0) 70%) top left/200% 2px no-repeat,
+    linear-gradient(90deg, rgba(59, 130, 246, 0.8), rgba(59, 130, 246, 0) 70%)
+      top left / 200% 2px no-repeat,
     /* right */
-    linear-gradient(180deg, rgba(59,130,246,0.8), rgba(59,130,246,0) 70%) top right/2px 200% no-repeat,
+    linear-gradient(180deg, rgba(59, 130, 246, 0.8), rgba(59, 130, 246, 0) 70%)
+      top right / 2px 200% no-repeat,
     /* bottom */
-    linear-gradient(270deg, rgba(59,130,246,0.8), rgba(59,130,246,0) 70%) bottom right/200% 2px no-repeat,
+    linear-gradient(270deg, rgba(59, 130, 246, 0.8), rgba(59, 130, 246, 0) 70%)
+      bottom right / 200% 2px no-repeat,
     /* left */
-    linear-gradient(0deg, rgba(59,130,246,0.8), rgba(59,130,246,0) 70%) bottom left/2px 200% no-repeat;
+    linear-gradient(0deg, rgba(59, 130, 246, 0.8), rgba(59, 130, 246, 0) 70%)
+      bottom left / 2px 200% no-repeat;
 
   animation: runBorder 4s linear infinite;
 }
@@ -174,7 +178,11 @@
     inset 0 0 6px rgba(56, 189, 248, 0.4);
 
   cursor: pointer;
-  transition: 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
   backdrop-filter: blur(12px);
 
   animation: neonPulse 2.2s infinite ease-in-out;
@@ -380,31 +388,12 @@
     color 0.2s ease;
 }
 
-/* placeholder=" " + псевдокласс */
-
+/* placeholder-хак: текст скрыт, чтобы label работал как плейсхолдер */
 .field-input::placeholder {
   color: transparent;
 }
 
-.field-input:focus + .something {
-  outline: none;
-}
-
-/* когда поле в фокусе или заполнено */
-.field-input:focus ~ .field-label,
-.field-input:not(:placeholder-shown) ~ .field-label,
-.textarea-input:focus ~ .field-label,
-.textarea-input:not(:placeholder-shown) ~ .field-label {
-  top: 9px;
-  transform: translateY(0);
-  font-size: 0.74rem;
-  color: #7dd3fc;
-}
-
-/* Хак: label после input? мы использовали label до input.
-   Исправляем порядок: в JSX label идёт ДО input. Тогда
-   применим селектор через :focus-within у оболочки. */
-
+/* Основная логика поднятия label — focus + заполненное поле (современные браузеры) */
 .field-shell:focus-within .field-label {
   top: 9px;
   transform: translateY(0);
@@ -412,8 +401,9 @@
   color: #7dd3fc;
 }
 
-/* Если инпут не пустой — тоже поднимаем */
-.field-shell.has-value .field-label {
+/* :has — для случаев, когда поле не пустое, но не в фокусе */
+.field-shell:has(.field-input:not(:placeholder-shown)) .field-label,
+.field-shell:has(.textarea-input:not(:placeholder-shown)) .field-label {
   top: 9px;
   transform: translateY(0);
   font-size: 0.74rem;
@@ -501,7 +491,8 @@
   transition:
     transform 0.3s ease,
     filter 0.3s ease,
-    box-shadow 0.3s ease;
+    box-shadow 0.3s ease,
+    background 0.3s ease;
 }
 
 .contact-cta:hover:not(:disabled) {
@@ -556,13 +547,17 @@
   align-items: center;
   justify-content: center;
 
-  transition: 0.35s ease;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
   cursor: pointer;
 }
 
 .social-link:hover {
   transform: scale(1.18);
   box-shadow: 0 0 22px rgba(59, 130, 246, 0.7);
+  border-color: rgba(59, 130, 246, 0.9);
 }
 
 .social-img {
@@ -596,5 +591,30 @@
 
   .contact-title {
     font-size: 1.9rem;
+  }
+}
+
+/* ===========================================================
+   ACCESSIBILITY: PREFERS-REDUCED-MOTION
+   =========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-section {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .border-runner {
+    animation: none;
+  }
+
+  .neon-pulse-btn,
+  .neon-pulse-btn::after {
+    animation: none;
+  }
+
+  .error-text {
+    animation: none;
   }
 }

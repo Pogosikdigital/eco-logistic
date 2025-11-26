@@ -4,9 +4,9 @@ import "./styles/how.css";
 
 function HowItWorksComponent() {
   const sectionRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0); // 0 → 1
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Статичные данные шагов (через useMemo, чтобы не создавать массив на каждый рендер)
+  // STATIC STEPS — optimized
   const steps = useMemo(
     () => [
       {
@@ -33,50 +33,41 @@ function HowItWorksComponent() {
     []
   );
 
-  // Скролл-логика: плавно обновляем CSS-переменную --how-progress (0–1)
+  // Smooth scroll progress → CSS variable
   useEffect(() => {
-    const sectionEl = sectionRef.current;
-    if (!sectionEl) return;
+    const el = sectionRef.current;
+    if (!el) return;
 
     let frameId = null;
 
-    const updateProgress = () => {
+    const update = () => {
       frameId = null;
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const h = rect.height;
 
-      const rect = sectionEl.getBoundingClientRect();
-      const viewportHeight =
-        window.innerHeight || document.documentElement.clientHeight || 1;
+      const viewportMid = vh * 0.5;
+      const dist = viewportMid - rect.top;
+      let p = dist / h;
+      if (p < 0) p = 0;
+      if (p > 1) p = 1;
 
-      const sectionHeight = rect.height || sectionEl.offsetHeight || 1;
-
-      // Берём середину вьюпорта как точку отсчёта
-      const viewportMid = viewportHeight * 0.5;
-      const distance = viewportMid - rect.top; // сколько "секция под серединой"
-      let progress = distance / sectionHeight;
-
-      if (progress < 0) progress = 0;
-      else if (progress > 1) progress = 1;
-
-      setScrollProgress(progress);
+      setScrollProgress(p);
     };
 
-    const handleScroll = () => {
+    const handler = () => {
       if (frameId !== null) return;
-      frameId = window.requestAnimationFrame(updateProgress);
+      frameId = requestAnimationFrame(update);
     };
 
-    // начальный расчёт (если секция уже в зоне видимости)
-    updateProgress();
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll);
+    update();
+    window.addEventListener("scroll", handler, { passive: true });
+    window.addEventListener("resize", handler);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-      if (frameId !== null) {
-        window.cancelAnimationFrame(frameId);
-      }
+      window.removeEventListener("scroll", handler);
+      window.removeEventListener("resize", handler);
+      if (frameId) cancelAnimationFrame(frameId);
     };
   }, []);
 
@@ -86,7 +77,6 @@ function HowItWorksComponent() {
       className="how-section"
       id="how"
       aria-label="How EcoHub Logistics vehicle transport works"
-      // передаём прогресс в CSS как переменную
       style={{ "--how-progress": scrollProgress }}
       itemScope
       itemType="https://schema.org/HowTo"
@@ -100,7 +90,7 @@ function HowItWorksComponent() {
         content="Step-by-step auto transport process: request a quote, book and schedule, pickup and transit, delivery and inspection."
       />
 
-      {/* плавающие точки-глоу (теперь реагируют на скролл) */}
+      {/* float particles */}
       <div className="how-particle how-p1" aria-hidden="true" />
       <div className="how-particle how-p2" aria-hidden="true" />
       <div className="how-particle how-p3" aria-hidden="true" />
@@ -112,16 +102,13 @@ function HowItWorksComponent() {
       <div className="how-particle how-p9" aria-hidden="true" />
 
       <div className="how-container">
-        <span className="how-label" itemProp="step">
-          Step-by-step process
-        </span>
+        <span className="how-label">Step-by-step process</span>
 
         <h2 className="how-title">How it works</h2>
         <p className="how-subtitle">
           Simple, transparent steps from pickup to delivery.
         </p>
 
-        {/* Для доступности обозначаем список шагов */}
         <div
           className="how-grid"
           role="list"
@@ -137,12 +124,12 @@ function HowItWorksComponent() {
               itemType="https://schema.org/HowToStep"
             >
               <meta itemProp="position" content={String(step.number)} />
+
               <div className="how-card-header">
-                <div className="step-number" aria-hidden="true">
-                  {step.number}
-                </div>
+                <div className="step-number">{step.number}</div>
                 <h3 itemProp="name">{step.title}</h3>
               </div>
+
               <p itemProp="text">{step.text}</p>
             </article>
           ))}
