@@ -10,7 +10,8 @@ import { Link } from "react-router-dom";
 import "./styles/reviews.css";
 import { reviewsData } from "../data/reviewsData";
 
-const AUTO_SCROLL_SPEED = 0.35; // px per frame
+// Скорость автоскролла (px / секунда) — подобрано под комфортное чтение
+const SCROLL_SPEED = 35;
 
 function Reviews() {
   const sectionRef = useRef(null);
@@ -19,9 +20,10 @@ function Reviews() {
   const [isVisible, setIsVisible] = useState(false);
   const [enableTilt, setEnableTilt] = useState(false);
 
-  // Храним позицию и id кадра в ref (чтобы не терять при рендерах)
+  // позиция дорожки + id кадра + время предыдущего кадра
   const positionRef = useRef(0);
   const frameIdRef = useRef(null);
+  const lastTimeRef = useRef(null);
   const prefersReducedMotionRef = useRef(false);
 
   // Базовые отзывы (мемоизация)
@@ -58,20 +60,33 @@ function Reviews() {
 
     // Reduced motion
     const mq = window.matchMedia?.("(prefers-reduced-motion: reduce)");
-    if (mq) {
-      prefersReducedMotionRef.current = mq.matches;
-      const listener = (event) => {
-        prefersReducedMotionRef.current = event.matches;
-      };
-      mq.addEventListener?.("change", listener);
-      // fallback для старых браузеров
-      mq.addListener?.(listener);
+    if (!mq) return;
 
-      return () => {
-        mq.removeEventListener?.("change", listener);
-        mq.removeListener?.(listener);
-      };
-    }
+    prefersReducedMotionRef.current = mq.matches;
+
+    const listener = (event) => {
+      prefersReducedMotionRef.current = event.matches;
+
+      // Если пользователь включает reduced motion — останавливаем анимацию
+      if (event.matches && frameIdRef.current !== null) {
+        window.cancelAnimationFrame(frameIdRef.current);
+        frameIdRef.current = null;
+        lastTimeRef.current = null;
+        const track = trackRef.current;
+        if (track) {
+          track.style.transform = "translate3d(0, 0, 0)";
+          positionRef.current = 0;
+        }
+      }
+    };
+
+    mq.addEventListener?.("change", listener);
+    mq.addListener?.(listener); // fallback для старых браузеров
+
+    return () => {
+      mq.removeEventListener?.("change", listener);
+      mq.removeListener?.(listener);
+    };
   }, []);
 
   useEffect(() => {
@@ -102,12 +117,10 @@ function Reviews() {
     }
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        });
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsVisible(true);
+        observer.unobserve(entry.target);
       },
       { threshold: 0.2 }
     );
@@ -118,7 +131,7 @@ function Reviews() {
   }, []);
 
   /* ------------------------------------------------------------
-     Автоскролл дорожки (бесконечный loop)
+     Автоскролл дорожки (бесконечный loop, завязанный на время)
   ------------------------------------------------------------ */
   useEffect(() => {
     const track = trackRef.current;
@@ -131,19 +144,29 @@ function Reviews() {
     }
 
     positionRef.current = 0;
+    lastTimeRef.current = null;
 
-    const animate = () => {
+    const animate = (time) => {
       const trackEl = trackRef.current;
       if (!trackEl) return;
 
-      positionRef.current -= AUTO_SCROLL_SPEED;
-      trackEl.style.transform = `translate3d(${positionRef.current}px, 0, 0)`;
+      if (lastTimeRef.current == null) {
+        lastTimeRef.current = time;
+      }
+
+      const deltaSeconds = (time - lastTimeRef.current) / 1000;
+      lastTimeRef.current = time;
+
+      // Смещение зависит от времени кадра → супер плавно на любом FPS
+      positionRef.current -= SCROLL_SPEED * deltaSeconds;
 
       const resetAt = trackEl.scrollWidth / 2;
       if (resetAt > 0 && Math.abs(positionRef.current) >= resetAt) {
-        positionRef.current = 0;
+        // сохраняем "остаток", чтобы не было скачка
+        positionRef.current += resetAt * Math.sign(positionRef.current);
       }
 
+      trackEl.style.transform = `translate3d(${positionRef.current}px, 0, 0)`;
       frameIdRef.current = window.requestAnimationFrame(animate);
     };
 
@@ -154,6 +177,7 @@ function Reviews() {
         window.cancelAnimationFrame(frameIdRef.current);
         frameIdRef.current = null;
       }
+      lastTimeRef.current = null;
     };
   }, [duplicatedReviews]);
 
@@ -256,9 +280,6 @@ function Reviews() {
               onMouseMove={handleCardMove}
               onMouseLeave={handleCardLeave}
             >
-              <meta itemProp="author" content={rev.author} />
-              <meta itemProp="reviewRating" content={String(rev.rating)} />
-
               <header className="review-header">
                 <div className="review-avatar-wrapper">
                   <img
@@ -271,8 +292,20 @@ function Reviews() {
                 </div>
 
                 <div>
-                  <p className="review-author">{rev.author}</p>
-                  <p className="review-rating">
+                  <p className="review-author" itemProp="author">
+                    {rev.author}
+                  </p>
+
+                  <p
+                    className="review-rating"
+                    itemProp="reviewRating"
+                    itemScope
+                    itemType="https://schema.org/Rating"
+                  >
+                    <meta
+                      itemProp="ratingValue"
+                      content={String(rev.rating)}
+                    />
                     {"★".repeat(rev.rating)}
                     <span className="review-rating-outof">/5</span>
                   </p>

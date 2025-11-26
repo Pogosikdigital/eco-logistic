@@ -12,11 +12,12 @@ import trucksImage from "../assets/truck.jpg";
 
 function AboutSectionComponent() {
   const sectionRef = useRef(null);
+  const mediaRef = useRef(null);
+
   const [isVisible, setIsVisible] = useState(false);
-  const [enableTilt, setEnableTilt] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  // Bullet-пункты как данные (SEO + удобство)
+  // Запоминаем пункты (SEO + производительность)
   const bulletPoints = useMemo(
     () => [
       "Nationwide coverage for cars, box trucks, and Amazon vans.",
@@ -27,99 +28,75 @@ function AboutSectionComponent() {
     []
   );
 
-  // IntersectionObserver → запускаем анимацию один раз
+  // SECTION FADE-IN
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+    const el = sectionRef.current;
+    if (!el) return;
 
-    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+    if (!("IntersectionObserver" in window)) {
       setIsVisible(true);
       return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          obs.disconnect();
+        }
       },
-      { threshold: 0.25 }
+      { threshold: 0.22 }
     );
 
-    observer.observe(section);
-    return () => observer.disconnect();
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
 
-  // Включаем 3D-tilt только на десктопе
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  // 3D TILT — через requestAnimationFrame (плавней)
+  const tiltFrame = useRef(null);
 
-    const handleResize = () => {
-      setEnableTilt(window.innerWidth >= 768);
-    };
+  const handleTilt = useCallback((e) => {
+    const card = mediaRef.current;
+    if (!card || window.innerWidth < 900 || !isVisible) return;
 
-    handleResize(); // первый расчёт
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    if (tiltFrame.current) cancelAnimationFrame(tiltFrame.current);
 
-  // 3D-tilt для карточки с траком
-  const handleMediaMouseMove = useCallback(
-    (event) => {
-      if (!enableTilt || !isVisible) return;
-
-      const card = event.currentTarget;
+    tiltFrame.current = requestAnimationFrame(() => {
       const rect = card.getBoundingClientRect();
-
-      const x = event.clientX - rect.left - rect.width / 2;
-      const y = event.clientY - rect.top - rect.height / 2;
-
-      const rotateX = (y / rect.height) * -10;
-      const rotateY = (x / rect.width) * 10;
+      const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+      const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
 
       card.style.transform = `
         perspective(1100px)
-        translateY(-4px)
-        rotateX(${rotateX}deg)
-        rotateY(${rotateY}deg)
+        translate3d(0, -4px, 0)
+        rotateX(${y * -10}deg)
+        rotateY(${x * 10}deg)
       `;
-    },
-    [enableTilt, isVisible]
-  );
+    });
+  }, [isVisible]);
 
-  const handleMediaMouseLeave = useCallback(
-    (event) => {
-      if (!enableTilt) return;
-      const card = event.currentTarget;
+  const resetTilt = useCallback(() => {
+    const card = mediaRef.current;
+    if (!card) return;
 
-      card.style.transform = `
-        perspective(1100px)
-        translateY(0)
-        rotateX(0deg)
-        rotateY(0deg)
-      `;
-    },
-    [enableTilt]
-  );
+    card.style.transform = `
+      perspective(1100px)
+      translate3d(0, 0, 0)
+      rotateX(0)
+      rotateY(0)
+    `;
+  }, []);
 
   return (
     <section
       ref={sectionRef}
       id="about"
       className={`about-section ${isVisible ? "about-section--visible" : ""}`}
+      aria-label="About EcoHub Logistics Inc — nationwide auto transport"
       itemScope
       itemType="https://schema.org/Organization"
-      aria-label="About EcoHub Logistics Inc auto transport company"
     >
-      {/* SEO / Schema.org */}
       <meta itemProp="name" content="EcoHub Logistics Inc" />
-      <meta
-        itemProp="description"
-        content="EcoHub Logistics Inc is a trusted auto transport company providing safe, insured nationwide vehicle shipping across the United States."
-      />
 
       <div className="about-container">
         {/* HEADER */}
@@ -127,27 +104,24 @@ function AboutSectionComponent() {
           <p className="about-kicker">About Us</p>
           <h2 className="about-title">About EcoHub Logistics Inc</h2>
           <p className="about-subtitle">
-            EcoHub Logistics Inc is a trusted auto transport company that
-            provides safe, insured vehicle shipping across the United States.
+            Safe, insured nationwide transport for cars, trucks, vans, and commercial fleets.
           </p>
         </header>
 
-        {/* GRID: Truck + Content */}
         <div className="about-grid">
-          {/* LEFT — TRUCK CARD (3D slide-in + tilt) */}
+          {/* LEFT — IMAGE PANEL */}
           <figure
+            ref={mediaRef}
             className="about-media"
+            onMouseMove={handleTilt}
+            onMouseLeave={resetTilt}
             aria-hidden="true"
-            onMouseMove={handleMediaMouseMove}
-            onMouseLeave={handleMediaMouseLeave}
           >
             <div className="about-media-inner">
               <img
                 src={trucksImage}
-                alt="White car carrier truck transporting vehicles on the highway in the United States"
-                className={`about-image ${
-                  imageLoaded ? "about-image--loaded" : ""
-                }`}
+                alt="Car hauler truck transporting vehicles across the United States"
+                className={`about-image ${imageLoaded ? "about-image--loaded" : ""}`}
                 loading="lazy"
                 decoding="async"
                 onLoad={() => setImageLoaded(true)}
@@ -155,36 +129,31 @@ function AboutSectionComponent() {
             </div>
           </figure>
 
-          {/* RIGHT — TEXT CARD */}
+          {/* RIGHT — TEXT */}
           <article className="about-content">
-            <p className="about-tag">Vehicle shipping experts</p>
+            <p className="about-tag">Vehicle Shipping Experts</p>
 
             <h3 className="about-content-title" itemProp="slogan">
-              Trusted partner for nationwide auto transport
+              Trusted Partner for Nationwide Auto Transport
             </h3>
 
             <p className="about-content-text">
-              We specialize in safe, on-time vehicle transport for dealerships,
-              individuals, fleets, and logistics partners. Our team coordinates
-              every stage of your shipment — from dispatch to final delivery —
-              keeping you updated along the way.
+              We provide insured, reliable transport for dealerships, individuals,
+              commercial fleets, and Amazon partners — coordinating dispatch,
+              tracking, carriers, and delivery.
             </p>
 
             <ul className="about-list">
-              {bulletPoints.map((item, index) => (
-                <li key={index} itemProp="makesOffer">
-                  <span className="about-dot" />
-                  <span className="about-list-text">{item}</span>
+              {bulletPoints.map((point, i) => (
+                <li key={i}>
+                  <span className="about-dot"></span>
+                  <span className="about-list-text">{point}</span>
                 </li>
               ))}
             </ul>
 
             <div className="about-actions">
-              <Link
-                to="/quote"
-                className="main-cta about-primary-cta"
-                aria-label="Get a free auto transport quote from EcoHub Logistics"
-              >
+              <Link to="/quote" className="main-cta about-primary-cta">
                 Get a Free Quote ›
               </Link>
 

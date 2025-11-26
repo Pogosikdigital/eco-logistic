@@ -20,20 +20,32 @@ import EarnWithUs from "./pages/EarnWithUs";
 function App() {
   const location = useLocation();
 
-  // 🔥 Авто-скролл к секции при переходе типа /#services, /#about, /#how...
+  /* ------------------------------------------------------------------
+     1) Scroll to TOP при переходе между страницами
+     ------------------------------------------------------------------ */
   useEffect(() => {
-    // скроллим ТОЛЬКО если мы на главной /
+    // Если есть hash — это якорь, пропускаем (scroll пойдет во втором эффекте)
+    if (location.hash) return;
+
+    // Скроллим вверх при смене pathname
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [location.pathname]);
+
+  /* ------------------------------------------------------------------
+     2) Scroll к секции при переходе типа "/#about" или "/#contact"
+     ------------------------------------------------------------------ */
+  useEffect(() => {
     if (location.pathname === "/" && location.hash) {
       const id = location.hash.replace("#", "");
-      
-      // ждём один тик, чтобы секции успели отрисоваться
+
       setTimeout(() => {
         const el = document.getElementById(id);
         if (el) {
-          el.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }, 0);
     }

@@ -1,5 +1,5 @@
 /* ===========================================================
-   HERO SECTION WRAPPER — FINAL PREMIUM VERSION (EcoHub Theme)
+   HERO — PERFORMANCE OPTIMIZED (Same Visual Look)
    =========================================================== */
 
 .hero {
@@ -11,22 +11,14 @@
   border-radius: 42px;
 
   color: #ffffff;
-
-  /* Используем глобальный градиент темы */
   background: var(--bg-gradient);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 35px 90px rgba(0, 0, 0, 0.65);
 
-  will-change: transform, opacity;
-  transform-origin: center top;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
 
-  /* для анимации появления через hero--hidden / hero--visible */
-  transition:
-    opacity 0.7s ease,
-    transform 0.7s ease;
+  transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-/* Состояния появления (IntersectionObserver) */
 .hero--hidden {
   opacity: 0;
   transform: translateY(28px);
@@ -38,24 +30,24 @@
 }
 
 /* ===========================================================
-   BACKGROUND LIGHT GLOW
+   BACKGROUND LIGHT
    =========================================================== */
 
 .hero-bg-gradient {
   position: absolute;
-  inset: -60px;
+  inset: -40px;
   z-index: -1;
 
   background:
-    radial-gradient(circle at 22% 36%, rgba(41, 135, 255, 0.26), transparent 60%),
-    radial-gradient(circle at 85% 72%, rgba(0, 209, 255, 0.22), transparent 65%),
-    radial-gradient(circle at 60% 18%, rgba(0, 255, 215, 0.18), transparent 55%);
-  filter: blur(26px);
+    radial-gradient(circle at 22% 36%, rgba(41, 135, 255, 0.22), transparent 55%),
+    radial-gradient(circle at 85% 72%, rgba(0, 209, 255, 0.18), transparent 60%),
+    radial-gradient(circle at 60% 18%, rgba(0, 255, 215, 0.14), transparent 50%);
+  filter: blur(16px);
   pointer-events: none;
 }
 
 /* ===========================================================
-   HERO INNER GRID
+   INNER GRID
    =========================================================== */
 
 .hero-inner {
@@ -63,12 +55,12 @@
   grid-template-columns: minmax(0, 1.3fr) minmax(320px, 440px);
   gap: 4rem;
   align-items: center;
-  z-index: 10;
   position: relative;
+  z-index: 10;
 }
 
 /* ===========================================================
-   LEFT — TEXT BLOCK
+   LEFT CONTENT
    =========================================================== */
 
 .hero-left {
@@ -83,7 +75,6 @@
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-
   color: #8fc6ff;
   border-radius: 999px;
   background: rgba(0, 140, 255, 0.12);
@@ -94,7 +85,6 @@
   margin-top: 0.6rem;
 }
 
-/* MAIN TITLE */
 .hero-title-primary {
   position: relative;
   padding-top: 8px;
@@ -102,14 +92,12 @@
   line-height: 1.1;
   font-weight: 700;
   margin: 0;
-
   text-shadow:
     0 0 1px rgba(80, 180, 255, 0.8),
     0 0 8px rgba(0, 140, 255, 0.75),
     0 0 10px rgba(0, 220, 255, 0.55);
 }
 
-/* NEON LINE UNDER TITLE */
 .hero-title-primary::after {
   content: "";
   position: absolute;
@@ -118,12 +106,10 @@
   width: 230px;
   height: 3px;
   border-radius: 999px;
-
   background: linear-gradient(90deg, #00c6ff, #4db8ff, #00ffd5);
   box-shadow:
     0 0 12px rgba(0, 198, 255, 0.9),
     0 0 26px rgba(0, 198, 255, 0.6);
-
   opacity: 0.95;
 }
 
@@ -133,7 +119,6 @@
   font-weight: 500;
   margin: 0;
   color: #d3e3ff;
-
   text-shadow:
     0 0 4px rgba(120, 190, 255, 0.7),
     0 0 16px rgba(0, 120, 255, 0.4);
@@ -144,7 +129,7 @@
   max-width: 540px;
   line-height: 1.7;
   color: #c9d4e1;
-  margin: 2rem 0 0;
+  margin-top: 2rem;
 }
 
 /* ===========================================================
@@ -164,7 +149,6 @@
   font-weight: 600;
   text-decoration: none;
   color: #ffffff;
-
   background: var(--cta-bg);
   box-shadow: 0 10px 25px rgba(0, 140, 255, 0.55);
   transition: 0.3s ease;
@@ -182,7 +166,6 @@
   text-decoration: none;
   font-weight: 500;
   color: #d9e6f7;
-
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: 0.3s ease;
@@ -193,7 +176,7 @@
 }
 
 /* ===========================================================
-   RIGHT — TRUCK IMAGE
+   RIGHT IMAGE
    =========================================================== */
 
 .hero-photo-col {
@@ -208,19 +191,18 @@
   aspect-ratio: 3 / 4;
 }
 
-/* Rim light / outer glow */
 .rim-light::before {
   content: "";
   position: absolute;
-  inset: -22px;
-  border-radius: 34px;
+  inset: -16px;
+  border-radius: 28px;
   background: linear-gradient(
     140deg,
-    rgba(0, 150, 255, 0.55),
-    rgba(0, 220, 255, 0.45),
-    rgba(0, 255, 200, 0.35)
+    rgba(0, 150, 255, 0.45),
+    rgba(0, 220, 255, 0.35),
+    rgba(0, 255, 200, 0.28)
   );
-  filter: blur(45px);
+  filter: blur(28px);
   z-index: -1;
 }
 
@@ -230,7 +212,6 @@
   overflow: hidden;
   border-radius: 28px;
   box-shadow: 0 24px 65px rgba(0, 0, 0, 0.65);
-  position: relative;
 }
 
 .hero-photo-frame img {
@@ -240,23 +221,16 @@
 }
 
 /* ===========================================================
-   FEATURE CARDS
+   FEATURES
    =========================================================== */
 
 .hero-features {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.7rem;
-
   max-width: 1300px;
   margin: -4rem auto 0;
-  position: relative;
-
-  transition:
-    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.6s ease;
-  transform-origin: center top;
-  will-change: transform, opacity;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
 }
 
 .hero-features.down {
@@ -270,40 +244,31 @@
 }
 
 .feature-card {
-  padding: 2rem 2rem;
+  padding: 2rem;
   border-radius: 24px;
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  backdrop-filter: blur(var(--glass-blur));
-
+  backdrop-filter: blur(10px);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.38);
   display: flex;
   gap: 1.5rem;
   align-items: center;
   transition: 0.35s ease;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
 }
 
 .feature-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 34px 85px rgba(0, 0, 0, 0.55);
+  transform: translateY(-4px);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.48);
 }
 
 .feature-icon {
   width: 70px;
   height: 70px;
   border-radius: 20px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background: radial-gradient(
-    circle at 30% 20%,
-    rgba(255, 255, 255, 0.45),
-    transparent 55%
-  );
-  color: #ffffff;
-
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.45), transparent 55%);
   box-shadow:
     0 0 18px rgba(105, 210, 255, 0.65),
     0 0 32px rgba(60, 190, 255, 0.45);
@@ -315,23 +280,19 @@
 }
 
 /* ===========================================================
-   TRUCK ANIMATION LINE
+   TRUCK ANIMATION
    =========================================================== */
 
 .truck-line {
   position: absolute;
   bottom: 3.4rem;
   left: -260px;
-
   width: 260px;
   height: 130px;
-
-  color: var(--accent-neon-1, #6fdbff);
   opacity: 0.9;
-
+  color: var(--accent-neon-1, #6fdbff);
   animation: truckDrive 13s linear infinite;
-  will-change: transform, opacity;
-  transition: opacity 0.35s ease;
+  will-change: transform;
 }
 
 .truck-line.hidden {
@@ -348,146 +309,65 @@
 }
 
 @keyframes truckDrive {
-  0% {
-    transform: translateX(0);
-    opacity: 0.1;
-  }
-  10% {
-    opacity: 0.45;
-  }
-  50% {
-    transform: translateX(1250px);
-    opacity: 0.35;
-  }
-  80% {
-    opacity: 0.07;
-  }
-  100% {
-    transform: translateX(1550px);
-    opacity: 0;
-  }
+  0% { transform: translateX(0); opacity: 0.1; }
+  10% { opacity: 0.45; }
+  50% { transform: translateX(1250px); opacity: 0.35; }
+  80% { opacity: 0.07; }
+  100% { transform: translateX(1550px); opacity: 0; }
 }
 
 /* ===========================================================
-   RESPONSIVE ADAPTATION
+   MEDIA — ADAPTIVE & PERFORMANCE
    =========================================================== */
 
 @media (min-width: 1440px) {
-  .hero {
-    margin-top: 5rem;
-  }
-
-  .hero-title-primary {
-    font-size: 4rem;
-  }
+  .hero { margin-top: 5rem; }
+  .hero-title-primary { font-size: 4rem; }
 }
 
 @media (max-width: 1100px) {
-  .hero {
-    padding: 4rem 2rem 10rem;
-  }
-
-  .hero-inner {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-
-  .hero-left {
-    max-width: 640px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .hero-title-primary::after {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .hero-description {
-    text-align: center;
-  }
-
-  .hero-photo-wrapper {
-    max-width: 360px;
-  }
-
-  .hero-features {
-    grid-template-columns: 1fr 1fr;
-    max-width: 900px;
-    margin-top: -2rem;
-  }
+  .hero { padding: 4rem 2rem 10rem; }
+  .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-left { max-width: 640px; margin: 0 auto; text-align: center; }
+  .hero-title-primary::after { left: 50%; transform: translateX(-50%); }
+  .hero-description { text-align: center; }
+  .hero-photo-wrapper { max-width: 360px; }
+  .hero-features { grid-template-columns: 1fr 1fr; max-width: 900px; margin-top: -2rem; }
 }
 
 @media (max-width: 768px) {
-  .hero {
-    padding: 3.5rem 1.6rem 9rem;
-  }
+  .hero { padding: 3.5rem 1.6rem 9rem; }
+  .hero-title-primary { font-size: 2.8rem; text-align: center; }
+  .hero-title-primary::after { width: 190px; bottom: -10px; }
+  .hero-title-secondary { font-size: 1.35rem; text-align: center; padding-top: 1.7rem; }
+  .hero-description { font-size: 1.02rem; text-align: center; }
+  .hero-buttons { justify-content: center; }
+  .hero-features { grid-template-columns: 1fr; gap: 1.3rem; }
 
-  .hero-title-primary {
-    font-size: 2.8rem;
-    text-align: center;
-  }
-
-  .hero-title-primary::after {
-    width: 190px;
-    bottom: -10px;
-  }
-
-  .hero-title-secondary {
-    font-size: 1.35rem;
-    text-align: center;
-    padding-top: 1.7rem;
-  }
-
-  .hero-description {
-    font-size: 1.02rem;
-    text-align: center;
-  }
-
-  .hero-buttons {
-    justify-content: center;
-  }
-
-  .hero-features {
-    grid-template-columns: 1fr;
-    gap: 1.3rem;
-  }
+  /* Performance ↓ */
+  .hero-bg-gradient { filter: blur(10px); inset: -20px; }
+  .rim-light::before { filter: blur(18px); }
+  .feature-card { backdrop-filter: blur(6px); box-shadow: 0 10px 28px rgba(0,0,0,0.35); }
+  .truck-line { display: none; }
 }
 
 @media (max-width: 460px) {
-  .hero {
-    padding: 3rem 1.2rem 9rem;
-    border-radius: 32px;
-  }
+  .hero { padding: 3rem 1.2rem 9rem; border-radius: 32px; }
+  .hero-title-primary { font-size: 2.3rem; }
+  .hero-title-primary::after { width: 70%; max-width: 260px; left: 50%; transform: translateX(-50%); }
+  .hero-title-secondary { font-size: 1.15rem; }
+  .hero-description { font-size: 1rem; }
+  .hero-photo-wrapper { max-width: 300px; }
+  .feature-card { margin-bottom: 40px; }
+}
 
-  .hero-title-primary {
-    font-size: 2.3rem;
-    text-align: center;
-  }
-
-  .hero-title-primary::after {
-    width: 70%;
-    max-width: 260px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .hero-title-secondary {
-    text-align: center;
-    padding-top: 1.7rem;
-    font-size: 1.15rem;
-  }
-
-  .hero-description {
-    font-size: 1rem;
-    text-align: center;
-  }
-
-  .hero-photo-wrapper {
-    max-width: 300px;
-  }
-
-  .feature-card {
-    margin-bottom: 40px;
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero,
+  .hero-features,
+  .truck-line {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
   }
 }

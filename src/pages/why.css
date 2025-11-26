@@ -1,5 +1,5 @@
 /* ===========================================================
-   WHY PARTNER — SECTION WRAPPER
+   WHY PARTNER — WRAPPER
    =========================================================== */
 
 .why-wrapper {
@@ -7,31 +7,47 @@
   margin: 5rem auto 7rem;
   padding: 3rem 3rem;
   border-radius: 40px;
-  position: relative;
 
-  background: linear-gradient(150deg, #04182e 0%, #072a48 60%, #0a3b60 100%);
-  border: 1px solid rgba(0, 255, 255, 0.08);
-  box-shadow: 0 35px 90px rgba(0, 0, 0, 0.65);
+  background: linear-gradient(150deg, #071b31 0%, #0c2d4c 70%, #0f3f63 100%);
+  border: 1px solid rgba(0, 255, 255, 0.06);
+
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.55);
   overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.why-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .why-inner {
-  position: relative;
-  z-index: 1;
   text-align: center;
+  position: relative;
+  z-index: 2;
 }
 
+/* ===========================================================
+   TITLES
+   =========================================================== */
+
 .why-title {
-  font-size: 3rem;
+  font-size: 2.8rem;
   font-weight: 700;
-  color: #d8ecff;
-  text-shadow: 0 0 12px rgba(0,255,255,0.45);
+  color: #dff1ff;
+  text-shadow: 0 0 15px rgba(0, 255, 255, 0.25);
 }
 
 .why-subtitle {
   margin-top: 1rem;
-  font-size: 1.2rem;
-  color: #a8c9e8;
+  font-size: 1.15rem;
+  color: #a9c7e5;
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ===========================================================
@@ -39,86 +55,64 @@
    =========================================================== */
 
 .why-grid {
-  margin-top: 4rem;
+  margin-top: 3.6rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2.8rem;
+  gap: 2.4rem;
 }
 
 /* ===========================================================
-   CARD
+   CARD — High-End, Less Neon, Corporate Premium
    =========================================================== */
 
 .why-card {
-  padding: 2.5rem 1.4rem;
-  border-radius: 28px;
-  background: rgba(0, 0, 0, 0.25);
+  padding: 2.2rem 1.5rem;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.03);
 
-  border: 1px solid rgba(0,255,255,0.28);
+  border: 1px solid rgba(0, 255, 255, 0.12);
   box-shadow:
-    0 0 25px rgba(0,255,255,0.25),
-    inset 0 0 16px rgba(0,255,255,0.18);
+    0 10px 30px rgba(0, 0, 0, 0.35),
+    inset 0 0 8px rgba(0, 255, 255, 0.09);
 
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
   cursor: pointer;
 }
 
-/* ВНУТРЕННЕЕ ДЫХАНИЕ */
-.why-card-inner {
-  animation: breathe 6.5s ease-in-out infinite;
-}
-
-@keyframes breathe {
-  0%   { transform: translateY(0px); }
-  50%  { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
-/* Hover — наклон + подъём */
 .why-card:hover {
-  transform: translateY(-14px) scale(1.04) rotate(0.8deg);
+  transform: translateY(-10px) scale(1.03);
+  border-color: rgba(0, 255, 255, 0.3);
   box-shadow:
-    0 0 35px rgba(0,255,255,0.65),
-    inset 0 0 24px rgba(0,255,255,0.35);
-}
-
-/* Индивидуальные эффекты для разных карточек */
-.why-card:nth-child(1):hover {
-  transform: translate(8px, -12px) rotate(1.2deg) scale(1.04);
-}
-.why-card:nth-child(2):hover {
-  transform: translate(-8px, -14px) rotate(-1deg) scale(1.04);
-}
-.why-card:nth-child(3):hover {
-  transform: translate(6px, -10px) rotate(0.9deg) scale(1.04);
+    0 18px 45px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(0, 255, 255, 0.35);
 }
 
 /* ===========================================================
-   IMAGE FRAME
+   IMAGE
    =========================================================== */
 
 .why-img-frame {
   width: 100%;
-  height: 190px;
-
-  border-radius: 20px;
-  border: 2px solid #00eaff;
+  height: 180px;
 
   overflow: hidden;
-  background: #0b2238;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 255, 255, 0.18);
 
+  background: #0b2238;
   box-shadow:
-    0 0 25px rgba(0,255,255,0.55),
-    inset 0 0 16px rgba(0,255,255,0.4);
+    inset 0 0 12px rgba(0, 255, 255, 0.2);
 
   transition: 0.35s ease;
 }
 
 .why-card:hover .why-img-frame {
   box-shadow:
-    0 0 38px rgba(0,255,255,0.9),
-    inset 0 0 22px rgba(0,255,255,0.7);
-
+    inset 0 0 18px rgba(0, 255, 255, 0.4),
+    0 0 14px rgba(0, 255, 255, 0.35);
   transform: scale(1.02);
 }
 
@@ -126,16 +120,16 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
 }
 
 /* TEXT */
 .why-text {
-  margin-top: 1.5rem;
-  font-size: 1rem;
+  margin-top: 1.4rem;
+  font-size: 1.05rem;
+  color: #d6eaff;
+  line-height: 1.5;
   font-weight: 500;
-  color: #d7ebff;
-  line-height: 1.45;
+  letter-spacing: 0.3px;
 }
 
 /* ===========================================================
@@ -146,22 +140,18 @@
   .why-grid {
     grid-template-columns: 1fr;
   }
-
-  .why-card {
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
   .why-img-frame {
-    height: 210px;
+    height: 220px;
   }
 }
 
 @media (max-width: 520px) {
-  .why-title {
-    font-size: 2.3rem;
+  .why-wrapper {
+    padding: 2.4rem 1.4rem;
   }
-
+  .why-title {
+    font-size: 2.2rem;
+  }
   .why-img-frame {
     height: 160px;
   }
