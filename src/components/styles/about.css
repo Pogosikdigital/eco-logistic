@@ -1,5 +1,5 @@
 /* ===========================================================
-   ABOUT SECTION — Premium + 3D Truck + Stagger + LQIP
+   ABOUT SECTION — Premium + 3D Truck + LQIP + Ultra Smooth
    =========================================================== */
 
 .about-section {
@@ -8,45 +8,53 @@
   color: var(--text-main);
   position: relative;
   overflow: hidden;
+
+  /* плавное включение всей секции */
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.65s ease-out, transform 0.65s ease-out;
 }
 
-/* Soft global glow */
+.about-section--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===========================================================
+   BACKGROUND GLOW — optimized (меньше blur нагружает меньше)
+   =========================================================== */
+
 .about-section::before,
 .about-section::after {
   content: "";
   position: absolute;
-  width: 420px;
-  height: 420px;
+  width: 380px;
+  height: 380px;
   border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.26;
+  filter: blur(100px); /* было 120 → GPU легче */
+  opacity: 0.22;
   pointer-events: none;
-  animation: aboutFloat 22s ease-in-out infinite;
+  animation: aboutFloat 24s ease-in-out infinite;
+  will-change: transform;
 }
 
 .about-section::before {
-  top: -180px;
-  left: -170px;
-  background: rgba(14, 139, 255, 0.22);
+  top: -160px;
+  left: -150px;
+  background: rgba(14, 139, 255, 0.25);
 }
 
 .about-section::after {
-  background: rgba(0, 255, 210, 0.18);
-  bottom: -190px;
-  right: -150px;
-  animation-duration: 28s;
+  bottom: -170px;
+  right: -130px;
+  background: rgba(0, 255, 210, 0.20);
+  animation-duration: 30s;
 }
 
 @keyframes aboutFloat {
-  0% {
-    transform: translateY(-40px);
-  }
-  50% {
-    transform: translateY(35px);
-  }
-  100% {
-    transform: translateY(-40px);
-  }
+  0%   { transform: translateY(-35px); }
+  50%  { transform: translateY(30px); }
+  100% { transform: translateY(-35px); }
 }
 
 .about-container {
@@ -57,7 +65,7 @@
 }
 
 /* ===========================================================
-   HEADER — Premium + smooth fade-in
+   HEADER — unified with your global style
    =========================================================== */
 
 .about-header {
@@ -65,21 +73,20 @@
   margin-bottom: 3.3rem;
   opacity: 0;
   transform: translateY(18px);
-  transition:
-    opacity 0.7s ease-out,
-    transform 0.7s ease-out;
+  transition: opacity 0.65s ease-out, transform 0.65s ease-out;
+  will-change: opacity, transform;
 }
 
-/* EXACT SAME LOGIC AS HOW-IT-WORKS LABEL */
+.about-section--visible .about-header {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .about-kicker {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   width: fit-content;
-  max-width: 100%;
-  align-self: flex-start;
-
   background: rgba(14, 139, 255, 0.17);
   padding: 6px 18px;
   border-radius: 999px;
@@ -93,7 +100,6 @@
 }
 
 .about-title {
-  text-align: start;
   font-size: 2.6rem;
   font-weight: 800;
   margin-bottom: 0.6rem;
@@ -102,7 +108,6 @@
 }
 
 .about-subtitle {
-  text-align: start;
   font-size: 1.05rem;
   color: var(--text-muted);
 }
@@ -119,45 +124,51 @@
 }
 
 /* ===========================================================
-   LEFT — Truck (3D slide-in + tilt + LQIP)
+   LEFT — Truck 3D + LQIP + smoother
    =========================================================== */
 
 .about-media {
   margin: 0;
   border-radius: 26px;
-  background: rgba(15, 23, 42, 0.9);
-  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.38);
   overflow: hidden;
   position: relative;
 
   box-shadow:
-    inset 0 0 22px rgba(255, 255, 255, 0.05),
-    0 26px 70px rgba(0, 0, 0, 0.9);
+    inset 0 0 18px rgba(255,255,255,0.04),
+    0 22px 65px rgba(0,0,0,0.85);
 
-  transform: translateX(-56px) rotateY(14deg);
+  transform: translateX(-48px) rotateY(12deg);
   opacity: 0;
   transform-origin: center;
   transition:
-    transform 0.9s cubic-bezier(0.19, 1, 0.22, 1),
-    opacity 0.9s ease-out;
+    transform 0.95s cubic-bezier(0.19, 1, 0.22, 1),
+    opacity 0.85s ease-out;
   will-change: transform, opacity;
+}
+
+.about-section--visible .about-media {
+  opacity: 1;
+  transform: translateX(0) rotateY(0deg);
+  transition-delay: 0.12s;
 }
 
 .about-media-inner {
   width: 100%;
   height: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16/9;
   overflow: hidden;
 }
 
-/* LQIP: сначала блюр + лёгкий zoom, потом чисто и чётко */
+/* LQIP улучшенный — меньше blur → меньше артефактов */
 .about-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 
   transform: scale(1.04);
-  filter: blur(16px);
+  filter: blur(14px);
   opacity: 0;
 
   transition:
@@ -167,41 +178,42 @@
 }
 
 .about-image--loaded {
-  filter: blur(0);
   opacity: 1;
+  filter: blur(0);
   transform: scale(1.02);
 }
 
-/* Light overlays */
+/* Neon overlays */
 .about-media::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.35), transparent 60%),
-    radial-gradient(circle at 90% 100%, rgba(59, 130, 246, 0.3), transparent 60%);
+    radial-gradient(circle at 10% 0%, rgba(56,189,248,0.32), transparent 60%),
+    radial-gradient(circle at 90% 100%, rgba(59,130,246,0.28), transparent 60%);
   mix-blend-mode: screen;
   pointer-events: none;
 }
 
-/* При ховере усиливаем depth */
+/* Hover depth */
 .about-media:hover .about-image--loaded {
   transform: scale(1.06);
 }
 
 /* ===========================================================
-   RIGHT — Content card (glass + stagger list)
+   RIGHT — Content (glass + stagger)
    =========================================================== */
 
 .about-content {
   border-radius: 26px;
   padding: 28px 30px 26px;
   border: 1px solid rgba(148, 163, 184, 0.42);
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(14px);
+  background: rgba(15, 23, 42, 0.75);
 
   box-shadow:
-    inset 0 0 18px rgba(255, 255, 255, 0.03),
-    0 22px 60px rgba(0, 0, 0, 0.8);
+    inset 0 0 16px rgba(255,255,255,0.03),
+    0 18px 55px rgba(0,0,0,0.78);
 
   display: flex;
   flex-direction: column;
@@ -209,9 +221,15 @@
   opacity: 0;
   transform: translateX(32px);
   transition:
-    opacity 0.9s ease-out,
-    transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
+    opacity 0.85s ease-out,
+    transform 0.9s cubic-bezier(0.19,1,0.22,1);
   will-change: opacity, transform;
+}
+
+.about-section--visible .about-content {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.2s;
 }
 
 .about-tag {
@@ -226,11 +244,11 @@
 
 .about-tag::before {
   content: "";
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
   border-radius: 999px;
   background: linear-gradient(135deg, #22d3ee, #3b82f6);
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.95);
+  box-shadow: 0 0 14px rgba(56,189,248,0.9);
 }
 
 .about-content-title {
@@ -241,12 +259,12 @@
 
 .about-content-text {
   font-size: 1rem;
-  line-height: 1.7;
+  line-height: 1.68;
   color: #d4def5;
   margin-bottom: 1.45rem;
 }
 
-/* List */
+/* List stagger */
 .about-list {
   list-style: none;
   margin: 0 0 2rem;
@@ -264,10 +282,13 @@
 
   opacity: 0;
   transform: translateY(10px);
-  transition:
-    opacity 0.6s ease-out,
-    transform 0.6s ease-out;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
+
+.about-section--visible .about-list li:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.30s; }
+.about-section--visible .about-list li:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.36s; }
+.about-section--visible .about-list li:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.42s; }
+.about-section--visible .about-list li:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.48s; }
 
 .about-dot {
   width: 9px;
@@ -275,16 +296,11 @@
   border-radius: 999px;
   margin-top: 4px;
   flex-shrink: 0;
-
   background: radial-gradient(circle at 30% 30%, #facc15, #f97316);
-  box-shadow: 0 0 20px rgba(250, 204, 21, 0.9);
+  box-shadow: 0 0 20px rgba(250,204,21,0.9);
 }
 
-.about-list-text {
-  flex: 1;
-}
-
-/* Actions */
+/* Buttons */
 .about-actions {
   display: flex;
   gap: 14px;
@@ -301,70 +317,20 @@
   padding: 12px 22px;
   font-size: 0.95rem;
   border-radius: 16px;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148,163,184,0.55);
+  background: rgba(15,23,42,0.85);
   color: #e5e7eb;
   font-weight: 600;
   text-decoration: none;
-  transition:
-    background 0.25s ease,
-    border-color 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+  transition: 0.25s ease;
 }
 
 .about-secondary-cta:hover {
-  background: rgba(15, 23, 42, 0.98);
+  background: rgba(15,23,42,0.98);
   border-color: #38bdf8;
-  color: #ffffff;
+  color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 0 28px rgba(56, 189, 248, 0.6);
-}
-
-/* ===========================================================
-   VISIBLE STATE + STAGGER DELAYS
-   =========================================================== */
-
-.about-section--visible .about-header {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.05s;
-}
-
-.about-section--visible .about-media {
-  opacity: 1;
-  transform: translateX(0) rotateY(0deg);
-  transition-delay: 0.18s;
-}
-
-.about-section--visible .about-content {
-  opacity: 1;
-  transform: translateX(0);
-  transition-delay: 0.26s;
-}
-
-.about-section--visible .about-list li:nth-child(1) {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.30s;
-}
-
-.about-section--visible .about-list li:nth-child(2) {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.36s;
-}
-
-.about-section--visible .about-list li:nth-child(3) {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.42s;
-}
-
-.about-section--visible .about-list li:nth-child(4) {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.48s;
+  box-shadow: 0 0 26px rgba(56,189,248,0.55);
 }
 
 /* ===========================================================
@@ -412,11 +378,7 @@
   }
 
   .about-media-inner {
-    aspect-ratio: 4 / 3;
-  }
-
-  .about-media {
-    transform: translateX(-40px) rotateY(12deg);
+    aspect-ratio: 4/3;
   }
 
   .about-actions {

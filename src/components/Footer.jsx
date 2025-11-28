@@ -1,24 +1,22 @@
 // src/components/Footer.jsx
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./styles/footer.css";
 
 export default function Footer() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === "/";
 
-  // Smooth scroll внутри главной
-  const scrollTo = (id) => {
-    const el = document.querySelector(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  // Переход к секции (из других страниц)
-  const goToSection = (sectionId) => {
-    if (location.pathname !== "/") {
-      window.location.href = `/#${sectionId}`;
+  const goToSection = (id) => {
+    // Если НЕ главная — переход на главную + hash
+    if (!isHome) {
+      navigate(`/#${id}`);
       return;
     }
-    scrollTo(`#${sectionId}`);
+
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
@@ -27,21 +25,18 @@ export default function Footer() {
       itemScope
       itemType="https://schema.org/Organization"
     >
-      {/* микроразметка SEO */}
       <meta itemProp="name" content="EcoHub Logistics Inc" />
       <meta
         itemProp="description"
         content="EcoHub Logistics Inc provides nationwide auto transport across the USA with transparent pricing and reliable dispatch."
       />
 
-      <div className="footer-grid-overlay" aria-hidden="true" />
-
       <div className="footer-inner">
         <div className="footer-container">
-          {/* LOGO + CTA */}
+          {/* BRAND */}
           <div className="footer-col footer-about">
             <h2
-              className="footer-logo-text neon-text-logo"
+              className="footer-logo-text"
               itemProp="brand"
               onClick={() => goToSection("home")}
             >
@@ -63,82 +58,53 @@ export default function Footer() {
           </div>
 
           {/* NAVIGATION */}
-          <nav
-            className="footer-col footer-nav"
-            aria-label="Footer navigation"
-          >
+          <nav className="footer-col footer-nav" aria-label="Footer navigation">
             <h4 className="footer-title">Navigation</h4>
 
             <div className="footer-nav-grid">
-              {/* 1st column */}
               <ul className="footer-links">
                 <li>
-                  <button
-                    className="footer-link-btn"
-                    type="button"
-                    onClick={() => goToSection("home")}
-                  >
+                  <button className="footer-link-btn" onClick={() => goToSection("home")}>
                     Home
                   </button>
                 </li>
+
                 <li>
-                  <button
-                    className="footer-link-btn"
-                    type="button"
-                    onClick={() => goToSection("how")}
-                  >
+                  <button className="footer-link-btn" onClick={() => goToSection("how")}>
                     How it works
                   </button>
                 </li>
+
                 <li>
-                  <button
-                    className="footer-link-btn"
-                    type="button"
-                    onClick={() => goToSection("services")}
-                  >
+                  <button className="footer-link-btn" onClick={() => goToSection("services")}>
                     Services
                   </button>
                 </li>
               </ul>
 
-              {/* 2nd column */}
               <ul className="footer-links">
                 <li>
-                  <button
-                    className="footer-link-btn"
-                    type="button"
-                    onClick={() => goToSection("reviews")}
-                  >
+                  <button className="footer-link-btn" onClick={() => goToSection("reviews")}>
                     Reviews
                   </button>
                 </li>
+
                 <li>
-                  <button
-                    className="footer-link-btn"
-                    type="button"
-                    onClick={() => goToSection("about")}
-                  >
+                  <button className="footer-link-btn" onClick={() => goToSection("about")}>
                     About Us
                   </button>
                 </li>
+
                 <li>
-                  <Link
-                    to="/earn"
-                    className="footer-link-btn footer-link-router"
-                  >
+                  <Link to="/earn" className="footer-link-router">
                     Earn With Us
                   </Link>
                 </li>
               </ul>
 
-              {/* 3rd column */}
               <ul className="footer-links">
                 <li>
-                  <button
-                    className="footer-link-btn"
-                    type="button"
-                    onClick={() => goToSection("contact")}
-                  >
+                  <button className="footer-link-btn" onClick={() => goToSection("contact")}>
                     Contact
                   </button>
                 </li>
@@ -165,21 +131,13 @@ export default function Footer() {
             </address>
 
             <p>
-              <a
-                href="mailto:info@ecohublogistics.com"
-                itemProp="email"
-                className="footer-contact-link"
-              >
+              <a href="mailto:info@ecohublogistics.com" className="footer-contact-link">
                 info@ecohublogistics.com
               </a>
             </p>
 
             <p>
-              <a
-                href="tel:16509999660"
-                itemProp="telephone"
-                className="footer-contact-link"
-              >
+              <a href="tel:16509999660" className="footer-contact-link">
                 (650) 999-9660
               </a>
             </p>
@@ -190,14 +148,11 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-link"
-                aria-label="EcoHub Logistics on Facebook"
               >
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
                   className="social-img"
                   alt="Facebook"
-                  loading="lazy"
-                  decoding="async"
                 />
               </a>
 
@@ -206,14 +161,11 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-link"
-                aria-label="EcoHub Logistics on Instagram"
               >
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg"
                   className="social-img"
                   alt="Instagram"
-                  loading="lazy"
-                  decoding="async"
                 />
               </a>
             </div>

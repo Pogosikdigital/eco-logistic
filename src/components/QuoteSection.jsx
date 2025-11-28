@@ -1,4 +1,6 @@
 // src/components/QuoteSection.jsx
+import GoogleRew from '../../public/googleRew.png'
+
 import React, {
   useState,
   useEffect,
@@ -6,7 +8,7 @@ import React, {
   useCallback,
 } from "react";
 import "./styles/quotesection.css";
-import quoteImage from "./../assets/image.png";
+import quoteImage from "../../public/image.png";
 import usaMap from "./../assets/usa-map.png";
 
 const initialForm = {
@@ -39,22 +41,19 @@ export default function QuoteSection() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
-  // анимация правой карточки при скролле
   const [isRightVisible, setIsRightVisible] = useState(false);
   const rightRef = useRef(null);
 
-  // tilt для правой карточки
   const [enableTilt, setEnableTilt] = useState(false);
 
-  // ====== ВАЛИДАЦИЯ ОДНОГО ПОЛЯ ======
+  // ====== VALIDATION ======
   const validateField = (name, value) => {
     switch (name) {
-      case "fullName": {
+      case "fullName":
         if (!value.trim()) return "Please enter your full name.";
         if (value.trim().length < 2)
           return "Name must be at least 2 characters.";
         return "";
-      }
       case "email": {
         if (!value.trim()) return "Please enter your email.";
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -77,10 +76,9 @@ export default function QuoteSection() {
           return "Please enter a valid ZIP code.";
         return "";
       }
-      case "transportType": {
+      case "transportType":
         if (!value) return "Please select transport type.";
         return "";
-      }
       case "pickupDate": {
         if (!value) return "Please choose a pickup date.";
         const today = new Date();
@@ -99,7 +97,6 @@ export default function QuoteSection() {
     }
   };
 
-  // ====== ВАЛИДАЦИЯ ВСЕЙ ФОРМЫ ======
   const validateForm = (data) => {
     const newErrors = {};
     Object.keys(data).forEach((key) => {
@@ -109,15 +106,12 @@ export default function QuoteSection() {
     return newErrors;
   };
 
-  // ====== ОБРАБОТКА ИЗМЕНЕНИЙ ======
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     let nextValue = value;
-    // автоформат телефона
-    if (name === "phone") {
-      nextValue = formatPhoneUS(value);
-    }
+
+    if (name === "phone") nextValue = formatPhoneUS(value);
 
     setForm((prev) => ({ ...prev, [name]: nextValue }));
 
@@ -137,7 +131,6 @@ export default function QuoteSection() {
     setErrors((prev) => ({ ...prev, [name]: error || undefined }));
   };
 
-  // ====== ОТПРАВКА ФОРМЫ (fetch) ======
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitSuccess(false);
@@ -150,9 +143,10 @@ export default function QuoteSection() {
     );
 
     if (Object.keys(foundErrors).length > 0) {
-      const firstErrorField = Object.keys(foundErrors)[0];
-      const el = document.querySelector(`[name="${firstErrorField}"]`);
-      if (el) el.focus();
+      const firstField = document.querySelector(
+        `[name="${Object.keys(foundErrors)[0]}"]`
+      );
+      if (firstField) firstField.focus();
       return;
     }
 
@@ -163,82 +157,62 @@ export default function QuoteSection() {
         "https://untransparent-transpolar-tequila.ngrok-free.dev/api/lead",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            source: "quote-form",
-            ...form,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ source: "quote-form", ...form }),
         }
       );
-
-      console.log("Quote /api/lead status:", response.status);
 
       let data = null;
       try {
         data = await response.json();
-      } catch (err) {
-        console.warn("Quote /api/lead: cannot parse JSON:", err);
-      }
-      console.log("Quote /api/lead response data:", data);
+      } catch {}
 
       setSubmitSuccess(true);
       setForm(initialForm);
       setTouched({});
       setErrors({});
     } catch (err) {
-      console.error("Quote submit NETWORK error:", err);
-      setSubmitError(
-        "We couldn't reach the server. Please try again in a minute."
-      );
+      setSubmitError("We couldn't reach the server. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // ====== АНИМАЦИЯ ПРАВОЙ КАРТОЧКИ (вход) ======
+  // ====== RIGHT CARD ANIMATION ======
   useEffect(() => {
     const node = rightRef.current;
     if (!node) return;
 
-    const observer = new IntersectionObserver(
+    const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsRightVisible(true);
-          observer.disconnect();
+          obs.disconnect();
         }
       },
       { threshold: 0.25 }
     );
 
-    observer.observe(node);
-
-    return () => observer.disconnect();
+    obs.observe(node);
+    return () => obs.disconnect();
   }, []);
 
-  // ====== Включаем tilt только на десктопах ======
+  // Enable tilt only on desktop
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const check = () => {
-      setEnableTilt(window.innerWidth >= 768);
-    };
-
+    const check = () => setEnableTilt(window.innerWidth >= 768);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // 3D tilt для правой карточки
   const handleCardMove = useCallback(
-    (event) => {
+    (e) => {
       if (!enableTilt) return;
-      const card = event.currentTarget;
+      const card = e.currentTarget;
       const rect = card.getBoundingClientRect();
 
-      const x = event.clientX - rect.left - rect.width / 2;
-      const y = event.clientY - rect.top - rect.height / 2;
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
 
       const rotateX = (y / rect.height) * -8;
       const rotateY = (x / rect.width) * 10;
@@ -254,9 +228,9 @@ export default function QuoteSection() {
   );
 
   const handleCardLeave = useCallback(
-    (event) => {
+    (e) => {
       if (!enableTilt) return;
-      const card = event.currentTarget;
+      const card = e.currentTarget;
       card.style.transform =
         "perspective(1100px) rotateX(0deg) rotateY(0deg) translateY(0)";
     },
@@ -279,6 +253,28 @@ export default function QuoteSection() {
       <div className="quote-inner">
         {/* LEFT AREA */}
         <div className="quote-left">
+
+          {/* ⭐ GOOGLE REVIEWS BADGE */}
+          <div className="quote-google-rating">
+            <img
+              src={GoogleRew}
+              alt="Google logo"
+              className="google-rating-logo"
+              loading="lazy"
+              decoding="async"
+            />
+
+            <div className="google-rating-stars">★★★★★</div>
+
+            <div className="google-rating-score">
+              5.0<span>/5</span>
+            </div>
+
+            <div className="google-rating-text">
+              Based on <strong>1,200+</strong> verified reviews
+            </div>
+          </div>
+
           <h2 id="quote-heading" className="quote-title" itemProp="headline">
             Get a Free Quote
           </h2>
@@ -288,18 +284,13 @@ export default function QuoteSection() {
           </p>
 
           {submitSuccess && (
-            <div
-              className="quote-success"
-              role="status"
-              aria-live="polite"
-            >
+            <div className="quote-success" role="status" aria-live="polite">
               <span className="quote-success-icon" aria-hidden="true">
                 <span className="quote-success-circle" />
                 <span className="quote-success-check" />
               </span>
               <span className="quote-success-text">
-                Thank you! Your request has been sent. We’ll contact you
-                shortly.
+                Thank you! Your request has been sent. We’ll contact you shortly.
               </span>
             </div>
           )}
@@ -310,6 +301,7 @@ export default function QuoteSection() {
             </p>
           )}
 
+          {/* FORM */}
           <form
             className="quote-form"
             onSubmit={handleSubmit}
@@ -323,7 +315,6 @@ export default function QuoteSection() {
               content="Request a free auto transport quote from EcoHub Logistics."
             />
 
-            {/* GRID */}
             <div className="quote-form-grid">
               {/* FULL NAME */}
               <div className="field">
@@ -364,7 +355,9 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.email}
-                  aria-describedby={errors.email ? "email-error" : undefined}
+                  aria-describedby={
+                    errors.email ? "email-error" : undefined
+                  }
                   required
                   itemProp="email"
                 />
@@ -388,7 +381,9 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.phone}
-                  aria-describedby={errors.phone ? "phone-error" : undefined}
+                  aria-describedby={
+                    errors.phone ? "phone-error" : undefined
+                  }
                   required
                   itemProp="telephone"
                 />
@@ -536,18 +531,17 @@ export default function QuoteSection() {
               <button
                 type="submit"
                 className="btn-quote-primary"
-                itemProp="target"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Sending..." : "Request Quote ›"}
               </button>
+
               <p className="quote-call">
                 or call{" "}
-                <a href="tel:16509999660" itemProp="telephone">
-                  (650) 999-9660
-                </a>
+                <a href="tel:16509999660">(650) 999-9660</a>
               </p>
             </div>
+
           </form>
         </div>
 
@@ -558,11 +552,11 @@ export default function QuoteSection() {
               "quote-right-card" +
               (isRightVisible ? " quote-right-card--visible" : "")
             }
+            onMouseMove={handleCardMove}
+            onMouseLeave={handleCardLeave}
             itemProp="publisher"
             itemScope
             itemType="https://schema.org/Organization"
-            onMouseMove={handleCardMove}
-            onMouseLeave={handleCardLeave}
           >
             <meta itemProp="name" content="EcoHub Logistics" />
 
@@ -584,7 +578,7 @@ export default function QuoteSection() {
                 rel="noopener noreferrer"
                 aria-label="View EcoHub Logistics location and service area on Google Maps"
               >
-                <img src={usaMap} alt="" loading="lazy" />
+                <img src={usaMap} alt="USA Map" loading="lazy" />
                 <div className="quote-map-pin" />
               </a>
             </div>
@@ -592,7 +586,7 @@ export default function QuoteSection() {
             <div className="quote-image-wrap">
               <img
                 src={quoteImage}
-                alt="EcoHub Logistics auto transport truck on the road in the USA"
+                alt="EcoHub Logistics transport truck"
                 loading="lazy"
                 itemProp="logo"
               />

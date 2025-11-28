@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
 
-    <!-- FAVICONS -->
-    <link rel="icon" type="image/png" href="/src/assets/logo.png" />
-    <link rel="apple-touch-icon" href="/src/assets/logo.png" />
+    <!-- FAVICONS (из public/) -->
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
 
     <!-- MOBILE VIEWPORT -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,11 +20,13 @@
       name="keywords"
       content="car shipping, vehicle transport, auto transport, car delivery, car hauling, USA, Eco Logistic"
     />
+    <meta name="robots" content="index,follow" />
+    <meta name="author" content="Eco Logistic" />
 
-    <!-- CANONICAL -->
+    <!-- CANONICAL (потом поменяешь на свой домен) -->
     <link rel="canonical" href="https://your-domain.com/" />
 
-    <!-- OPEN GRAPH (SOCIAL PREVIEW) -->
+    <!-- OPEN GRAPH -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Eco Logistic – Vehicle Shipping in the USA" />
     <meta
@@ -34,7 +36,7 @@
     <meta property="og:url" content="https://your-domain.com/" />
     <meta property="og:image" content="/og-image.jpg" />
 
-    <!-- TWITTER CARD -->
+    <!-- TWITTER -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Eco Logistic – Vehicle Shipping in the USA" />
     <meta
@@ -43,15 +45,21 @@
     />
     <meta name="twitter:image" content="/og-image.jpg" />
 
-    <!-- FONTAWESOME ICONS -->
+    <!-- THEME / COLOR SCHEME (учитывая твой dark/light переключатель) -->
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#020617" />
+
+    <!-- FONTAWESOME -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
+
+    <!-- VITE ENTRY (Vite сам подменит на билд-файлы) -->
+    <script type="module" src="/src/main.jsx"></script>
   </head>
 
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

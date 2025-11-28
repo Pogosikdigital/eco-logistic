@@ -1,33 +1,69 @@
 /* ===========================================================
-   WHY PARTNER — WRAPPER
+   WHY PARTNER — GLASS SECTION
    =========================================================== */
 
 .why-wrapper {
-  max-width: 1380px;
-  margin: 5rem auto 7rem;
-  padding: 3rem 3rem;
-  border-radius: 40px;
+  padding: 4.2rem 1.8rem 4.6rem;
+  display: flex;
+  justify-content: center;
+  color: #e5edff;
+}
 
-  background: linear-gradient(150deg, #071b31 0%, #0c2d4c 70%, #0f3f63 100%);
-  border: 1px solid rgba(0, 255, 255, 0.06);
+.why-inner {
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 28px;
+  padding: 2.6rem 2.4rem 2.8rem;
 
-  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.55);
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.85);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  text-align: center;
+  position: relative;
   overflow: hidden;
 
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateY(26px);
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
 }
 
-.why-visible {
+.why-wrapper.why-visible .why-inner {
   opacity: 1;
   transform: translateY(0);
 }
 
-.why-inner {
-  text-align: center;
-  position: relative;
-  z-index: 2;
+/* soft lights */
+
+.why-inner::before,
+.why-inner::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.why-inner::before {
+  width: 280px;
+  height: 280px;
+  top: -120px;
+  left: -80px;
+  background: rgba(56, 189, 248, 0.35);
+}
+
+.why-inner::after {
+  width: 280px;
+  height: 280px;
+  bottom: -120px;
+  right: -60px;
+  background: rgba(59, 130, 246, 0.3);
 }
 
 /* ===========================================================
@@ -35,17 +71,17 @@
    =========================================================== */
 
 .why-title {
-  font-size: 2.8rem;
+  margin: 0;
+  font-size: 2.2rem;
   font-weight: 700;
-  color: #dff1ff;
-  text-shadow: 0 0 15px rgba(0, 255, 255, 0.25);
+  text-shadow: 0 0 12px rgba(15, 23, 42, 0.7);
 }
 
 .why-subtitle {
-  margin-top: 1rem;
-  font-size: 1.15rem;
-  color: #a9c7e5;
-  max-width: 780px;
+  margin-top: 0.9rem;
+  font-size: 1.02rem;
+  color: #cbd5e1;
+  max-width: 760px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -55,65 +91,49 @@
    =========================================================== */
 
 .why-grid {
-  margin-top: 3.6rem;
+  margin-top: 2.8rem;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.4rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.9rem;
 }
 
 /* ===========================================================
-   CARD — High-End, Less Neon, Corporate Premium
+   CARD
    =========================================================== */
 
 .why-card {
-  padding: 2.2rem 1.5rem;
-  border-radius: 26px;
-  background: rgba(255, 255, 255, 0.03);
-
-  border: 1px solid rgba(0, 255, 255, 0.12);
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.35),
-    inset 0 0 8px rgba(0, 255, 255, 0.09);
+  position: relative;
+  border-radius: 20px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.8);
+  padding: 1.4rem 1.3rem 1.6rem;
+  text-align: left;
+  cursor: default;
 
   transition:
-    transform 0.35s ease,
-    box-shadow 0.35s ease,
-    border-color 0.35s ease;
-  cursor: pointer;
+    transform 0.26s ease,
+    box-shadow 0.26s ease,
+    border-color 0.26s ease,
+    background 0.26s ease;
 }
 
 .why-card:hover {
-  transform: translateY(-10px) scale(1.03);
-  border-color: rgba(0, 255, 255, 0.3);
-  box-shadow:
-    0 18px 45px rgba(0, 0, 0, 0.5),
-    0 0 25px rgba(0, 255, 255, 0.35);
+  transform: translateY(-6px);
+  border-color: rgba(56, 189, 248, 0.9);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.95);
+  background: rgba(15, 23, 42, 0.96);
 }
 
-/* ===========================================================
-   IMAGE
-   =========================================================== */
+/* IMAGE */
 
 .why-img-frame {
   width: 100%;
-  height: 180px;
-
+  height: 170px;
+  border-radius: 14px;
   overflow: hidden;
-  border-radius: 20px;
-  border: 1px solid rgba(0, 255, 255, 0.18);
-
-  background: #0b2238;
-  box-shadow:
-    inset 0 0 12px rgba(0, 255, 255, 0.2);
-
-  transition: 0.35s ease;
-}
-
-.why-card:hover .why-img-frame {
-  box-shadow:
-    inset 0 0 18px rgba(0, 255, 255, 0.4),
-    0 0 14px rgba(0, 255, 255, 0.35);
-  transform: scale(1.02);
+  background: #020617;
+  margin-bottom: 1rem;
 }
 
 .why-img-frame img {
@@ -123,13 +143,11 @@
 }
 
 /* TEXT */
+
 .why-text {
-  margin-top: 1.4rem;
-  font-size: 1.05rem;
-  color: #d6eaff;
-  line-height: 1.5;
-  font-weight: 500;
-  letter-spacing: 0.3px;
+  font-size: 0.98rem;
+  color: #e2e8f0;
+  line-height: 1.6;
 }
 
 /* ===========================================================
@@ -138,21 +156,28 @@
 
 @media (max-width: 960px) {
   .why-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
-  .why-img-frame {
-    height: 220px;
+
+  .why-card {
+    text-align: left;
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 640px) {
   .why-wrapper {
-    padding: 2.4rem 1.4rem;
+    padding: 3.6rem 1.3rem 3.8rem;
   }
+
+  .why-inner {
+    padding: 2.2rem 1.6rem 2.4rem;
+  }
+
   .why-title {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
+
   .why-img-frame {
-    height: 160px;
+    height: 190px;
   }
 }

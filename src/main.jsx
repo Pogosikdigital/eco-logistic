@@ -1,18 +1,23 @@
 // src/main.jsx
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 
 import App from "./App";
 
-// Глобальные стили
+// Global styles
 import "./App.css";
 import "./components/styles/hero.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-  </React.StrictMode>
+  // !!! StrictMode может вызывать двойные вызовы useEffect
+  //     которые на мобильных создают белые мигания.
+  //     Поэтому для продакшена его лучше отключить.
+  // <React.StrictMode>
+
+    <HashRouter>
+      <App />
+    </HashRouter>
+
+  // </React.StrictMode>
 );
