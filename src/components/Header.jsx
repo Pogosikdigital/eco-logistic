@@ -1,7 +1,7 @@
 // src/components/Header.jsx
-import { useState, useEffect, useMemo, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/logo.png";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import logo from "../../public/logo.png";
 import "./styles/header.css";
 
 const navLinks = [
@@ -15,135 +15,99 @@ const navLinks = [
 ];
 
 export default function Header() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === "/";
+
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [activeSection, setActiveSection] = useState("home");
+  const [headerSmall, setHeaderSmall] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [active, setActive] = useState("home");
   const [theme, setTheme] = useState("dark");
 
-  const location = useLocation();
-
-  const isQuotePage = useMemo(
-    () => location.pathname === "/quote",
-    [location.pathname]
-  );
-
-  const isHomePage = useMemo(
-    () => location.pathname === "/",
-    [location.pathname]
-  );
-
-  /* ===========================================================
-     THEME SWITCH — мемоизированный хэндлер
-  ============================================================ */
-  const toggleTheme = useCallback(() => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  }, []);
-
+  /* ================================
+     THEME SWITCH
+  ================================== */
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  /* ===========================================================
-     LOCK BODY WHEN MOBILE MENU OPEN
-  ============================================================ */
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
+
+  /* ================================
+     SCROLL EFFECTS
+  ================================== */
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "auto";
-  }, [menuOpen]);
+    const onScroll = () => {
+      const scrollY = window.scrollY;
 
-  /* ===========================================================
-     SCROLL LOGIC — оптимизированный обработчик
-  ============================================================ */
-  const handleScroll = useCallback(() => {
-    // прогресс скролла
-    const total =
-      document.documentElement.scrollHeight - window.innerHeight || 1;
+      setHeaderSmall(scrollY > 40);
 
-    const currentScroll = window.scrollY || window.pageYOffset || 0;
-    const percent = Math.min(Math.max((currentScroll / total) * 100, 0), 100);
+      const total =
+        document.documentElement.scrollHeight - window.innerHeight || 1;
+      setScrollProgress(Math.min((scrollY / total) * 100, 100));
 
-    setScrolled(currentScroll > 40);
-    setProgress(percent);
+      // Scroll spy (только на главной)
+      if (isHome) {
+        navLinks.forEach((link) => {
+          if (link.type !== "anchor") return;
 
-    // активная секция
-    navLinks.forEach((link) => {
-      if (link.type !== "anchor") return;
+          const el = document.getElementById(link.id);
+          if (!el) return;
 
-      const el = document.getElementById(link.id);
-      if (!el) return;
-
-      const rect = el.getBoundingClientRect();
-      if (rect.top <= 150 && rect.bottom >= 150) {
-        setActiveSection(link.id);
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 150 && rect.bottom >= 150) {
+            setActive(link.id);
+          }
+        });
       }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (isQuotePage) return;
-
-    // сразу посчитать состояние при монтировании
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
     };
-  }, [isQuotePage, handleScroll]);
 
-  /* ===========================================================
-     UNIVERSAL ANCHOR HANDLER (desktop + mobile + logo)
-  ============================================================ */
-  const handleAnchorClick = useCallback(
-    (event, id) => {
-      // Если НЕ на главной — делаем переход с якорем
-      if (!isHomePage) {
-        event.preventDefault();
-        window.location.href = `/#${id}`;
-        return;
-      }
+    if (isHome) onScroll();
 
-      // Уже на главной → плавно скроллим
-      const el = document.getElementById(id);
-      if (el) {
-        event.preventDefault();
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    },
-    [isHomePage]
-  );
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isHome]);
 
-  /* ===========================================================
-     RENDER
-  ============================================================ */
+  /* ================================
+     ANCHOR CLICK HANDLER (FIXED)
+  ================================== */
+  const handleAnchor = (e, id) => {
+    e.preventDefault();
+    setMenuOpen(false);
+
+    // Если мы НЕ на главной → навигация на главную + якорь
+    if (!isHome) {
+      navigate(`/#${id}`);
+      return;
+    }
+
+    // Если на главной → просто скроллим
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
     <>
-      {!isQuotePage && (
-        <div
-          className="scroll-progress"
-          style={{ width: `${progress}%` }}
-          aria-hidden="true"
-        />
-      )}
+      <div
+        className="scroll-progress"
+        style={{ width: `${scrollProgress}%` }}
+      />
 
-      <header
-        className={`header ${scrolled ? "scrolled shrink" : ""}`}
-        role="banner"
-      >
+      <header className={`header ${headerSmall ? "small" : ""}`}>
         <div className="header-container">
+
           {/* LOGO */}
           <a
             href="/#home"
-            className="logo-section"
-            onClick={(e) => handleAnchorClick(e, "home")}
-            aria-label="EcoHub Logistics – back to top"
+            className="logo-block"
+            onClick={(e) => handleAnchor(e, "home")}
           >
-            <img
-              src={logo}
-              alt="EcoHub Logistics logo"
-              className="logo"
-            />
+            <img src={logo} className="logo" alt="EcoHub Logistics" />
             <div className="logo-text">
               <h1>EcoHub Logistics</h1>
               <p>Auto Transport USA</p>
@@ -151,97 +115,71 @@ export default function Header() {
           </a>
 
           {/* DESKTOP NAV */}
-          <nav
-            className="desktop-nav"
-            aria-label="Primary navigation"
-          >
-            <ul className="nav__list">
-              {navLinks.map((item) => (
-                <li key={item.id} className="nav__item">
-                  {item.type === "anchor" ? (
+          <nav className="desktop-nav">
+            <ul>
+              {navLinks.map((link) =>
+                link.type === "anchor" ? (
+                  <li key={link.id}>
                     <a
-                      href={`/#${item.id}`}
-                      className={`nav__link ${
-                        activeSection === item.id ? "active" : ""
-                      }`}
-                      onClick={(e) => handleAnchorClick(e, item.id)}
+                      href={`/#${link.id}`}
+                      className={active === link.id ? "active" : ""}
+                      onClick={(e) => handleAnchor(e, link.id)}
                     >
-                      {item.label}
+                      {link.label}
                     </a>
-                  ) : (
-                    <Link to="/earn" className="nav__link">
-                      {item.label}
-                    </Link>
-                  )}
-                </li>
-              ))}
+                  </li>
+                ) : (
+                  <li key={link.id}>
+                    <Link to="/earn">{link.label}</Link>
+                  </li>
+                )
+              )}
             </ul>
           </nav>
 
-          {/* CTA */}
-          <Link to="/quote" className="main-cta">
+          {/* QUOTE BUTTON */}
+          <Link to="/quote" className="quote-btn">
             Get a Free Quote ▷
           </Link>
 
           {/* THEME BUTTON */}
-          <button
-            type="button"
-            className="theme-switch"
-            onClick={toggleTheme}
-            aria-label={
-              theme === "dark"
-                ? "Switch to light theme"
-                : "Switch to dark theme"
-            }
-          >
+          <button className="theme-btn" onClick={toggleTheme}>
             {theme === "dark" ? "🌞" : "🌙"}
           </button>
 
           {/* BURGER */}
           <button
-            type="button"
-            className={`burger ${menuOpen ? "active" : ""}`}
-            onClick={() => setMenuOpen((prev) => !prev)}
-            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
+            className={`burger ${menuOpen ? "open" : ""}`}
+            onClick={() => setMenuOpen(!menuOpen)}
           >
-            <span></span>
-            <span></span>
-            <span></span>
+            <span />
+            <span />
+            <span />
           </button>
         </div>
       </header>
 
       {/* MOBILE MENU */}
-      <div
-        id="mobile-menu"
-        className={`mobile-menu ${menuOpen ? "open" : ""}`}
-        aria-hidden={!menuOpen}
-      >
+      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         <ul>
-          {navLinks.map((item) => (
-            <li key={item.id}>
-              {item.type === "anchor" ? (
+          {navLinks.map((link) =>
+            link.type === "anchor" ? (
+              <li key={link.id}>
                 <a
-                  href={`/#${item.id}`}
-                  onClick={(e) => {
-                    setMenuOpen(false);
-                    handleAnchorClick(e, item.id);
-                  }}
+                  href={`/#${link.id}`}
+                  onClick={(e) => handleAnchor(e, link.id)}
                 >
-                  {item.label}
+                  {link.label}
                 </a>
-              ) : (
-                <Link
-                  to="/earn"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {item.label}
+              </li>
+            ) : (
+              <li key={link.id}>
+                <Link to="/earn" onClick={() => setMenuOpen(false)}>
+                  {link.label}
                 </Link>
-              )}
-            </li>
-          ))}
+              </li>
+            )
+          )}
         </ul>
 
         <Link

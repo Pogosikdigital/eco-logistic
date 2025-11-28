@@ -17,7 +17,9 @@ function AboutSectionComponent() {
   const [isVisible, setIsVisible] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  // Запоминаем пункты (SEO + производительность)
+  /* -----------------------------------------------
+     Bullet Points (мемоизация для производительности)
+  ------------------------------------------------- */
   const bulletPoints = useMemo(
     () => [
       "Nationwide coverage for cars, box trucks, and Amazon vans.",
@@ -28,7 +30,9 @@ function AboutSectionComponent() {
     []
   );
 
-  // SECTION FADE-IN
+  /* -----------------------------------------------
+     Появление всей секции при скролле
+  ------------------------------------------------- */
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -45,35 +49,40 @@ function AboutSectionComponent() {
           obs.disconnect();
         }
       },
-      { threshold: 0.22 }
+      { threshold: 0.18 }
     );
 
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
 
-  // 3D TILT — через requestAnimationFrame (плавней)
+  /* -----------------------------------------------
+     3D Tilt — через requestAnimationFrame (лучший вариант)
+  ------------------------------------------------- */
   const tiltFrame = useRef(null);
 
-  const handleTilt = useCallback((e) => {
-    const card = mediaRef.current;
-    if (!card || window.innerWidth < 900 || !isVisible) return;
+  const handleTilt = useCallback(
+    (e) => {
+      const card = mediaRef.current;
+      if (!card || window.innerWidth < 900 || !isVisible) return;
 
-    if (tiltFrame.current) cancelAnimationFrame(tiltFrame.current);
+      if (tiltFrame.current) cancelAnimationFrame(tiltFrame.current);
 
-    tiltFrame.current = requestAnimationFrame(() => {
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
-      const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+      tiltFrame.current = requestAnimationFrame(() => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+        const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
 
-      card.style.transform = `
-        perspective(1100px)
-        translate3d(0, -4px, 0)
-        rotateX(${y * -10}deg)
-        rotateY(${x * 10}deg)
-      `;
-    });
-  }, [isVisible]);
+        card.style.transform = `
+          perspective(1100px)
+          translate3d(0, 0, 0)
+          rotateX(${y * -10}deg)
+          rotateY(${x * 12}deg)
+        `;
+      });
+    },
+    [isVisible]
+  );
 
   const resetTilt = useCallback(() => {
     const card = mediaRef.current;
@@ -82,11 +91,14 @@ function AboutSectionComponent() {
     card.style.transform = `
       perspective(1100px)
       translate3d(0, 0, 0)
-      rotateX(0)
-      rotateY(0)
+      rotateX(0deg)
+      rotateY(0deg)
     `;
   }, []);
 
+  /* -----------------------------------------------
+     JSX OUTPUT
+  ------------------------------------------------- */
   return (
     <section
       ref={sectionRef}
@@ -99,17 +111,20 @@ function AboutSectionComponent() {
       <meta itemProp="name" content="EcoHub Logistics Inc" />
 
       <div className="about-container">
-        {/* HEADER */}
+        {/* ---------- HEADER ---------- */}
         <header className="about-header">
           <p className="about-kicker">About Us</p>
+
           <h2 className="about-title">About EcoHub Logistics Inc</h2>
+
           <p className="about-subtitle">
-            Safe, insured nationwide transport for cars, trucks, vans, and commercial fleets.
+            Safe, insured nationwide transport for cars, trucks, vans, and
+            commercial fleets.
           </p>
         </header>
 
         <div className="about-grid">
-          {/* LEFT — IMAGE PANEL */}
+          {/* ---------- LEFT IMAGE (3D Truck + LQIP) ---------- */}
           <figure
             ref={mediaRef}
             className="about-media"
@@ -120,8 +135,10 @@ function AboutSectionComponent() {
             <div className="about-media-inner">
               <img
                 src={trucksImage}
-                alt="Car hauler truck transporting vehicles across the United States"
-                className={`about-image ${imageLoaded ? "about-image--loaded" : ""}`}
+                alt="Car hauler truck transporting vehicles across the USA"
+                className={`about-image ${
+                  imageLoaded ? "about-image--loaded" : ""
+                }`}
                 loading="lazy"
                 decoding="async"
                 onLoad={() => setImageLoaded(true)}
@@ -129,7 +146,7 @@ function AboutSectionComponent() {
             </div>
           </figure>
 
-          {/* RIGHT — TEXT */}
+          {/* ---------- RIGHT CONTENT ---------- */}
           <article className="about-content">
             <p className="about-tag">Vehicle Shipping Experts</p>
 
@@ -138,15 +155,15 @@ function AboutSectionComponent() {
             </h3>
 
             <p className="about-content-text">
-              We provide insured, reliable transport for dealerships, individuals,
-              commercial fleets, and Amazon partners — coordinating dispatch,
-              tracking, carriers, and delivery.
+              We provide insured, reliable transport for dealerships,
+              individuals, commercial fleets, and Amazon partners — coordinating
+              dispatch, tracking, carriers, and delivery.
             </p>
 
             <ul className="about-list">
               {bulletPoints.map((point, i) => (
                 <li key={i}>
-                  <span className="about-dot"></span>
+                  <span className="about-dot" />
                   <span className="about-list-text">{point}</span>
                 </li>
               ))}

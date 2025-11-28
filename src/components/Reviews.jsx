@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 import "./styles/reviews.css";
 import { reviewsData } from "../data/reviewsData";
 
-// Скорость автоскролла (px / секунда) — подобрано под комфортное чтение
 const SCROLL_SPEED = 35;
 
 function Reviews() {
@@ -20,30 +19,24 @@ function Reviews() {
   const [isVisible, setIsVisible] = useState(false);
   const [enableTilt, setEnableTilt] = useState(false);
 
-  // позиция дорожки + id кадра + время предыдущего кадра
   const positionRef = useRef(0);
   const frameIdRef = useRef(null);
   const lastTimeRef = useRef(null);
-  const prefersReducedMotionRef = useRef(false);
+  const reducedMotionRef = useRef(false);
 
-  // Базовые отзывы (мемоизация)
+  /* -----------------------------------------
+      Data
+  ----------------------------------------- */
   const baseReviews = useMemo(() => reviewsData || [], []);
-  // Дублируем для бесконечной ленты
   const duplicatedReviews = useMemo(
     () => [...baseReviews, ...baseReviews],
     [baseReviews]
   );
 
-  // SEO: агрегированный рейтинг
   const aggregate = useMemo(() => {
-    if (!baseReviews.length) {
-      return { ratingValue: 0, reviewCount: 0 };
-    }
+    if (!baseReviews.length) return { ratingValue: 0, reviewCount: 0 };
 
-    const sum = baseReviews.reduce(
-      (acc, item) => acc + (item.rating || 0),
-      0
-    );
+    const sum = baseReviews.reduce((acc, r) => acc + (r.rating || 0), 0);
     const count = baseReviews.length;
 
     return {
@@ -52,150 +45,124 @@ function Reviews() {
     };
   }, [baseReviews]);
 
-  /* ------------------------------------------------------------
-     Prefers-reduced-motion + включение tilt только на десктопе
-  ------------------------------------------------------------ */
+  /* -----------------------------------------
+      Reduced motion
+  ----------------------------------------- */
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    reducedMotionRef.current = mq.matches;
 
-    // Reduced motion
-    const mq = window.matchMedia?.("(prefers-reduced-motion: reduce)");
-    if (!mq) return;
+    const listener = (e) => {
+      reducedMotionRef.current = e.matches;
 
-    prefersReducedMotionRef.current = mq.matches;
-
-    const listener = (event) => {
-      prefersReducedMotionRef.current = event.matches;
-
-      // Если пользователь включает reduced motion — останавливаем анимацию
-      if (event.matches && frameIdRef.current !== null) {
-        window.cancelAnimationFrame(frameIdRef.current);
+      if (e.matches && frameIdRef.current) {
+        cancelAnimationFrame(frameIdRef.current);
         frameIdRef.current = null;
         lastTimeRef.current = null;
-        const track = trackRef.current;
-        if (track) {
-          track.style.transform = "translate3d(0, 0, 0)";
+
+        if (trackRef.current) {
           positionRef.current = 0;
+          trackRef.current.style.transform = "translate3d(0, 0, 0)";
         }
       }
     };
 
-    mq.addEventListener?.("change", listener);
-    mq.addListener?.(listener); // fallback для старых браузеров
-
-    return () => {
-      mq.removeEventListener?.("change", listener);
-      mq.removeListener?.(listener);
-    };
+    mq.addEventListener("change", listener);
+    return () => mq.removeEventListener("change", listener);
   }, []);
 
+  /* -----------------------------------------
+      Tilt enable on desktop
+  ----------------------------------------- */
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const updateTilt = () => {
-      setEnableTilt(window.innerWidth >= 768);
-    };
-
-    updateTilt();
-    window.addEventListener("resize", updateTilt);
-    return () => window.removeEventListener("resize", updateTilt);
+    const update = () => setEnableTilt(window.innerWidth >= 900);
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
   }, []);
 
-  /* ------------------------------------------------------------
-     IntersectionObserver — плавное появление блока
-  ------------------------------------------------------------ */
+  /* -----------------------------------------
+      Intersection Observer
+  ----------------------------------------- */
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    if (
-      typeof window === "undefined" ||
-      typeof window.IntersectionObserver === "undefined"
-    ) {
+    if (!("IntersectionObserver" in window)) {
       setIsVisible(true);
       return;
     }
 
-    const observer = new IntersectionObserver(
+    const obs = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting) return;
-        setIsVisible(true);
-        observer.unobserve(entry.target);
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          obs.disconnect();
+        }
       },
       { threshold: 0.2 }
     );
 
-    observer.observe(section);
-
-    return () => observer.disconnect();
+    obs.observe(section);
+    return () => obs.disconnect();
   }, []);
 
-  /* ------------------------------------------------------------
-     Автоскролл дорожки (бесконечный loop, завязанный на время)
-  ------------------------------------------------------------ */
+  /* -----------------------------------------
+      Auto-scroll (RAF smooth)
+  ----------------------------------------- */
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track || !duplicatedReviews.length) return;
+    if (reducedMotionRef.current) return;
 
-    // Если reduced-motion — не запускаем бесконечную анимацию
-    if (prefersReducedMotionRef.current) {
-      track.style.transform = "translate3d(0, 0, 0)";
-      return;
-    }
+    const track = trackRef.current;
+    if (!track) return;
 
     positionRef.current = 0;
     lastTimeRef.current = null;
 
-    const animate = (time) => {
-      const trackEl = trackRef.current;
-      if (!trackEl) return;
+    const animate = (t) => {
+      if (!trackRef.current) return;
 
-      if (lastTimeRef.current == null) {
-        lastTimeRef.current = time;
+      if (lastTimeRef.current === null) {
+        lastTimeRef.current = t;
       }
 
-      const deltaSeconds = (time - lastTimeRef.current) / 1000;
-      lastTimeRef.current = time;
+      const dt = (t - lastTimeRef.current) / 1000;
+      lastTimeRef.current = t;
 
-      // Смещение зависит от времени кадра → супер плавно на любом FPS
-      positionRef.current -= SCROLL_SPEED * deltaSeconds;
+      positionRef.current -= SCROLL_SPEED * dt;
 
-      const resetAt = trackEl.scrollWidth / 2;
-      if (resetAt > 0 && Math.abs(positionRef.current) >= resetAt) {
-        // сохраняем "остаток", чтобы не было скачка
-        positionRef.current += resetAt * Math.sign(positionRef.current);
+      const reset = track.scrollWidth / 2;
+      if (Math.abs(positionRef.current) >= reset) {
+        positionRef.current += reset * Math.sign(positionRef.current);
       }
 
-      trackEl.style.transform = `translate3d(${positionRef.current}px, 0, 0)`;
-      frameIdRef.current = window.requestAnimationFrame(animate);
+      track.style.transform = `translate3d(${positionRef.current}px,0,0)`;
+      frameIdRef.current = requestAnimationFrame(animate);
     };
 
-    frameIdRef.current = window.requestAnimationFrame(animate);
+    frameIdRef.current = requestAnimationFrame(animate);
 
     return () => {
-      if (frameIdRef.current !== null) {
-        window.cancelAnimationFrame(frameIdRef.current);
-        frameIdRef.current = null;
-      }
+      if (frameIdRef.current) cancelAnimationFrame(frameIdRef.current);
       lastTimeRef.current = null;
     };
   }, [duplicatedReviews]);
 
-  /* ------------------------------------------------------------
-     3D tilt только на десктопах
-  ------------------------------------------------------------ */
-  const handleCardMove = useCallback(
-    (event) => {
-      if (!enableTilt || prefersReducedMotionRef.current) return;
+  /* -----------------------------------------
+      Tilt
+  ----------------------------------------- */
+  const handleTilt = useCallback(
+    (e) => {
+      if (!enableTilt || reducedMotionRef.current) return;
 
-      const card = event.currentTarget;
+      const card = e.currentTarget;
       const rect = card.getBoundingClientRect();
 
-      const x = event.clientX - rect.left - rect.width / 2;
-      const y = event.clientY - rect.top - rect.height / 2;
+      const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+      const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
 
-      const rotateX = (y / rect.height) * -10;
-      const rotateY = (x / rect.width) * 10;
+      const rotateX = (y * -10).toFixed(2);
+      const rotateY = (x * 12).toFixed(2);
 
       card.style.transform = `
         perspective(1000px)
@@ -207,16 +174,15 @@ function Reviews() {
     [enableTilt]
   );
 
-  const handleCardLeave = useCallback(
-    (event) => {
-      if (!enableTilt) return;
-      const card = event.currentTarget;
-      card.style.transform =
-        "perspective(1000px) translateY(0) rotateX(0) rotateY(0)";
-    },
-    [enableTilt]
-  );
+  const handleLeave = useCallback((e) => {
+    if (!enableTilt) return;
+    e.currentTarget.style.transform =
+      "perspective(1000px) translateY(0) rotateX(0) rotateY(0)";
+  }, [enableTilt]);
 
+  /* -----------------------------------------
+      RENDER (НОВАЯ СТРУКТУРА!)
+  ----------------------------------------- */
   return (
     <section
       ref={sectionRef}
@@ -224,17 +190,16 @@ function Reviews() {
       className={`reviews-section ${
         isVisible ? "reviews-section--visible" : ""
       }`}
-      aria-label="Customer reviews about EcoHub Logistics"
       itemScope
       itemType="https://schema.org/Product"
     >
-      {/* SEO microdata */}
-      <meta itemProp="name" content="EcoHub Logistics vehicle shipping" />
+      <meta itemProp="name" content="EcoHub Logistics car shipping" />
       <meta
         itemProp="description"
-        content="Customer reviews and feedback about nationwide car shipping with EcoHub Logistics."
+        content="Customer reviews and feedback about EcoHub Logistics nationwide transport."
       />
 
+      {/* SEO Aggregate */}
       {aggregate.reviewCount > 0 && (
         <div
           itemProp="aggregateRating"
@@ -252,77 +217,81 @@ function Reviews() {
         </div>
       )}
 
-      {/* HEAD */}
-      <div className="reviews-head">
-        <span className="reviews-kicker">Customer Voices</span>
-        <h2 className="reviews-title">Customer Reviews</h2>
-        <p className="reviews-subtitle">
-          Real feedback from clients who shipped their vehicles nationwide with
-          EcoHub Logistics.
-        </p>
-      </div>
+      {/* ===== NEW LAYOUT — как SERVICES ===== */}
+      <div className="reviews-container">
+        <div className="reviews-main">
+          {/* LEFT — HEAD */}
+          <div className="reviews-head">
+            <span className="reviews-kicker">Customer Voices</span>
 
-      {/* CAROUSEL */}
-      <div
-        className="reviews-carousel"
-        role="region"
-        aria-roledescription="carousel"
-        aria-label="Customer review carousel"
-      >
-        <div className="reviews-track" ref={trackRef}>
-          {duplicatedReviews.map((rev, index) => (
-            <article
-              key={`${rev.author}-${index}`}
-              className="review-card"
-              itemProp="review"
-              itemScope
-              itemType="https://schema.org/Review"
-              onMouseMove={handleCardMove}
-              onMouseLeave={handleCardLeave}
-            >
-              <header className="review-header">
-                <div className="review-avatar-wrapper">
-                  <img
-                    src={rev.avatar}
-                    alt={rev.author}
-                    className="review-avatar"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
+            <h2 className="reviews-title">Customer Reviews</h2>
 
-                <div>
-                  <p className="review-author" itemProp="author">
-                    {rev.author}
+            <p className="reviews-subtitle">
+              Real feedback from clients who shipped their vehicles nationwide
+              with EcoHub Logistics.
+            </p>
+          </div>
+
+          {/* RIGHT — CAROUSEL */}
+          <div className="reviews-carousel" role="region">
+            <div className="reviews-track" ref={trackRef}>
+              {duplicatedReviews.map((rev, i) => (
+                <article
+                  key={i}
+                  className="review-card"
+                  itemProp="review"
+                  itemScope
+                  itemType="https://schema.org/Review"
+                  onMouseMove={handleTilt}
+                  onMouseLeave={handleLeave}
+                >
+                  {/* HEADER */}
+                  <header className="review-header">
+                    <div className="review-avatar-wrapper">
+                      <img
+                        src={rev.avatar}
+                        alt={rev.author}
+                        className="review-avatar"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+
+                    <div>
+                      <p className="review-author" itemProp="author">
+                        {rev.author}
+                      </p>
+
+                      <p
+                        className="review-rating"
+                        itemProp="reviewRating"
+                        itemScope
+                        itemType="https://schema.org/Rating"
+                      >
+                        <meta
+                          itemProp="ratingValue"
+                          content={String(rev.rating)}
+                        />
+                        {"★".repeat(rev.rating)}
+                        <span className="review-rating-outof">/5</span>
+                      </p>
+                    </div>
+                  </header>
+
+                  <p className="review-text" itemProp="reviewBody">
+                    {rev.text}
                   </p>
-
-                  <p
-                    className="review-rating"
-                    itemProp="reviewRating"
-                    itemScope
-                    itemType="https://schema.org/Rating"
-                  >
-                    <meta
-                      itemProp="ratingValue"
-                      content={String(rev.rating)}
-                    />
-                    {"★".repeat(rev.rating)}
-                    <span className="review-rating-outof">/5</span>
-                  </p>
-                </div>
-              </header>
-
-              <p className="review-text" itemProp="reviewBody">
-                {rev.text}
-              </p>
-            </article>
-          ))}
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
 
-      <Link to="/reviews" className="reviews-cta">
-        Read all customer reviews ›
-      </Link>
+        {/* CTA BELOW */}
+        <Link to="/reviews" className="reviews-cta">
+          Read all customer reviews ›
+        </Link>
+      </div>
     </section>
   );
 }

@@ -1,156 +1,105 @@
 // src/components/Hero.jsx
-import React, {
-  useEffect,
-  useRef,
-  useState,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import heroTruck from "../assets/hero.png";
 import "./styles/hero.css";
 
+// Выносим карточки за компонент, чтобы не пересоздавать на каждый рендер
+const FEATURE_CARDS = [
+  {
+    id: "coverage",
+    title: "50+ States",
+    text: "Nationwide coverage",
+    icon: (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path
+          d="M4 28L10 18L20 14L28 10L40 12L50 18L58 26L60 34L54 42L46 46L36 48L24 46L14 40L6 34L4 28Z"
+          stroke="currentColor"
+          strokeWidth="3"
+          fill="none"
+        />
+      </svg>
+    ),
+  },
+  {
+    id: "price-lock",
+    title: "Price Lock",
+    text: "No hidden fees",
+    icon: (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <circle
+          cx="32"
+          cy="32"
+          r="20"
+          stroke="currentColor"
+          strokeWidth="3"
+          fill="none"
+        />
+        <path
+          d="M24 33l5 5 11-11"
+          stroke="currentColor"
+          strokeWidth="3"
+          fill="none"
+        />
+      </svg>
+    ),
+  },
+  {
+    id: "updates",
+    title: "Live Updates",
+    text: "From booking to delivery",
+    icon: (
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <rect
+          x="16"
+          y="12"
+          width="32"
+          height="40"
+          rx="3"
+          stroke="currentColor"
+          strokeWidth="3"
+          fill="none"
+        />
+        <path
+          d="M24 24h16M24 32h12M24 40h10"
+          stroke="currentColor"
+          strokeWidth="3"
+          fill="none"
+        />
+      </svg>
+    ),
+  },
+];
+
 function Hero() {
-  const heroRef = useRef(null);
-
-  // карточки “How we work” под хиро (мемоизированы)
-  const featureCards = useMemo(
-    () => [
-      {
-        id: "coverage",
-        title: "50+ States",
-        text: "Nationwide coverage",
-        icon: (
-          <svg viewBox="0 0 64 64" aria-hidden="true">
-            <path
-              d="M4 28L10 18L20 14L28 10L40 12L50 18L58 26L60 34L54 42L46 46L36 48L24 46L14 40L6 34L4 28Z"
-              stroke="currentColor"
-              strokeWidth="3"
-              fill="none"
-            />
-          </svg>
-        ),
-      },
-      {
-        id: "price-lock",
-        title: "Price Lock",
-        text: "No hidden fees",
-        icon: (
-          <svg viewBox="0 0 64 64" aria-hidden="true">
-            <circle
-              cx="32"
-              cy="32"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="3"
-              fill="none"
-            />
-            <path
-              d="M24 33l5 5 11-11"
-              stroke="currentColor"
-              strokeWidth="3"
-              fill="none"
-            />
-          </svg>
-        ),
-      },
-      {
-        id: "updates",
-        title: "Live Updates",
-        text: "From booking to delivery",
-        icon: (
-          <svg viewBox="0 0 64 64" aria-hidden="true">
-            <rect
-              x="16"
-              y="12"
-              width="32"
-              height="40"
-              rx="3"
-              stroke="currentColor"
-              strokeWidth="3"
-              fill="none"
-            />
-            <path
-              d="M24 24h16M24 32h12M24 40h10"
-              stroke="currentColor"
-              strokeWidth="3"
-              fill="none"
-            />
-          </svg>
-        ),
-      },
-    ],
-    []
-  );
-
   const [cardsDown, setCardsDown] = useState(false);
-  const [isInView, setIsInView] = useState(false); // для анимации появления
 
-  /* ===========================================================
-     SCROLL: движение карточек и линия с траком
-  ============================================================ */
+  // Лёгкий scroll-эффект: опускаем карточки и прячем truck-line
   useEffect(() => {
-    let ticking = false;
-
-    const handleScroll = () => {
-      const currentY = window.scrollY || window.pageYOffset;
-
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setCardsDown(currentY > 8);
-          ticking = false;
-        });
-        ticking = true;
-      }
+    const onScroll = () => {
+      const y = window.scrollY || window.pageYOffset || 0;
+      setCardsDown(y > 8);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // на случай, если зашёл не сверху
+    onScroll(); // на случай, если пользователь зашёл не с самого верха
+    window.addEventListener("scroll", onScroll, { passive: true });
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* ===========================================================
-     INTERSECTION OBSERVER: плавное появление HERO при первом скролле
-  ============================================================ */
-  useEffect(() => {
-    const node = heroRef.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true); // один раз
-          observer.disconnect();
-        }
-      },
-      {
-        threshold: 0.35,
-        root: null,
-        rootMargin: "0px 0px -10% 0px",
-      }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
-  /* ===========================================================
-     Smooth scroll "How it works"
-  ============================================================ */
-  const handleHowClick = useCallback((event) => {
+  // Smooth scroll к блоку "How it works"
+  const handleHowClick = (event) => {
     const target = document.getElementById("how");
     if (!target) return;
 
     event.preventDefault();
     target.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, []);
+  };
 
   return (
     <section
-      ref={heroRef}
       id="home"
-      className={`hero ${isInView ? "hero--visible" : "hero--hidden"}`}
+      className="hero"
       aria-label="EcoHub Logistics — vehicle shipping across the USA"
       itemScope
       itemType="https://schema.org/Service"
@@ -204,7 +153,7 @@ function Hero() {
                 src={heroTruck}
                 alt="Blue semi truck with American flag — EcoHub Logistics auto transport in the USA"
                 decoding="async"
-                loading="eager"
+                loading="lazy"
               />
             </div>
           </div>
@@ -216,7 +165,7 @@ function Hero() {
         className={`hero-features ${cardsDown ? "down" : "up"}`}
         aria-label="Key benefits of EcoHub Logistics"
       >
-        {featureCards.map((card) => (
+        {FEATURE_CARDS.map((card) => (
           <article
             key={card.id}
             className="feature-card"

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 import MainLayout from "./layouts/MainLayout";
 
-// Sections for home page
+// Home Sections
 import Hero from "./components/Hero";
 import HowItWorks from "./components/HowItWorks";
 import Services from "./components/Services";
@@ -20,35 +20,37 @@ import EarnWithUs from "./pages/EarnWithUs";
 function App() {
   const location = useLocation();
 
-  /* ------------------------------------------------------------------
-     1) Scroll to TOP при переходе между страницами
-     ------------------------------------------------------------------ */
+  /* ------------------------------------------------------------
+     1) Scroll вверх при обычной смене страниц (без hash)
+     ------------------------------------------------------------ */
   useEffect(() => {
-    // Если есть hash — это якорь, пропускаем (scroll пойдет во втором эффекте)
-    if (location.hash) return;
+    if (location.hash) return; // если якорь — пусть обработает второй хук
 
-    // Скроллим вверх при смене pathname
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: "smooth",
+      behavior: "auto", // корректный стандарт браузера
     });
   }, [location.pathname]);
 
-  /* ------------------------------------------------------------------
-     2) Scroll к секции при переходе типа "/#about" или "/#contact"
-     ------------------------------------------------------------------ */
+  /* ------------------------------------------------------------
+     2) Scroll к нужной секции при переходе типа /#contact /#about
+     ------------------------------------------------------------ */
   useEffect(() => {
-    if (location.pathname === "/" && location.hash) {
-      const id = location.hash.replace("#", "");
+    if (!location.hash) return;
 
-      setTimeout(() => {
-        const el = document.getElementById(id);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }, 0);
-    }
+    const sectionId = location.hash.replace("#", "");
+
+    // Небольшая задержка — чтобы DOM успел отрендериться
+    setTimeout(() => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 80);
   }, [location]);
 
   return (
@@ -68,7 +70,7 @@ function App() {
         }
       />
 
-      {/* Страница формы */}
+      {/* Quote Page */}
       <Route
         path="/quote"
         element={
@@ -78,7 +80,7 @@ function App() {
         }
       />
 
-      {/* Страница отзывов */}
+      {/* Reviews Page */}
       <Route
         path="/reviews"
         element={

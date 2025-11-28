@@ -1,37 +1,48 @@
+// src/components/DiscountProgram.jsx
 import React from "react";
 import "./discount.css";
 
-import discountImg from "../assets/discount-truck.jpg"; // Добавишь своё фото сюда
+import discountImg from "../assets/discount-truck.jpg"; // твой файл
 
 export default function DiscountProgram() {
   return (
-    <section className="discount-wrapper" id="discount">
-      <div className="discount-inner">
-
+    <section className="discount-section" id="discount">
+      <div className="discount-shell">
         {/* LEFT IMAGE */}
         <div className="discount-image-block">
-          <img src={discountImg} alt="Discount Program" />
+          <img
+            src={discountImg}
+            alt="Vehicle transport truck with discount program"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
 
         {/* RIGHT CONTENT */}
         <div className="discount-content">
-          <span className="discount-label">Discount Program</span>
-
+          <span className="discount-label">Loyalty & Discount Program</span>
           <h2 className="discount-title">
-            Loyalty Must <br /> Be Rewarded!
+            Loyalty deserves
+            <br />
+            real rewards.
           </h2>
 
           <p className="discount-text">
-            As a valued customer, we’re excited to offer you
-            <span> exclusive discounts </span>
-            to make your shipping experience even better.
+            As a returning customer or partner, you get access to{" "}
+            <span>exclusive pricing, repeat-client discounts</span> and priority
+            scheduling on your future shipments.
           </p>
 
+          <ul className="discount-list">
+            <li>Better rates for multi-vehicle and repeat orders</li>
+            <li>Priority dispatch on time-sensitive shipments</li>
+            <li>Dedicated coordinator for your bookings</li>
+          </ul>
+
           <a href="/#contact" className="discount-btn">
-            Get Discounts
+            Get My Discount
           </a>
         </div>
-
       </div>
     </section>
   );

@@ -10,7 +10,6 @@ export default function WhyPartner() {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
-  // Smooth fade-in on scroll
   useEffect(() => {
     const section = ref.current;
     if (!section) return;
@@ -27,7 +26,7 @@ export default function WhyPartner() {
           obs.unobserve(section);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.25 }
     );
 
     obs.observe(section);
@@ -41,15 +40,25 @@ export default function WhyPartner() {
       className={`why-wrapper ${visible ? "why-visible" : ""}`}
     >
       <div className="why-inner">
-        <h2 className="why-title">Why Partner With Us?</h2>
+        <h2 className="why-title">Why Partner With EcoHub?</h2>
         <p className="why-subtitle">
-          Start earning today by helping others ship their vehicles with a trusted and reliable team.
+          Start earning just by connecting people who need vehicle shipping
+          with a team that handles everything from quote to delivery.
         </p>
 
         <div className="why-grid">
-          <WhyCard img={photoRefer} text="No Commitment — Just Refer & Earn" />
-          <WhyCard img={photoLogistics} text="We Handle All The Logistics — You Earn" />
-          <WhyCard img={photoFlexible} text="Flexible Income — Earn Anytime, Anywhere" />
+          <WhyCard
+            img={photoRefer}
+            text="No commitment, contracts or fees — simply refer and earn on every completed shipment."
+          />
+          <WhyCard
+            img={photoLogistics}
+            text="We handle dispatch, drivers, updates and customers — you focus only on bringing leads."
+          />
+          <WhyCard
+            img={photoFlexible}
+            text="Flexible income from anywhere — perfect for influencers, agents or business owners."
+          />
         </div>
       </div>
     </section>
@@ -58,11 +67,11 @@ export default function WhyPartner() {
 
 function WhyCard({ img, text }) {
   return (
-    <div className="why-card">
+    <article className="why-card">
       <div className="why-img-frame">
         <img src={img} alt={text} loading="lazy" decoding="async" />
       </div>
       <p className="why-text">{text}</p>
-    </div>
+    </article>
   );
 }

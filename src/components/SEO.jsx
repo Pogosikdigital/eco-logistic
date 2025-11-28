@@ -1,5 +1,5 @@
 // src/components/SEO.jsx
-import { Helmet } from "react-helmet-async";
+
 
 export default function SEO({
   title,
@@ -30,7 +30,7 @@ export default function SEO({
   const image = ogImage || `${baseUrl}/og-image.jpg`; // подменишь на свой реальный путь
 
   return (
-    <Helmet>
+    <>
       {/* Title */}
       <title>{fullTitle}</title>
 
@@ -55,6 +55,6 @@ export default function SEO({
       <meta name="twitter:title" content={finalOgTitle} />
       <meta name="twitter:description" content={finalOgDescription} />
       <meta name="twitter:image" content={image} />
-    </Helmet>
+      </>
   );
 }

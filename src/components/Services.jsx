@@ -8,15 +8,14 @@ function Services() {
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  // Мемоизация массива (ускорение)
+  // Мемоизация массива (на всякий случай, но он и так статичный)
   const services = useMemo(() => servicesData, []);
 
-  // Intersection Observer → плавный fade-in
+  // Лёгкий IntersectionObserver → плавное появление секции
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
 
-    // Фоллбек для старых браузеров
     if (!("IntersectionObserver" in window)) {
       setIsVisible(true);
       return;
@@ -29,7 +28,10 @@ function Services() {
           observer.disconnect();
         }
       },
-      { threshold: 0.18 }
+      {
+        threshold: 0.18,
+        rootMargin: "0px 0px -10% 0px",
+      }
     );
 
     observer.observe(el);
