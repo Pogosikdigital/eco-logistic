@@ -9,7 +9,6 @@
   position: relative;
   overflow: hidden;
 
-  /* плавное включение всей секции */
   opacity: 0;
   transform: translateY(22px);
   transition: opacity 0.65s ease-out, transform 0.65s ease-out;
@@ -21,7 +20,7 @@
 }
 
 /* ===========================================================
-   BACKGROUND GLOW — optimized (меньше blur нагружает меньше)
+   BACKGROUND GLOW — optimized
    =========================================================== */
 
 .about-section::before,
@@ -31,7 +30,7 @@
   width: 380px;
   height: 380px;
   border-radius: 50%;
-  filter: blur(100px); /* было 120 → GPU легче */
+  filter: blur(100px);
   opacity: 0.22;
   pointer-events: none;
   animation: aboutFloat 24s ease-in-out infinite;
@@ -65,7 +64,7 @@
 }
 
 /* ===========================================================
-   HEADER — unified with your global style
+   HEADER
    =========================================================== */
 
 .about-header {
@@ -74,7 +73,6 @@
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.65s ease-out, transform 0.65s ease-out;
-  will-change: opacity, transform;
 }
 
 .about-section--visible .about-header {
@@ -96,7 +94,6 @@
   color: #cbd5f5;
   border: 1px solid rgba(14, 139, 255, 0.55);
   margin-bottom: 0.85rem;
-  text-shadow: 0 0 8px rgba(14, 139, 255, 0.4);
 }
 
 .about-title {
@@ -124,7 +121,7 @@
 }
 
 /* ===========================================================
-   LEFT — Truck 3D + LQIP + smoother
+   LEFT — 3D IMAGE
    =========================================================== */
 
 .about-media {
@@ -145,7 +142,6 @@
   transition:
     transform 0.95s cubic-bezier(0.19, 1, 0.22, 1),
     opacity 0.85s ease-out;
-  will-change: transform, opacity;
 }
 
 .about-section--visible .about-media {
@@ -161,7 +157,6 @@
   overflow: hidden;
 }
 
-/* LQIP улучшенный — меньше blur → меньше артефактов */
 .about-image {
   width: 100%;
   height: 100%;
@@ -183,7 +178,6 @@
   transform: scale(1.02);
 }
 
-/* Neon overlays */
 .about-media::after {
   content: "";
   position: absolute;
@@ -195,13 +189,8 @@
   pointer-events: none;
 }
 
-/* Hover depth */
-.about-media:hover .about-image--loaded {
-  transform: scale(1.06);
-}
-
 /* ===========================================================
-   RIGHT — Content (glass + stagger)
+   RIGHT — CONTENT
    =========================================================== */
 
 .about-content {
@@ -223,7 +212,6 @@
   transition:
     opacity 0.85s ease-out,
     transform 0.9s cubic-bezier(0.19,1,0.22,1);
-  will-change: opacity, transform;
 }
 
 .about-section--visible .about-content {
@@ -264,7 +252,6 @@
   margin-bottom: 1.45rem;
 }
 
-/* List stagger */
 .about-list {
   list-style: none;
   margin: 0 0 2rem;
@@ -290,6 +277,7 @@
 .about-section--visible .about-list li:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.42s; }
 .about-section--visible .about-list li:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.48s; }
 
+/* Dot */
 .about-dot {
   width: 9px;
   height: 9px;
@@ -300,94 +288,86 @@
   box-shadow: 0 0 20px rgba(250,204,21,0.9);
 }
 
-/* Buttons */
+/* ===========================================================
+   PRIMARY CTA — IDENTICAL TO HERO
+   =========================================================== */
+
+/* ===========================================================
+   ABOUT — CTA BUTTONS (идеально ровные, как в HERO)
+   =========================================================== */
+
 .about-actions {
   display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
+  align-items: center;     /* ровняем по вертикали */
+  gap: 20px;               /* идеальный отступ между кнопками */
+  margin-top: 1.4rem;
+  flex-wrap: wrap;         /* чтобы не ломалось */
 }
 
+/* PRIMARY CTA — полный стиль из HERO */
 .about-primary-cta {
-  padding: 12px 26px !important;
-  border-radius: 16px !important;
-  font-size: 1rem !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem 2rem;
+  font-weight: 600;
+  font-size: 1.05rem;
+  border-radius: 16px;
+  text-decoration: none;
+
+  background: var(--cta-bg);
+  color: #fff;
+
+  box-shadow: 0 10px 25px rgba(0, 140, 255, 0.55);
+  transition: 0.3s ease;
+
+  white-space: nowrap; /* текст не переносится */
 }
 
+.about-primary-cta:hover {
+  transform: translateY(-4px);
+  background: var(--cta-hover);
+  box-shadow: 0 15px 35px rgba(0, 160, 255, 0.7);
+}
+
+/* SECONDARY CTA — такой же размер и ровность */
 .about-secondary-cta {
-  padding: 12px 22px;
-  font-size: 0.95rem;
-  border-radius: 16px;
-  border: 1px solid rgba(148,163,184,0.55);
-  background: rgba(15,23,42,0.85);
-  color: #e5e7eb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem 2rem;
+  font-size: 1.05rem;
   font-weight: 600;
+  border-radius: 16px;
+  white-space: nowrap;
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #e5e7eb;
   text-decoration: none;
+
   transition: 0.25s ease;
 }
 
 .about-secondary-cta:hover {
-  background: rgba(15,23,42,0.98);
+  background: rgba(255, 255, 255, 0.16);
   border-color: #38bdf8;
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 0 26px rgba(56,189,248,0.55);
+  box-shadow: 0 0 26px rgba(56, 189, 248, 0.45);
 }
 
-/* ===========================================================
-   RESPONSIVE
-   =========================================================== */
-
-@media (max-width: 1024px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 26px;
-  }
-
-  .about-media,
-  .about-content {
-    max-width: 760px;
-    margin-inline: auto;
-  }
-}
-
-@media (max-width: 768px) {
-  .about-section {
-    padding: 4.2rem 1.4rem 3.7rem;
-  }
-
-  .about-title {
-    font-size: 2.2rem;
-  }
-
-  .about-content-title {
-    font-size: 1.6rem;
-  }
-
-  .about-content {
-    padding: 24px 20px 22px;
-  }
-}
-
+/* Mobile — кнопки в колонку */
 @media (max-width: 480px) {
-  .about-section {
-    padding: 3.8rem 1.2rem 3.4rem;
-  }
-
-  .about-title {
-    font-size: 1.9rem;
-  }
-
-  .about-media-inner {
-    aspect-ratio: 4/3;
-  }
-
   .about-actions {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .about-primary-cta,
   .about-secondary-cta {
     width: 100%;
-    justify-content: center;
   }
 }

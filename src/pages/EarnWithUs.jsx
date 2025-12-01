@@ -55,10 +55,6 @@ export default function EarnWithUs() {
               <p className="earn-icon-text">Perfect as a side-income</p>
             </div>
           </div>
-
-          <div className="earn-buttons">
-            <a href="/#contact" className="earn-btn-talk">Let’s Talk</a>
-          </div>
         </div>
 
         {/* RIGHT SIDE — STATIC TRUCK WITH ANIMATION */}

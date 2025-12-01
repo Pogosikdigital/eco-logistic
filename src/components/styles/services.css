@@ -103,12 +103,14 @@
   max-width: 520px;
 }
 
-/* ===== GRID ===== */
+/* ===========================================================
+   GRID — Desktop: ALWAYS 3 columns
+   =========================================================== */
 
 .services-grid {
   display: grid;
   gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
 }
 
 /* ===========================================================
@@ -155,7 +157,6 @@
   opacity: 0.75;
 }
 
-/* hover — без масштабирования, чуть легче по GPU */
 .service-card:hover {
   transform: translateY(-6px);
   border-color: rgba(56, 189, 248, 0.7);
@@ -221,6 +222,11 @@
 
   .services-subtitle {
     margin-inline: auto;
+  }
+
+  /* return auto-fit for tablet/mobile */
+  .services-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   }
 }
 
