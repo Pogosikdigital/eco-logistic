@@ -5,9 +5,32 @@ import "./discount.css";
 import discountImg from "../assets/discount-truck.jpg"; // твой файл
 
 export default function DiscountProgram() {
+  
+  const goToContact = () => {
+    const el = document.getElementById("contact");
+
+    // Если форма уже на странице — скроллим
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+
+    // Если страница не главная — делаем корректный переход для HashRouter
+    window.location.href = "/#/";
+
+    // После загрузки — плавный скролл к форме
+    setTimeout(() => {
+      const target = document.getElementById("contact");
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 300);
+  };
+
   return (
     <section className="discount-section" id="discount">
       <div className="discount-shell">
+        
         {/* LEFT IMAGE */}
         <div className="discount-image-block">
           <img
@@ -21,6 +44,7 @@ export default function DiscountProgram() {
         {/* RIGHT CONTENT */}
         <div className="discount-content">
           <span className="discount-label">Loyalty & Discount Program</span>
+          
           <h2 className="discount-title">
             Loyalty deserves
             <br />
@@ -39,9 +63,9 @@ export default function DiscountProgram() {
             <li>Dedicated coordinator for your bookings</li>
           </ul>
 
-          <a href="/#contact" className="discount-btn">
+          <button className="discount-btn" onClick={goToContact}>
             Get My Discount
-          </a>
+          </button>
         </div>
       </div>
     </section>

@@ -17,9 +17,7 @@ function AboutSectionComponent() {
   const [isVisible, setIsVisible] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  /* -----------------------------------------------
-     Bullet Points (мемоизация для производительности)
-  ------------------------------------------------- */
+  /* Bullet points */
   const bulletPoints = useMemo(
     () => [
       "Nationwide coverage for cars, box trucks, and Amazon vans.",
@@ -30,9 +28,7 @@ function AboutSectionComponent() {
     []
   );
 
-  /* -----------------------------------------------
-     Появление всей секции при скролле
-  ------------------------------------------------- */
+  /* Reveal on scroll */
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -56,9 +52,7 @@ function AboutSectionComponent() {
     return () => obs.disconnect();
   }, []);
 
-  /* -----------------------------------------------
-     3D Tilt — через requestAnimationFrame (лучший вариант)
-  ------------------------------------------------- */
+  /* 3D Tilt */
   const tiltFrame = useRef(null);
 
   const handleTilt = useCallback(
@@ -96,9 +90,7 @@ function AboutSectionComponent() {
     `;
   }, []);
 
-  /* -----------------------------------------------
-     JSX OUTPUT
-  ------------------------------------------------- */
+  /* JSX */
   return (
     <section
       ref={sectionRef}
@@ -124,7 +116,7 @@ function AboutSectionComponent() {
         </header>
 
         <div className="about-grid">
-          {/* ---------- LEFT IMAGE (3D Truck + LQIP) ---------- */}
+          {/* ---------- LEFT IMAGE (3D Tilt) ---------- */}
           <figure
             ref={mediaRef}
             className="about-media"
@@ -169,12 +161,27 @@ function AboutSectionComponent() {
               ))}
             </ul>
 
+            {/* ---------- ACTION BUTTONS ---------- */}
             <div className="about-actions">
               <Link to="/quote" className="main-cta about-primary-cta">
                 Get a Free Quote ›
               </Link>
 
-              <a href="#contact" className="about-secondary-cta">
+              {/* Smooth scroll to contact */}
+              <a
+                href="#contact"
+                className="about-secondary-cta"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const target = document.getElementById("contact");
+                  if (target) {
+                    target.scrollIntoView({
+                      behavior: "smooth",
+                      block: "start",
+                    });
+                  }
+                }}
+              >
                 Contact Us
               </a>
             </div>

@@ -404,3 +404,37 @@
     transform: none !important;
   }
 }
+/* ===========================================================
+   FIX — SVG NOT VISIBLE ON MOBILE
+   =========================================================== */
+
+.feature-card {
+  color: #ffffff !important; /* важный фикс — для currentColor */
+}
+
+.feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-icon svg {
+  width: 38px;
+  height: 38px;
+  display: block;
+
+  /* фикс для мобильных */
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none !important;
+
+  /* чтобы SVG не сжимался */
+  flex-shrink: 0;
+}
+
+.feature-icon svg path,
+.feature-icon svg circle,
+.feature-icon svg rect {
+  stroke: #ffffff !important;
+}
+
