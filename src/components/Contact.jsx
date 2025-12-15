@@ -1,8 +1,6 @@
-// src/components/Contact.jsx
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback } from "react";
 import "./styles/contact.css";
 
-// INITIAL FORM
 const initialForm = {
   name: "",
   phone: "",
@@ -21,15 +19,8 @@ export default function Contact() {
   const [globalError, setGlobalError] = useState("");
   const [showPhone, setShowPhone] = useState(false);
 
-  const apiUrl = useMemo(
-    () => "https://untransparent-transpolar-tequila.ngrok-free.dev/api/lead",
-    []
-  );
+  const apiUrl = "/api/lead";
 
-  /* -----------------------------------------
-     PHONE AUTOFORMAT — USA STANDARD
-     +1 (xxx) xxx-xxxx
-  ------------------------------------------ */
   const formatPhone = useCallback((v) => {
     const digits = v.replace(/\D/g, "").substring(0, 10);
 
@@ -43,9 +34,6 @@ export default function Contact() {
     )}`;
   }, []);
 
-  /* -----------------------------------------
-     FIELD CHANGE
-  ------------------------------------------ */
   const handleChange = useCallback(
     (field, value) => {
       setForm((prev) => ({
@@ -59,9 +47,6 @@ export default function Contact() {
     [formatPhone]
   );
 
-  /* -----------------------------------------
-     VALIDATION
-  ------------------------------------------ */
   const validate = useCallback(() => {
     const e = {};
 
@@ -81,12 +66,10 @@ export default function Contact() {
     return e;
   }, [form]);
 
-  /* -----------------------------------------
-     SUBMIT
-  ------------------------------------------ */
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
+
       const v = validate();
       setErrors(v);
       if (Object.keys(v).length > 0) return;
@@ -102,21 +85,18 @@ export default function Contact() {
           body: JSON.stringify({ source: "contact-form", ...form }),
         });
 
-        console.log("Contact status:", res.status);
+        const data = await res.json().catch(() => null);
 
-        try {
-          const data = await res.json();
-          console.log("Contact JSON:", data);
-        } catch {
-          console.warn("JSON parsing skipped");
+        if (!res.ok || !data?.ok) {
+          throw new Error(data?.error || "send_failed");
         }
 
         setForm(initialForm);
         setSubmitted(true);
       } catch (err) {
-        console.error("NETWORK ERROR:", err);
+        console.error("SEND ERROR:", err);
         setGlobalError(
-          "We couldn't reach the server. Please try again in a minute."
+          "We couldn't send your request right now. Please try again in a minute."
         );
       } finally {
         setSending(false);
@@ -125,9 +105,6 @@ export default function Contact() {
     [apiUrl, form, validate]
   );
 
-  /* -----------------------------------------
-     RENDER
-  ------------------------------------------ */
   return (
     <section
       id="contact"
@@ -149,12 +126,10 @@ export default function Contact() {
         itemType="https://schema.org/Organization"
       >
         <meta itemProp="name" content="EcoHub Logistics" />
-        <meta itemProp="url" content="https://ecohub-logistics.com" />
+        <meta itemProp="url" content="https://ecohublogistics.com" />
 
-        {/* NEON BORDER RUNNER */}
         <div className="border-runner" aria-hidden="true" />
 
-        {/* NEON BADGE */}
         <button
           type="button"
           className={`contact-badge-btn neon-pulse-btn ${
@@ -178,7 +153,6 @@ export default function Contact() {
           <p className="phone-number">(650) 999-9660</p>
         </div>
 
-        {/* HEADER */}
         <header className="contact-header">
           <h2 id="contact-heading" className="contact-title">
             Get in Touch
@@ -192,18 +166,7 @@ export default function Contact() {
           Average response time: <span>5–10 minutes</span>
         </p>
 
-        {/* FORM */}
-        <form
-          className="contact-form"
-          onSubmit={handleSubmit}
-          noValidate
-          itemProp="potentialAction"
-          itemScope
-          itemType="https://schema.org/ContactAction"
-        >
-          <meta itemProp="target" content={apiUrl} />
-
-          {/* ===== ROW 1 ===== */}
+        <form className="contact-form" onSubmit={handleSubmit} noValidate>
           <div className="form-row">
             <Field
               label="Full Name"
@@ -212,7 +175,6 @@ export default function Contact() {
               onChange={(v) => handleChange("name", v)}
               error={errors.name}
               icon="user"
-              itemProp="name"
             />
 
             <Field
@@ -222,11 +184,9 @@ export default function Contact() {
               onChange={(v) => handleChange("phone", v)}
               error={errors.phone}
               icon="phone"
-              itemProp="telephone"
             />
           </div>
 
-          {/* ===== ROW 2 ===== */}
           <div className="form-row">
             <Field
               label="Email"
@@ -236,7 +196,6 @@ export default function Contact() {
               error={errors.email}
               type="email"
               icon="mail"
-              itemProp="email"
             />
 
             <Field
@@ -246,11 +205,9 @@ export default function Contact() {
               onChange={(v) => handleChange("pickup", v)}
               error={errors.pickup}
               icon="location"
-              itemProp="areaServed"
             />
           </div>
 
-          {/* ===== ROW 3 ===== */}
           <div className="form-row">
             <Field
               label="Delivery Location"
@@ -267,20 +224,16 @@ export default function Contact() {
               value={form.vehicle}
               onChange={(v) => handleChange("vehicle", v)}
               icon="car"
-              itemProp="makesOffer"
             />
           </div>
 
-          {/* MESSAGE */}
           <FieldTextarea
             label="Message"
             id="contact-message"
             value={form.message}
             onChange={(v) => handleChange("message", v)}
-            itemProp="description"
           />
 
-          {/* SUBMIT */}
           <button type="submit" className="contact-cta" disabled={sending}>
             {sending ? "Sending…" : "Send Request"}
             <span className="arrow">›</span>
@@ -303,19 +256,7 @@ export default function Contact() {
   );
 }
 
-/* -----------------------------------------
-   REUSABLE FIELD COMPONENT
------------------------------------------- */
-function Field({
-  id,
-  label,
-  value,
-  onChange,
-  error,
-  icon,
-  type = "text",
-  itemProp,
-}) {
+function Field({ id, label, value, onChange, error, icon, type = "text" }) {
   return (
     <div className={`form-field ${error ? "error" : ""}`}>
       <div className="field-shell">
@@ -332,7 +273,6 @@ function Field({
           placeholder=" "
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          itemProp={itemProp}
         />
       </div>
       {error && <p className="error-text">{error}</p>}
@@ -340,10 +280,7 @@ function Field({
   );
 }
 
-/* -----------------------------------------
-   TEXTAREA FIELD
------------------------------------------- */
-function FieldTextarea({ id, label, value, onChange, itemProp }) {
+function FieldTextarea({ id, label, value, onChange }) {
   return (
     <div className="form-field">
       <div className="field-shell field-shell-textarea">
@@ -360,16 +297,12 @@ function FieldTextarea({ id, label, value, onChange, itemProp }) {
           rows={4}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          itemProp={itemProp}
         />
       </div>
     </div>
   );
 }
 
-/* -----------------------------------------
-   ICON COMPONENT
------------------------------------------- */
 function Icon({ name }) {
   switch (name) {
     case "user":

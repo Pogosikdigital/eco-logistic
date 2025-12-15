@@ -1,12 +1,7 @@
 // src/components/QuoteSection.jsx
-import GoogleRew from '../../public/googleRew.png'
+import GoogleRew from "../../public/googleRew.png";
 
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-} from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./styles/quotesection.css";
 import quoteImage from "../../public/image.png";
 import usaMap from "./../assets/usa-map.png";
@@ -46,34 +41,34 @@ export default function QuoteSection() {
 
   const [enableTilt, setEnableTilt] = useState(false);
 
+  // ✅ API URL: для Vercel всегда норм /api/lead
+  // Если хочешь локально дергать другой бек — добавь VITE_API_URL в .env (например http://localhost:3000/api/lead)
+  const apiUrl = import.meta?.env?.VITE_API_URL || "/api/lead";
+
   // ====== VALIDATION ======
   const validateField = (name, value) => {
     switch (name) {
       case "fullName":
         if (!value.trim()) return "Please enter your full name.";
-        if (value.trim().length < 2)
-          return "Name must be at least 2 characters.";
+        if (value.trim().length < 2) return "Name must be at least 2 characters.";
         return "";
       case "email": {
         if (!value.trim()) return "Please enter your email.";
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value.trim()))
-          return "Please enter a valid email address.";
+        if (!emailRegex.test(value.trim())) return "Please enter a valid email address.";
         return "";
       }
       case "phone": {
         if (!value.trim()) return "Please enter your phone number.";
         const digits = value.replace(/\D/g, "");
-        if (digits.length < 10)
-          return "Phone number should contain at least 10 digits.";
+        if (digits.length < 10) return "Phone number should contain at least 10 digits.";
         return "";
       }
       case "pickupZip":
       case "deliveryZip": {
         if (!value.trim()) return "ZIP code is required.";
         const zipRegex = /^\d{5}(-\d{4})?$/;
-        if (!zipRegex.test(value.trim()))
-          return "Please enter a valid ZIP code.";
+        if (!zipRegex.test(value.trim())) return "Please enter a valid ZIP code.";
         return "";
       }
       case "transportType":
@@ -88,8 +83,7 @@ export default function QuoteSection() {
         return "";
       }
       case "notes": {
-        if (value.length > 600)
-          return "Notes should be shorter than 600 characters.";
+        if (value.length > 600) return "Notes should be shorter than 600 characters.";
         return "";
       }
       default:
@@ -110,7 +104,6 @@ export default function QuoteSection() {
     const { name, value } = e.target;
 
     let nextValue = value;
-
     if (name === "phone") nextValue = formatPhoneUS(value);
 
     setForm((prev) => ({ ...prev, [name]: nextValue }));
@@ -138,14 +131,10 @@ export default function QuoteSection() {
 
     const foundErrors = validateForm(form);
     setErrors(foundErrors);
-    setTouched(
-      Object.keys(form).reduce((acc, key) => ({ ...acc, [key]: true }), {})
-    );
+    setTouched(Object.keys(form).reduce((acc, key) => ({ ...acc, [key]: true }), {}));
 
     if (Object.keys(foundErrors).length > 0) {
-      const firstField = document.querySelector(
-        `[name="${Object.keys(foundErrors)[0]}"]`
-      );
+      const firstField = document.querySelector(`[name="${Object.keys(foundErrors)[0]}"]`);
       if (firstField) firstField.focus();
       return;
     }
@@ -153,26 +142,35 @@ export default function QuoteSection() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(
-        "https://untransparent-transpolar-tequila.ngrok-free.dev/api/lead",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ source: "quote-form", ...form }),
-        }
-      );
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ source: "quote-form", ...form }),
+      });
 
       let data = null;
       try {
         data = await response.json();
       } catch {}
 
+      // ✅ если сервер реально упал/не найден — покажем ошибку
+      if (!response.ok) {
+        setSubmitError("Server error. Please try again in a minute.");
+        return;
+      }
+
+      // ✅ если бек вернул ok:false — тоже ошибка (на всякий)
+      if (data && data.ok === false) {
+        setSubmitError("We couldn't send your request. Please try again later.");
+        return;
+      }
+
       setSubmitSuccess(true);
       setForm(initialForm);
       setTouched({});
       setErrors({});
     } catch (err) {
-      setSubmitError("We couldn't reach the server. Please try again later.");
+      setSubmitError("We couldn't reach the server. Please try again in a minute.");
     } finally {
       setIsSubmitting(false);
     }
@@ -245,15 +243,11 @@ export default function QuoteSection() {
       itemScope
       itemType="https://schema.org/ContactPage"
     >
-      <meta
-        itemProp="about"
-        content="Vehicle shipping and auto transport across the USA"
-      />
+      <meta itemProp="about" content="Vehicle shipping and auto transport across the USA" />
 
       <div className="quote-inner">
         {/* LEFT AREA */}
         <div className="quote-left">
-
           {/* ⭐ GOOGLE REVIEWS BADGE */}
           <div className="quote-google-rating">
             <img
@@ -329,9 +323,7 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.fullName}
-                  aria-describedby={
-                    errors.fullName ? "fullName-error" : undefined
-                  }
+                  aria-describedby={errors.fullName ? "fullName-error" : undefined}
                   required
                   itemProp="name"
                 />
@@ -355,9 +347,7 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.email}
-                  aria-describedby={
-                    errors.email ? "email-error" : undefined
-                  }
+                  aria-describedby={errors.email ? "email-error" : undefined}
                   required
                   itemProp="email"
                 />
@@ -381,9 +371,7 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.phone}
-                  aria-describedby={
-                    errors.phone ? "phone-error" : undefined
-                  }
+                  aria-describedby={errors.phone ? "phone-error" : undefined}
                   required
                   itemProp="telephone"
                 />
@@ -421,9 +409,7 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.pickupZip}
-                  aria-describedby={
-                    errors.pickupZip ? "pickupZip-error" : undefined
-                  }
+                  aria-describedby={errors.pickupZip ? "pickupZip-error" : undefined}
                 />
                 {errors.pickupZip && (
                   <span id="pickupZip-error" className="field-error">
@@ -445,9 +431,7 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.deliveryZip}
-                  aria-describedby={
-                    errors.deliveryZip ? "deliveryZip-error" : undefined
-                  }
+                  aria-describedby={errors.deliveryZip ? "deliveryZip-error" : undefined}
                 />
                 {errors.deliveryZip && (
                   <span id="deliveryZip-error" className="field-error">
@@ -466,9 +450,7 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.transportType}
-                  aria-describedby={
-                    errors.transportType ? "transportType-error" : undefined
-                  }
+                  aria-describedby={errors.transportType ? "transportType-error" : undefined}
                 >
                   <option value="open">Open</option>
                   <option value="enclosed">Enclosed</option>
@@ -494,9 +476,7 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.pickupDate}
-                  aria-describedby={
-                    errors.pickupDate ? "pickupDate-error" : undefined
-                  }
+                  aria-describedby={errors.pickupDate ? "pickupDate-error" : undefined}
                 />
                 {errors.pickupDate && (
                   <span id="pickupDate-error" className="field-error">
@@ -528,30 +508,21 @@ export default function QuoteSection() {
             </div>
 
             <div className="quote-footer">
-              <button
-                type="submit"
-                className="btn-quote-primary"
-                disabled={isSubmitting}
-              >
+              <button type="submit" className="btn-quote-primary" disabled={isSubmitting}>
                 {isSubmitting ? "Sending..." : "Request Quote ›"}
               </button>
 
               <p className="quote-call">
-                or call{" "}
-                <a href="tel:16509999660">(650) 999-9660</a>
+                or call <a href="tel:16509999660">(650) 999-9660</a>
               </p>
             </div>
-
           </form>
         </div>
 
         {/* RIGHT SIDE CARD */}
         <aside className="quote-right" ref={rightRef}>
           <div
-            className={
-              "quote-right-card" +
-              (isRightVisible ? " quote-right-card--visible" : "")
-            }
+            className={"quote-right-card" + (isRightVisible ? " quote-right-card--visible" : "")}
             onMouseMove={handleCardMove}
             onMouseLeave={handleCardLeave}
             itemProp="publisher"
