@@ -15,7 +15,6 @@
   border-top: 1px solid rgba(96, 165, 250, 0.25);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-
   overflow: hidden;
 }
 
@@ -124,10 +123,6 @@
     0 0 42px rgba(37, 99, 235, 0.85);
 }
 
-.footer-cta .arrow {
-  font-size: 1.3rem;
-}
-
 /* ===========================================================
    NAVIGATION
    =========================================================== */
@@ -139,8 +134,6 @@
   color: #e5edff;
 }
 
-/* ↓↓↓ САМЫЙ ВАЖНЫЙ БЛОК — УБРАЛ ТОЧКИ ↓↓↓ */
-
 .footer-links {
   list-style: none;
   padding: 0;
@@ -149,11 +142,7 @@
 
 .footer-links li {
   list-style: none;
-  padding-left: 0;
-  margin-left: 0;
 }
-
-/* ↑↑↑ УБРАНЫ МАРКЕРЫ ↑↑↑ */
 
 .footer-nav-grid {
   display: grid;
@@ -184,8 +173,17 @@
 }
 
 /* ===========================================================
-   CONTACT
+   CONTACT  ✅ ВАЖНО
    =========================================================== */
+
+.footer-address {
+  text-align: center; /* 🔥 весь блок по центру */
+}
+
+.footer-address p {
+  color: #e2e8f0;
+  margin-bottom: 8px;
+}
 
 .footer-contact-link {
   color: #bfdbfe;
@@ -199,18 +197,15 @@
   border-color: #60a5fa;
 }
 
-.footer-address p {
-  color: #e2e8f0;
-  margin-bottom: 8px;
-}
-
 /* ===========================================================
-   SOCIAL
+   SOCIAL  ✅ ИКОНКИ РОВНО ПОД НОМЕРОМ
    =========================================================== */
 
 .footer-social {
   margin-top: 20px;
   display: flex;
+  justify-content: center; /* 🔥 строго по центру */
+  align-items: center;
   gap: 16px;
 }
 
@@ -239,6 +234,8 @@
 
 .social-img {
   width: 26px;
+  height: 26px;
+  display: block; /* 🔥 центр без baseline */
   filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
 }
 
