@@ -1,7 +1,7 @@
 // src/components/Header.jsx
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "../../public/logo.png";
+import logo from "/logo.png";
 import "./styles/header.css";
 
 const navLinks = [

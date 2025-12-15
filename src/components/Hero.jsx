@@ -1,7 +1,7 @@
 // src/components/Hero.jsx
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import heroTruck from "../assets/hero.png";
+import heroTruck from "/og-image.jpg";
 import "./styles/hero.css";
 
 // Выносим карточки за компонент, чтобы не пересоздавать на каждый рендер
