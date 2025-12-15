@@ -1,175 +1,197 @@
 /* ===========================================================
-   ABOUT SECTION — Premium + 3D Truck + LQIP + Ultra Smooth
+   ABOUT SECTION — Match SERVICES (Neon Glass, Lightweight)
+   Fixes:
+   - Reveal like Services
+   - Static glow like Services
+   - Media image fills card (no bottom dark strip)
+   - Buttons flex row + equal height
    =========================================================== */
 
 .about-section {
-  padding: 5.5rem 1.6rem 4.5rem;
-  background: transparent;
+  /* появление секции (как services) */
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform;
+
+  padding: 6rem 2rem;
   color: var(--text-main);
+  display: flex;
+  justify-content: center;
   position: relative;
   overflow: hidden;
-
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.65s ease-out, transform 0.65s ease-out;
 }
 
 .about-section--visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
-/* ===========================================================
-   BACKGROUND GLOW — optimized
-   =========================================================== */
-
+/* === Статический glow фон — как services === */
 .about-section::before,
 .about-section::after {
   content: "";
   position: absolute;
-  width: 380px;
-  height: 380px;
+  width: 320px;
+  height: 320px;
   border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.22;
   pointer-events: none;
-  animation: aboutFloat 24s ease-in-out infinite;
-  will-change: transform;
+  filter: blur(80px);
+  opacity: 0.22;
+  z-index: 0;
 }
 
 .about-section::before {
-  top: -160px;
-  left: -150px;
-  background: rgba(14, 139, 255, 0.25);
+  background: rgba(14, 139, 255, 0.32);
+  top: -140px;
+  left: -140px;
 }
 
 .about-section::after {
-  bottom: -170px;
-  right: -130px;
-  background: rgba(0, 255, 210, 0.20);
-  animation-duration: 30s;
+  background: rgba(56, 189, 248, 0.28);
+  bottom: -160px;
+  right: -140px;
 }
 
-@keyframes aboutFloat {
-  0%   { transform: translateY(-35px); }
-  50%  { transform: translateY(30px); }
-  100% { transform: translateY(-35px); }
-}
-
+/* Container — как services */
 .about-container {
-  max-width: 1240px;
-  margin: 0 auto;
   position: relative;
   z-index: 2;
+  max-width: 1200px;
+  width: 100%;
 }
 
-/* ===========================================================
-   HEADER
-   =========================================================== */
+/* ===== HEADER ===== */
 
 .about-header {
-  text-align: start;
-  margin-bottom: 3.3rem;
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.65s ease-out, transform 0.65s ease-out;
-}
-
-.about-section--visible .about-header {
-  opacity: 1;
-  transform: translateY(0);
+  width: 100%;
 }
 
 .about-kicker {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: fit-content;
-  background: rgba(14, 139, 255, 0.17);
+
+  background: rgba(14, 139, 255, 0.19);
   padding: 6px 18px;
   border-radius: 999px;
   font-size: 0.78rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
+  border: 1px solid rgba(14, 139, 255, 0.6);
   color: #cbd5f5;
-  border: 1px solid rgba(14, 139, 255, 0.55);
   margin-bottom: 0.85rem;
 }
 
+.about-kicker::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  margin-right: 8px;
+  background: radial-gradient(circle, #22d3ee, #3b82f6);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.9);
+}
+
 .about-title {
-  font-size: 2.6rem;
-  font-weight: 800;
+  font-size: clamp(2.1rem, 4vw, 2.7rem);
+  font-weight: 700;
   margin-bottom: 0.6rem;
-  letter-spacing: -0.5px;
-  text-shadow: 0 0 18px rgba(0, 160, 255, 0.24);
+  color: var(--text-main);
+  text-shadow: 0 0 1px rgba(148, 163, 184, 0.7),
+    0 0 12px rgba(37, 99, 235, 0.45);
 }
 
 .about-subtitle {
-  font-size: 1.05rem;
   color: var(--text-muted);
+  font-size: 1.03rem;
+  margin-bottom: 3rem;
+  max-width: 520px;
 }
 
 /* ===========================================================
-   GRID
+   GRID — Desktop: 2 columns (media + content)
    =========================================================== */
 
 .about-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr);
-  gap: 32px;
+  gap: 2rem;
+  grid-template-columns: 1.15fr 0.85fr;
   align-items: stretch;
 }
 
 /* ===========================================================
-   LEFT — 3D IMAGE
+   LEFT MEDIA — card style as services
    =========================================================== */
 
 .about-media {
   margin: 0;
-  border-radius: 26px;
-  background: rgba(15, 23, 42, 0.92);
-  border: 1px solid rgba(148, 163, 184, 0.38);
-  overflow: hidden;
   position: relative;
+  display: flex; /* ✅ важно: теперь картинка может тянуться по высоте */
 
-  box-shadow:
-    inset 0 0 18px rgba(255,255,255,0.04),
-    0 22px 65px rgba(0,0,0,0.85);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  overflow: hidden;
 
-  transform: translateX(-48px) rotateY(12deg);
-  opacity: 0;
-  transform-origin: center;
-  transition:
-    transform 0.95s cubic-bezier(0.19, 1, 0.22, 1),
-    opacity 0.85s ease-out;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.55),
+    0 0 22px rgba(56, 189, 248, 0.16);
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    border-color 0.3s ease, background 0.3s ease;
+  will-change: transform, box-shadow, border-color, background;
 }
 
-.about-section--visible .about-media {
-  opacity: 1;
-  transform: translateX(0) rotateY(0deg);
-  transition-delay: 0.12s;
+/* лёгкий неон сверху — статичный */
+.about-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 85% 0%,
+    rgba(56, 189, 248, 0.25),
+    transparent 65%
+  );
+  opacity: 0.75;
+  z-index: 2;
 }
 
+.about-media:hover {
+  transform: translateY(-6px);
+  border-color: rgba(56, 189, 248, 0.7);
+  background: rgba(15, 23, 42, 0.96);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(56, 189, 248, 0.35);
+}
+
+/* ✅ FIX: убираем aspect-ratio, делаем заполнение по высоте */
 .about-media-inner {
+  position: relative;
   width: 100%;
   height: 100%;
-  aspect-ratio: 16/9;
   overflow: hidden;
 }
 
+/* ✅ FIX: img занимает всю карточку */
 .about-image {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 
+  /* LQIP */
   transform: scale(1.04);
   filter: blur(14px);
   opacity: 0;
 
-  transition:
-    transform 0.9s ease-out,
-    filter 0.9s ease-out,
-    opacity 0.9s ease-out;
+  transition: transform 0.4s ease, filter 0.8s ease, opacity 0.8s ease;
+  will-change: transform;
 }
 
 .about-image--loaded {
@@ -178,46 +200,56 @@
   transform: scale(1.02);
 }
 
-.about-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 10% 0%, rgba(56,189,248,0.32), transparent 60%),
-    radial-gradient(circle at 90% 100%, rgba(59,130,246,0.28), transparent 60%);
-  mix-blend-mode: screen;
-  pointer-events: none;
+.about-media:hover .about-image {
+  transform: scale(1.06);
 }
 
 /* ===========================================================
-   RIGHT — CONTENT
+   RIGHT CONTENT — card style as services
    =========================================================== */
 
 .about-content {
-  border-radius: 26px;
-  padding: 28px 30px 26px;
-  border: 1px solid rgba(148, 163, 184, 0.42);
-  backdrop-filter: blur(14px);
-  background: rgba(15, 23, 42, 0.75);
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  overflow: hidden;
 
-  box-shadow:
-    inset 0 0 16px rgba(255,255,255,0.03),
-    0 18px 55px rgba(0,0,0,0.78);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
 
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.55),
+    0 0 22px rgba(56, 189, 248, 0.16);
+
+  padding: 1.6rem 1.7rem 1.7rem;
   display: flex;
   flex-direction: column;
 
-  opacity: 0;
-  transform: translateX(32px);
-  transition:
-    opacity 0.85s ease-out,
-    transform 0.9s cubic-bezier(0.19,1,0.22,1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    border-color 0.3s ease, background 0.3s ease;
+  will-change: transform, box-shadow, border-color, background;
 }
 
-.about-section--visible .about-content {
-  opacity: 1;
-  transform: translateX(0);
-  transition-delay: 0.2s;
+/* лёгкий неон сверху — статичный */
+.about-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 85% 0%,
+    rgba(56, 189, 248, 0.25),
+    transparent 65%
+  );
+  opacity: 0.75;
+}
+
+.about-content:hover {
+  transform: translateY(-6px);
+  border-color: rgba(56, 189, 248, 0.7);
+  background: rgba(15, 23, 42, 0.96);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(56, 189, 248, 0.35);
 }
 
 .about-tag {
@@ -232,32 +264,32 @@
 
 .about-tag::before {
   content: "";
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #22d3ee, #3b82f6);
-  box-shadow: 0 0 14px rgba(56,189,248,0.9);
+  background: radial-gradient(circle, #22d3ee, #3b82f6);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.9);
 }
 
 .about-content-title {
-  font-size: 1.85rem;
-  font-weight: 800;
-  margin: 0.75rem 0 0.85rem;
+  font-size: 1.28rem;
+  font-weight: 600;
+  margin: 0.9rem 0 0.55rem;
+  color: #f9fafb;
 }
 
 .about-content-text {
-  font-size: 1rem;
-  line-height: 1.68;
-  color: #d4def5;
-  margin-bottom: 1.45rem;
+  color: #c3c9d4;
+  font-size: 0.98rem;
+  line-height: 1.6;
 }
 
+/* list */
 .about-list {
   list-style: none;
-  margin: 0 0 2rem;
   padding: 0;
-  display: flex;
-  flex-direction: column;
+  margin: 1.2rem 0 1.6rem;
+  display: grid;
   gap: 0.85rem;
 }
 
@@ -266,63 +298,51 @@
   gap: 12px;
   font-size: 0.97rem;
   color: #e5ebff;
-
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-.about-section--visible .about-list li:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.30s; }
-.about-section--visible .about-list li:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.36s; }
-.about-section--visible .about-list li:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.42s; }
-.about-section--visible .about-list li:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.48s; }
-
-/* Dot */
 .about-dot {
   width: 9px;
   height: 9px;
   border-radius: 999px;
-  margin-top: 4px;
+  margin-top: 5px;
   flex-shrink: 0;
   background: radial-gradient(circle at 30% 30%, #facc15, #f97316);
-  box-shadow: 0 0 20px rgba(250,204,21,0.9);
+  box-shadow: 0 0 20px rgba(250, 204, 21, 0.9);
 }
 
 /* ===========================================================
-   PRIMARY CTA — IDENTICAL TO HERO
-   =========================================================== */
-
-/* ===========================================================
-   ABOUT — CTA BUTTONS (идеально ровные, как в HERO)
+   CTA — flex row + equal height
    =========================================================== */
 
 .about-actions {
   display: flex;
-  align-items: center;     /* ровняем по вертикали */
-  gap: 20px;               /* идеальный отступ между кнопками */
-  margin-top: 1.4rem;
-  flex-wrap: wrap;         /* чтобы не ломалось */
+  align-items: center;
+  gap: 20px;
+  margin-top: auto;
 }
 
-/* PRIMARY CTA — полный стиль из HERO */
-.about-primary-cta {
+.about-primary-cta,
+.about-secondary-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  padding: 1rem 2rem;
-  font-weight: 600;
-  font-size: 1.05rem;
+  min-height: 56px;
+  padding: 0 32px;
   border-radius: 16px;
-  text-decoration: none;
 
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.about-primary-cta {
   background: var(--cta-bg);
   color: #fff;
 
   box-shadow: 0 10px 25px rgba(0, 140, 255, 0.55);
   transition: 0.3s ease;
-
-  white-space: nowrap; /* текст не переносится */
 }
 
 .about-primary-cta:hover {
@@ -331,22 +351,10 @@
   box-shadow: 0 15px 35px rgba(0, 160, 255, 0.7);
 }
 
-/* SECONDARY CTA — такой же размер и ровность */
 .about-secondary-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 1rem 2rem;
-  font-size: 1.05rem;
-  font-weight: 600;
-  border-radius: 16px;
-  white-space: nowrap;
-
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #e5e7eb;
-  text-decoration: none;
 
   transition: 0.25s ease;
 }
@@ -359,15 +367,77 @@
   box-shadow: 0 0 26px rgba(56, 189, 248, 0.45);
 }
 
-/* Mobile — кнопки в колонку */
+/* ================== MEDIA ================== */
+
+@media (max-width: 768px) {
+  .about-section {
+    padding: 4.5rem 1.6rem;
+  }
+
+  .about-title,
+  .about-kicker,
+  .about-subtitle {
+    text-align: center;
+  }
+
+  .about-kicker {
+    margin-inline: auto;
+  }
+
+  .about-subtitle {
+    margin-inline: auto;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ✅ на мобиле картинка будет нормальной высоты */
+  .about-media-inner {
+    min-height: 220px;
+  }
+}
+
 @media (max-width: 480px) {
+  .about-section {
+    padding: 3.7rem 1.2rem;
+  }
+
+  .about-title {
+    font-size: 1.9rem;
+  }
+
   .about-actions {
-    flex-direction: column;
-    align-items: stretch;
+   display: flex;
+   justify-content: center;
   }
 
   .about-primary-cta,
   .about-secondary-cta {
     width: 100%;
+  }
+
+  .about-content {
+    padding: 1.35rem 1.4rem 1.5rem;
+  }
+
+  .about-media-inner {
+    min-height: 200px;
+  }
+}
+
+/* ================== A11Y ================== */
+@media (prefers-reduced-motion: reduce) {
+  .about-section,
+  .about-media,
+  .about-content,
+  .about-primary-cta,
+  .about-secondary-cta {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .about-section {
+    opacity: 1 !important;
   }
 }

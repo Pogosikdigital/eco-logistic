@@ -1,61 +1,93 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-US">
   <head>
     <meta charset="UTF-8" />
-
-    <!-- FAVICONS (из public/) -->
-    <link rel="icon" type="image/png" href="/logo.png" />
-    <link rel="apple-touch-icon" href="/logo.png" />
 
     <!-- MOBILE VIEWPORT -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- PRIMARY SEO -->
-    <title>Eco Logistic – Vehicle Shipping & Car Transport in the USA</title>
+    <title>EcoHub Logistics – Nationwide Vehicle Shipping & Auto Transport</title>
     <meta
       name="description"
-      content="Eco Logistic provides fast and reliable vehicle shipping across the USA. Get a free quote for car transport, door-to-door delivery, and insured auto shipping."
-    />
-    <meta
-      name="keywords"
-      content="car shipping, vehicle transport, auto transport, car delivery, car hauling, USA, Eco Logistic"
+      content="EcoHub Logistics provides insured, reliable vehicle shipping across the USA. Door-to-door auto transport for individuals, dealerships, and fleets. Get a free quote."
     />
     <meta name="robots" content="index,follow" />
-    <meta name="author" content="Eco Logistic" />
+    <meta name="author" content="EcoHub Logistics" />
 
-    <!-- CANONICAL (потом поменяешь на свой домен) -->
-    <link rel="canonical" href="https://your-domain.com/" />
+    <!-- GEO (minor signals, but ok) -->
+    <meta name="geo.region" content="US-FL" />
+    <meta name="geo.placename" content="Orlando" />
+    <meta name="geo.position" content="28.5383;-81.3792" />
+    <meta name="ICBM" content="28.5383, -81.3792" />
+
+    <!-- CANONICAL (✅ ОБЯЗАТЕЛЬНО заменить на твой реальный домен) -->
+    <link rel="canonical" href="https://ecohublogistics.com/" />
+
+    <!-- FAVICONS (из public/) -->
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
 
     <!-- OPEN GRAPH -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Eco Logistic – Vehicle Shipping in the USA" />
+    <meta property="og:title" content="EcoHub Logistics – Nationwide Auto Transport" />
     <meta
       property="og:description"
-      content="Fast and reliable vehicle shipping across the USA. Free quote, insured delivery, and professional support."
+      content="Insured, reliable vehicle shipping across the USA. Door-to-door delivery and dedicated coordinator. Get a free quote."
     />
-    <meta property="og:url" content="https://your-domain.com/" />
-    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:url" content="https://ecohublogistics.com/" />
+    <meta property="og:image" content="https://ecohublogistics.com/og-image.jpg" />
 
     <!-- TWITTER -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Eco Logistic – Vehicle Shipping in the USA" />
+    <meta name="twitter:title" content="EcoHub Logistics – Nationwide Auto Transport" />
     <meta
       name="twitter:description"
-      content="Fast and reliable vehicle shipping across the USA. Get your free quote today."
+      content="Insured, reliable vehicle shipping across the USA. Get a free quote today."
     />
-    <meta name="twitter:image" content="/og-image.jpg" />
+    <meta name="twitter:image" content="https://ecohublogistics.com/og-image.jpg" />
 
-    <!-- THEME / COLOR SCHEME (учитывая твой dark/light переключатель) -->
+    <!-- THEME / COLOR SCHEME -->
     <meta name="color-scheme" content="dark light" />
     <meta name="theme-color" content="#020617" />
 
-    <!-- FONTAWESOME -->
+    <!-- STRUCTURED DATA (✅ СИЛЬНЫЙ GEO/SEO сигнал) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LogisticsBusiness",
+        "name": "EcoHub Logistics",
+        "url": "https://ecohublogistics.com/",
+        "logo": "https://ecohublogistics.com/logo.png",
+        "image": "https://ecohublogistics.com/og-image.jpg",
+        "telephone": "+1-650-999-9660",
+        "email": "info@ecohublogistics.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "1142 John Young Pkwy",
+          "addressLocality": "Orlando",
+          "addressRegion": "FL",
+          "postalCode": "32808",
+          "addressCountry": "US"
+        },
+        "areaServed": "US",
+        "sameAs": [
+          "https://www.facebook.com/ВАШ_ПРОФИЛЬ",
+          "https://www.instagram.com/ВАШ_ПРОФИЛЬ"
+        ]
+      }
+    </script>
+
+    <!-- (Optional) Preconnect — ускорение шрифтов/иконок -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+
+    <!-- FONTAWESOME (если реально используешь) -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
 
-    <!-- VITE ENTRY (Vite сам подменит на билд-файлы) -->
+    <!-- VITE ENTRY -->
     <script type="module" src="/src/main.jsx"></script>
   </head>
 
