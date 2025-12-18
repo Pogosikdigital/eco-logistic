@@ -1,5 +1,7 @@
+// src/components/Contact.jsx
 import React, { useState, useCallback } from "react";
 import "./styles/contact.css";
+import usePhoneInput from "../hooks/usePhoneInput";
 
 const initialForm = {
   name: "",
@@ -21,58 +23,61 @@ export default function Contact() {
 
   const apiUrl = "/api/lead";
 
-  const formatPhone = useCallback((v) => {
-    const digits = v.replace(/\D/g, "").substring(0, 10);
+  // Телефон через кастом-хук
+  const {
+    country,
+    countries,
+    inputValue: phoneInputValue,
+    handleInputChange: handlePhoneInputChange,
+    digits: phoneDigits,
+    e164Phone,
+    setCountryIso2,
+  } = usePhoneInput({
+    defaultIso2: "US",
+    initialValue: "",
+  });
 
-    if (digits.length === 0) return "";
-    if (digits.length <= 3) return `+1 (${digits}`;
-    if (digits.length <= 6)
-      return `+1 (${digits.slice(0, 3)}) ${digits.slice(3)}`;
-    return `+1 (${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(
-      6,
-      10
-    )}`;
-  }, []);
-
-  const handleChange = useCallback(
-    (field, value) => {
-      setForm((prev) => ({
-        ...prev,
-        [field]: field === "phone" ? formatPhone(value) : value,
-      }));
-      setErrors((e) => ({ ...e, [field]: null }));
-      setSubmitted(false);
-      setGlobalError("");
+  const handleCountryChange = useCallback(
+    (iso2) => {
+      setCountryIso2(iso2);
     },
-    [formatPhone]
+    [setCountryIso2]
   );
+
+  // универсальный change для остальных полей
+  const handleChange = useCallback((field, value) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+    setErrors((e) => ({ ...e, [field]: null }));
+    setSubmitted(false);
+    setGlobalError("");
+  }, []);
 
   const validate = useCallback(() => {
     const e = {};
 
     if (!form.name.trim()) e.name = "Full name is required.";
 
-    const cleanPhone = form.phone.replace(/\D/g, "");
-    if (cleanPhone.length < 10)
-      e.phone = "Valid U.S. phone number is required.";
+    if (!phoneDigits || phoneDigits.length < 10) {
+      e.phone = "Enter a valid phone number.";
+    }
 
     if (!form.email.trim()) e.email = "Email is required.";
-    else if (!/^\S+@\S+\.\S+$/.test(form.email))
+    else if (!/^\S+@\S+\.\S+$/.test(form.email)) {
       e.email = "Enter a valid email.";
+    }
 
-    if (!form.pickup.trim()) e.pickup = "Pickup location required.";
-    if (!form.delivery.trim()) e.delivery = "Delivery location required.";
+    if (!form.pickup.trim()) e.pickup = "Pickup required.";
+    if (!form.delivery.trim()) e.delivery = "Delivery required.";
 
     return e;
-  }, [form]);
+  }, [form, phoneDigits]);
 
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-
       const v = validate();
       setErrors(v);
-      if (Object.keys(v).length > 0) return;
+      if (Object.keys(v).length) return;
 
       setSending(true);
       setGlobalError("");
@@ -82,11 +87,16 @@ export default function Contact() {
         const res = await fetch(apiUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ source: "contact-form", ...form }),
+          body: JSON.stringify({
+            source: "contact-form",
+            ...form,
+            // отправляем в API красивый E.164 с кодом страны
+            phone: e164Phone || `+1${phoneDigits || ""}`,
+            country: country.iso2,
+          }),
         });
 
         const data = await res.json().catch(() => null);
-
         if (!res.ok || !data?.ok) {
           throw new Error(data?.error || "send_failed");
         }
@@ -94,42 +104,20 @@ export default function Contact() {
         setForm(initialForm);
         setSubmitted(true);
       } catch (err) {
-        console.error("SEND ERROR:", err);
+        console.error("CONTACT SEND ERROR:", err);
         setGlobalError(
-          "We couldn't send your request right now. Please try again in a minute."
+          "We couldn't send your request. Please try again in a moment."
         );
       } finally {
         setSending(false);
       }
     },
-    [apiUrl, form, validate]
+    [apiUrl, form, e164Phone, phoneDigits, country, validate]
   );
 
   return (
-    <section
-      id="contact"
-      className="contact-section"
-      itemScope
-      itemType="https://schema.org/ContactPage"
-      aria-labelledby="contact-heading"
-    >
-      <meta itemProp="name" content="Contact EcoHub Logistics" />
-      <meta
-        itemProp="description"
-        content="Get in touch with EcoHub Logistics for fast vehicle shipping quotes nationwide."
-      />
-
-      <div
-        className="contact-container"
-        itemProp="mainEntity"
-        itemScope
-        itemType="https://schema.org/Organization"
-      >
-        <meta itemProp="name" content="EcoHub Logistics" />
-        <meta itemProp="url" content="https://ecohublogistics.com" />
-
-        <div className="border-runner" aria-hidden="true" />
-
+    <section id="contact" className="contact-section">
+      <div className="contact-container">
         <button
           type="button"
           className={`contact-badge-btn neon-pulse-btn ${
@@ -145,18 +133,12 @@ export default function Contact() {
         <div
           id="contact-phone-reveal"
           className={`phone-reveal ${showPhone ? "visible" : ""}`}
-          itemProp="contactPoint"
-          itemScope
-          itemType="https://schema.org/ContactPoint"
         >
-          <meta itemProp="telephone" content="+1-650-999-9660" />
           <p className="phone-number">(650) 999-9660</p>
         </div>
 
         <header className="contact-header">
-          <h2 id="contact-heading" className="contact-title">
-            Get in Touch
-          </h2>
+          <h2 className="contact-title">Get in Touch</h2>
           <p className="contact-subtitle">
             Have questions or need a quote? We respond within minutes.
           </p>
@@ -180,10 +162,26 @@ export default function Contact() {
             <Field
               label="Phone Number"
               id="contact-phone"
-              value={form.phone}
-              onChange={(v) => handleChange("phone", v)}
+              type="tel"
+              value={phoneInputValue}
+              onChange={handlePhoneInputChange}
               error={errors.phone}
               icon="phone"
+              placeholder="(305) 555-1234"
+              rightAddon={
+                <select
+                  className="country-select"
+                  value={country.iso2}
+                  onChange={(e) => handleCountryChange(e.target.value)}
+                  aria-label="Country code"
+                >
+                  {countries.map((c) => (
+                    <option key={c.iso2} value={c.iso2}>
+                      {c.iso2} {c.dialCode}
+                    </option>
+                  ))}
+                </select>
+              }
             />
           </div>
 
@@ -194,7 +192,6 @@ export default function Contact() {
               value={form.email}
               onChange={(v) => handleChange("email", v)}
               error={errors.email}
-              type="email"
               icon="mail"
             />
 
@@ -234,7 +231,7 @@ export default function Contact() {
             onChange={(v) => handleChange("message", v)}
           />
 
-          <button type="submit" className="contact-cta" disabled={sending}>
+          <button disabled={sending} className="contact-cta" type="submit">
             {sending ? "Sending…" : "Send Request"}
             <span className="arrow">›</span>
           </button>
@@ -256,24 +253,39 @@ export default function Contact() {
   );
 }
 
-function Field({ id, label, value, onChange, error, icon, type = "text" }) {
+/* ==== UI-поля ==== */
+
+function Field({
+  id,
+  label,
+  value,
+  onChange,
+  error,
+  icon,
+  type = "text",
+  placeholder = " ",
+  rightAddon,
+}) {
   return (
     <div className={`form-field ${error ? "error" : ""}`}>
       <div className="field-shell">
         <span className="field-icon" aria-hidden="true">
           <Icon name={icon} />
         </span>
-        <label htmlFor={id} className="field-label">
+        <label className="field-label" htmlFor={id}>
           {label}
         </label>
         <input
           id={id}
-          type={type}
           className="field-input"
-          placeholder=" "
+          type={type}
+          placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
+        {rightAddon && (
+          <div className="field-right-addon">{rightAddon}</div>
+        )}
       </div>
       {error && <p className="error-text">{error}</p>}
     </div>
@@ -287,14 +299,14 @@ function FieldTextarea({ id, label, value, onChange }) {
         <span className="field-icon" aria-hidden="true">
           <Icon name="message" />
         </span>
-        <label htmlFor={id} className="field-label">
+        <label className="field-label" htmlFor={id}>
           {label}
         </label>
         <textarea
           id={id}
           className="field-input textarea-input"
-          placeholder=" "
           rows={4}
+          placeholder=" "
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
@@ -302,6 +314,8 @@ function FieldTextarea({ id, label, value, onChange }) {
     </div>
   );
 }
+
+/* ==== Иконки ==== */
 
 function Icon({ name }) {
   switch (name) {
