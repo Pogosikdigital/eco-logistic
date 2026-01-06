@@ -6,11 +6,11 @@ import "./styles/header.css";
 
 const navLinks = [
   { id: "home", label: "Home", type: "anchor" },
-  { id: "how", label: "How it works", type: "anchor" },
+  { id: "how-it-works", label: "How it works", type: "anchor" },
   { id: "services", label: "Services", type: "anchor" },
   { id: "about", label: "About Us", type: "anchor" },
   { id: "reviews", label: "Reviews", type: "anchor" },
-  { id: "earn", label: "Earn With Us", type: "page" },
+  { id: "earn-with-us", label: "Earn With Us", type: "page" },
   { id: "contact", label: "Contact", type: "anchor" },
 ];
 
@@ -25,9 +25,6 @@ export default function Header() {
   const [active, setActive] = useState("home");
   const [theme, setTheme] = useState("dark");
 
-  /* ================================
-     THEME SWITCH
-  ================================== */
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
@@ -36,9 +33,6 @@ export default function Header() {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
-  /* ================================
-     SCROLL EFFECTS
-  ================================== */
   useEffect(() => {
     const onScroll = () => {
       const scrollY = window.scrollY;
@@ -49,7 +43,6 @@ export default function Header() {
         document.documentElement.scrollHeight - window.innerHeight || 1;
       setScrollProgress(Math.min((scrollY / total) * 100, 100));
 
-      // Scroll spy (только на главной)
       if (isHome) {
         navLinks.forEach((link) => {
           if (link.type !== "anchor") return;
@@ -71,36 +64,25 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [isHome]);
 
-  /* ================================
-     ANCHOR CLICK HANDLER (FIXED)
-  ================================== */
   const handleAnchor = (e, id) => {
     e.preventDefault();
     setMenuOpen(false);
 
-    // Если мы НЕ на главной → навигация на главную + якорь
     if (!isHome) {
       navigate(`/#${id}`);
       return;
     }
 
-    // Если на главной → просто скроллим
     const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <>
-      <div
-        className="scroll-progress"
-        style={{ width: `${scrollProgress}%` }}
-      />
+      <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
 
       <header className={`header ${headerSmall ? "small" : ""}`}>
         <div className="header-container">
-
           {/* LOGO */}
           <a
             href="/#home"
@@ -130,7 +112,7 @@ export default function Header() {
                   </li>
                 ) : (
                   <li key={link.id}>
-                    <Link to="/earn">{link.label}</Link>
+                    <Link to="/earn-with-us">{link.label}</Link>
                   </li>
                 )
               )}
@@ -174,7 +156,7 @@ export default function Header() {
               </li>
             ) : (
               <li key={link.id}>
-                <Link to="/earn" onClick={() => setMenuOpen(false)}>
+                <Link to="/earn-with-us" onClick={() => setMenuOpen(false)}>
                   {link.label}
                 </Link>
               </li>
