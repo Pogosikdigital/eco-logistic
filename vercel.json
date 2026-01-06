@@ -1,8 +1,10 @@
 {
   "rewrites": [
-    {
-      "source": "/((?!api/).*)",
-      "destination": "/index.html"
-    }
+    { "source": "/services", "destination": "/" },
+    { "source": "/how-it-works", "destination": "/" },
+    { "source": "/about", "destination": "/" },
+    { "source": "/contact", "destination": "/" },
+    { "source": "/reviews", "destination": "/" },
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
