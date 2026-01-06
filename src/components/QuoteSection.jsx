@@ -1,9 +1,7 @@
 // src/components/QuoteSection.jsx
-import GoogleRew from "../../public/googleRew.png";
-
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./styles/quotesection.css";
-import quoteImage from "../../public/image.png";
+import quoteImage from "/image.png";
 import usaMap from "./../assets/usa-map.png";
 
 const initialForm = {
@@ -18,16 +16,6 @@ const initialForm = {
   notes: "",
 };
 
-// simple US phone formatter: 6509999660 -> (650) 999-9660
-const formatPhoneUS = (value) => {
-  const digits = value.replace(/\D/g, "").slice(0, 10);
-  if (digits.length <= 3) return digits;
-  if (digits.length <= 6) {
-    return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
-  }
-  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
-};
-
 export default function QuoteSection() {
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
@@ -36,44 +24,45 @@ export default function QuoteSection() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
+  // правая карточка (анимация появления)
   const [isRightVisible, setIsRightVisible] = useState(false);
   const rightRef = useRef(null);
 
-  const [enableTilt, setEnableTilt] = useState(false);
-
-  // ✅ API URL: для Vercel всегда норм /api/lead
-  // Если хочешь локально дергать другой бек — добавь VITE_API_URL в .env (например http://localhost:3000/api/lead)
-  const apiUrl = import.meta?.env?.VITE_API_URL || "/api/lead";
-
-  // ====== VALIDATION ======
+  // ===== ВАЛИДАЦИЯ ОДНОГО ПОЛЯ =====
   const validateField = (name, value) => {
     switch (name) {
-      case "fullName":
+      case "fullName": {
         if (!value.trim()) return "Please enter your full name.";
-        if (value.trim().length < 2) return "Name must be at least 2 characters.";
+        if (value.trim().length < 2)
+          return "Name must be at least 2 characters.";
         return "";
+      }
       case "email": {
         if (!value.trim()) return "Please enter your email.";
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value.trim())) return "Please enter a valid email address.";
+        if (!emailRegex.test(value.trim()))
+          return "Please enter a valid email address.";
         return "";
       }
       case "phone": {
         if (!value.trim()) return "Please enter your phone number.";
         const digits = value.replace(/\D/g, "");
-        if (digits.length < 10) return "Phone number should contain at least 10 digits.";
+        if (digits.length < 10)
+          return "Phone number should contain at least 10 digits.";
         return "";
       }
       case "pickupZip":
       case "deliveryZip": {
         if (!value.trim()) return "ZIP code is required.";
         const zipRegex = /^\d{5}(-\d{4})?$/;
-        if (!zipRegex.test(value.trim())) return "Please enter a valid ZIP code.";
+        if (!zipRegex.test(value.trim()))
+          return "Please enter a valid ZIP code.";
         return "";
       }
-      case "transportType":
+      case "transportType": {
         if (!value) return "Please select transport type.";
         return "";
+      }
       case "pickupDate": {
         if (!value) return "Please choose a pickup date.";
         const today = new Date();
@@ -83,7 +72,8 @@ export default function QuoteSection() {
         return "";
       }
       case "notes": {
-        if (value.length > 600) return "Notes should be shorter than 600 characters.";
+        if (value.length > 600)
+          return "Notes should be shorter than 600 characters.";
         return "";
       }
       default:
@@ -91,6 +81,7 @@ export default function QuoteSection() {
     }
   };
 
+  // ===== ВАЛИДАЦИЯ ВСЕЙ ФОРМЫ =====
   const validateForm = (data) => {
     const newErrors = {};
     Object.keys(data).forEach((key) => {
@@ -100,16 +91,14 @@ export default function QuoteSection() {
     return newErrors;
   };
 
+  // ===== ИЗМЕНЕНИЕ ПОЛЕЙ =====
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    let nextValue = value;
-    if (name === "phone") nextValue = formatPhoneUS(value);
-
-    setForm((prev) => ({ ...prev, [name]: nextValue }));
+    setForm((prev) => ({ ...prev, [name]: value }));
 
     if (touched[name]) {
-      const error = validateField(name, nextValue);
+      const error = validateField(name, value);
       setErrors((prev) => ({ ...prev, [name]: error || undefined }));
     }
 
@@ -124,6 +113,7 @@ export default function QuoteSection() {
     setErrors((prev) => ({ ...prev, [name]: error || undefined }));
   };
 
+  // ===== ОТПРАВКА ФОРМЫ (Vercel /api/lead) =====
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitSuccess(false);
@@ -131,109 +121,73 @@ export default function QuoteSection() {
 
     const foundErrors = validateForm(form);
     setErrors(foundErrors);
-    setTouched(Object.keys(form).reduce((acc, key) => ({ ...acc, [key]: true }), {}));
+    setTouched(
+      Object.keys(form).reduce((acc, key) => ({ ...acc, [key]: true }), {})
+    );
 
     if (Object.keys(foundErrors).length > 0) {
-      const firstField = document.querySelector(`[name="${Object.keys(foundErrors)[0]}"]`);
-      if (firstField) firstField.focus();
+      const firstErrorField = Object.keys(foundErrors)[0];
+      const el = document.querySelector(`[name="${firstErrorField}"]`);
+      if (el) el.focus();
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(apiUrl, {
+      const response = await fetch("/api/lead", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ source: "quote-form", ...form }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          source: "quote-form",
+          ...form,
+        }),
       });
+
+      console.log("Quote /api/lead status:", response.status);
 
       let data = null;
       try {
         data = await response.json();
-      } catch {}
-
-      // ✅ если сервер реально упал/не найден — покажем ошибку
-      if (!response.ok) {
-        setSubmitError("Server error. Please try again in a minute.");
-        return;
+      } catch (err) {
+        console.warn("Quote /api/lead: cannot parse JSON:", err);
       }
-
-      // ✅ если бек вернул ok:false — тоже ошибка (на всякий)
-      if (data && data.ok === false) {
-        setSubmitError("We couldn't send your request. Please try again later.");
-        return;
-      }
+      console.log("Quote /api/lead response data:", data);
 
       setSubmitSuccess(true);
       setForm(initialForm);
       setTouched({});
       setErrors({});
     } catch (err) {
-      setSubmitError("We couldn't reach the server. Please try again in a minute.");
+      console.error("Quote submit NETWORK error:", err);
+      setSubmitError(
+        "We couldn't reach the server. Please try again in a minute."
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // ====== RIGHT CARD ANIMATION ======
+  // ===== АНИМАЦИЯ ПРАВОЙ КАРТОЧКИ =====
   useEffect(() => {
     const node = rightRef.current;
     if (!node) return;
 
-    const obs = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsRightVisible(true);
-          obs.disconnect();
+          observer.disconnect();
         }
       },
       { threshold: 0.25 }
     );
 
-    obs.observe(node);
-    return () => obs.disconnect();
+    observer.observe(node);
+    return () => observer.disconnect();
   }, []);
-
-  // Enable tilt only on desktop
-  useEffect(() => {
-    const check = () => setEnableTilt(window.innerWidth >= 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  const handleCardMove = useCallback(
-    (e) => {
-      if (!enableTilt) return;
-      const card = e.currentTarget;
-      const rect = card.getBoundingClientRect();
-
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-
-      const rotateX = (y / rect.height) * -8;
-      const rotateY = (x / rect.width) * 10;
-
-      card.style.transform = `
-        perspective(1100px)
-        rotateX(${rotateX}deg)
-        rotateY(${rotateY}deg)
-        translateY(-4px)
-      `;
-    },
-    [enableTilt]
-  );
-
-  const handleCardLeave = useCallback(
-    (e) => {
-      if (!enableTilt) return;
-      const card = e.currentTarget;
-      card.style.transform =
-        "perspective(1100px) rotateX(0deg) rotateY(0deg) translateY(0)";
-    },
-    [enableTilt]
-  );
 
   return (
     <section
@@ -243,32 +197,14 @@ export default function QuoteSection() {
       itemScope
       itemType="https://schema.org/ContactPage"
     >
-      <meta itemProp="about" content="Vehicle shipping and auto transport across the USA" />
+      <meta
+        itemProp="about"
+        content="Vehicle shipping and auto transport across the USA"
+      />
 
       <div className="quote-inner">
-        {/* LEFT AREA */}
+        {/* ===== LEFT: FORM ===== */}
         <div className="quote-left">
-          {/* ⭐ GOOGLE REVIEWS BADGE */}
-          <div className="quote-google-rating">
-            <img
-              src={GoogleRew}
-              alt="Google logo"
-              className="google-rating-logo"
-              loading="lazy"
-              decoding="async"
-            />
-
-            <div className="google-rating-stars">★★★★★</div>
-
-            <div className="google-rating-score">
-              5.0<span>/5</span>
-            </div>
-
-            <div className="google-rating-text">
-              Based on <strong>1,200+</strong> verified reviews
-            </div>
-          </div>
-
           <h2 id="quote-heading" className="quote-title" itemProp="headline">
             Get a Free Quote
           </h2>
@@ -278,15 +214,9 @@ export default function QuoteSection() {
           </p>
 
           {submitSuccess && (
-            <div className="quote-success" role="status" aria-live="polite">
-              <span className="quote-success-icon" aria-hidden="true">
-                <span className="quote-success-circle" />
-                <span className="quote-success-check" />
-              </span>
-              <span className="quote-success-text">
-                Thank you! Your request has been sent. We’ll contact you shortly.
-              </span>
-            </div>
+            <p className="quote-success">
+              Thank you! Your request has been sent. We’ll contact you shortly.
+            </p>
           )}
 
           {submitError && (
@@ -295,7 +225,6 @@ export default function QuoteSection() {
             </p>
           )}
 
-          {/* FORM */}
           <form
             className="quote-form"
             onSubmit={handleSubmit}
@@ -312,7 +241,7 @@ export default function QuoteSection() {
             <div className="quote-form-grid">
               {/* FULL NAME */}
               <div className="field">
-                <label htmlFor="fullName">Full name</label>
+                <label htmlFor="fullName">FULL NAME</label>
                 <input
                   id="fullName"
                   name="fullName"
@@ -323,7 +252,9 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.fullName}
-                  aria-describedby={errors.fullName ? "fullName-error" : undefined}
+                  aria-describedby={
+                    errors.fullName ? "fullName-error" : undefined
+                  }
                   required
                   itemProp="name"
                 />
@@ -336,7 +267,7 @@ export default function QuoteSection() {
 
               {/* EMAIL */}
               <div className="field">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">EMAIL</label>
                 <input
                   id="email"
                   name="email"
@@ -360,7 +291,7 @@ export default function QuoteSection() {
 
               {/* PHONE */}
               <div className="field">
-                <label htmlFor="phone">Phone</label>
+                <label htmlFor="phone">PHONE</label>
                 <input
                   id="phone"
                   name="phone"
@@ -384,7 +315,7 @@ export default function QuoteSection() {
 
               {/* VEHICLE */}
               <div className="field">
-                <label htmlFor="vehicle">Vehicle</label>
+                <label htmlFor="vehicle">VEHICLE</label>
                 <input
                   id="vehicle"
                   name="vehicle"
@@ -398,7 +329,7 @@ export default function QuoteSection() {
 
               {/* PICKUP ZIP */}
               <div className="field">
-                <label htmlFor="pickupZip">Pickup ZIP</label>
+                <label htmlFor="pickupZip">PICKUP ZIP</label>
                 <input
                   id="pickupZip"
                   name="pickupZip"
@@ -409,7 +340,9 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.pickupZip}
-                  aria-describedby={errors.pickupZip ? "pickupZip-error" : undefined}
+                  aria-describedby={
+                    errors.pickupZip ? "pickupZip-error" : undefined
+                  }
                 />
                 {errors.pickupZip && (
                   <span id="pickupZip-error" className="field-error">
@@ -420,7 +353,7 @@ export default function QuoteSection() {
 
               {/* DELIVERY ZIP */}
               <div className="field">
-                <label htmlFor="deliveryZip">Delivery ZIP</label>
+                <label htmlFor="deliveryZip">DELIVERY ZIP</label>
                 <input
                   id="deliveryZip"
                   name="deliveryZip"
@@ -431,7 +364,9 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.deliveryZip}
-                  aria-describedby={errors.deliveryZip ? "deliveryZip-error" : undefined}
+                  aria-describedby={
+                    errors.deliveryZip ? "deliveryZip-error" : undefined
+                  }
                 />
                 {errors.deliveryZip && (
                   <span id="deliveryZip-error" className="field-error">
@@ -442,7 +377,7 @@ export default function QuoteSection() {
 
               {/* TRANSPORT TYPE */}
               <div className="field">
-                <label htmlFor="transportType">Transport type</label>
+                <label htmlFor="transportType">TRANSPORT TYPE</label>
                 <select
                   id="transportType"
                   name="transportType"
@@ -450,13 +385,12 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.transportType}
-                  aria-describedby={errors.transportType ? "transportType-error" : undefined}
+                  aria-describedby={
+                    errors.transportType ? "transportType-error" : undefined
+                  }
                 >
                   <option value="open">Open</option>
                   <option value="enclosed">Enclosed</option>
-                  <option value="motorcycle">Motorcycle</option>
-                  <option value="boat">Boat</option>
-                  <option value="rv">RV / Trailer</option>
                 </select>
                 {errors.transportType && (
                   <span id="transportType-error" className="field-error">
@@ -467,16 +401,19 @@ export default function QuoteSection() {
 
               {/* PICKUP DATE */}
               <div className="field">
-                <label htmlFor="pickupDate">Preferred pickup</label>
+                <label htmlFor="pickupDate">PICKUP DATE</label>
                 <input
                   id="pickupDate"
                   name="pickupDate"
                   type="date"
+                  placeholder="MM/DD/YYYY"
                   value={form.pickupDate}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.pickupDate}
-                  aria-describedby={errors.pickupDate ? "pickupDate-error" : undefined}
+                  aria-describedby={
+                    errors.pickupDate ? "pickupDate-error" : undefined
+                  }
                 />
                 {errors.pickupDate && (
                   <span id="pickupDate-error" className="field-error">
@@ -488,11 +425,10 @@ export default function QuoteSection() {
 
             {/* NOTES */}
             <div className="field field-notes">
-              <label htmlFor="notes">Notes</label>
+              <label htmlFor="notes">NOTES</label>
               <textarea
                 id="notes"
                 name="notes"
-                rows="3"
                 placeholder="Any timing constraints, special handling, etc."
                 value={form.notes}
                 onChange={handleChange}
@@ -507,37 +443,36 @@ export default function QuoteSection() {
               )}
             </div>
 
+            {/* FOOTER */}
             <div className="quote-footer">
-              <button type="submit" className="btn-quote-primary" disabled={isSubmitting}>
-                {isSubmitting ? "Sending..." : "Request Quote ›"}
+              <button
+                type="submit"
+                className="btn-quote-primary"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Sending..." : "Request Quote ▸"}
               </button>
-
               <p className="quote-call">
-                or call <a href="tel:16509999660">(650) 999-9660</a>
+                or call <a href="tel:+16509999660">(650) 999-9660</a>
               </p>
             </div>
           </form>
         </div>
 
-        {/* RIGHT SIDE CARD */}
-        <aside className="quote-right" ref={rightRef}>
+        {/* ===== RIGHT: CARD (MAP + TRUCK) ===== */}
+        <aside className="quote-right" aria-hidden="true">
           <div
-            className={"quote-right-card" + (isRightVisible ? " quote-right-card--visible" : "")}
-            onMouseMove={handleCardMove}
-            onMouseLeave={handleCardLeave}
-            itemProp="publisher"
-            itemScope
-            itemType="https://schema.org/Organization"
+            ref={rightRef}
+            className={
+              "quote-right-card" +
+              (isRightVisible ? " quote-right-card--visible" : "")
+            }
           >
-            <meta itemProp="name" content="EcoHub Logistics" />
-
             <div className="quote-right-gradient" />
 
             <div className="quote-right-content">
-              <p className="quote-right-label">EcoHub Logistics</p>
-
+              <span className="quote-right-label">EcoHub Logistics</span>
               <h3>Auto Transport Across the USA</h3>
-
               <p className="quote-right-text">
                 Reliable nationwide vehicle shipping with real-time updates.
               </p>
@@ -549,7 +484,11 @@ export default function QuoteSection() {
                 rel="noopener noreferrer"
                 aria-label="View EcoHub Logistics location and service area on Google Maps"
               >
-                <img src={usaMap} alt="USA Map" loading="lazy" />
+                <img
+                  src={usaMap}
+                  alt="USA map with highlighted service area"
+                  loading="lazy"
+                />
                 <div className="quote-map-pin" />
               </a>
             </div>
@@ -557,9 +496,9 @@ export default function QuoteSection() {
             <div className="quote-image-wrap">
               <img
                 src={quoteImage}
-                alt="EcoHub Logistics transport truck"
+                alt="EcoHub Logistics auto transport truck on the road in the USA"
                 loading="lazy"
-                itemProp="logo"
+                itemProp="image"
               />
             </div>
           </div>

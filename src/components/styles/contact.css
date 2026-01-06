@@ -636,3 +636,32 @@
     animation: none;
   }
 }
+/* чтобы добавить маленький селект справа от телефона */
+.field-shell {
+  position: relative;
+}
+
+.field-right-addon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.country-select {
+  border: none;
+  background: transparent;
+  color: #e5f0ff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  outline: none;
+  padding: 0 0 0 8px;
+  cursor: pointer;
+}
+
+/* убираем стандартный фон/бордер в Safari/Chrome */
+.country-select::-ms-expand {
+  display: none;
+}
