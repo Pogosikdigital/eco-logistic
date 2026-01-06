@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import heroTruck from "/og-image.jpg";
 import "./styles/hero.css";
 
-// Выносим карточки за компонент, чтобы не пересоздавать на каждый рендер
 const FEATURE_CARDS = [
   {
     id: "coverage",
@@ -74,27 +73,16 @@ const FEATURE_CARDS = [
 function Hero() {
   const [cardsDown, setCardsDown] = useState(false);
 
-  // Лёгкий scroll-эффект: опускаем карточки и прячем truck-line
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY || window.pageYOffset || 0;
       setCardsDown(y > 8);
     };
 
-    onScroll(); // на случай, если пользователь зашёл не с самого верха
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  // Smooth scroll к блоку "How it works"
-  const handleHowClick = (event) => {
-    const target = document.getElementById("how");
-    if (!target) return;
-
-    event.preventDefault();
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
   return (
     <section
@@ -104,22 +92,14 @@ function Hero() {
       itemScope
       itemType="https://schema.org/Service"
     >
-      {/* мягкое светящееся облако под блоком */}
       <div className="hero-bg-gradient" aria-hidden="true" />
 
       <div className="hero-inner">
-        {/* LEFT — text & CTA */}
         <div className="hero-left">
-          <span className="hero-badge">
-            Reliable vehicle delivery nationwide
-          </span>
+          <span className="hero-badge">Reliable vehicle delivery nationwide</span>
 
           <div className="hero-title-group">
-            <h1
-              id="hero-title"
-              className="hero-title-primary"
-              itemProp="name"
-            >
+            <h1 id="hero-title" className="hero-title-primary" itemProp="name">
               EcoHub Logistics
             </h1>
             <h2 className="hero-title-secondary" itemProp="areaServed">
@@ -139,13 +119,13 @@ function Hero() {
               Get a Free Quote ▸
             </Link>
 
-            <a href="#how" className="btn-secondary" onClick={handleHowClick}>
+            {/* SEO путь -> App.jsx сам редиректнет на /#how-it-works */}
+            <a href="/how-it-works" className="btn-secondary">
               How it works
             </a>
           </div>
         </div>
 
-        {/* RIGHT — truck image */}
         <div className="hero-photo-col" aria-hidden="true">
           <div className="hero-photo-wrapper rim-light">
             <div className="hero-photo-frame">
@@ -160,17 +140,12 @@ function Hero() {
         </div>
       </div>
 
-      {/* FEATURE CARDS */}
       <div
         className={`hero-features ${cardsDown ? "down" : "up"}`}
         aria-label="Key benefits of EcoHub Logistics"
       >
         {FEATURE_CARDS.map((card) => (
-          <article
-            key={card.id}
-            className="feature-card"
-            itemProp="serviceOutput"
-          >
+          <article key={card.id} className="feature-card" itemProp="serviceOutput">
             <div className="feature-icon" aria-hidden="true">
               {card.icon}
             </div>
@@ -182,11 +157,7 @@ function Hero() {
         ))}
       </div>
 
-      {/* TRUCK LINE ANIMATION */}
-      <div
-        className={`truck-line ${cardsDown ? "hidden" : ""}`}
-        aria-hidden="true"
-      >
+      <div className={`truck-line ${cardsDown ? "hidden" : ""}`} aria-hidden="true">
         <svg viewBox="0 0 120 60" fill="none">
           <path
             d="M8 42V24H52V42H8Z

@@ -75,7 +75,7 @@ function HowItWorksComponent() {
     <section
       ref={sectionRef}
       className="how-section"
-      id="how"
+      id="how-it-works"
       aria-label="How EcoHub Logistics vehicle transport works"
       style={{ "--how-progress": scrollProgress }}
       itemScope
