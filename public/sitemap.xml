@@ -22,13 +22,30 @@
   </url>
 
   <url>
-    <loc>https://ecohublogistics.com/reviews</loc>
+    <loc>https://ecohublogistics.com/contact</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Reviews section on home (SEO path -> /#reviews) -->
+  <url>
+    <loc>https://ecohublogistics.com/testimonials</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Real pages -->
+  <url>
+    <loc>https://ecohublogistics.com/quote</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://ecohublogistics.com/contact</loc>
-    <priority>0.8</priority>
+    <loc>https://ecohublogistics.com/reviews</loc>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://ecohublogistics.com/earn-with-us</loc>
+    <priority>0.7</priority>
   </url>
 
 </urlset>
