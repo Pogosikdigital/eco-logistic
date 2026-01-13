@@ -48,10 +48,10 @@ function App() {
       <HowItWorks />
       <Services />
       <About />
-      <Reviews />
-
       {/* ✅ SEO TEXT BLOCK (H2 + 500–800 слов + FAQ) */}
       <SEOSection />
+
+      <Reviews />
 
       <Contact />
     </MainLayout>
