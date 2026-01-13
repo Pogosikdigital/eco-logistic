@@ -1,5 +1,5 @@
 // src/components/QuoteSection.jsx
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import "./styles/quotesection.css";
 import quoteImage from "/image.png";
 import usaMap from "./../assets/usa-map.png";
@@ -14,7 +14,18 @@ const initialForm = {
   transportType: "open",
   pickupDate: "",
   notes: "",
+  // honeypot (антиспам) — должен быть пустым
+  company: "",
 };
+
+function getTodayISO() {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+}
 
 export default function QuoteSection() {
   const [form, setForm] = useState(initialForm);
@@ -27,6 +38,8 @@ export default function QuoteSection() {
   // правая карточка (анимация появления)
   const [isRightVisible, setIsRightVisible] = useState(false);
   const rightRef = useRef(null);
+
+  const todayISO = useMemo(() => getTodayISO(), []);
 
   // ===== ВАЛИДАЦИЯ ОДНОГО ПОЛЯ =====
   const validateField = (name, value) => {
@@ -65,9 +78,9 @@ export default function QuoteSection() {
       }
       case "pickupDate": {
         if (!value) return "Please choose a pickup date.";
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const today = new Date(todayISO);
         const selected = new Date(value);
+        selected.setHours(0, 0, 0, 0);
         if (selected < today) return "Pickup date cannot be in the past.";
         return "";
       }
@@ -85,6 +98,8 @@ export default function QuoteSection() {
   const validateForm = (data) => {
     const newErrors = {};
     Object.keys(data).forEach((key) => {
+      // honeypot не валидируем
+      if (key === "company") return;
       const error = validateField(key, data[key]);
       if (error) newErrors[key] = error;
     });
@@ -102,7 +117,9 @@ export default function QuoteSection() {
       setErrors((prev) => ({ ...prev, [name]: error || undefined }));
     }
 
-    setSubmitSuccess(false);
+    // если юзер начал менять поля — убираем экран успеха
+    if (submitSuccess) setSubmitSuccess(false);
+
     setSubmitError("");
   };
 
@@ -118,6 +135,15 @@ export default function QuoteSection() {
     e.preventDefault();
     setSubmitSuccess(false);
     setSubmitError("");
+
+    // антиспам: если honeypot заполнен — просто "успех" без отправки
+    if (form.company && form.company.trim().length > 0) {
+      setSubmitSuccess(true);
+      setForm(initialForm);
+      setTouched({});
+      setErrors({});
+      return;
+    }
 
     const foundErrors = validateForm(form);
     setErrors(foundErrors);
@@ -137,33 +163,37 @@ export default function QuoteSection() {
     try {
       const response = await fetch("/api/lead", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           source: "quote-form",
           ...form,
+          // лучше дать серверу digits отдельно (удобно для CRM), UI не трогаем
+          phoneDigits: (form.phone || "").replace(/\D/g, ""),
+          // honeypot не надо отправлять
+          company: undefined,
         }),
       });
-
-      console.log("Quote /api/lead status:", response.status);
 
       let data = null;
       try {
         data = await response.json();
-      } catch (err) {
-        console.warn("Quote /api/lead: cannot parse JSON:", err);
+      } catch {
+        // если сервер вернул не-json — обработаем ниже по response.ok
       }
-      console.log("Quote /api/lead response data:", data);
+
+      // ✅ успех только если сервер реально принял
+      if (!response.ok || (data && data.ok === false)) {
+        throw new Error(data?.error || `send_failed_${response.status}`);
+      }
 
       setSubmitSuccess(true);
       setForm(initialForm);
       setTouched({});
       setErrors({});
     } catch (err) {
-      console.error("Quote submit NETWORK error:", err);
+      console.error("Quote submit error:", err);
       setSubmitError(
-        "We couldn't reach the server. Please try again in a minute."
+        "We couldn't send your request. Please try again in a minute."
       );
     } finally {
       setIsSubmitting(false);
@@ -213,14 +243,51 @@ export default function QuoteSection() {
             No hidden fees. Quick response by a real coordinator.
           </p>
 
+          {/* ✅ TRUST SCREEN (для PPC) */}
           {submitSuccess && (
-            <p className="quote-success">
-              Thank you! Your request has been sent. We’ll contact you shortly.
-            </p>
+            <div className="quote-trust" role="status" aria-live="polite">
+              <div className="quote-trust-top">
+                <div className="quote-trust-badge">✅ Request received</div>
+                <p className="quote-trust-title">What happens next</p>
+              </div>
+
+              <ul className="quote-trust-list">
+                <li>
+                  <span className="quote-trust-dot" />
+                  We review your route & vehicle details.
+                </li>
+                <li>
+                  <span className="quote-trust-dot" />
+                  A coordinator calls you in <b>5–10 minutes</b>.
+                </li>
+                <li>
+                  <span className="quote-trust-dot" />
+                  Need it faster? Call now and we’ll prioritize your request.
+                </li>
+              </ul>
+
+              <div className="quote-trust-actions">
+                <a className="quote-trust-call" href="tel:+16509999660">
+                  Call now (650) 999-9660
+                </a>
+
+                <button
+                  type="button"
+                  className="quote-trust-again"
+                  onClick={() => setSubmitSuccess(false)}
+                >
+                  Send another request
+                </button>
+              </div>
+
+              <p className="quote-trust-note">
+                Tip: if you don’t see a reply, check missed calls or spam.
+              </p>
+            </div>
           )}
 
           {submitError && (
-            <p className="quote-error-global" aria-live="polite">
+            <p className="quote-error-global" aria-live="assertive">
               {submitError}
             </p>
           )}
@@ -237,6 +304,29 @@ export default function QuoteSection() {
               itemProp="description"
               content="Request a free auto transport quote from EcoHub Logistics."
             />
+
+            {/* HONEYPOT (скрытое поле, UI не меняет) */}
+            <div
+              style={{
+                position: "absolute",
+                left: "-9999px",
+                top: "auto",
+                width: "1px",
+                height: "1px",
+                overflow: "hidden",
+              }}
+            >
+              <label htmlFor="company">Company</label>
+              <input
+                id="company"
+                name="company"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={form.company}
+                onChange={handleChange}
+              />
+            </div>
 
             <div className="quote-form-grid">
               {/* FULL NAME */}
@@ -406,10 +496,10 @@ export default function QuoteSection() {
                   id="pickupDate"
                   name="pickupDate"
                   type="date"
-                  placeholder="MM/DD/YYYY"
                   value={form.pickupDate}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  min={todayISO}
                   aria-invalid={!!errors.pickupDate}
                   aria-describedby={
                     errors.pickupDate ? "pickupDate-error" : undefined
@@ -507,3 +597,4 @@ export default function QuoteSection() {
     </section>
   );
 }
+

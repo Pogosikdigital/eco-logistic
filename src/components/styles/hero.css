@@ -16,7 +16,6 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 0 24px 55px rgba(0, 0, 0, 0.55);
 
-  /* без opacity-анимации, чтобы убрать белые вспышки */
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
@@ -33,7 +32,7 @@
     radial-gradient(circle at 22% 36%, rgba(41, 135, 255, 0.2), transparent 55%),
     radial-gradient(circle at 85% 72%, rgba(0, 209, 255, 0.16), transparent 60%),
     radial-gradient(circle at 60% 18%, rgba(0, 255, 215, 0.12), transparent 50%);
-  filter: blur(12px);
+  filter: blur(10px); /* ✅ чуть легче */
   pointer-events: none;
 }
 
@@ -193,7 +192,7 @@
     rgba(0, 220, 255, 0.3),
     rgba(0, 255, 200, 0.23)
   );
-  filter: blur(22px);
+  filter: blur(18px); /* ✅ чуть легче */
   z-index: -1;
 }
 
@@ -239,12 +238,14 @@
   border-radius: 24px;
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   box-shadow: 0 16px 42px rgba(0, 0, 0, 0.38);
   display: flex;
   gap: 1.5rem;
   align-items: center;
   transition: 0.3s ease;
+  color: #ffffff !important; /* фикс для currentColor */
 }
 
 .feature-card:hover {
@@ -267,6 +268,22 @@
   box-shadow:
     0 0 16px rgba(105, 210, 255, 0.6),
     0 0 28px rgba(60, 190, 255, 0.4);
+}
+
+.feature-icon svg {
+  width: 38px;
+  height: 38px;
+  display: block;
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none !important;
+  flex-shrink: 0;
+}
+
+.feature-icon svg path,
+.feature-icon svg circle,
+.feature-icon svg rect {
+  stroke: #ffffff !important;
 }
 
 .feature-card-text h3 {
@@ -367,12 +384,15 @@
   }
 
   /* Performance ↓ */
-  .hero-bg-gradient { filter: blur(10px); inset: -20px; }
-  .rim-light::before { filter: blur(18px); }
+  .hero-bg-gradient { filter: blur(8px); inset: -20px; }
+  .rim-light::before { filter: blur(14px); }
+
   .feature-card {
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
   }
+
   .truck-line { display: none; }
 }
 
@@ -404,37 +424,3 @@
     transform: none !important;
   }
 }
-/* ===========================================================
-   FIX — SVG NOT VISIBLE ON MOBILE
-   =========================================================== */
-
-.feature-card {
-  color: #ffffff !important; /* важный фикс — для currentColor */
-}
-
-.feature-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.feature-icon svg {
-  width: 38px;
-  height: 38px;
-  display: block;
-
-  /* фикс для мобильных */
-  color: #ffffff !important;
-  stroke: #ffffff !important;
-  fill: none !important;
-
-  /* чтобы SVG не сжимался */
-  flex-shrink: 0;
-}
-
-.feature-icon svg path,
-.feature-icon svg circle,
-.feature-icon svg rect {
-  stroke: #ffffff !important;
-}
-

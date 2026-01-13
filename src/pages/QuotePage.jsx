@@ -1,6 +1,6 @@
 // src/pages/QuotePage.jsx
 import QuoteSection from "../components/QuoteSection";
-import SEO from "../components/SEO";
+import SEO from "../components/MetaSEO";
 
 export default function QuotePage() {
   return (

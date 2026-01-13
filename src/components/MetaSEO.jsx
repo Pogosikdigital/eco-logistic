@@ -1,5 +1,5 @@
 // src/components/SEO.jsx
-
+import React from "react";
 
 export default function SEO({
   title,
@@ -10,24 +10,26 @@ export default function SEO({
   ogImage,
   noIndex = false,
 }) {
-  const baseUrl = "https://your-domain.com"; // поменяешь на свой домен после деплоя
+  const baseUrl = "https://www.ecohublogistics.com";
 
   const fullTitle = title
-    ? `${title} | Eco Logistic`
-    : "Eco Logistic – Vehicle Shipping in the USA";
+    ? `${title} | EcoHub Logistics`
+    : "EcoHub Logistics – Nationwide Vehicle Shipping & Auto Transport";
 
   const finalOgTitle = ogTitle || fullTitle;
-  const finalOgDescription =
-    ogDescription ||
+
+  const finalDescription =
     description ||
-    "Fast and reliable vehicle shipping across the USA. Free quote, insured delivery, and professional support.";
+    "EcoHub Logistics provides insured, reliable vehicle shipping across the USA. Door-to-door auto transport with transparent pricing. Get a free quote.";
+
+  const finalOgDescription = ogDescription || finalDescription;
 
   const url =
     typeof window !== "undefined"
-      ? baseUrl + window.location.pathname
+      ? `${baseUrl}${window.location.pathname}${window.location.search}`
       : baseUrl;
 
-  const image = ogImage || `${baseUrl}/og-image.jpg`; // подменишь на свой реальный путь
+  const image = ogImage || `${baseUrl}/og-image.jpg`;
 
   return (
     <>
@@ -35,13 +37,13 @@ export default function SEO({
       <title>{fullTitle}</title>
 
       {/* Meta description */}
-      {description && <meta name="description" content={description} />}
+      <meta name="description" content={finalDescription} />
 
       {/* Robots */}
-      {noIndex && <meta name="robots" content="noindex,nofollow" />}
+      <meta name="robots" content={noIndex ? "noindex,nofollow" : "index,follow"} />
 
       {/* Canonical */}
-      {canonical && <link rel="canonical" href={canonical} />}
+      {canonical ? <link rel="canonical" href={canonical} /> : null}
 
       {/* Open Graph */}
       <meta property="og:type" content="website" />
@@ -55,6 +57,6 @@ export default function SEO({
       <meta name="twitter:title" content={finalOgTitle} />
       <meta name="twitter:description" content={finalOgDescription} />
       <meta name="twitter:image" content={image} />
-      </>
+    </>
   );
 }
