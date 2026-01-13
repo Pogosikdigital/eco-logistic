@@ -1,11 +1,11 @@
 // src/data/servicesData.js
 
-import Bmw from "../assets/bmw.png";
-import Delivery from "../assets/delivery.png";
-import Boat from "../assets/Boat.jpg";
-import Lineage from "../assets/Lineage.jpg";
-import Buggy from "../assets/Buggy.png";
-import Enclosed from "../assets/enclosed.jpg";
+import Bmw from "../assets/bmw.webp";
+import Delivery from "../assets/delivery.webp";
+import Boat from "../assets/Boat.webp";
+import Lineage from "../assets/Lineage.webp";
+import Buggy from "../assets/Buggy.webp";
+import Enclosed from "../assets/enclosed.webp";
 
 
 

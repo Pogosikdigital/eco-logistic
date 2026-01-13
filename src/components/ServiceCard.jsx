@@ -19,6 +19,8 @@ function ServiceCard({ title, desc, img, position }) {
           alt={`${title} transport service`}
           loading="lazy"
           decoding="async"
+          width="520"
+          height="360"
           itemProp="image"
         />
       </div>
