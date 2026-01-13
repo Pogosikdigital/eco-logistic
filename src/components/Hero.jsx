@@ -1,7 +1,7 @@
 // src/components/Hero.jsx
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import heroTruck from "/og-image.jpg";
+import heroTruck from "/hero.webp";
 import "./styles/hero.css";
 
 const FEATURE_CARDS = [
@@ -67,7 +67,7 @@ function Hero() {
                 alt="Auto transport truck — EcoHub Logistics car shipping in the USA"
                 decoding="async"
                 loading="eager"
-                fetchpriority="high"
+                fetchPriority="high"
                 width="1200"
                 height="630"
               />
