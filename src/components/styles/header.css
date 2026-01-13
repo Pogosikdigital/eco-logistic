@@ -58,6 +58,7 @@
   padding: 18px 0;
   background: var(--header-bg);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 1500;
   transition: background 0.35s ease, padding 0.3s ease;
 }
@@ -105,16 +106,22 @@
   transform: scale(1.12);
 }
 
-.logo-text h1 {
+/* ✅ NEW SEO SAFE LOGO TEXT (no H1 in header) */
+.logo-name {
+  display: block;
   font-size: 1.1rem;
   margin: 0;
   font-weight: 700;
+  line-height: 1.05;
+  color: var(--text-main);
 }
 
-.logo-text p {
+.logo-tagline {
+  display: block;
   font-size: 0.75rem;
   margin: 0;
   color: var(--text-sub);
+  line-height: 1.1;
 }
 
 /* ===========================================================
@@ -251,6 +258,7 @@
   inset: 0;
   background: rgba(10, 15, 25, 0.97);
   backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   z-index: 1400;
 
   display: flex;

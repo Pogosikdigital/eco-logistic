@@ -11,6 +11,7 @@ import Services from "./components/Services";
 import About from "./components/About";
 import Reviews from "./components/Reviews";
 import Contact from "./components/Contact";
+import SEOSection from "./components/SEOSection";
 
 // Pages
 import QuotePage from "./pages/QuotePage";
@@ -20,13 +21,13 @@ import EarnWithUs from "./pages/EarnWithUs";
 function App() {
   const location = useLocation();
 
-  // 1) обычный переход — наверх (если нет hash)
+  // 1️⃣ обычный переход — наверх (если нет hash)
   useEffect(() => {
     if (location.hash) return;
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [location.pathname]);
 
-  // 2) переход по якорю — скроллим к секции
+  // 2️⃣ переход по якорю — скроллим к секции
   useEffect(() => {
     if (!location.hash) return;
 
@@ -40,6 +41,7 @@ function App() {
     }, 80);
   }, [location]);
 
+  // 🏠 HOME PAGE (вся главная)
   const Home = (
     <MainLayout>
       <Hero />
@@ -47,6 +49,10 @@ function App() {
       <Services />
       <About />
       <Reviews />
+
+      {/* ✅ SEO TEXT BLOCK (H2 + 500–800 слов + FAQ) */}
+      <SEOSection />
+
       <Contact />
     </MainLayout>
   );
@@ -56,14 +62,13 @@ function App() {
       {/* HOME */}
       <Route path="/" element={Home} />
 
-      {/* SEO-friendly section paths -> anchor on home */}
+      {/* SEO-friendly section paths -> anchors on home */}
       <Route path="/services" element={<Navigate to="/#services" replace />} />
       <Route path="/how-it-works" element={<Navigate to="/#how-it-works" replace />} />
       <Route path="/about" element={<Navigate to="/#about" replace />} />
       <Route path="/contact" element={<Navigate to="/#contact" replace />} />
 
-      {/* Reviews секция на главной (чтобы не конфликтовать с /reviews-page) */}
-      {/* В sitemap добавляй /testimonials */}
+      {/* Reviews section on home (avoid conflict with /reviews page) */}
       <Route path="/testimonials" element={<Navigate to="/#reviews" replace />} />
 
       {/* REAL PAGES */}
@@ -76,8 +81,7 @@ function App() {
         }
       />
 
-      {/* Страница со всеми отзывами */}
-      {/* Важно: НЕ /reviews, иначе конфликт с редиректом на секцию */}
+      {/* Full reviews page */}
       <Route
         path="/reviews"
         element={

@@ -29,9 +29,7 @@ export default function Header() {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  };
+  const toggleTheme = () => setTheme((prev) => (prev === "dark" ? "light" : "dark"));
 
   useEffect(() => {
     const onScroll = () => {
@@ -39,21 +37,17 @@ export default function Header() {
 
       setHeaderSmall(scrollY > 40);
 
-      const total =
-        document.documentElement.scrollHeight - window.innerHeight || 1;
+      const total = document.documentElement.scrollHeight - window.innerHeight || 1;
       setScrollProgress(Math.min((scrollY / total) * 100, 100));
 
       if (isHome) {
         navLinks.forEach((link) => {
           if (link.type !== "anchor") return;
-
           const el = document.getElementById(link.id);
           if (!el) return;
 
           const rect = el.getBoundingClientRect();
-          if (rect.top <= 150 && rect.bottom >= 150) {
-            setActive(link.id);
-          }
+          if (rect.top <= 150 && rect.bottom >= 150) setActive(link.id);
         });
       }
     };
@@ -88,16 +82,17 @@ export default function Header() {
             href="/#home"
             className="logo-block"
             onClick={(e) => handleAnchor(e, "home")}
+            aria-label="EcoHub Logistics home"
           >
-            <img src={logo} className="logo" alt="EcoHub Logistics" />
+            <img src={logo} className="logo" alt="EcoHub Logistics logo" />
             <div className="logo-text">
-              <h1>EcoHub Logistics</h1>
-              <p>Auto Transport USA</p>
+              <span className="logo-name">EcoHub Logistics</span>
+              <span className="logo-tagline">Auto Transport USA</span>
             </div>
           </a>
 
           {/* DESKTOP NAV */}
-          <nav className="desktop-nav">
+          <nav className="desktop-nav" aria-label="Primary navigation">
             <ul>
               {navLinks.map((link) =>
                 link.type === "anchor" ? (
@@ -125,7 +120,7 @@ export default function Header() {
           </Link>
 
           {/* THEME BUTTON */}
-          <button className="theme-btn" onClick={toggleTheme}>
+          <button className="theme-btn" onClick={toggleTheme} aria-label="Toggle theme">
             {theme === "dark" ? "🌞" : "🌙"}
           </button>
 
@@ -133,6 +128,8 @@ export default function Header() {
           <button
             className={`burger ${menuOpen ? "open" : ""}`}
             onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Open menu"
+            aria-expanded={menuOpen}
           >
             <span />
             <span />
@@ -147,10 +144,7 @@ export default function Header() {
           {navLinks.map((link) =>
             link.type === "anchor" ? (
               <li key={link.id}>
-                <a
-                  href={`/#${link.id}`}
-                  onClick={(e) => handleAnchor(e, link.id)}
-                >
+                <a href={`/#${link.id}`} onClick={(e) => handleAnchor(e, link.id)}>
                   {link.label}
                 </a>
               </li>
@@ -164,11 +158,7 @@ export default function Header() {
           )}
         </ul>
 
-        <Link
-          to="/quote"
-          className="mobile-cta"
-          onClick={() => setMenuOpen(false)}
-        >
+        <Link to="/quote" className="mobile-cta" onClick={() => setMenuOpen(false)}>
           Get a Free Quote ▷
         </Link>
       </div>
