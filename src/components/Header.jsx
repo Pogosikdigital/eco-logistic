@@ -1,10 +1,10 @@
 // src/components/Header.jsx
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "/logo.png";
 import "./styles/header.css";
 
-const navLinks = [
+const NAV_LINKS = [
   { id: "home", label: "Home", type: "anchor" },
   { id: "how-it-works", label: "How it works", type: "anchor" },
   { id: "services", label: "Services", type: "anchor" },
@@ -25,39 +25,21 @@ export default function Header() {
   const [active, setActive] = useState("home");
   const [theme, setTheme] = useState("dark");
 
+  // rAF throttling refs
+  const rafRef = useRef(0);
+  const lastYRef = useRef(0);
+
+  // Keep links stable
+  const navLinks = useMemo(() => NAV_LINKS, []);
+
+  // Theme
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  const toggleTheme = () => setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  const toggleTheme = () => setTheme((p) => (p === "dark" ? "light" : "dark"));
 
-  useEffect(() => {
-    const onScroll = () => {
-      const scrollY = window.scrollY;
-
-      setHeaderSmall(scrollY > 40);
-
-      const total = document.documentElement.scrollHeight - window.innerHeight || 1;
-      setScrollProgress(Math.min((scrollY / total) * 100, 100));
-
-      if (isHome) {
-        navLinks.forEach((link) => {
-          if (link.type !== "anchor") return;
-          const el = document.getElementById(link.id);
-          if (!el) return;
-
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 150 && rect.bottom >= 150) setActive(link.id);
-        });
-      }
-    };
-
-    if (isHome) onScroll();
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [isHome]);
-
+  // Smooth anchor navigation
   const handleAnchor = (e, id) => {
     e.preventDefault();
     setMenuOpen(false);
@@ -70,6 +52,69 @@ export default function Header() {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  // Lightweight scroll handler (only progress + headerSmall) with rAF
+  useEffect(() => {
+    const onScroll = () => {
+      lastYRef.current = window.scrollY || 0;
+      if (rafRef.current) return;
+
+      rafRef.current = window.requestAnimationFrame(() => {
+        rafRef.current = 0;
+
+        const y = lastYRef.current;
+        setHeaderSmall(y > 40);
+
+        const doc = document.documentElement;
+        const total = (doc.scrollHeight - window.innerHeight) || 1;
+        const p = Math.min((y / total) * 100, 100);
+        setScrollProgress(p);
+      });
+    };
+
+    // run once
+    onScroll();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  // IntersectionObserver for active section (replaces getBoundingClientRect loop)
+  useEffect(() => {
+    if (!isHome) return;
+
+    const anchorIds = navLinks.filter((l) => l.type === "anchor").map((l) => l.id);
+
+    const elements = anchorIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    if (!elements.length) return;
+
+    // When section crosses the “header line” area — mark active
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // pick the entry most visible
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0))[0];
+
+        if (visible?.target?.id) setActive(visible.target.id);
+      },
+      {
+        root: null,
+        // shift the "activation zone" a bit down from top (header height)
+        rootMargin: "-25% 0px -60% 0px",
+        threshold: [0.05, 0.1, 0.2, 0.35],
+      }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [isHome, navLinks]);
 
   return (
     <>
@@ -127,7 +172,7 @@ export default function Header() {
           {/* BURGER */}
           <button
             className={`burger ${menuOpen ? "open" : ""}`}
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={() => setMenuOpen((v) => !v)}
             aria-label="Open menu"
             aria-expanded={menuOpen}
           >
