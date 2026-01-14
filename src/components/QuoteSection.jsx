@@ -235,9 +235,10 @@ export default function QuoteSection() {
       <div className="quote-inner">
         {/* ===== LEFT: FORM ===== */}
         <div className="quote-left">
-          <h2 id="quote-heading" className="quote-title" itemProp="headline">
+          {/* ✅ SEO FIX: H1 for /quote page (design unchanged) */}
+          <h1 id="quote-heading" className="quote-title" itemProp="headline">
             Get a Free Quote
-          </h2>
+          </h1>
 
           <p className="quote-subtitle" itemProp="description">
             No hidden fees. Quick response by a real coordinator.
@@ -597,4 +598,3 @@ export default function QuoteSection() {
     </section>
   );
 }
-

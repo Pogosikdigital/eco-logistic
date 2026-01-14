@@ -16,7 +16,7 @@ import SEOSection from "./components/SEOSection";
 // Pages
 import QuotePage from "./pages/QuotePage";
 import ReviewsPage from "./pages/ReviewsPage";
-import EarnWithUs from "./pages/EarnWithUs";
+import EarnWithUsPage from "./pages/EarnWithUsPage";
 
 function App() {
   const location = useLocation();
@@ -41,18 +41,18 @@ function App() {
     }, 80);
   }, [location]);
 
-  // 🏠 HOME PAGE (вся главная)
+  // 🏠 HOME PAGE
   const Home = (
     <MainLayout>
       <Hero />
       <HowItWorks />
       <Services />
       <About />
-      {/* ✅ SEO TEXT BLOCK (H2 + 500–800 слов + FAQ) */}
+
+      {/* SEO TEXT BLOCK */}
       <SEOSection />
 
       <Reviews />
-
       <Contact />
     </MainLayout>
   );
@@ -62,13 +62,13 @@ function App() {
       {/* HOME */}
       <Route path="/" element={Home} />
 
-      {/* SEO-friendly section paths -> anchors on home */}
+      {/* SEO-friendly anchor paths */}
       <Route path="/services" element={<Navigate to="/#services" replace />} />
       <Route path="/how-it-works" element={<Navigate to="/#how-it-works" replace />} />
       <Route path="/about" element={<Navigate to="/#about" replace />} />
       <Route path="/contact" element={<Navigate to="/#contact" replace />} />
 
-      {/* Reviews section on home (avoid conflict with /reviews page) */}
+      {/* Reviews anchor */}
       <Route path="/testimonials" element={<Navigate to="/#reviews" replace />} />
 
       {/* REAL PAGES */}
@@ -81,7 +81,6 @@ function App() {
         }
       />
 
-      {/* Full reviews page */}
       <Route
         path="/reviews"
         element={
@@ -95,7 +94,7 @@ function App() {
         path="/earn-with-us"
         element={
           <MainLayout>
-            <EarnWithUs />
+            <EarnWithUsPage />
           </MainLayout>
         }
       />
