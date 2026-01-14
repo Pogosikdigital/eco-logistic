@@ -1,62 +1,97 @@
-// src/components/SEO.jsx
-import React from "react";
+// src/components/MetaSEO.jsx
+import { useHead } from "@unhead/react";
 
-export default function SEO({
+export default function MetaSEO({
   title,
   description,
   canonical,
-  ogTitle,
-  ogDescription,
-  ogImage,
-  noIndex = false,
+  robots = "index,follow",
+  og,
+  twitter,
+  jsonLd = [],
 }) {
   const baseUrl = "https://www.ecohublogistics.com";
 
+  // Title
   const fullTitle = title
     ? `${title} | EcoHub Logistics`
     : "EcoHub Logistics – Nationwide Vehicle Shipping & Auto Transport";
 
-  const finalOgTitle = ogTitle || fullTitle;
-
+  // Description
   const finalDescription =
     description ||
     "EcoHub Logistics provides insured, reliable vehicle shipping across the USA. Door-to-door auto transport with transparent pricing. Get a free quote.";
 
-  const finalOgDescription = ogDescription || finalDescription;
-
-  const url =
+  // Current URL (client) fallback (server)
+  const currentUrl =
     typeof window !== "undefined"
       ? `${baseUrl}${window.location.pathname}${window.location.search}`
       : baseUrl;
 
-  const image = ogImage || `${baseUrl}/og-image.jpg`;
+  // Canonical
+  const canonicalUrl = canonical || currentUrl;
 
-  return (
-    <>
-      {/* Title */}
-      <title>{fullTitle}</title>
+  // Open Graph defaults
+  const ogData = {
+    type: "website",
+    url: canonicalUrl,
+    title: fullTitle,
+    description: finalDescription,
+    image: `${baseUrl}/og-image.jpg`,
+    site_name: "EcoHub Logistics",
+    locale: "en_US",
+    ...og,
+  };
 
-      {/* Meta description */}
-      <meta name="description" content={finalDescription} />
+  // Twitter defaults
+  const twitterData = {
+    card: "summary_large_image",
+    title: ogData.title,
+    description: ogData.description,
+    image: ogData.image,
+    // site: "@yourhandle", // если будет — добавишь
+    ...twitter,
+  };
 
-      {/* Robots */}
-      <meta name="robots" content={noIndex ? "noindex,nofollow" : "index,follow"} />
+  // JSON-LD scripts
+  const ldArray = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
+  const ldScripts = ldArray
+    .filter(Boolean)
+    .map((obj) => ({
+      type: "application/ld+json",
+      children: JSON.stringify(obj),
+    }));
 
-      {/* Canonical */}
-      {canonical ? <link rel="canonical" href={canonical} /> : null}
+  useHead({
+    title: fullTitle,
+    meta: [
+      // Base
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "theme-color", content: "#0B0F1A" },
 
-      {/* Open Graph */}
-      <meta property="og:type" content="website" />
-      <meta property="og:title" content={finalOgTitle} />
-      <meta property="og:description" content={finalOgDescription} />
-      <meta property="og:url" content={url} />
-      <meta property="og:image" content={image} />
+      // SEO
+      { name: "description", content: finalDescription },
+      { name: "robots", content: robots },
 
-      {/* Twitter */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={finalOgTitle} />
-      <meta name="twitter:description" content={finalOgDescription} />
-      <meta name="twitter:image" content={image} />
-    </>
-  );
+      // Open Graph
+      { property: "og:type", content: ogData.type },
+      { property: "og:site_name", content: ogData.site_name },
+      { property: "og:locale", content: ogData.locale },
+      { property: "og:title", content: ogData.title },
+      { property: "og:description", content: ogData.description },
+      { property: "og:url", content: ogData.url },
+      { property: "og:image", content: ogData.image },
+
+      // Twitter
+      { name: "twitter:card", content: twitterData.card },
+      { name: "twitter:title", content: twitterData.title },
+      { name: "twitter:description", content: twitterData.description },
+      { name: "twitter:image", content: twitterData.image },
+    ],
+    link: [{ rel: "canonical", href: canonicalUrl }],
+    script: ldScripts,
+  });
+
+  return null;
 }
