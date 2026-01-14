@@ -18,40 +18,37 @@ import QuotePage from "./pages/QuotePage";
 import ReviewsPage from "./pages/ReviewsPage";
 import EarnWithUsPage from "./pages/EarnWithUsPage";
 
+// ✅ Service pages
+import EnclosedTransportPage from "./pages/services/EnclosedTransportPage";
+import CarShippingPage from "./pages/services/CarShippingPage";
+
 function App() {
   const location = useLocation();
 
-  // 1️⃣ обычный переход — наверх (если нет hash)
+  // Scroll to top on normal navigation
   useEffect(() => {
     if (location.hash) return;
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [location.pathname]);
 
-  // 2️⃣ переход по якорю — скроллим к секции
+  // Anchor navigation
   useEffect(() => {
     if (!location.hash) return;
 
     const sectionId = location.hash.replace("#", "");
-
     setTimeout(() => {
       const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 80);
   }, [location]);
 
-  // 🏠 HOME PAGE
   const Home = (
     <MainLayout>
       <Hero />
       <HowItWorks />
       <Services />
       <About />
-
-      {/* SEO TEXT BLOCK */}
       <SEOSection />
-
       <Reviews />
       <Contact />
     </MainLayout>
@@ -67,8 +64,6 @@ function App() {
       <Route path="/how-it-works" element={<Navigate to="/#how-it-works" replace />} />
       <Route path="/about" element={<Navigate to="/#about" replace />} />
       <Route path="/contact" element={<Navigate to="/#contact" replace />} />
-
-      {/* Reviews anchor */}
       <Route path="/testimonials" element={<Navigate to="/#reviews" replace />} />
 
       {/* REAL PAGES */}
@@ -99,12 +94,29 @@ function App() {
         }
       />
 
+      {/* ✅ SERVICE PAGES */}
+      <Route
+        path="/services/enclosed-transport"
+        element={
+          <MainLayout>
+            <EnclosedTransportPage />
+          </MainLayout>
+        }
+      />
+
+      <Route
+        path="/services/car-shipping"
+        element={
+          <MainLayout>
+            <CarShippingPage />
+          </MainLayout>
+        }
+      />
+
       {/* Backward compatibility */}
       <Route path="/earn" element={<Navigate to="/earn-with-us" replace />} />
       <Route path="/contact-us" element={<Navigate to="/contact" replace />} />
       <Route path="/about-us" element={<Navigate to="/about" replace />} />
-
-      {/* Common aliases */}
       <Route path="/home" element={<Navigate to="/" replace />} />
       <Route path="/index" element={<Navigate to="/" replace />} />
 
