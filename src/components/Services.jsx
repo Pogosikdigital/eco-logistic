@@ -8,10 +8,8 @@ function Services() {
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  // Мемоизация массива (на всякий случай, но он и так статичный)
   const services = useMemo(() => servicesData, []);
 
-  // Лёгкий IntersectionObserver → плавное появление секции
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -42,9 +40,7 @@ function Services() {
     <section
       ref={sectionRef}
       id="services"
-      className={`services-section ${
-        isVisible ? "services-section--visible" : ""
-      }`}
+      className={`services-section ${isVisible ? "services-section--visible" : ""}`}
       aria-label="EcoHub Logistics vehicle transport services"
       itemScope
       itemType="https://schema.org/ItemList"
@@ -72,6 +68,7 @@ function Services() {
               title={service.title}
               desc={service.desc}
               position={index + 1}
+              href={service.href}   // ✅ ВОТ ЭТО ГЛАВНОЕ
             />
           ))}
         </div>

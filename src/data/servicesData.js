@@ -16,6 +16,7 @@ export const servicesData = [
     title: "Operable Vehicle Transport",
     desc: "Efficient transport for vehicles able to drive onto the trailer.",
     img: Bmw,
+    href: "/services/car-shipping"
   },
   {
     id: 2,
@@ -46,5 +47,6 @@ export const servicesData = [
     title: "Enclosed Trailer Transport",
     desc: "Maximum protection for exotic and luxury vehicles.",
     img: Enclosed,
+    href: "/services/enclosed-transport"
   }
 ];
