@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import MetaSEO from "../../components/MetaSEO";
 import QuoteSection from "../../components/QuoteSection";
 
-import heroImg from "../../assets/boat.webp";
+import heroImg from "../../assets/Boat.webp";
 import "./service-page.css";
 
 export default function BoatTransportPage() {
