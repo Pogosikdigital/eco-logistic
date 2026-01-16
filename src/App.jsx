@@ -21,6 +21,14 @@ import EarnWithUsPage from "./pages/EarnWithUsPage";
 // ✅ Service pages
 import EnclosedTransportPage from "./pages/services/EnclosedTransportPage";
 import CarShippingPage from "./pages/services/CarShippingPage";
+import MotorcycleShippingPage from "./pages/services/MotorcycleShippingPage";
+import InoperableVehicleTransportPage from "./pages/services/InoperableVehicleTransportPage";
+import BoatTransportPage from "./pages/services/BoatTransportPage";
+import RvMotorhomeSemiTruckTransportPage from "./pages/services/RvMotorhomeSemiTruckTransportPage";
+
+
+
+
 
 function App() {
   const location = useLocation();
@@ -112,6 +120,43 @@ function App() {
           </MainLayout>
         }
       />
+
+      <Route
+        path="/services/motorcycle-shipping"
+        element={
+         <MainLayout>
+           <MotorcycleShippingPage />
+         </MainLayout>
+  }
+/>
+
+<Route
+  path="/services/inoperable-vehicle-transport"
+  element={
+    <MainLayout>
+      <InoperableVehicleTransportPage />
+    </MainLayout>
+  }
+/>
+
+<Route
+  path="/services/boat-transport"
+  element={
+    <MainLayout>
+      <BoatTransportPage />
+    </MainLayout>
+  }
+/>
+
+<Route
+  path="/services/rv-motorhome-semitruck-transport"
+  element={
+    <MainLayout>
+      <RvMotorhomeSemiTruckTransportPage />
+    </MainLayout>
+  }
+/>
+
 
       {/* Backward compatibility */}
       <Route path="/earn" element={<Navigate to="/earn-with-us" replace />} />

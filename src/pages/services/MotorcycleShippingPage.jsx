@@ -1,53 +1,54 @@
-// src/pages/services/CarShippingPage.jsx
+// src/pages/services/MotorcycleShippingPage.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 
 import MetaSEO from "../../components/MetaSEO";
 import QuoteSection from "../../components/QuoteSection";
 
-import heroImg from "../../assets/bmw.webp";
+import heroImg from "../../assets/Buggy.webp";
 import "./service-page.css";
 
-export default function CarShippingPage() {
-  const canonical = "https://www.ecohublogistics.com/services/car-shipping";
+export default function MotorcycleShippingPage() {
+  const canonical =
+    "https://www.ecohublogistics.com/services/motorcycle-shipping";
 
   return (
     <main className="svc-page" itemScope itemType="https://schema.org/WebPage">
       <MetaSEO
-        title="Car Shipping Across the USA"
-        description="Reliable door-to-door car shipping with insured carriers. Transparent pricing, flexible scheduling, and a real coordinator helping you at every step."
+        title="Motorcycle Shipping Services"
+        description="Fast, insured motorcycle shipping across the USA. Door-to-door delivery with professional handling and flexible scheduling."
         canonical={canonical}
         robots="index,follow"
         og={{
           type: "website",
           url: canonical,
-          title: "Car Shipping Across the USA | EcoHub Logistics",
+          title: "Motorcycle Shipping Across the USA | EcoHub Logistics",
           description:
-            "Door-to-door car shipping across the USA. Insured carriers, open & enclosed transport options, fast pickup scheduling.",
-          image: "https://www.ecohublogistics.com/og/car-shipping.jpg",
+            "Safe, insured motorcycle shipping nationwide. Door-to-door delivery, flexible scheduling, and real coordinator support.",
+          image: "https://www.ecohublogistics.com/og/motorcycle-shipping.jpg",
         }}
         twitter={{
           card: "summary_large_image",
-          title: "Car Shipping Across the USA | EcoHub Logistics",
+          title: "Motorcycle Shipping Across the USA | EcoHub Logistics",
           description:
-            "Reliable nationwide car shipping with insured carriers and transparent pricing.",
-          image: "https://www.ecohublogistics.com/og/car-shipping.jpg",
+            "Fast motorcycle shipping across the USA with insured carriers and professional handling.",
+          image: "https://www.ecohublogistics.com/og/motorcycle-shipping.jpg",
         }}
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "Service",
-            name: "Car Shipping Across the USA",
+            name: "Motorcycle Shipping Services",
             provider: {
               "@type": "Organization",
               name: "EcoHub Logistics",
               url: "https://www.ecohublogistics.com/",
             },
             areaServed: "US",
-            serviceType: "Auto Transport",
+            serviceType: "Motorcycle Transport",
             url: canonical,
             description:
-              "Reliable door-to-door car shipping with insured carriers. Open and enclosed transport options available.",
+              "Nationwide motorcycle shipping with insured carriers, door-to-door delivery and coordinator support.",
           },
           {
             "@context": "https://schema.org",
@@ -68,7 +69,7 @@ export default function CarShippingPage() {
               {
                 "@type": "ListItem",
                 position: 3,
-                name: "Car Shipping",
+                name: "Motorcycle Shipping",
                 item: canonical,
               },
             ],
@@ -77,30 +78,30 @@ export default function CarShippingPage() {
       />
 
       {/* ---------------- HERO ---------------- */}
-      <section className="svc-hero" aria-label="Car shipping hero">
+      <section className="svc-hero" aria-label="Motorcycle shipping hero">
         <div className="svc-hero-bg" />
 
         <div className="svc-container">
           <div className="svc-hero-inner">
             {/* LEFT */}
             <div>
-              <span className="svc-badge">AUTO TRANSPORT</span>
+              <span className="svc-badge">MOTORCYCLE TRANSPORT</span>
 
               <h1 className="svc-title" itemProp="name">
-                Car Shipping Across the USA
+                Motorcycle Shipping Across the USA
               </h1>
 
               <p className="svc-subtitle" itemProp="description">
-                Reliable door-to-door car shipping with insured carriers.
-                Transparent pricing, flexible scheduling, and a real coordinator
-                helping you at every step.
+                Safe, insured motorcycle transport with experienced carriers.
+                Door-to-door delivery, flexible pickup dates, and real-time
+                coordination from start to finish.
               </p>
 
               <ul className="svc-bullets">
+                <li>✅ Secure strapping &amp; professional handling</li>
                 <li>✅ Door-to-door nationwide delivery</li>
-                <li>✅ Open & enclosed transport options</li>
-                <li>✅ Fully insured carriers</li>
-                <li>✅ Fast pickup scheduling</li>
+                <li>✅ Open &amp; enclosed transport options</li>
+                <li>✅ Fully insured shipments</li>
               </ul>
 
               <div className="svc-actions">
@@ -108,14 +109,13 @@ export default function CarShippingPage() {
                   Get a free quote
                 </Link>
 
-                <a className="svc-btn-ghost" href="tel:+16509999660">
+                <Link to="/contact" className="svc-btn-ghost">
                   Talk to a coordinator
-                </a>
+                </Link>
               </div>
 
               <p className="svc-note">
-                Tip: have pickup &amp; delivery ZIP codes ready for the fastest
-                quote.
+                Average response time: 5–10 minutes during business hours
               </p>
             </div>
 
@@ -125,7 +125,7 @@ export default function CarShippingPage() {
               <div className="svc-hero-media">
                 <img
                   src={heroImg}
-                  alt="Car shipping and auto transport in the USA"
+                  alt="Motorcycle shipping service"
                   loading="eager"
                   decoding="async"
                   className="svc-hero-img"
@@ -137,24 +137,27 @@ export default function CarShippingPage() {
       </section>
 
       {/* ---------------- CONTENT GRID ---------------- */}
-      <section className="svc-container svc-grid" aria-label="Car shipping info">
+      <section
+        className="svc-container svc-grid"
+        aria-label="Motorcycle shipping info"
+      >
         {/* LEFT BLOCK */}
         <article className="svc-block">
-          <h2 className="svc-h2">How car shipping works</h2>
+          <h2 className="svc-h2">How motorcycle shipping works</h2>
 
           <p className="svc-p">
-            Share pickup and delivery ZIP codes, your vehicle details, and a
+            Share pickup and delivery ZIP codes, motorcycle details, and a
             preferred pickup date. We match your shipment with a trusted carrier
-            and coordinate the transport from start to finish.
+            and manage the transport process end-to-end.
           </p>
 
           <div className="svc-divider" />
 
-          <h3 className="svc-h3">What affects price</h3>
+          <h3 className="svc-h3">What affects the price</h3>
 
           <ul className="svc-list svc-list--bullets">
             <li>Distance &amp; route demand</li>
-            <li>Pickup / delivery accessibility</li>
+            <li>Pickup &amp; delivery accessibility</li>
             <li>Seasonality &amp; timing</li>
             <li>Protection level (open vs enclosed)</li>
           </ul>
@@ -164,7 +167,9 @@ export default function CarShippingPage() {
         <aside className="svc-block svc-block--accent">
           <h2 className="svc-h2">Recommended prep checklist</h2>
 
-          <p className="svc-p">A few quick steps help ensure safe loading and delivery.</p>
+          <p className="svc-p">
+            A few quick steps help ensure safe loading and delivery.
+          </p>
 
           <div className="svc-checklist">
             <div className="svc-checkrow">
@@ -178,7 +183,7 @@ export default function CarShippingPage() {
             </div>
 
             <div className="svc-checkrow">
-              <span className="svc-checkrow-k">Keep fuel level low</span>
+              <span className="svc-checkrow-k">Low fuel level</span>
               <span className="svc-tag svc-tag--help">✅ Helpful</span>
             </div>
           </div>
@@ -189,38 +194,7 @@ export default function CarShippingPage() {
         </aside>
       </section>
 
-      {/* ---------------- FAQ ---------------- */}
-      <section className="svc-container svc-faq" aria-label="FAQ">
-        <h2 className="svc-h2">Car shipping FAQ</h2>
-
-        <div className="svc-faq-grid">
-          <details className="svc-faq-item">
-            <summary>How long does car shipping usually take?</summary>
-            <p>
-              Transit time depends on distance and route demand. Many routes
-              take a few days, while coast-to-coast shipments may take longer.
-            </p>
-          </details>
-
-          <details className="svc-faq-item">
-            <summary>Is my vehicle insured during transport?</summary>
-            <p>
-              Yes, carriers are insured. Your coordinator will confirm coverage
-              details and answer any questions before pickup.
-            </p>
-          </details>
-
-          <details className="svc-faq-item">
-            <summary>Do you offer enclosed transport?</summary>
-            <p>
-              Yes — enclosed transport is recommended for luxury, exotic, or
-              classic vehicles needing maximum protection.
-            </p>
-          </details>
-        </div>
-      </section>
-
-      {/* ---------------- QUOTE SECTION ---------------- */}
+      {/* ---------------- QUOTE ---------------- */}
       <section className="svc-quote" aria-label="Get a quote">
         <QuoteSection />
       </section>

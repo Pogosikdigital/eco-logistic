@@ -23,24 +23,31 @@ export const servicesData = [
     title: "Inoperable Vehicle Transport",
     desc: "Safe winch-assisted transport for non-running cars.",
     img: Delivery,
+    href: "/services/inoperable-vehicle-transport"
+
   },
   {
     id: 3,
     title: "Boat Transport",
     desc: "Reliable transport for boats, jet skis, and marine equipment.",
     img: Boat,
+    href: "/services/boat-transport"
+
   },
   {
     id: 4,
     title: "RV, Motorhome & Semi-Truck Transport",
     desc: "Heavy-duty transport for oversized vehicles across the USA.",
     img: Lineage,
+    href: "/services/rv-motorhome-semitruck-transport"
+
   },
   {
     id: 5,
     title: "Motorcycle, ATV & Buggy Transport",
     desc: "Fast, insured shipping for recreational vehicles.",
     img: Buggy,
+    href: "/services/motorcycle-shipping",
   },
   {
     id: 6,
