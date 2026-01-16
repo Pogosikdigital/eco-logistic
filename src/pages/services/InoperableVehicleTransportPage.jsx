@@ -1,43 +1,44 @@
-// src/pages/services/CarShippingPage.jsx
+// src/pages/services/InoperableVehicleTransportPage.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 
 import MetaSEO from "../../components/MetaSEO";
 import QuoteSection from "../../components/QuoteSection";
 
-import heroImg from "../../assets/bmw.webp";
+import heroImg from "../../assets/delivery.webp";
 import "./service-page.css";
 
-export default function CarShippingPage() {
-  const canonical = "https://www.ecohublogistics.com/services/car-shipping";
+export default function InoperableVehicleTransportPage() {
+  const canonical =
+    "https://www.ecohublogistics.com/services/inoperable-vehicle-transport";
 
   return (
     <main className="svc-page" itemScope itemType="https://schema.org/WebPage">
       <MetaSEO
-        title="Car Shipping Across the USA"
-        description="Reliable door-to-door car shipping with insured carriers. Transparent pricing, flexible scheduling, and a real coordinator helping you at every step."
+        title="Inoperable Vehicle Transport"
+        description="Safe winch-assisted transport for non-running vehicles. Door-to-door delivery, insured carriers, flexible pickup scheduling, and real coordinator support."
         canonical={canonical}
         robots="index,follow"
         og={{
           type: "website",
           url: canonical,
-          title: "Car Shipping Across the USA | EcoHub Logistics",
+          title: "Inoperable Vehicle Transport | EcoHub Logistics",
           description:
-            "Door-to-door car shipping across the USA. Insured carriers, open & enclosed transport options, fast pickup scheduling.",
-          image: "https://www.ecohublogistics.com/og/car-shipping.jpg",
+            "Non-running car shipping with winch-assisted loading. Door-to-door across the USA with insured carriers and fast quotes.",
+          image: "https://www.ecohublogistics.com/og/inoperable-vehicle.jpg",
         }}
         twitter={{
           card: "summary_large_image",
-          title: "Car Shipping Across the USA | EcoHub Logistics",
+          title: "Inoperable Vehicle Transport | EcoHub Logistics",
           description:
-            "Reliable nationwide car shipping with insured carriers and transparent pricing.",
-          image: "https://www.ecohublogistics.com/og/car-shipping.jpg",
+            "Winch-assisted transport for non-running vehicles. Insured carriers, door-to-door delivery, fast quotes.",
+          image: "https://www.ecohublogistics.com/og/inoperable-vehicle.jpg",
         }}
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "Service",
-            name: "Car Shipping Across the USA",
+            name: "Inoperable Vehicle Transport",
             provider: {
               "@type": "Organization",
               name: "EcoHub Logistics",
@@ -47,7 +48,7 @@ export default function CarShippingPage() {
             serviceType: "Auto Transport",
             url: canonical,
             description:
-              "Reliable door-to-door car shipping with insured carriers. Open and enclosed transport options available.",
+              "Winch-assisted door-to-door transport for non-running vehicles across the USA.",
           },
           {
             "@context": "https://schema.org",
@@ -68,7 +69,7 @@ export default function CarShippingPage() {
               {
                 "@type": "ListItem",
                 position: 3,
-                name: "Car Shipping",
+                name: "Inoperable Vehicle Transport",
                 item: canonical,
               },
             ],
@@ -77,7 +78,10 @@ export default function CarShippingPage() {
       />
 
       {/* ---------------- HERO ---------------- */}
-      <section className="svc-hero" aria-label="Car shipping hero">
+      <section
+        className="svc-hero"
+        aria-label="Inoperable vehicle transport hero"
+      >
         <div className="svc-hero-bg" />
 
         <div className="svc-container">
@@ -87,18 +91,18 @@ export default function CarShippingPage() {
               <span className="svc-badge">AUTO TRANSPORT</span>
 
               <h1 className="svc-title" itemProp="name">
-                Car Shipping Across the USA
+                Inoperable Vehicle Transport
               </h1>
 
               <p className="svc-subtitle" itemProp="description">
-                Reliable door-to-door car shipping with insured carriers.
-                Transparent pricing, flexible scheduling, and a real coordinator
-                helping you at every step.
+                Safe winch-assisted transport for non-running vehicles.
+                Door-to-door delivery with insured carriers, flexible scheduling,
+                and a real coordinator helping you at every step.
               </p>
 
               <ul className="svc-bullets">
+                <li>✅ Winch-assisted loading for non-running vehicles</li>
                 <li>✅ Door-to-door nationwide delivery</li>
-                <li>✅ Open & enclosed transport options</li>
                 <li>✅ Fully insured carriers</li>
                 <li>✅ Fast pickup scheduling</li>
               </ul>
@@ -114,21 +118,22 @@ export default function CarShippingPage() {
               </div>
 
               <p className="svc-note">
-                Tip: have pickup &amp; delivery ZIP codes ready for the fastest
-                quote.
+                Tip: tell us if the vehicle rolls/steers/brakes — it helps match
+                the right equipment.
               </p>
             </div>
 
-            {/* RIGHT (IMAGE FULL WIDTH/HEIGHT) */}
+            {/* RIGHT — HERO IMAGE (как BMW: внутренняя рамка + отступ) */}
             <div className="svc-card svc-card--image" aria-hidden="true">
               <div className="svc-card-glow" />
+
               <div className="svc-hero-media">
                 <img
+                  className="svc-hero-img"
                   src={heroImg}
-                  alt="Car shipping and auto transport in the USA"
+                  alt="Inoperable vehicle transport on a carrier"
                   loading="eager"
                   decoding="async"
-                  className="svc-hero-img"
                 />
               </div>
             </div>
@@ -137,15 +142,18 @@ export default function CarShippingPage() {
       </section>
 
       {/* ---------------- CONTENT GRID ---------------- */}
-      <section className="svc-container svc-grid" aria-label="Car shipping info">
+      <section
+        className="svc-container svc-grid"
+        aria-label="Inoperable transport info"
+      >
         {/* LEFT BLOCK */}
         <article className="svc-block">
-          <h2 className="svc-h2">How car shipping works</h2>
+          <h2 className="svc-h2">How inoperable transport works</h2>
 
           <p className="svc-p">
-            Share pickup and delivery ZIP codes, your vehicle details, and a
-            preferred pickup date. We match your shipment with a trusted carrier
-            and coordinate the transport from start to finish.
+            Share pickup and delivery ZIP codes, vehicle details, and confirm it’s
+            non-running. We schedule a carrier with the right equipment (winch,
+            ramps) and coordinate pickup and delivery door-to-door.
           </p>
 
           <div className="svc-divider" />
@@ -154,9 +162,9 @@ export default function CarShippingPage() {
 
           <ul className="svc-list svc-list--bullets">
             <li>Distance &amp; route demand</li>
-            <li>Pickup / delivery accessibility</li>
-            <li>Seasonality &amp; timing</li>
-            <li>Protection level (open vs enclosed)</li>
+            <li>Vehicle condition (rolls/steers/brakes)</li>
+            <li>Loading difficulty &amp; access</li>
+            <li>Timing (seasonality, urgency)</li>
           </ul>
         </article>
 
@@ -164,22 +172,24 @@ export default function CarShippingPage() {
         <aside className="svc-block svc-block--accent">
           <h2 className="svc-h2">Recommended prep checklist</h2>
 
-          <p className="svc-p">A few quick steps help ensure safe loading and delivery.</p>
+          <p className="svc-p">
+            A few details help avoid delays on pickup day.
+          </p>
 
           <div className="svc-checklist">
             <div className="svc-checkrow">
-              <span className="svc-checkrow-k">Photos before pickup</span>
+              <span className="svc-checkrow-k">Confirm it rolls/steers/brakes</span>
               <span className="svc-tag svc-tag--ok">✅ Recommended</span>
             </div>
 
             <div className="svc-checkrow">
-              <span className="svc-checkrow-k">Remove loose items</span>
+              <span className="svc-checkrow-k">Keys available for driver</span>
               <span className="svc-tag svc-tag--ok">✅ Recommended</span>
             </div>
 
             <div className="svc-checkrow">
-              <span className="svc-checkrow-k">Keep fuel level low</span>
-              <span className="svc-tag svc-tag--help">✅ Helpful</span>
+              <span className="svc-checkrow-k">Clear access for equipment</span>
+              <span className="svc-tag svc-tag--info">✅ Helpful</span>
             </div>
           </div>
 
@@ -191,36 +201,36 @@ export default function CarShippingPage() {
 
       {/* ---------------- FAQ ---------------- */}
       <section className="svc-container svc-faq" aria-label="FAQ">
-        <h2 className="svc-h2">Car shipping FAQ</h2>
+        <h2 className="svc-h2">Inoperable transport FAQ</h2>
 
         <div className="svc-faq-grid">
           <details className="svc-faq-item">
-            <summary>How long does car shipping usually take?</summary>
+            <summary>Can you ship a car that doesn’t start?</summary>
             <p>
-              Transit time depends on distance and route demand. Many routes
-              take a few days, while coast-to-coast shipments may take longer.
+              Yes. We arrange winch-assisted loading with carriers equipped for
+              non-running vehicles.
             </p>
           </details>
 
           <details className="svc-faq-item">
-            <summary>Is my vehicle insured during transport?</summary>
+            <summary>Do I need to be present at pickup?</summary>
+            <p>
+              It’s recommended. If not possible, we can coordinate an authorized
+              contact and instructions.
+            </p>
+          </details>
+
+          <details className="svc-faq-item">
+            <summary>Is it insured during transport?</summary>
             <p>
               Yes, carriers are insured. Your coordinator will confirm coverage
-              details and answer any questions before pickup.
-            </p>
-          </details>
-
-          <details className="svc-faq-item">
-            <summary>Do you offer enclosed transport?</summary>
-            <p>
-              Yes — enclosed transport is recommended for luxury, exotic, or
-              classic vehicles needing maximum protection.
+              details before pickup.
             </p>
           </details>
         </div>
       </section>
 
-      {/* ---------------- QUOTE SECTION ---------------- */}
+      {/* ---------------- QUOTE ---------------- */}
       <section className="svc-quote" aria-label="Get a quote">
         <QuoteSection />
       </section>

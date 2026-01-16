@@ -1,53 +1,54 @@
-// src/pages/services/CarShippingPage.jsx
+// src/pages/services/RvMotorhomeSemiTruckTransportPage.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 
 import MetaSEO from "../../components/MetaSEO";
 import QuoteSection from "../../components/QuoteSection";
 
-import heroImg from "../../assets/bmw.webp";
+import heroImg from "../../assets/Lineage.webp";
 import "./service-page.css";
 
-export default function CarShippingPage() {
-  const canonical = "https://www.ecohublogistics.com/services/car-shipping";
+export default function RvMotorhomeSemiTruckTransportPage() {
+  const canonical =
+    "https://www.ecohublogistics.com/services/rv-motorhome-semitruck-transport";
 
   return (
     <main className="svc-page" itemScope itemType="https://schema.org/WebPage">
       <MetaSEO
-        title="Car Shipping Across the USA"
-        description="Reliable door-to-door car shipping with insured carriers. Transparent pricing, flexible scheduling, and a real coordinator helping you at every step."
+        title="RV, Motorhome & Semi-Truck Transport"
+        description="Reliable RV, motorhome, and semi-truck transport across the USA. Insured carriers, careful handling, flexible scheduling, and real coordinator support."
         canonical={canonical}
         robots="index,follow"
         og={{
           type: "website",
           url: canonical,
-          title: "Car Shipping Across the USA | EcoHub Logistics",
+          title: "RV, Motorhome & Semi-Truck Transport | EcoHub Logistics",
           description:
-            "Door-to-door car shipping across the USA. Insured carriers, open & enclosed transport options, fast pickup scheduling.",
-          image: "https://www.ecohublogistics.com/og/car-shipping.jpg",
+            "Nationwide RV, motorhome & semi-truck transport. Insured carriers, careful handling, flexible scheduling, fast quotes.",
+          image: "https://www.ecohublogistics.com/og/rv-transport.jpg",
         }}
         twitter={{
           card: "summary_large_image",
-          title: "Car Shipping Across the USA | EcoHub Logistics",
+          title: "RV, Motorhome & Semi-Truck Transport | EcoHub Logistics",
           description:
-            "Reliable nationwide car shipping with insured carriers and transparent pricing.",
-          image: "https://www.ecohublogistics.com/og/car-shipping.jpg",
+            "Transport RVs and commercial vehicles nationwide with insured carriers and coordinator support.",
+          image: "https://www.ecohublogistics.com/og/rv-transport.jpg",
         }}
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "Service",
-            name: "Car Shipping Across the USA",
+            name: "RV, Motorhome & Semi-Truck Transport",
             provider: {
               "@type": "Organization",
               name: "EcoHub Logistics",
               url: "https://www.ecohublogistics.com/",
             },
             areaServed: "US",
-            serviceType: "Auto Transport",
+            serviceType: "Vehicle Transport",
             url: canonical,
             description:
-              "Reliable door-to-door car shipping with insured carriers. Open and enclosed transport options available.",
+              "Nationwide transport for RVs, motorhomes, and semi-trucks with insured carriers and coordinator support.",
           },
           {
             "@context": "https://schema.org",
@@ -68,7 +69,7 @@ export default function CarShippingPage() {
               {
                 "@type": "ListItem",
                 position: 3,
-                name: "Car Shipping",
+                name: "RV, Motorhome & Semi-Truck Transport",
                 item: canonical,
               },
             ],
@@ -77,30 +78,30 @@ export default function CarShippingPage() {
       />
 
       {/* ---------------- HERO ---------------- */}
-      <section className="svc-hero" aria-label="Car shipping hero">
+      <section className="svc-hero" aria-label="RV and commercial transport hero">
         <div className="svc-hero-bg" />
 
         <div className="svc-container">
           <div className="svc-hero-inner">
             {/* LEFT */}
             <div>
-              <span className="svc-badge">AUTO TRANSPORT</span>
+              <span className="svc-badge">COMMERCIAL TRANSPORT</span>
 
               <h1 className="svc-title" itemProp="name">
-                Car Shipping Across the USA
+                RV, Motorhome &amp; Semi-Truck Transport
               </h1>
 
               <p className="svc-subtitle" itemProp="description">
-                Reliable door-to-door car shipping with insured carriers.
-                Transparent pricing, flexible scheduling, and a real coordinator
-                helping you at every step.
+                Reliable transport for RVs, motorhomes, and commercial vehicles
+                across the USA. Insured carriers, careful handling, flexible
+                scheduling, and real coordinator support.
               </p>
 
               <ul className="svc-bullets">
-                <li>✅ Door-to-door nationwide delivery</li>
-                <li>✅ Open & enclosed transport options</li>
-                <li>✅ Fully insured carriers</li>
-                <li>✅ Fast pickup scheduling</li>
+                <li>✅ Transport RVs, motorhomes &amp; commercial vehicles</li>
+                <li>✅ Insured carriers + professional handling</li>
+                <li>✅ Flexible pickup scheduling</li>
+                <li>✅ Coordinator support from start to finish</li>
               </ul>
 
               <div className="svc-actions">
@@ -114,18 +115,18 @@ export default function CarShippingPage() {
               </div>
 
               <p className="svc-note">
-                Tip: have pickup &amp; delivery ZIP codes ready for the fastest
-                quote.
+                Tip: share vehicle dimensions and whether it’s drivable for the
+                fastest quote.
               </p>
             </div>
 
-            {/* RIGHT (IMAGE FULL WIDTH/HEIGHT) */}
+            {/* RIGHT (BMW-style media frame) */}
             <div className="svc-card svc-card--image" aria-hidden="true">
               <div className="svc-card-glow" />
               <div className="svc-hero-media">
                 <img
                   src={heroImg}
-                  alt="Car shipping and auto transport in the USA"
+                  alt="RV, motorhome and semi-truck transport across the USA"
                   loading="eager"
                   decoding="async"
                   className="svc-hero-img"
@@ -137,15 +138,18 @@ export default function CarShippingPage() {
       </section>
 
       {/* ---------------- CONTENT GRID ---------------- */}
-      <section className="svc-container svc-grid" aria-label="Car shipping info">
+      <section
+        className="svc-container svc-grid"
+        aria-label="RV and commercial transport info"
+      >
         {/* LEFT BLOCK */}
         <article className="svc-block">
-          <h2 className="svc-h2">How car shipping works</h2>
+          <h2 className="svc-h2">How RV &amp; commercial transport works</h2>
 
           <p className="svc-p">
-            Share pickup and delivery ZIP codes, your vehicle details, and a
-            preferred pickup date. We match your shipment with a trusted carrier
-            and coordinate the transport from start to finish.
+            Share pickup and delivery ZIP codes, vehicle dimensions, and whether
+            it’s drivable. We match you with the right carrier and coordinate
+            pickup and delivery nationwide.
           </p>
 
           <div className="svc-divider" />
@@ -153,10 +157,10 @@ export default function CarShippingPage() {
           <h3 className="svc-h3">What affects price</h3>
 
           <ul className="svc-list svc-list--bullets">
-            <li>Distance &amp; route demand</li>
-            <li>Pickup / delivery accessibility</li>
-            <li>Seasonality &amp; timing</li>
-            <li>Protection level (open vs enclosed)</li>
+            <li>Vehicle size &amp; weight</li>
+            <li>Route demand and access</li>
+            <li>Drivable vs non-drivable</li>
+            <li>Timing and seasonality</li>
           </ul>
         </article>
 
@@ -164,21 +168,23 @@ export default function CarShippingPage() {
         <aside className="svc-block svc-block--accent">
           <h2 className="svc-h2">Recommended prep checklist</h2>
 
-          <p className="svc-p">A few quick steps help ensure safe loading and delivery.</p>
+          <p className="svc-p">
+            Quick prep steps help ensure a smooth pickup and avoid delays.
+          </p>
 
           <div className="svc-checklist">
             <div className="svc-checkrow">
-              <span className="svc-checkrow-k">Photos before pickup</span>
+              <span className="svc-checkrow-k">Confirm dimensions (L/W/H)</span>
               <span className="svc-tag svc-tag--ok">✅ Recommended</span>
             </div>
 
             <div className="svc-checkrow">
-              <span className="svc-checkrow-k">Remove loose items</span>
+              <span className="svc-checkrow-k">Secure loose items inside</span>
               <span className="svc-tag svc-tag--ok">✅ Recommended</span>
             </div>
 
             <div className="svc-checkrow">
-              <span className="svc-checkrow-k">Keep fuel level low</span>
+              <span className="svc-checkrow-k">Keys + access ready</span>
               <span className="svc-tag svc-tag--help">✅ Helpful</span>
             </div>
           </div>
@@ -191,36 +197,36 @@ export default function CarShippingPage() {
 
       {/* ---------------- FAQ ---------------- */}
       <section className="svc-container svc-faq" aria-label="FAQ">
-        <h2 className="svc-h2">Car shipping FAQ</h2>
+        <h2 className="svc-h2">RV &amp; commercial transport FAQ</h2>
 
         <div className="svc-faq-grid">
           <details className="svc-faq-item">
-            <summary>How long does car shipping usually take?</summary>
+            <summary>Can you move large RVs and motorhomes?</summary>
             <p>
-              Transit time depends on distance and route demand. Many routes
-              take a few days, while coast-to-coast shipments may take longer.
+              Yes. Provide dimensions so we can match the correct carrier and
+              confirm any route requirements.
             </p>
           </details>
 
           <details className="svc-faq-item">
-            <summary>Is my vehicle insured during transport?</summary>
+            <summary>Do you handle commercial trucks?</summary>
             <p>
-              Yes, carriers are insured. Your coordinator will confirm coverage
-              details and answer any questions before pickup.
+              Yes. We can ship various commercial vehicles depending on size,
+              route, and scheduling.
             </p>
           </details>
 
           <details className="svc-faq-item">
-            <summary>Do you offer enclosed transport?</summary>
+            <summary>Is it insured during transport?</summary>
             <p>
-              Yes — enclosed transport is recommended for luxury, exotic, or
-              classic vehicles needing maximum protection.
+              Carriers are insured. Your coordinator will confirm coverage
+              details before pickup.
             </p>
           </details>
         </div>
       </section>
 
-      {/* ---------------- QUOTE SECTION ---------------- */}
+      {/* ---------------- QUOTE ---------------- */}
       <section className="svc-quote" aria-label="Get a quote">
         <QuoteSection />
       </section>
