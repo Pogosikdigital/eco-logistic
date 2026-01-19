@@ -1,36 +1,44 @@
 /* ===========================================================
-   WHY PARTNER — GLASS SECTION
+   WHY PARTNER — MATCH HOME HERO (blue glass / svc-hero style)
    =========================================================== */
 
 .why-wrapper {
   padding: 4.2rem 1.8rem 4.6rem;
   display: flex;
   justify-content: center;
-  color: #e5edff;
+  color: #fff;
 }
 
+/* same “hero shell” vibe */
 .why-inner {
   width: 100%;
   max-width: 1200px;
   border-radius: 28px;
   padding: 2.6rem 2.4rem 2.8rem;
 
-  background: rgba(15, 23, 42, 0.95);
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.85);
-
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-
-  text-align: center;
   position: relative;
   overflow: hidden;
+  isolation: isolate;
+  text-align: center;
+
+  /* как home-hero */
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.94),
+    rgba(30, 64, 175, 0.94)
+  );
+  border: 1px solid rgba(96, 165, 250, 0.55);
+  box-shadow:
+    0 26px 80px rgba(15, 23, 42, 0.85),
+    0 0 42px rgba(56, 189, 248, 0.18);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 
   opacity: 0;
-  transform: translateY(26px);
-  transition:
-    opacity 0.6s ease-out,
-    transform 0.6s ease-out;
+  transform: translateY(22px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  will-change: opacity, transform;
 }
 
 .why-wrapper.why-visible .why-inner {
@@ -38,32 +46,36 @@
   transform: translateY(0);
 }
 
-/* soft lights */
-
+/* same big soft orbs */
 .why-inner::before,
 .why-inner::after {
   content: "";
   position: absolute;
+  width: 520px;
+  height: 520px;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.35;
+  filter: blur(140px);
+  opacity: 0.20;
   pointer-events: none;
+  z-index: 0;
 }
 
 .why-inner::before {
-  width: 280px;
-  height: 280px;
-  top: -120px;
-  left: -80px;
-  background: rgba(56, 189, 248, 0.35);
+  top: -220px;
+  left: -220px;
+  background: rgba(56, 189, 248, 0.55);
 }
 
 .why-inner::after {
-  width: 280px;
-  height: 280px;
-  bottom: -120px;
-  right: -60px;
-  background: rgba(59, 130, 246, 0.3);
+  bottom: -260px;
+  right: -220px;
+  background: rgba(37, 99, 235, 0.55);
+}
+
+/* keep content above glows */
+.why-inner > * {
+  position: relative;
+  z-index: 2;
 }
 
 /* ===========================================================
@@ -73,14 +85,19 @@
 .why-title {
   margin: 0;
   font-size: 2.2rem;
-  font-weight: 700;
-  text-shadow: 0 0 12px rgba(15, 23, 42, 0.7);
+  font-weight: 800;
+  letter-spacing: 0.2px;
+
+  text-shadow:
+    0 0 1px rgba(148, 163, 184, 0.85),
+    0 0 22px rgba(56, 189, 248, 0.35);
 }
 
 .why-subtitle {
   margin-top: 0.9rem;
   font-size: 1.02rem;
-  color: #cbd5e1;
+  line-height: 1.7;
+  color: rgba(226, 232, 240, 0.9);
   max-width: 760px;
   margin-left: auto;
   margin-right: auto;
@@ -91,93 +108,144 @@
    =========================================================== */
 
 .why-grid {
-  margin-top: 2.8rem;
+  margin-top: 2.6rem;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.9rem;
+  gap: 14px; /* как hero features */
 }
 
 /* ===========================================================
-   CARD
+   CARD — like home-feature / home-hero__card mix
    =========================================================== */
 
 .why-card {
   position: relative;
-  border-radius: 20px;
-  background: rgba(15, 23, 42, 0.9);
-  border: 1px solid rgba(148, 163, 184, 0.5);
-  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.8);
-  padding: 1.4rem 1.3rem 1.6rem;
+  border-radius: 18px;
+  overflow: hidden;
+
+  padding: 16px 16px 18px;
   text-align: left;
   cursor: default;
 
-  transition:
-    transform 0.26s ease,
-    box-shadow 0.26s ease,
-    border-color 0.26s ease,
-    background 0.26s ease;
+  background: rgba(15, 23, 42, 0.35);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  will-change: transform;
+}
+
+/* subtle glow inside card */
+.why-card::before {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(56, 189, 248, 0.18), transparent 55%),
+    radial-gradient(circle at 75% 80%, rgba(37, 99, 235, 0.20), transparent 60%);
+  filter: blur(26px);
+  opacity: 0.85;
+  pointer-events: none; /* ✅ важно */
+  z-index: 0;
 }
 
 .why-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(56, 189, 248, 0.9);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.95);
-  background: rgba(15, 23, 42, 0.96);
+  border-color: rgba(96, 165, 250, 0.55);
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.55),
+    0 0 28px rgba(56, 189, 248, 0.22);
 }
 
-/* IMAGE */
+/* ===========================================================
+   IMAGE
+   =========================================================== */
 
 .why-img-frame {
   width: 100%;
   height: 170px;
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
-  background: #020617;
-  margin-bottom: 1rem;
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(96, 165, 250, 0.35);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.35);
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 2;
 }
 
 .why-img-frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  opacity: 0.92;
+  transition: transform 0.25s ease, opacity 0.25s ease, filter 0.25s ease;
+  will-change: transform, opacity;
 }
 
-/* TEXT */
-
-.why-text {
-  font-size: 0.98rem;
-  color: #e2e8f0;
-  line-height: 1.6;
+.why-card:hover .why-img-frame img {
+  transform: scale(1.04);
+  opacity: 1;
+  filter: saturate(1.05);
 }
 
 /* ===========================================================
-   RESPONSIVE
+   TEXT
    =========================================================== */
 
-@media (max-width: 960px) {
-  .why-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .why-card {
-    text-align: left;
-  }
+.why-text {
+  margin: 0;
+  color: rgba(226, 232, 240, 0.92);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  position: relative;
+  z-index: 2;
 }
 
-@media (max-width: 640px) {
-  .why-wrapper {
-    padding: 3.6rem 1.3rem 3.8rem;
+/* ===========================================================
+   RESPONSIVE (same breakpoints approach as hero)
+   =========================================================== */
+
+@media (max-width: 1100px) {
+  .why-inner {
+    padding: 2.3rem 2rem 2.4rem;
   }
 
-  .why-inner {
-    padding: 2.2rem 1.6rem 2.4rem;
+  .why-grid {
+    grid-template-columns: 1fr;
   }
 
   .why-title {
     font-size: 2rem;
   }
+}
+
+@media (max-width: 700px) {
+  .why-wrapper {
+    padding: 3.3rem 1.2rem 3.6rem;
+  }
+
+  .why-inner {
+    padding: 2.05rem 1.45rem 2.2rem;
+    border-radius: 22px;
+  }
 
   .why-img-frame {
     height: 190px;
+  }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .why-inner,
+  .why-card,
+  .why-img-frame img {
+    transition: none !important;
+  }
+  .why-card:hover {
+    transform: none !important;
   }
 }

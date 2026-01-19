@@ -1,172 +1,176 @@
+/* src/components/styles/services.css */
 /* ===========================================================
-   SERVICES SECTION — Neon Glass, but Lightweight
+   SERVICES — SAME STYLE AS .home-hero (svc-like)
+   width = 1280px like HERO
    =========================================================== */
 
-.services-section {
-  /* появление секции */
-  opacity: 0;
-  transform: translate3d(0, 28px, 0);
-  transition:
-    opacity 0.6s ease-out,
-    transform 0.6s ease-out;
-  will-change: opacity, transform;
-
-  padding: 6rem 2rem;
-  color: var(--text-main);
-  display: flex;
-  justify-content: center;
+.services {
   position: relative;
   overflow: hidden;
+
+  max-width: 1280px;           /* ✅ SAME AS HERO */
+  margin: 40px auto;           /* ✅ SAME AS HERO */
+  padding: 0;
+  border-radius: 28px;
+  color: #fff;
+
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.94),
+    rgba(30, 64, 175, 0.94)
+  );
+  border: 1px solid rgba(96, 165, 250, 0.55);
+  box-shadow:
+    0 26px 80px rgba(15, 23, 42, 0.85),
+    0 0 42px rgba(56, 189, 248, 0.18);
+
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform;
 }
 
-.services-section--visible {
+.services--visible {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
 
-/* === Статический glow фон — без тяжёлой анимации === */
-.services-section::before,
-.services-section::after {
+/* glow blobs like HERO */
+.services::before,
+.services::after {
   content: "";
   position: absolute;
-  width: 320px;
-  height: 320px;
+  width: 520px;
+  height: 520px;
   border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.2;
   pointer-events: none;
-  filter: blur(80px);
-  opacity: 0.22;
   z-index: 0;
 }
 
-.services-section::before {
-  background: rgba(14, 139, 255, 0.32);
-  top: -140px;
-  left: -140px;
+.services::before {
+  top: -220px;
+  left: -220px;
+  background: rgba(56, 189, 248, 0.55);
 }
 
-.services-section::after {
-  background: rgba(56, 189, 248, 0.28);
-  bottom: -160px;
-  right: -140px;
+.services::after {
+  bottom: -260px;
+  right: -220px;
+  background: rgba(37, 99, 235, 0.55);
 }
 
-/* Container */
-.services-container {
+/* inner container like HERO */
+.services__container {
   position: relative;
   z-index: 2;
-  max-width: 1200px;
-  width: 100%;
+  padding: 48px 44px 44px;   /* ✅ close to hero container */
 }
 
-/* ===== LABEL + TITLE ===== */
-
-.services-label {
+/* ===== header ===== */
+.services__badge {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
+  width: fit-content;
 
-  background: rgba(14, 139, 255, 0.19);
-  padding: 6px 18px;
+  padding: 7px 14px;
   border-radius: 999px;
-  font-size: 0.78rem;
-  letter-spacing: 0.15em;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  border: 1px solid rgba(14, 139, 255, 0.6);
-  color: #cbd5f5;
-  margin-bottom: 0.85rem;
+
+  color: #dbeafe;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(96, 165, 250, 0.5);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.18);
 }
 
-.services-label::before {
+.services__badge::before {
   content: "";
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  margin-right: 8px;
   background: radial-gradient(circle, #22d3ee, #3b82f6);
   box-shadow: 0 0 16px rgba(56, 189, 248, 0.9);
 }
 
-.services-title {
-  font-size: clamp(2.1rem, 4vw, 2.7rem);
-  font-weight: 700;
-  margin-bottom: 0.6rem;
-  color: var(--text-main);
+.services__title {
+  margin: 14px 0 10px;
+  font-size: clamp(2.1rem, 3.2vw, 2.7rem);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+
   text-shadow:
-    0 0 1px rgba(148, 163, 184, 0.7),
-    0 0 12px rgba(37, 99, 235, 0.45);
+    0 0 1px rgba(148, 163, 184, 0.85),
+    0 0 22px rgba(56, 189, 248, 0.35);
 }
 
-.services-subtitle {
-  color: var(--text-muted);
-  font-size: 1.03rem;
-  margin-bottom: 3rem;
-  max-width: 520px;
+.services__subtitle {
+  margin: 0;
+  max-width: 640px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(226, 232, 240, 0.9);
 }
 
 /* ===========================================================
-   GRID — Desktop: ALWAYS 3 columns
+   GRID — 3 columns desktop
    =========================================================== */
 
-.services-grid {
+.services__grid {
+  margin-top: 26px;
   display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
 }
 
 /* ===========================================================
-   SERVICE CARD — Neon Glass, Simplified Hover
+   SERVICE CARD — adapt your existing ServiceCard markup
+   (keeps your .service-card classes working)
    =========================================================== */
 
 .service-card {
   position: relative;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
   cursor: default;
 
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
+  background: rgba(15, 23, 42, 0.35);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.35);
 
-  box-shadow:
-    0 12px 26px rgba(0, 0, 0, 0.55),
-    0 0 22px rgba(56, 189, 248, 0.16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 
   display: flex;
   flex-direction: column;
-
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    border-color 0.3s ease,
-    background 0.3s ease;
-  will-change: transform, box-shadow, border-color, background;
+  min-height: 100%;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  will-change: transform;
 }
 
-/* лёгкий неон сверху — статичный */
 .service-card::before {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(
-    circle at 85% 0%,
-    rgba(56, 189, 248, 0.25),
-    transparent 65%
-  );
-  opacity: 0.75;
+  background: radial-gradient(circle at 85% 0%, rgba(56, 189, 248, 0.22), transparent 65%);
+  opacity: 0.85;
 }
 
 .service-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(56, 189, 248, 0.7);
-  background: rgba(15, 23, 42, 0.96);
+  transform: translateY(-5px);
+  background: rgba(15, 23, 42, 0.55);
+  border-color: rgba(96, 165, 250, 0.55);
   box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.7),
-    0 0 40px rgba(56, 189, 248, 0.35);
+    0 0 28px rgba(56, 189, 248, 0.22),
+    0 18px 40px rgba(15, 23, 42, 0.6);
 }
 
-/* IMAGE */
+/* image */
 .service-img-wrapper {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -177,78 +181,91 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  display: block;
+  transition: transform 0.35s ease;
   will-change: transform;
 }
 
 .service-card:hover .service-img-wrapper img {
-  transform: scale(1.06);
+  transform: scale(1.05);
 }
 
-/* TEXT */
+/* text */
 .service-info {
-  padding: 1.5rem 1.7rem 1.7rem;
+  padding: 16px 16px 18px;
 }
 
 .service-info h3 {
-  font-size: 1.28rem;
-  font-weight: 600;
-  margin-bottom: 0.55rem;
-  color: #f9fafb;
+  margin: 0 0 8px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #fff;
 }
 
 .service-info p {
-  color: #c3c9d4;
-  font-size: 0.98rem;
+  margin: 0;
+  color: rgba(226, 232, 240, 0.85);
+  font-size: 0.92rem;
   line-height: 1.6;
 }
 
-/* ================== MEDIA ================== */
-
-@media (max-width: 768px) {
-  .services-section {
-    padding: 4.5rem 1.6rem;
-  }
-
-  .services-title,
-  .services-label,
-  .services-subtitle {
-    text-align: center;
-  }
-
-  .services-label {
-    margin-inline: auto;
-  }
-
-  .services-subtitle {
-    margin-inline: auto;
-  }
-
-  /* return auto-fit for tablet/mobile */
-  .services-grid {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  }
-}
-
-@media (max-width: 480px) {
-  .services-section {
-    padding: 3.7rem 1.2rem;
-  }
-
-  .services-title {
-    font-size: 1.9rem;
-  }
-
-  .services-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .service-info {
-    padding: 1.35rem 1.4rem 1.5rem;
-  }
-}
+/* link reset */
 .service-card-link {
   display: block;
   color: inherit;
   text-decoration: none;
+}
+
+/* ===========================================================
+   RESPONSIVE — match HERO behavior
+   =========================================================== */
+
+@media (max-width: 1100px) {
+  .services__container {
+    padding: 40px 26px 36px;
+  }
+
+  .services__title,
+  .services__badge,
+  .services__subtitle {
+    text-align: center;
+  }
+
+  .services__badge {
+    margin-inline: auto;
+  }
+
+  .services__subtitle {
+    margin-inline: auto;
+    max-width: 720px;
+  }
+
+  .services__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .services {
+    border-radius: 22px;
+  }
+
+  .services__container {
+    padding: 34px 18px 28px;
+  }
+
+  .services__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .services,
+  .service-card,
+  .service-img-wrapper img {
+    transition: none !important;
+    transform: none !important;
+  }
 }
