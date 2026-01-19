@@ -8,7 +8,7 @@ function Services() {
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  const services = useMemo(() => servicesData, []);
+  const services = useMemo(() => servicesData || [], []);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -21,15 +21,11 @@ function Services() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
+        if (!entry.isIntersecting) return;
+        setIsVisible(true);
+        observer.disconnect();
       },
-      {
-        threshold: 0.18,
-        rootMargin: "0px 0px -10% 0px",
-      }
+      { threshold: 0.18, rootMargin: "0px 0px -10% 0px" }
     );
 
     observer.observe(el);
@@ -40,7 +36,9 @@ function Services() {
     <section
       ref={sectionRef}
       id="services"
-      className={`services-section ${isVisible ? "services-section--visible" : ""}`}
+      className={`services services--card ${
+        isVisible ? "services--visible" : ""
+      }`}
       aria-label="EcoHub Logistics vehicle transport services"
       itemScope
       itemType="https://schema.org/ItemList"
@@ -51,16 +49,16 @@ function Services() {
         content="Nationwide auto transport: cars, SUVs, motorcycles, vans, trucks, boats, RVs, commercial fleet vehicles."
       />
 
-      <div className="services-container">
-        <span className="services-label">What we ship</span>
+      <div className="services__container">
+        <span className="services__badge">What we ship</span>
 
-        <h2 className="services-title">Vehicle Transport Services</h2>
+        <h2 className="services__title">Vehicle Transport Services</h2>
 
-        <p className="services-subtitle">
+        <p className="services__subtitle">
           Professional, insured, and nationwide vehicle shipping.
         </p>
 
-        <div className="services-grid" role="list">
+        <div className="services__grid" role="list">
           {services.map((service, index) => (
             <ServiceCard
               key={service.id}
@@ -68,7 +66,7 @@ function Services() {
               title={service.title}
               desc={service.desc}
               position={index + 1}
-              href={service.href}   // ✅ ВОТ ЭТО ГЛАВНОЕ
+              href={service.href}
             />
           ))}
         </div>

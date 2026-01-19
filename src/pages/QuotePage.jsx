@@ -28,7 +28,6 @@ export default function QuotePage() {
           image: "https://www.ecohublogistics.com/og/quote.jpg",
         }}
         jsonLd={[
-          // WebPage schema
           {
             "@context": "https://schema.org",
             "@type": "WebPage",
@@ -42,7 +41,6 @@ export default function QuotePage() {
               url: "https://www.ecohublogistics.com/",
             },
           },
-          // Breadcrumbs
           {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",

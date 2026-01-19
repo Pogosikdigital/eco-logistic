@@ -1,4 +1,3 @@
-// src/components/WhyPartner.jsx
 import React, { useEffect, useRef, useState } from "react";
 import "./why.css";
 
@@ -38,25 +37,33 @@ export default function WhyPartner() {
       id="why"
       ref={ref}
       className={`why-wrapper ${visible ? "why-visible" : ""}`}
+      aria-labelledby="why-title"
+      aria-describedby="why-subtitle"
     >
       <div className="why-inner">
-        <h2 className="why-title">Why Partner With EcoHub?</h2>
-        <p className="why-subtitle">
-          Start earning just by connecting people who need vehicle shipping
-          with a team that handles everything from quote to delivery.
+        <h2 className="why-title" id="why-title">
+          Why Partner With EcoHub?
+        </h2>
+
+        <p className="why-subtitle" id="why-subtitle">
+          Start earning just by connecting people who need vehicle shipping with a team
+          that handles everything from quote to delivery.
         </p>
 
         <div className="why-grid">
           <WhyCard
             img={photoRefer}
+            alt="Affiliate referral program — no contracts, no fees"
             text="No commitment, contracts or fees — simply refer and earn on every completed shipment."
           />
           <WhyCard
             img={photoLogistics}
+            alt="EcoHub Logistics team manages dispatch, drivers and updates"
             text="We handle dispatch, drivers, updates and customers — you focus only on bringing leads."
           />
           <WhyCard
             img={photoFlexible}
+            alt="Flexible side income from anywhere"
             text="Flexible income from anywhere — perfect for influencers, agents or business owners."
           />
         </div>
@@ -65,11 +72,11 @@ export default function WhyPartner() {
   );
 }
 
-function WhyCard({ img, text }) {
+function WhyCard({ img, alt, text }) {
   return (
     <article className="why-card">
       <div className="why-img-frame">
-        <img src={img} alt={text} loading="lazy" decoding="async" />
+        <img src={img} alt={alt} loading="lazy" decoding="async" />
       </div>
       <p className="why-text">{text}</p>
     </article>

@@ -1,14 +1,9 @@
 // src/pages/ReviewsPage.jsx
-import React, {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useCallback,
-} from "react";
+import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import "./ReviewsPage.css";
 import { reviewsData } from "../data/reviewsData";
 import MetaSEO from "../components/MetaSEO";
+import { Link } from "react-router-dom";
 
 export default function ReviewsPage() {
   const canonical = "https://www.ecohublogistics.com/reviews";
@@ -19,18 +14,16 @@ export default function ReviewsPage() {
 
   const reviews = useMemo(() => reviewsData || [], []);
 
-  // ---------------- SEO (Unhead) ----------------
+  // ---------------- SEO (computed) ----------------
   const avgRating = useMemo(() => {
     if (!reviews.length) return null;
     const total = reviews.reduce((sum, r) => sum + (Number(r.rating) || 0), 0);
-    return Math.round((total / reviews.length) * 10) / 10; // 4.8
+    return Math.round((total / reviews.length) * 10) / 10;
   }, [reviews]);
 
   const reviewCount = reviews.length || 0;
 
-  /* ----------------------------------------------------------
-     INTERSECTION OBSERVER + FAILSAFE
-  ---------------------------------------------------------- */
+  /* Reveal */
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) {
@@ -47,16 +40,13 @@ export default function ReviewsPage() {
     }
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-
-          setVisible(true);
-          observer.unobserve(entry.target);
-          clearTimeout(failsafe);
-        });
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setVisible(true);
+        observer.disconnect();
+        clearTimeout(failsafe);
       },
-      { threshold: 0.1 }
+      { threshold: 0.12, rootMargin: "0px 0px -10% 0px" }
     );
 
     observer.observe(section);
@@ -67,11 +57,9 @@ export default function ReviewsPage() {
     };
   }, []);
 
-  /* ----------------------------------------------------------
-     TILT EFFECT ENABLE ON DESKTOP
-  ---------------------------------------------------------- */
+  /* Tilt */
   useEffect(() => {
-    const update = () => setEnableTilt(window.innerWidth >= 768);
+    const update = () => setEnableTilt(window.innerWidth >= 900);
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
@@ -132,7 +120,6 @@ export default function ReviewsPage() {
           image: "https://www.ecohublogistics.com/og/reviews.jpg",
         }}
         jsonLd={[
-          // WebPage schema
           {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
@@ -146,8 +133,6 @@ export default function ReviewsPage() {
               url: "https://www.ecohublogistics.com/",
             },
           },
-
-          // Breadcrumbs
           {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
@@ -167,7 +152,6 @@ export default function ReviewsPage() {
             ],
           },
 
-          // AggregateRating (только если есть данные)
           ...(reviewCount && avgRating
             ? [
                 {
@@ -179,6 +163,8 @@ export default function ReviewsPage() {
                     "@type": "AggregateRating",
                     ratingValue: String(avgRating),
                     reviewCount: String(reviewCount),
+                    bestRating: "5",
+                    worstRating: "1",
                   },
                 },
               ]
@@ -188,9 +174,7 @@ export default function ReviewsPage() {
 
       <section
         ref={sectionRef}
-        className={`reviews-page-section ${
-          visible ? "reviews-page-section--visible" : ""
-        }`}
+        className={`reviews-page ${visible ? "reviews-page--visible" : ""}`}
         aria-label="All customer reviews — EcoHub Logistics"
         itemScope
         itemType="https://schema.org/CollectionPage"
@@ -201,50 +185,95 @@ export default function ReviewsPage() {
           content="All verified reviews from real customers who shipped vehicles using EcoHub Logistics."
         />
 
-        {/* PAGE HEAD */}
-        <header className="reviews-page-head">
-          <span className="reviews-page-kicker">Customer feedback</span>
-          <h1 className="reviews-page-title">Customer Reviews</h1>
+        <div className="reviews-page__container">
+          {/* HEAD (Hero style) */}
+          <header className="reviews-page__head">
+            <span className="reviews-page__badge">Customer feedback</span>
 
-          <p className="reviews-page-subtitle">
-            Real reviews from people across the US who shipped cars, motorcycles,
-            trucks and boats with EcoHub Logistics.
-          </p>
-        </header>
+            <h1 className="reviews-page__title">Customer Reviews</h1>
 
-        {/* GRID */}
-        <div className="reviews-page-grid" role="list">
-          {reviews.map((r, i) => (
-            <article
-              key={i}
-              className="review-card big"
-              role="listitem"
-              onMouseMove={handleTiltMove}
-              onMouseLeave={handleTiltLeave}
-            >
-              <div className="review-header">
-                <div className="review-avatar-shell">
-                  <img
-                    src={r.avatar}
-                    alt={r.author}
-                    className="review-avatar"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
+            <p className="reviews-page__subtitle">
+              Real reviews from people across the US who shipped cars, motorcycles,
+              trucks and boats with EcoHub Logistics.
+            </p>
 
-                <div>
-                  <p className="review-author">{r.author}</p>
-                  <p className="review-rating">
-                    {"★".repeat(r.rating)}{" "}
-                    <span className="review-rating-outof">/5</span>
-                  </p>
-                </div>
+            {reviewCount > 0 && avgRating && (
+              <div className="reviews-page__pill" aria-label="Average rating">
+                <span className="reviews-page__pillStar" aria-hidden="true">
+                  ★
+                </span>
+                <span className="reviews-page__pillNum">{avgRating}</span>
+                <span className="reviews-page__pillOutof">/5</span>
+                <span className="reviews-page__pillCount">({reviewCount})</span>
               </div>
+            )}
 
-              <p className="review-text">{r.text}</p>
-            </article>
-          ))}
+            <div className="reviews-page__actions">
+              <Link to="/quote" className="home-btn-primary reviews-page__btn">
+                Get a free quote
+              </Link>
+
+              <Link to="/" className="home-btn-ghost reviews-page__btn">
+                Back to home
+              </Link>
+            </div>
+          </header>
+
+          {/* GRID */}
+          <div className="reviews-page__grid" role="list">
+            {reviews.map((r, i) => (
+              <article
+                key={i}
+                className="reviews-page__card"
+                role="listitem"
+                itemScope
+                itemType="https://schema.org/Review"
+                onMouseMove={handleTiltMove}
+                onMouseLeave={handleTiltLeave}
+              >
+                <header className="reviews-page__cardHead">
+                  <div className="reviews-page__avatarShell">
+                    <img
+                      src={r.avatar}
+                      alt={r.author}
+                      className="reviews-page__avatar"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+
+                  <div className="reviews-page__meta">
+                    <div
+                      itemProp="author"
+                      itemScope
+                      itemType="https://schema.org/Person"
+                    >
+                      <p className="reviews-page__author" itemProp="name">
+                        {r.author}
+                      </p>
+                    </div>
+
+                    <p
+                      className="reviews-page__rating"
+                      itemProp="reviewRating"
+                      itemScope
+                      itemType="https://schema.org/Rating"
+                    >
+                      <meta itemProp="ratingValue" content={String(r.rating)} />
+                      <meta itemProp="bestRating" content="5" />
+                      <meta itemProp="worstRating" content="1" />
+                      {"★".repeat(r.rating)}{" "}
+                      <span className="reviews-page__outof">/5</span>
+                    </p>
+                  </div>
+                </header>
+
+                <p className="reviews-page__text" itemProp="reviewBody">
+                  {r.text}
+                </p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
     </>

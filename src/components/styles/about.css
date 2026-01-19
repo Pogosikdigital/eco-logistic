@@ -1,183 +1,149 @@
+/* src/components/styles/about.css */
 /* ===========================================================
-   ABOUT SECTION — Match SERVICES (Neon Glass, Lightweight)
-   Fixes:
-   - Reveal like Services
-   - Static glow like Services
-   - Media image fills card (no bottom dark strip)
-   - Buttons flex row + equal height
+   ABOUT — SAME STYLE AS .home-hero (width/gradient/border/glow)
+   + FIX: checkmarks inside (like hero)
    =========================================================== */
 
-.about-section {
-  /* появление секции (как services) */
+.about {
+  position: relative;
+  overflow: hidden;
+
+  max-width: 1280px;      /* ✅ SAME AS HERO */
+  margin: 40px auto;      /* ✅ SAME AS HERO */
+  padding: 0;
+  border-radius: 28px;
+  color: #fff;
+
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.94), rgba(30, 64, 175, 0.94));
+  border: 1px solid rgba(96, 165, 250, 0.55);
+  box-shadow:
+    0 26px 80px rgba(15, 23, 42, 0.85),
+    0 0 42px rgba(56, 189, 248, 0.18);
+
   opacity: 0;
   transform: translate3d(0, 28px, 0);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   will-change: opacity, transform;
-
-  padding: 6rem 2rem;
-  color: var(--text-main);
-  display: flex;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
 }
 
-.about-section--visible {
+.about--visible {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }
 
-/* === Статический glow фон — как services === */
-.about-section::before,
-.about-section::after {
+/* glow like hero */
+.about::before,
+.about::after {
   content: "";
   position: absolute;
-  width: 320px;
-  height: 320px;
+  width: 520px;
+  height: 520px;
   border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.20;
   pointer-events: none;
-  filter: blur(80px);
-  opacity: 0.22;
   z-index: 0;
 }
 
-.about-section::before {
-  background: rgba(14, 139, 255, 0.32);
-  top: -140px;
-  left: -140px;
+.about::before {
+  top: -220px;
+  left: -220px;
+  background: rgba(56, 189, 248, 0.55);
 }
 
-.about-section::after {
-  background: rgba(56, 189, 248, 0.28);
-  bottom: -160px;
-  right: -140px;
+.about::after {
+  bottom: -260px;
+  right: -220px;
+  background: rgba(37, 99, 235, 0.55);
 }
 
-/* Container — как services */
-.about-container {
+/* inner container */
+.about__container {
   position: relative;
   z-index: 2;
-  max-width: 1200px;
-  width: 100%;
+  padding: 48px 44px 44px; /* ✅ like hero container */
 }
 
-/* ===== HEADER ===== */
-
-.about-header {
-  width: 100%;
-}
-
-.about-kicker {
+/* header */
+.about__badge {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
+  width: fit-content;
 
-  background: rgba(14, 139, 255, 0.19);
-  padding: 6px 18px;
+  padding: 7px 14px;
   border-radius: 999px;
-  font-size: 0.78rem;
-  letter-spacing: 0.15em;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  border: 1px solid rgba(14, 139, 255, 0.6);
-  color: #cbd5f5;
-  margin-bottom: 0.85rem;
+
+  color: #dbeafe;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(96, 165, 250, 0.5);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.18);
 }
 
-.about-kicker::before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  margin-right: 8px;
-  background: radial-gradient(circle, #22d3ee, #3b82f6);
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.9);
+.about__title {
+  margin: 14px 0 10px;
+  font-size: clamp(2.1rem, 3.2vw, 2.7rem);
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+
+  text-shadow:
+    0 0 1px rgba(148, 163, 184, 0.85),
+    0 0 22px rgba(56, 189, 248, 0.35);
 }
 
-.about-title {
-  font-size: clamp(2.1rem, 4vw, 2.7rem);
-  font-weight: 700;
-  margin-bottom: 0.6rem;
-  color: var(--text-main);
-  text-shadow: 0 0 1px rgba(148, 163, 184, 0.7),
-    0 0 12px rgba(37, 99, 235, 0.45);
+.about__subtitle {
+  margin: 0;
+  max-width: 720px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(226, 232, 240, 0.9);
 }
 
-.about-subtitle {
-  color: var(--text-muted);
-  font-size: 1.03rem;
-  margin-bottom: 3rem;
-  max-width: 520px;
-}
-
-/* ===========================================================
-   GRID — Desktop: 2 columns (media + content)
-   =========================================================== */
-
-.about-grid {
+/* grid */
+.about__grid {
+  margin-top: 26px;
   display: grid;
-  gap: 2rem;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 14px;
   align-items: stretch;
 }
 
-/* ===========================================================
-   LEFT MEDIA — card style as services
-   =========================================================== */
-
-.about-media {
-  margin: 0;
+/* media card (same vibe as hero right card) */
+.about__media {
   position: relative;
-  display: flex; /* ✅ важно: теперь картинка может тянуться по высоте */
-
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 20px;
+  border-radius: 22px;
   overflow: hidden;
 
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
+  background:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.18), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.22), transparent 55%),
+    rgba(15, 23, 42, 0.55);
 
-  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.55),
-    0 0 22px rgba(56, 189, 248, 0.16);
+  border: 1px solid rgba(96, 165, 250, 0.55);
+  box-shadow:
+    0 18px 54px rgba(15, 23, 42, 0.65),
+    0 0 28px rgba(56, 189, 248, 0.22);
 
-  transition: transform 0.3s ease, box-shadow 0.3s ease,
-    border-color 0.3s ease, background 0.3s ease;
-  will-change: transform, box-shadow, border-color, background;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  will-change: transform;
 }
 
-/* лёгкий неон сверху — статичный */
-.about-media::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    circle at 85% 0%,
-    rgba(56, 189, 248, 0.25),
-    transparent 65%
-  );
-  opacity: 0.75;
-  z-index: 2;
-}
-
-.about-media:hover {
-  transform: translateY(-6px);
-  border-color: rgba(56, 189, 248, 0.7);
-  background: rgba(15, 23, 42, 0.96);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7),
-    0 0 40px rgba(56, 189, 248, 0.35);
-}
-
-/* ✅ FIX: убираем aspect-ratio, делаем заполнение по высоте */
-.about-media-inner {
+.about__mediaInner {
   position: relative;
   width: 100%;
   height: 100%;
+  min-height: 360px;
   overflow: hidden;
 }
 
-/* ✅ FIX: img занимает всю карточку */
-.about-image {
+.about__image {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -185,84 +151,51 @@
   object-fit: cover;
   display: block;
 
-  /* LQIP */
   transform: scale(1.04);
   filter: blur(14px);
   opacity: 0;
-
-  transition: transform 0.4s ease, filter 0.8s ease, opacity 0.8s ease;
-  will-change: transform;
+  transition: transform 0.35s ease, filter 0.8s ease, opacity 0.8s ease;
 }
 
-.about-image--loaded {
+.about__image.is-loaded {
   opacity: 1;
   filter: blur(0);
   transform: scale(1.02);
 }
 
-.about-media:hover .about-image {
+.about__media:hover .about__image {
   transform: scale(1.06);
 }
 
-/* ===========================================================
-   RIGHT CONTENT — card style as services
-   =========================================================== */
-
-.about-content {
-  position: relative;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 20px;
+/* right content card */
+.about__content {
+  border-radius: 22px;
   overflow: hidden;
 
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
+  background: rgba(15, 23, 42, 0.35);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 
-  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.55),
-    0 0 22px rgba(56, 189, 248, 0.16);
-
-  padding: 1.6rem 1.7rem 1.7rem;
+  padding: 16px 16px 18px;
   display: flex;
   flex-direction: column;
-
-  transition: transform 0.3s ease, box-shadow 0.3s ease,
-    border-color 0.3s ease, background 0.3s ease;
-  will-change: transform, box-shadow, border-color, background;
+  min-height: 100%;
 }
 
-/* лёгкий неон сверху — статичный */
-.about-content::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    circle at 85% 0%,
-    rgba(56, 189, 248, 0.25),
-    transparent 65%
-  );
-  opacity: 0.75;
-}
-
-.about-content:hover {
-  transform: translateY(-6px);
-  border-color: rgba(56, 189, 248, 0.7);
-  background: rgba(15, 23, 42, 0.96);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7),
-    0 0 40px rgba(56, 189, 248, 0.35);
-}
-
-.about-tag {
+.about__tag {
+  margin: 0;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #e2e8f0;
+  color: rgba(226, 232, 240, 0.95);
 }
 
-.about-tag::before {
+.about__tag::before {
   content: "";
   width: 8px;
   height: 8px;
@@ -271,173 +204,136 @@
   box-shadow: 0 0 16px rgba(56, 189, 248, 0.9);
 }
 
-.about-content-title {
-  font-size: 1.28rem;
-  font-weight: 600;
-  margin: 0.9rem 0 0.55rem;
-  color: #f9fafb;
+.about__contentTitle {
+  margin: 12px 0 8px;
+  font-size: 1.02rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #fff;
 }
 
-.about-content-text {
-  color: #c3c9d4;
-  font-size: 0.98rem;
+.about__contentText {
+  margin: 0;
+  color: rgba(226, 232, 240, 0.85);
+  font-size: 0.92rem;
   line-height: 1.6;
 }
 
 /* list */
-.about-list {
-  list-style: none;
+.about__list {
+  margin: 14px 0 18px;
   padding: 0;
-  margin: 1.2rem 0 1.6rem;
+  list-style: none;
   display: grid;
-  gap: 0.85rem;
+  gap: 10px;
 }
 
-.about-list li {
+.about__listItem {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: rgba(226, 232, 240, 0.92);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+/* ✅ CHECKMARK BOX (like hero) */
+.about__dot {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  border-radius: 6px;
+
+  background: rgba(56, 189, 248, 0.18);
+  border: 1px solid rgba(96, 165, 250, 0.55);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.18);
+
+  display: grid;
+  place-items: center;
+
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.about__dot::before {
+  content: "✓";
+  transform: translateY(-0.5px);
+}
+
+/* actions */
+.about__actions {
+  margin-top: auto;
   display: flex;
   gap: 12px;
-  font-size: 0.97rem;
-  color: #e5ebff;
-}
-
-.about-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 999px;
-  margin-top: 5px;
-  flex-shrink: 0;
-  background: radial-gradient(circle at 30% 30%, #facc15, #f97316);
-  box-shadow: 0 0 20px rgba(250, 204, 21, 0.9);
-}
-
-/* ===========================================================
-   CTA — flex row + equal height
-   =========================================================== */
-
-.about-actions {
-  display: flex;
   align-items: center;
-  gap: 20px;
-  margin-top: auto;
+  flex-wrap: wrap;
 }
 
-.about-primary-cta,
-.about-secondary-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  min-height: 56px;
-  padding: 0 32px;
-  border-radius: 16px;
-
-  font-size: 1.05rem;
-  font-weight: 600;
-  text-decoration: none;
-  white-space: nowrap;
+.about__btn {
+  min-height: 48px;
+  padding: 12px 18px;
+  border-radius: 14px;
 }
 
-.about-primary-cta {
-  background: var(--cta-bg);
-  color: #fff;
-
-  box-shadow: 0 10px 25px rgba(0, 140, 255, 0.55);
-  transition: 0.3s ease;
-}
-
-.about-primary-cta:hover {
-  transform: translateY(-4px);
-  background: var(--cta-hover);
-  box-shadow: 0 15px 35px rgba(0, 160, 255, 0.7);
-}
-
-.about-secondary-cta {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #e5e7eb;
-
-  transition: 0.25s ease;
-}
-
-.about-secondary-cta:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: #38bdf8;
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 0 26px rgba(56, 189, 248, 0.45);
-}
-
-/* ================== MEDIA ================== */
-
-@media (max-width: 768px) {
-  .about-section {
-    padding: 4.5rem 1.6rem;
+/* responsive */
+@media (max-width: 1100px) {
+  .about__container {
+    padding: 40px 26px 34px;
   }
 
-  .about-title,
-  .about-kicker,
-  .about-subtitle {
+  .about__title,
+  .about__subtitle,
+  .about__badge {
     text-align: center;
   }
 
-  .about-kicker {
+  .about__badge {
     margin-inline: auto;
   }
 
-  .about-subtitle {
+  .about__subtitle {
     margin-inline: auto;
   }
 
-  .about-grid {
+  .about__grid {
     grid-template-columns: 1fr;
   }
 
-  /* ✅ на мобиле картинка будет нормальной высоты */
-  .about-media-inner {
+  .about__mediaInner {
+    min-height: 280px;
+  }
+
+  .about__actions {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 700px) {
+  .about {
+    border-radius: 22px;
+  }
+
+  .about__container {
+    padding: 34px 18px 26px;
+  }
+
+  .about__mediaInner {
     min-height: 220px;
   }
 }
 
-@media (max-width: 480px) {
-  .about-section {
-    padding: 3.7rem 1.2rem;
-  }
-
-  .about-title {
-    font-size: 1.9rem;
-  }
-
-  .about-actions {
-   display: flex;
-   justify-content: center;
-  }
-
-  .about-primary-cta,
-  .about-secondary-cta {
-    width: 100%;
-  }
-
-  .about-content {
-    padding: 1.35rem 1.4rem 1.5rem;
-  }
-
-  .about-media-inner {
-    min-height: 200px;
-  }
-}
-
-/* ================== A11Y ================== */
 @media (prefers-reduced-motion: reduce) {
-  .about-section,
-  .about-media,
-  .about-content,
-  .about-primary-cta,
-  .about-secondary-cta {
+  .about,
+  .about__media,
+  .about__image {
     transition: none !important;
     transform: none !important;
   }
 
-  .about-section {
+  .about {
     opacity: 1 !important;
   }
 }

@@ -1,11 +1,5 @@
 // src/components/Reviews.jsx
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./styles/reviews.css";
 import { reviewsData } from "../data/reviewsData";
@@ -24,9 +18,8 @@ function Reviews() {
   const lastTimeRef = useRef(null);
   const reducedMotionRef = useRef(false);
 
-  /* -----------------------------------------
-      Data
-  ----------------------------------------- */
+  const isPausedRef = useRef(false);
+
   const baseReviews = useMemo(() => reviewsData || [], []);
   const duplicatedReviews = useMemo(
     () => [...baseReviews, ...baseReviews],
@@ -45,9 +38,7 @@ function Reviews() {
     };
   }, [baseReviews]);
 
-  /* -----------------------------------------
-      Reduced motion
-  ----------------------------------------- */
+  /* Reduced motion */
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     reducedMotionRef.current = mq.matches;
@@ -71,9 +62,7 @@ function Reviews() {
     return () => mq.removeEventListener("change", listener);
   }, []);
 
-  /* -----------------------------------------
-      Tilt enable on desktop
-  ----------------------------------------- */
+  /* Tilt enable */
   useEffect(() => {
     const update = () => setEnableTilt(window.innerWidth >= 900);
     update();
@@ -81,9 +70,7 @@ function Reviews() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  /* -----------------------------------------
-      Intersection Observer
-  ----------------------------------------- */
+  /* Reveal */
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -100,16 +87,14 @@ function Reviews() {
           obs.disconnect();
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.18, rootMargin: "0px 0px -10% 0px" }
     );
 
     obs.observe(section);
     return () => obs.disconnect();
   }, []);
 
-  /* -----------------------------------------
-      Auto-scroll (RAF smooth)
-  ----------------------------------------- */
+  /* Marquee */
   useEffect(() => {
     if (reducedMotionRef.current) return;
 
@@ -122,9 +107,13 @@ function Reviews() {
     const animate = (t) => {
       if (!trackRef.current) return;
 
-      if (lastTimeRef.current === null) {
+      if (isPausedRef.current) {
         lastTimeRef.current = t;
+        frameIdRef.current = requestAnimationFrame(animate);
+        return;
       }
+
+      if (lastTimeRef.current === null) lastTimeRef.current = t;
 
       const dt = (t - lastTimeRef.current) / 1000;
       lastTimeRef.current = t;
@@ -148,9 +137,15 @@ function Reviews() {
     };
   }, [duplicatedReviews]);
 
-  /* -----------------------------------------
-      Tilt
-  ----------------------------------------- */
+  const handlePause = useCallback(() => {
+    isPausedRef.current = true;
+  }, []);
+
+  const handleResume = useCallback(() => {
+    isPausedRef.current = false;
+  }, []);
+
+  /* Tilt */
   const handleTilt = useCallback(
     (e) => {
       if (!enableTilt || reducedMotionRef.current) return;
@@ -174,123 +169,139 @@ function Reviews() {
     [enableTilt]
   );
 
-  const handleLeave = useCallback((e) => {
-    if (!enableTilt) return;
-    e.currentTarget.style.transform =
-      "perspective(1000px) translateY(0) rotateX(0) rotateY(0)";
-  }, [enableTilt]);
+  const handleLeave = useCallback(
+    (e) => {
+      if (!enableTilt) return;
+      e.currentTarget.style.transform =
+        "perspective(1000px) translateY(0) rotateX(0) rotateY(0)";
+    },
+    [enableTilt]
+  );
 
-  /* -----------------------------------------
-      RENDER (НОВАЯ СТРУКТУРА!)
-  ----------------------------------------- */
   return (
     <section
       ref={sectionRef}
       id="reviews"
-      className={`reviews-section ${
-        isVisible ? "reviews-section--visible" : ""
-      }`}
+      className={`reviews ${isVisible ? "reviews--visible" : ""}`}
+      aria-label="Customer reviews"
       itemScope
       itemType="https://schema.org/Product"
     >
       <meta itemProp="name" content="EcoHub Logistics car shipping" />
       <meta
         itemProp="description"
-        content="Customer reviews and feedback about EcoHub Logistics nationwide transport."
+        content="Customer reviews and feedback about EcoHub Logistics nationwide vehicle transport."
       />
 
-      {/* SEO Aggregate */}
+      {/* ✅ AggregateRating (best/worst added) */}
       {aggregate.reviewCount > 0 && (
         <div
           itemProp="aggregateRating"
           itemScope
           itemType="https://schema.org/AggregateRating"
         >
-          <meta
-            itemProp="ratingValue"
-            content={String(aggregate.ratingValue)}
-          />
-          <meta
-            itemProp="reviewCount"
-            content={String(aggregate.reviewCount)}
-          />
+          <meta itemProp="ratingValue" content={String(aggregate.ratingValue)} />
+          <meta itemProp="reviewCount" content={String(aggregate.reviewCount)} />
+          <meta itemProp="bestRating" content="5" />
+          <meta itemProp="worstRating" content="1" />
         </div>
       )}
 
-      {/* ===== NEW LAYOUT — как SERVICES ===== */}
-      <div className="reviews-container">
-        <div className="reviews-main">
-          {/* LEFT — HEAD */}
-          <div className="reviews-head">
-            <span className="reviews-kicker">Customer Voices</span>
+      <div className="reviews__container">
+        <header className="reviews__head">
+          <span className="reviews__badge">Customer Voices</span>
+          <h2 className="reviews__title">Customer Reviews</h2>
+          <p className="reviews__subtitle">
+            Real feedback from clients who shipped their vehicles nationwide with EcoHub Logistics.
+          </p>
 
-            <h2 className="reviews-title">Customer Reviews</h2>
+          {aggregate.reviewCount > 0 && (
+            <div className="reviews__ratingPill" aria-label="Average rating">
+              <span className="reviews__ratingStar" aria-hidden="true">
+                ★
+              </span>
+              <span className="reviews__ratingNum">{aggregate.ratingValue}</span>
+              <span className="reviews__ratingOutof">/5</span>
+              <span className="reviews__ratingCount">({aggregate.reviewCount})</span>
+            </div>
+          )}
 
-            <p className="reviews-subtitle">
-              Real feedback from clients who shipped their vehicles nationwide
-              with EcoHub Logistics.
-            </p>
+          <div className="reviews__actions">
+            <Link to="/reviews" className="home-btn-ghost reviews__btn">
+              Read all reviews
+            </Link>
+            <Link to="/quote" className="home-btn-primary reviews__btn">
+              Get a free quote
+            </Link>
           </div>
+        </header>
 
-          {/* RIGHT — CAROUSEL */}
-          <div className="reviews-carousel" role="region">
-            <div className="reviews-track" ref={trackRef}>
-              {duplicatedReviews.map((rev, i) => (
-                <article
-                  key={i}
-                  className="review-card"
-                  itemProp="review"
-                  itemScope
-                  itemType="https://schema.org/Review"
-                  onMouseMove={handleTilt}
-                  onMouseLeave={handleLeave}
-                >
-                  {/* HEADER */}
-                  <header className="review-header">
-                    <div className="review-avatar-wrapper">
-                      <img
-                        src={rev.avatar}
-                        alt={rev.author}
-                        className="review-avatar"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
+        <div
+          className="reviews__carousel"
+          role="region"
+          aria-label="Customer reviews carousel"
+          onMouseEnter={handlePause}
+          onMouseLeave={handleResume}
+          onFocusCapture={handlePause}
+          onBlurCapture={handleResume}
+        >
+          <div className="reviews__track" ref={trackRef}>
+            {duplicatedReviews.map((rev, i) => (
+              <article
+                key={i}
+                className="reviews__card"
+                itemProp="review"
+                itemScope
+                itemType="https://schema.org/Review"
+                onMouseMove={handleTilt}
+                onMouseLeave={handleLeave}
+              >
+                <header className="reviews__cardHead">
+                  <div className="reviews__avatarWrap">
+                    <img
+                      src={rev.avatar}
+                      alt={rev.author}
+                      className="reviews__avatar"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
 
-                    <div>
-                      <p className="review-author" itemProp="author">
+                  <div className="reviews__meta">
+                    {/* ✅ Author as Person */}
+                    <div
+                      itemProp="author"
+                      itemScope
+                      itemType="https://schema.org/Person"
+                    >
+                      <p className="reviews__author" itemProp="name">
                         {rev.author}
                       </p>
-
-                      <p
-                        className="review-rating"
-                        itemProp="reviewRating"
-                        itemScope
-                        itemType="https://schema.org/Rating"
-                      >
-                        <meta
-                          itemProp="ratingValue"
-                          content={String(rev.rating)}
-                        />
-                        {"★".repeat(rev.rating)}
-                        <span className="review-rating-outof">/5</span>
-                      </p>
                     </div>
-                  </header>
 
-                  <p className="review-text" itemProp="reviewBody">
-                    {rev.text}
-                  </p>
-                </article>
-              ))}
-            </div>
+                    {/* ✅ Rating */}
+                    <p
+                      className="reviews__stars"
+                      itemProp="reviewRating"
+                      itemScope
+                      itemType="https://schema.org/Rating"
+                    >
+                      <meta itemProp="ratingValue" content={String(rev.rating)} />
+                      <meta itemProp="bestRating" content="5" />
+                      <meta itemProp="worstRating" content="1" />
+                      {"★".repeat(rev.rating)}
+                      <span className="reviews__outof">/5</span>
+                    </p>
+                  </div>
+                </header>
+
+                <p className="reviews__text" itemProp="reviewBody">
+                  {rev.text}
+                </p>
+              </article>
+            ))}
           </div>
         </div>
-
-        {/* CTA BELOW */}
-        <Link to="/reviews" className="reviews-cta">
-          Read all customer reviews ›
-        </Link>
       </div>
     </section>
   );

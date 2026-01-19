@@ -1,12 +1,13 @@
 // src/components/HowItWorks.jsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import "./styles/how.css";
 
 function HowItWorksComponent() {
   const sectionRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [visible, setVisible] = useState(false);
 
-  // STATIC STEPS — optimized
   const steps = useMemo(
     () => [
       {
@@ -33,7 +34,7 @@ function HowItWorksComponent() {
     []
   );
 
-  // Smooth scroll progress → CSS variable
+  // progress
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -46,8 +47,9 @@ function HowItWorksComponent() {
       const vh = window.innerHeight;
       const h = rect.height;
 
-      const viewportMid = vh * 0.5;
+      const viewportMid = vh * 0.55;
       const dist = viewportMid - rect.top;
+
       let p = dist / h;
       if (p < 0) p = 0;
       if (p > 1) p = 1;
@@ -71,66 +73,93 @@ function HowItWorksComponent() {
     };
   }, []);
 
+  // visible (observer)
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setVisible(true);
+      return;
+    }
+
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setVisible(true);
+        obs.disconnect();
+      },
+      { threshold: 0.15 }
+    );
+
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <section
       ref={sectionRef}
-      className="how-section"
+      className={`how-hero ${visible ? "how-hero--visible" : ""}`}
       id="how-it-works"
       aria-label="How EcoHub Logistics vehicle transport works"
       style={{ "--how-progress": scrollProgress }}
       itemScope
       itemType="https://schema.org/HowTo"
     >
-      <meta
-        itemProp="name"
-        content="How EcoHub Logistics vehicle shipping process works"
-      />
+      {/* ✅ SEO Microdata */}
+      <meta itemProp="name" content="How EcoHub Logistics auto transport works" />
       <meta
         itemProp="description"
         content="Step-by-step auto transport process: request a quote, book and schedule, pickup and transit, delivery and inspection."
       />
 
-      {/* float particles */}
-      <div className="how-particle how-p1" aria-hidden="true" />
-      <div className="how-particle how-p2" aria-hidden="true" />
-      <div className="how-particle how-p3" aria-hidden="true" />
-      <div className="how-particle how-p4" aria-hidden="true" />
-      <div className="how-particle how-p5" aria-hidden="true" />
-      <div className="how-particle how-p6" aria-hidden="true" />
-      <div className="how-particle how-p7" aria-hidden="true" />
-      <div className="how-particle how-p8" aria-hidden="true" />
-      <div className="how-particle how-p9" aria-hidden="true" />
+      <div className="how-hero__container">
+        <div className="how-hero__top">
+          <span className="how-hero__badge">Step-by-step process</span>
 
-      <div className="how-container">
-        <span className="how-label">Step-by-step process</span>
+          <h2 className="how-hero__title">How it works</h2>
 
-        <h2 className="how-title">How it works</h2>
-        <p className="how-subtitle">
-          Simple, transparent steps from pickup to delivery.
-        </p>
+          <p className="how-hero__subtitle">
+            Simple, transparent steps from pickup to delivery.
+          </p>
+
+          <div className="how-hero__actions">
+            <Link to="/quote" className="how-btn-primary">
+              Get a free quote
+            </Link>
+
+            <a href="/contact" className="how-btn-ghost">
+              Contact
+            </a>
+          </div>
+        </div>
 
         <div
-          className="how-grid"
+          className="how-hero__grid"
           role="list"
           aria-label="Vehicle shipping steps from quote to delivery"
         >
           {steps.map((step) => (
             <article
               key={step.number}
-              className="how-card"
+              className="how-step"
               role="listitem"
               itemProp="step"
               itemScope
               itemType="https://schema.org/HowToStep"
             >
               <meta itemProp="position" content={String(step.number)} />
+              <meta itemProp="name" content={step.title} />
+              <meta itemProp="text" content={step.text} />
 
-              <div className="how-card-header">
-                <div className="step-number">{step.number}</div>
-                <h3 itemProp="name">{step.title}</h3>
+              <div className="how-step__head">
+                <div className="how-step__num" aria-hidden="true">
+                  {step.number}
+                </div>
+                <h3 className="how-step__title">{step.title}</h3>
               </div>
 
-              <p itemProp="text">{step.text}</p>
+              <p className="how-step__text">{step.text}</p>
             </article>
           ))}
         </div>

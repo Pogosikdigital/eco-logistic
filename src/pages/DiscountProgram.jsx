@@ -1,24 +1,19 @@
-// src/components/DiscountProgram.jsx
 import React from "react";
 import "./discount.css";
 
-import discountImg from "../assets/discount-truck.jpg"; // твой файл
+import discountImg from "../assets/discount-truck.jpg";
 
 export default function DiscountProgram() {
-  
   const goToContact = () => {
     const el = document.getElementById("contact");
 
-    // Если форма уже на странице — скроллим
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
 
-    // Если страница не главная — делаем корректный переход для HashRouter
     window.location.href = "/#/";
 
-    // После загрузки — плавный скролл к форме
     setTimeout(() => {
       const target = document.getElementById("contact");
       if (target) {
@@ -28,14 +23,18 @@ export default function DiscountProgram() {
   };
 
   return (
-    <section className="discount-section" id="discount">
+    <section
+      className="discount-section"
+      id="discount"
+      aria-labelledby="discount-title"
+      aria-describedby="discount-desc"
+    >
       <div className="discount-shell">
-        
         {/* LEFT IMAGE */}
         <div className="discount-image-block">
           <img
             src={discountImg}
-            alt="Vehicle transport truck with discount program"
+            alt="Auto transport discount program — carrier truck on the road"
             loading="lazy"
             decoding="async"
           />
@@ -43,15 +42,15 @@ export default function DiscountProgram() {
 
         {/* RIGHT CONTENT */}
         <div className="discount-content">
-          <span className="discount-label">Loyalty & Discount Program</span>
-          
-          <h2 className="discount-title">
+          <span className="discount-label">Loyalty &amp; Discount Program</span>
+
+          <h2 className="discount-title" id="discount-title">
             Loyalty deserves
             <br />
             real rewards.
           </h2>
 
-          <p className="discount-text">
+          <p className="discount-text" id="discount-desc">
             As a returning customer or partner, you get access to{" "}
             <span>exclusive pricing, repeat-client discounts</span> and priority
             scheduling on your future shipments.
@@ -63,7 +62,7 @@ export default function DiscountProgram() {
             <li>Dedicated coordinator for your bookings</li>
           </ul>
 
-          <button className="discount-btn" onClick={goToContact}>
+          <button className="discount-btn" type="button" onClick={goToContact}>
             Get My Discount
           </button>
         </div>

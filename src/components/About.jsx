@@ -1,11 +1,5 @@
 // src/components/AboutSection.jsx
-import React, {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useCallback,
-} from "react";
+import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import "./styles/about.css";
 import trucksImage from "../assets/truck.jpg";
@@ -17,7 +11,6 @@ function AboutSectionComponent() {
   const [isVisible, setIsVisible] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  /* Bullet points */
   const bulletPoints = useMemo(
     () => [
       "Nationwide coverage for cars, box trucks, and Amazon vans.",
@@ -28,7 +21,7 @@ function AboutSectionComponent() {
     []
   );
 
-  /* Reveal on scroll */
+  /* reveal like Services/Hero */
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -40,19 +33,18 @@ function AboutSectionComponent() {
 
     const obs = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          obs.disconnect();
-        }
+        if (!entry.isIntersecting) return;
+        setIsVisible(true);
+        obs.disconnect();
       },
-      { threshold: 0.18 }
+      { threshold: 0.18, rootMargin: "0px 0px -10% 0px" }
     );
 
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
 
-  /* 3D Tilt */
+  /* 3D tilt (only desktop) */
   const tiltFrame = useRef(null);
 
   const handleTilt = useCallback(
@@ -81,7 +73,6 @@ function AboutSectionComponent() {
   const resetTilt = useCallback(() => {
     const card = mediaRef.current;
     if (!card) return;
-
     card.style.transform = `
       perspective(1100px)
       translate3d(0, 0, 0)
@@ -90,47 +81,47 @@ function AboutSectionComponent() {
     `;
   }, []);
 
-  /* JSX */
   return (
     <section
       ref={sectionRef}
       id="about"
-      className={`about-section ${isVisible ? "about-section--visible" : ""}`}
+      className={`about ${isVisible ? "about--visible" : ""}`}
       aria-label="About EcoHub Logistics Inc — nationwide auto transport"
       itemScope
       itemType="https://schema.org/Organization"
     >
+      {/* ✅ SEO */}
       <meta itemProp="name" content="EcoHub Logistics Inc" />
+      <meta
+        itemProp="description"
+        content="EcoHub Logistics provides insured, reliable nationwide vehicle transport for individuals, dealerships, and fleets."
+      />
 
-      <div className="about-container">
-        {/* ---------- HEADER ---------- */}
-        <header className="about-header">
-          <p className="about-kicker">About Us</p>
+      <div className="about__container">
+        <header className="about__header">
+          <span className="about__badge">About Us</span>
 
-          <h2 className="about-title">About EcoHub Logistics Inc</h2>
+          <h2 className="about__title">About EcoHub Logistics Inc</h2>
 
-          <p className="about-subtitle">
-            Safe, insured nationwide transport for cars, trucks, vans, and
-            commercial fleets.
+          <p className="about__subtitle">
+            Safe, insured nationwide transport for cars, trucks, vans, and commercial fleets.
           </p>
         </header>
 
-        <div className="about-grid">
-          {/* ---------- LEFT IMAGE (3D Tilt) ---------- */}
+        <div className="about__grid">
+          {/* LEFT media */}
           <figure
             ref={mediaRef}
-            className="about-media"
+            className="about__media"
             onMouseMove={handleTilt}
             onMouseLeave={resetTilt}
             aria-hidden="true"
           >
-            <div className="about-media-inner">
+            <div className="about__mediaInner">
               <img
                 src={trucksImage}
                 alt="Car hauler truck transporting vehicles across the USA"
-                className={`about-image ${
-                  imageLoaded ? "about-image--loaded" : ""
-                }`}
+                className={`about__image ${imageLoaded ? "is-loaded" : ""}`}
                 loading="lazy"
                 decoding="async"
                 onLoad={() => setImageLoaded(true)}
@@ -138,48 +129,41 @@ function AboutSectionComponent() {
             </div>
           </figure>
 
-          {/* ---------- RIGHT CONTENT ---------- */}
-          <article className="about-content">
-            <p className="about-tag">Vehicle Shipping Experts</p>
+          {/* RIGHT content */}
+          <article className="about__content">
+            <p className="about__tag">Vehicle Shipping Experts</p>
 
-            <h3 className="about-content-title" itemProp="slogan">
+            <h3 className="about__contentTitle" itemProp="slogan">
               Trusted Partner for Nationwide Auto Transport
             </h3>
 
-            <p className="about-content-text">
-              We provide insured, reliable transport for dealerships,
-              individuals, commercial fleets, and Amazon partners — coordinating
-              dispatch, tracking, carriers, and delivery.
+            <p className="about__contentText">
+              We provide insured, reliable transport for dealerships, individuals, commercial fleets,
+              and Amazon partners — coordinating dispatch, tracking, carriers, and delivery.
             </p>
 
-            <ul className="about-list">
+            <ul className="about__list" aria-label="Key benefits">
               {bulletPoints.map((point, i) => (
-                <li key={i}>
-                  <span className="about-dot" />
-                  <span className="about-list-text">{point}</span>
+                <li key={i} className="about__listItem">
+                  <span className="about__dot" aria-hidden="true" />
+                  <span className="about__listText">{point}</span>
                 </li>
               ))}
             </ul>
 
-            {/* ---------- ACTION BUTTONS ---------- */}
-            <div className="about-actions">
-              <Link to="/quote" className="main-cta about-primary-cta">
-                Get a Free Quote ›
+            <div className="about__actions">
+              {/* ✅ reuse hero button styles */}
+              <Link to="/quote" className="home-btn-primary about__btn" itemProp="url">
+                Get a free quote
               </Link>
 
-              {/* Smooth scroll to contact */}
               <a
                 href="#contact"
-                className="about-secondary-cta"
+                className="home-btn-ghost about__btn"
                 onClick={(e) => {
                   e.preventDefault();
                   const target = document.getElementById("contact");
-                  if (target) {
-                    target.scrollIntoView({
-                      behavior: "smooth",
-                      block: "start",
-                    });
-                  }
+                  if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
                 }}
               >
                 Contact Us

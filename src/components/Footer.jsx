@@ -1,4 +1,3 @@
-// src/components/Footer.jsx
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./styles/footer.css";
@@ -9,7 +8,6 @@ export default function Footer() {
   const isHome = location.pathname === "/";
 
   const goToSection = (id) => {
-    // Если НЕ главная — переход на главную + hash
     if (!isHome) {
       navigate(`/#${id}`);
       return;
@@ -24,7 +22,9 @@ export default function Footer() {
       className="footer-section"
       itemScope
       itemType="https://schema.org/Organization"
+      aria-label="Site footer"
     >
+      {/* Organization schema */}
       <meta itemProp="name" content="EcoHub Logistics Inc" />
       <meta
         itemProp="description"
@@ -44,8 +44,7 @@ export default function Footer() {
             </h2>
 
             <p className="footer-tagline">
-              Vehicle shipping across the USA with real-time updates and
-              dedicated support.
+              Vehicle shipping across the USA with real-time updates and dedicated support.
             </p>
 
             <Link
@@ -59,7 +58,7 @@ export default function Footer() {
 
           {/* NAVIGATION */}
           <nav className="footer-col footer-nav" aria-label="Footer navigation">
-            <h4 className="footer-title">Navigation</h4>
+            <h3 className="footer-title">Navigation</h3>
 
             <div className="footer-nav-grid">
               <ul className="footer-links">
@@ -68,15 +67,16 @@ export default function Footer() {
                     Home
                   </button>
                 </li>
-
                 <li>
                   <button className="footer-link-btn" onClick={() => goToSection("how")}>
                     How it works
                   </button>
                 </li>
-
                 <li>
-                  <button className="footer-link-btn" onClick={() => goToSection("services")}>
+                  <button
+                    className="footer-link-btn"
+                    onClick={() => goToSection("services")}
+                  >
                     Services
                   </button>
                 </li>
@@ -84,17 +84,21 @@ export default function Footer() {
 
               <ul className="footer-links">
                 <li>
-                  <button className="footer-link-btn" onClick={() => goToSection("reviews")}>
+                  <button
+                    className="footer-link-btn"
+                    onClick={() => goToSection("reviews")}
+                  >
                     Reviews
                   </button>
                 </li>
-
                 <li>
-                  <button className="footer-link-btn" onClick={() => goToSection("about")}>
+                  <button
+                    className="footer-link-btn"
+                    onClick={() => goToSection("about")}
+                  >
                     About Us
                   </button>
                 </li>
-
                 <li>
                   <Link to="/earn" className="footer-link-router">
                     Earn With Us
@@ -104,7 +108,10 @@ export default function Footer() {
 
               <ul className="footer-links">
                 <li>
-                  <button className="footer-link-btn" onClick={() => goToSection("contact")}>
+                  <button
+                    className="footer-link-btn"
+                    onClick={() => goToSection("contact")}
+                  >
                     Contact
                   </button>
                 </li>
@@ -114,7 +121,7 @@ export default function Footer() {
 
           {/* CONTACT INFO */}
           <div className="footer-col footer-contact">
-            <h4 className="footer-title">Contact</h4>
+            <h3 className="footer-title">Contact</h3>
 
             <address
               className="footer-address"
@@ -131,28 +138,41 @@ export default function Footer() {
             </address>
 
             <p>
-              <a href="mailto:info@ecohublogistics.com" className="footer-contact-link">
+              <a
+                href="mailto:info@ecohublogistics.com"
+                className="footer-contact-link"
+                itemProp="email"
+                aria-label="Email EcoHub Logistics"
+              >
                 info@ecohublogistics.com
               </a>
             </p>
 
             <p>
-              <a href="tel:16509999660" className="footer-contact-link">
+              <a
+                href="tel:+16509999660"
+                className="footer-contact-link"
+                itemProp="telephone"
+                aria-label="Call EcoHub Logistics"
+              >
                 (650) 999-9660
               </a>
             </p>
 
-            <div className="footer-social">
+            <div className="footer-social" aria-label="Social media links">
               <a
                 href="https://www.facebook.com/profile.php?id=61572534053753"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-link"
+                aria-label="EcoHub Logistics on Facebook"
               >
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
                   className="social-img"
                   alt="Facebook"
+                  loading="lazy"
+                  decoding="async"
                 />
               </a>
 
@@ -161,11 +181,14 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-link"
+                aria-label="EcoHub Logistics on Instagram"
               >
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg"
                   className="social-img"
                   alt="Instagram"
+                  loading="lazy"
+                  decoding="async"
                 />
               </a>
             </div>
