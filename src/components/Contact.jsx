@@ -14,6 +14,31 @@ const initialForm = {
   company: "",
 };
 
+function getUTM() {
+  if (typeof window === "undefined") return {};
+  const params = new URLSearchParams(window.location.search);
+  const pick = (k) => {
+    const v = params.get(k);
+    return v ? String(v) : "";
+  };
+  return {
+    utm_source: pick("utm_source"),
+    utm_medium: pick("utm_medium"),
+    utm_campaign: pick("utm_campaign"),
+    utm_term: pick("utm_term"),
+    utm_content: pick("utm_content"),
+  };
+}
+
+function getScrollPercent() {
+  if (typeof window === "undefined") return null;
+  const doc = document.documentElement;
+  const total = (doc.scrollHeight - window.innerHeight) || 1;
+  const y = window.scrollY || 0;
+  const p = Math.round((y / total) * 100);
+  return Math.max(0, Math.min(100, p));
+}
+
 export default function Contact() {
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
@@ -103,17 +128,42 @@ export default function Contact() {
       setSubmitted(false);
 
       try {
+        const utm = getUTM();
+        const scrollPercent = getScrollPercent();
+
+        const payload = {
+          source: "contact-form",
+
+          // form
+          name: form.name.trim(),
+          email: form.email.trim(),
+          pickup: form.pickup.trim(),
+          delivery: form.delivery.trim(),
+          vehicle: form.vehicle.trim(),
+          message: form.message.trim(),
+
+          // phone
+          phone: (e164Phone || "").trim() || `+1${phoneDigits || ""}`,
+          phoneDigits: phoneDigits || "",
+          country: country?.iso2 || "us",
+
+          // source mapping
+          path: typeof window !== "undefined" ? window.location.pathname : "/",
+          fullUrl:
+            typeof window !== "undefined"
+              ? window.location.href
+              : "https://www.ecohublogistics.com/",
+          referrer: typeof document !== "undefined" ? document.referrer : "",
+          scrollPercent,
+
+          // utm
+          ...utm,
+        };
+
         const res = await fetch(apiUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            source: "contact-form",
-            ...form,
-            phone: e164Phone || `+1${phoneDigits || ""}`,
-            phoneDigits: phoneDigits || "",
-            country: country.iso2,
-            company: undefined, // honeypot не отправляем
-          }),
+          body: JSON.stringify(payload),
         });
 
         const data = await res.json().catch(() => null);

@@ -13,7 +13,7 @@ const initialForm = {
   transportType: "open",
   pickupDate: "",
   notes: "",
-  company: "",
+  company: "", // honeypot
 };
 
 function getTodayISO() {
@@ -23,6 +23,31 @@ function getTodayISO() {
   const mm = String(d.getMonth() + 1).padStart(2, "0");
   const dd = String(d.getDate()).padStart(2, "0");
   return `${yyyy}-${mm}-${dd}`;
+}
+
+function getUTM() {
+  if (typeof window === "undefined") return {};
+  const params = new URLSearchParams(window.location.search);
+  const pick = (k) => {
+    const v = params.get(k);
+    return v ? String(v) : "";
+  };
+  return {
+    utm_source: pick("utm_source"),
+    utm_medium: pick("utm_medium"),
+    utm_campaign: pick("utm_campaign"),
+    utm_term: pick("utm_term"),
+    utm_content: pick("utm_content"),
+  };
+}
+
+function getScrollPercent() {
+  if (typeof window === "undefined") return null;
+  const doc = document.documentElement;
+  const total = (doc.scrollHeight - window.innerHeight) || 1;
+  const y = window.scrollY || 0;
+  const p = Math.round((y / total) * 100);
+  return Math.max(0, Math.min(100, p));
 }
 
 export default function QuoteSection() {
@@ -40,7 +65,7 @@ export default function QuoteSection() {
 
   const canonicalPhone = useMemo(() => "+16509999660", []);
   const canonicalEmail = useMemo(() => "info@ecohublogistics.com", []);
-  const canonicalUrl = useMemo(() => "https://www.ecohublogistics.com/", []);
+  const canonicalUrl = useMemo(() => "https://www.ecohublogistics.com", []);
 
   const validateField = (name, value) => {
     switch (name) {
@@ -89,7 +114,7 @@ export default function QuoteSection() {
   const validateForm = (data) => {
     const newErrors = {};
     Object.keys(data).forEach((key) => {
-      if (key === "company") return;
+      if (key === "company") return; // honeypot не валидируем
       const error = validateField(key, data[key]);
       if (error) newErrors[key] = error;
     });
@@ -145,14 +170,38 @@ export default function QuoteSection() {
     setIsSubmitting(true);
 
     try {
+      const utm = getUTM();
+      const scrollPercent = getScrollPercent();
+
       const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           source: "quote-form",
-          ...form,
+
+          // form fields
+          fullName: form.fullName.trim(),
+          email: form.email.trim(),
+          phone: form.phone.trim(),
           phoneDigits: (form.phone || "").replace(/\D/g, ""),
-          company: undefined,
+          vehicle: form.vehicle.trim(),
+          pickupZip: form.pickupZip.trim(),
+          deliveryZip: form.deliveryZip.trim(),
+          transportType: form.transportType,
+          pickupDate: form.pickupDate,
+          notes: form.notes.trim(),
+
+          // source mapping
+          path: typeof window !== "undefined" ? window.location.pathname : "/quote",
+          fullUrl: typeof window !== "undefined" ? window.location.href : `${canonicalUrl}/quote`,
+          referrer: typeof document !== "undefined" ? document.referrer : "",
+          scrollPercent,
+
+          // utm
+          ...utm,
+
+          // honeypot field (оставляем только в форме, но не отправляем)
+          // company: undefined,
         }),
       });
 
@@ -225,14 +274,8 @@ export default function QuoteSection() {
       {/* ✅ describe the service for search engines */}
       <div itemScope itemType="https://schema.org/Service" itemProp="mainEntity">
         <meta itemProp="name" content="Auto Transport Quote" />
-        <meta
-          itemProp="serviceType"
-          content="Vehicle shipping / auto transport quote request"
-        />
-        <meta
-          itemProp="areaServed"
-          content="United States"
-        />
+        <meta itemProp="serviceType" content="Vehicle shipping / auto transport quote request" />
+        <meta itemProp="areaServed" content="United States" />
         <meta
           itemProp="description"
           content="Request a free auto transport quote: open or enclosed, door-to-door, insured carriers."
@@ -243,7 +286,6 @@ export default function QuoteSection() {
       <div className="quote-inner">
         {/* LEFT: FORM */}
         <div className="quote-left">
-          {/* ✅ h2 instead of h1 (keep style) */}
           <h2 id="quote-heading" className="quote-title">
             Get a Free Quote
           </h2>
@@ -307,9 +349,9 @@ export default function QuoteSection() {
             itemScope
             itemType="https://schema.org/QuoteAction"
           >
-            {/* ✅ QuoteAction hints */}
             <meta itemProp="name" content="Request Quote" />
-            <meta itemProp="target" content={`${canonicalUrl}#/quote`} />
+            {/* ✅ лучше реальный URL страницы quote */}
+            <meta itemProp="target" content={`${canonicalUrl}/quote`} />
             <meta itemProp="provider" content="EcoHub Logistics Inc" />
             <meta
               itemProp="description"
@@ -548,9 +590,7 @@ export default function QuoteSection() {
         <aside className="quote-right">
           <div
             ref={rightRef}
-            className={
-              "quote-right-card" + (isRightVisible ? " quote-right-card--visible" : "")
-            }
+            className={"quote-right-card" + (isRightVisible ? " quote-right-card--visible" : "")}
           >
             <div className="quote-right-gradient" />
 
