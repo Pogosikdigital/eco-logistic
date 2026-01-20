@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import "./styles/quotesection.css";
 import usaMap from "./../assets/usa-map.png";
+import { getLeadContext } from "../utils/sourceMapper";
 
 const initialForm = {
   fullName: "",
@@ -25,20 +26,19 @@ function getTodayISO() {
   return `${yyyy}-${mm}-${dd}`;
 }
 
-function getUTM() {
-  if (typeof window === "undefined") return {};
-  const params = new URLSearchParams(window.location.search);
-  const pick = (k) => {
-    const v = params.get(k);
-    return v ? String(v) : "";
-  };
-  return {
-    utm_source: pick("utm_source"),
-    utm_medium: pick("utm_medium"),
-    utm_campaign: pick("utm_campaign"),
-    utm_term: pick("utm_term"),
-    utm_content: pick("utm_content"),
-  };
+// легкая метка сессии (для "пока не обновит страницу")
+function getSessionId() {
+  if (typeof window === "undefined") return "";
+  try {
+    const key = "ecohub_session_id";
+    const existing = sessionStorage.getItem(key);
+    if (existing) return existing;
+    const id = (crypto?.randomUUID?.() || String(Date.now())) + "_" + Math.random().toString(16).slice(2);
+    sessionStorage.setItem(key, id);
+    return id;
+  } catch {
+    return "";
+  }
 }
 
 function getScrollPercent() {
@@ -170,39 +170,32 @@ export default function QuoteSection() {
     setIsSubmitting(true);
 
     try {
-      const utm = getUTM();
-      const scrollPercent = getScrollPercent();
+      const payload = getLeadContext({
+        source: "quote-form",
+
+        // form fields
+        fullName: form.fullName.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        phoneDigits: (form.phone || "").replace(/\D/g, ""),
+        vehicle: form.vehicle.trim(),
+        pickupZip: form.pickupZip.trim(),
+        deliveryZip: form.deliveryZip.trim(),
+        transportType: form.transportType,
+        pickupDate: form.pickupDate,
+        notes: form.notes.trim(),
+
+        // extra tracking
+        pageTitle: typeof document !== "undefined" ? document.title : "",
+        scrollPercent: getScrollPercent(),
+        ts: new Date().toISOString(),
+        sessionId: getSessionId(),
+      });
 
       const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          source: "quote-form",
-
-          // form fields
-          fullName: form.fullName.trim(),
-          email: form.email.trim(),
-          phone: form.phone.trim(),
-          phoneDigits: (form.phone || "").replace(/\D/g, ""),
-          vehicle: form.vehicle.trim(),
-          pickupZip: form.pickupZip.trim(),
-          deliveryZip: form.deliveryZip.trim(),
-          transportType: form.transportType,
-          pickupDate: form.pickupDate,
-          notes: form.notes.trim(),
-
-          // source mapping
-          path: typeof window !== "undefined" ? window.location.pathname : "/quote",
-          fullUrl: typeof window !== "undefined" ? window.location.href : `${canonicalUrl}/quote`,
-          referrer: typeof document !== "undefined" ? document.referrer : "",
-          scrollPercent,
-
-          // utm
-          ...utm,
-
-          // honeypot field (оставляем только в форме, но не отправляем)
-          // company: undefined,
-        }),
+        body: JSON.stringify(payload),
       });
 
       let data = null;
@@ -254,7 +247,7 @@ export default function QuoteSection() {
       itemScope
       itemType="https://schema.org/WebPage"
     >
-      {/* ✅ SEO microdata (safe & consistent like Contact) */}
+      {/* ✅ SEO microdata */}
       <div
         className="seo-preload"
         itemScope
@@ -271,7 +264,6 @@ export default function QuoteSection() {
         />
       </div>
 
-      {/* ✅ describe the service for search engines */}
       <div itemScope itemType="https://schema.org/Service" itemProp="mainEntity">
         <meta itemProp="name" content="Auto Transport Quote" />
         <meta itemProp="serviceType" content="Vehicle shipping / auto transport quote request" />
@@ -284,15 +276,12 @@ export default function QuoteSection() {
       </div>
 
       <div className="quote-inner">
-        {/* LEFT: FORM */}
         <div className="quote-left">
           <h2 id="quote-heading" className="quote-title">
             Get a Free Quote
           </h2>
 
-          <p className="quote-subtitle">
-            No hidden fees. Quick response by a real coordinator.
-          </p>
+          <p className="quote-subtitle">No hidden fees. Quick response by a real coordinator.</p>
 
           {submitSuccess && (
             <div className="quote-trust" role="status" aria-live="polite">
@@ -330,9 +319,7 @@ export default function QuoteSection() {
                 </button>
               </div>
 
-              <p className="quote-trust-note">
-                Tip: if you don’t see a reply, check missed calls or spam.
-              </p>
+              <p className="quote-trust-note">Tip: if you don’t see a reply, check missed calls or spam.</p>
             </div>
           )}
 
@@ -342,21 +329,11 @@ export default function QuoteSection() {
             </p>
           )}
 
-          <form
-            className="quote-form"
-            onSubmit={handleSubmit}
-            noValidate
-            itemScope
-            itemType="https://schema.org/QuoteAction"
-          >
+          <form className="quote-form" onSubmit={handleSubmit} noValidate itemScope itemType="https://schema.org/QuoteAction">
             <meta itemProp="name" content="Request Quote" />
-            {/* ✅ лучше реальный URL страницы quote */}
             <meta itemProp="target" content={`${canonicalUrl}/quote`} />
             <meta itemProp="provider" content="EcoHub Logistics Inc" />
-            <meta
-              itemProp="description"
-              content="Request a free auto transport quote from EcoHub Logistics."
-            />
+            <meta itemProp="description" content="Request a free auto transport quote from EcoHub Logistics." />
 
             {/* Honeypot */}
             <div
@@ -398,11 +375,7 @@ export default function QuoteSection() {
                   aria-describedby={errors.fullName ? "fullName-error" : undefined}
                   required
                 />
-                {errors.fullName && (
-                  <span id="fullName-error" className="field-error">
-                    {errors.fullName}
-                  </span>
-                )}
+                {errors.fullName && <span id="fullName-error" className="field-error">{errors.fullName}</span>}
               </div>
 
               <div className="field">
@@ -420,11 +393,7 @@ export default function QuoteSection() {
                   aria-describedby={errors.email ? "email-error" : undefined}
                   required
                 />
-                {errors.email && (
-                  <span id="email-error" className="field-error">
-                    {errors.email}
-                  </span>
-                )}
+                {errors.email && <span id="email-error" className="field-error">{errors.email}</span>}
               </div>
 
               <div className="field">
@@ -442,11 +411,7 @@ export default function QuoteSection() {
                   aria-describedby={errors.phone ? "phone-error" : undefined}
                   required
                 />
-                {errors.phone && (
-                  <span id="phone-error" className="field-error">
-                    {errors.phone}
-                  </span>
-                )}
+                {errors.phone && <span id="phone-error" className="field-error">{errors.phone}</span>}
               </div>
 
               <div className="field">
@@ -478,11 +443,7 @@ export default function QuoteSection() {
                   aria-invalid={!!errors.pickupZip}
                   aria-describedby={errors.pickupZip ? "pickupZip-error" : undefined}
                 />
-                {errors.pickupZip && (
-                  <span id="pickupZip-error" className="field-error">
-                    {errors.pickupZip}
-                  </span>
-                )}
+                {errors.pickupZip && <span id="pickupZip-error" className="field-error">{errors.pickupZip}</span>}
               </div>
 
               <div className="field">
@@ -500,11 +461,7 @@ export default function QuoteSection() {
                   aria-invalid={!!errors.deliveryZip}
                   aria-describedby={errors.deliveryZip ? "deliveryZip-error" : undefined}
                 />
-                {errors.deliveryZip && (
-                  <span id="deliveryZip-error" className="field-error">
-                    {errors.deliveryZip}
-                  </span>
-                )}
+                {errors.deliveryZip && <span id="deliveryZip-error" className="field-error">{errors.deliveryZip}</span>}
               </div>
 
               <div className="field">
@@ -521,11 +478,7 @@ export default function QuoteSection() {
                   <option value="open">Open</option>
                   <option value="enclosed">Enclosed</option>
                 </select>
-                {errors.transportType && (
-                  <span id="transportType-error" className="field-error">
-                    {errors.transportType}
-                  </span>
-                )}
+                {errors.transportType && <span id="transportType-error" className="field-error">{errors.transportType}</span>}
               </div>
 
               <div className="field">
@@ -541,11 +494,7 @@ export default function QuoteSection() {
                   aria-invalid={!!errors.pickupDate}
                   aria-describedby={errors.pickupDate ? "pickupDate-error" : undefined}
                 />
-                {errors.pickupDate && (
-                  <span id="pickupDate-error" className="field-error">
-                    {errors.pickupDate}
-                  </span>
-                )}
+                {errors.pickupDate && <span id="pickupDate-error" className="field-error">{errors.pickupDate}</span>}
               </div>
             </div>
 
@@ -562,20 +511,11 @@ export default function QuoteSection() {
                 aria-describedby={errors.notes ? "notes-error" : undefined}
                 maxLength={600}
               />
-              {errors.notes && (
-                <span id="notes-error" className="field-error">
-                  {errors.notes}
-                </span>
-              )}
+              {errors.notes && <span id="notes-error" className="field-error">{errors.notes}</span>}
             </div>
 
             <div className="quote-footer">
-              <button
-                type="submit"
-                className="btn-quote-primary"
-                disabled={isSubmitting}
-                aria-label="Request a free auto transport quote"
-              >
+              <button type="submit" className="btn-quote-primary" disabled={isSubmitting} aria-label="Request a free auto transport quote">
                 {isSubmitting ? "Sending..." : "Request Quote ▸"}
               </button>
 
@@ -586,12 +526,8 @@ export default function QuoteSection() {
           </form>
         </div>
 
-        {/* RIGHT: INFO CARD */}
         <aside className="quote-right">
-          <div
-            ref={rightRef}
-            className={"quote-right-card" + (isRightVisible ? " quote-right-card--visible" : "")}
-          >
+          <div ref={rightRef} className={"quote-right-card" + (isRightVisible ? " quote-right-card--visible" : "")}>
             <div className="quote-right-gradient" />
 
             <div className="quote-right-content">
