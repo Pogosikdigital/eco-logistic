@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 import "./styles/feedback-popup.css";
 import { getLeadContext } from "../utils/sourceMapper";
 
-const STORAGE_KEY = "ecohub_feedback_popup_v2"; // если хочешь “навсегда” — можно использовать
 const SESSION_BLOCK_KEY = "ecohub_popup_closed_this_session_v1";
 const SCROLL_THRESHOLD = 0.4; // 40%
 
@@ -36,32 +35,26 @@ export default function FeedbackPopup() {
   const firstInputRef = useRef(null);
   const triggeredScrollRef = useRef(null);
 
-  const alreadyDoneForever = useMemo(() => {
-    // ⚠️ если ты НЕ хочешь “навсегда”, просто оставь false
-    // return false;
-
-    try {
-      return localStorage.getItem(STORAGE_KEY) === "1";
-    } catch {
-      return false;
-    }
+  // ✅ только session-логика (после refresh снова можно показывать)
+  const isBlockedThisSession = useMemo(() => {
+    return () => {
+      try {
+        return sessionStorage.getItem(SESSION_BLOCK_KEY) === "1";
+      } catch {
+        return false;
+      }
+    };
   }, []);
 
-  const isBlockedThisSession = () => {
-    try {
-      return sessionStorage.getItem(SESSION_BLOCK_KEY) === "1";
-    } catch {
-      return false;
-    }
-  };
-
-  const blockThisSession = () => {
-    try {
-      sessionStorage.setItem(SESSION_BLOCK_KEY, "1");
-    } catch {
-      // ignore
-    }
-  };
+  const blockThisSession = useMemo(() => {
+    return () => {
+      try {
+        sessionStorage.setItem(SESSION_BLOCK_KEY, "1");
+      } catch {
+        // ignore
+      }
+    };
+  }, []);
 
   const validateField = (name, value) => {
     const v = String(value || "").trim();
@@ -100,7 +93,7 @@ export default function FeedbackPopup() {
   };
 
   const close = () => {
-    // ✅ главное: закрыли — больше не всплывает до обновления страницы
+    // ✅ закрыли — не показываем до refresh
     blockThisSession();
 
     setOpen(false);
@@ -114,12 +107,10 @@ export default function FeedbackPopup() {
       return;
     }
 
-    // ✅ блок “на сессию страницы”
+    // ✅ уже блокировано в этой сессии — не показываем
     if (isBlockedThisSession()) return;
 
-    // ✅ если ты используешь “навсегда после отправки” — оставляем
-    if (alreadyDoneForever) return;
-
+    // ✅ если уже открыто / успех — не запускаем логику заново
     if (open) return;
     if (success) return;
 
@@ -140,7 +131,7 @@ export default function FeedbackPopup() {
       raf = window.requestAnimationFrame(() => {
         raf = 0;
 
-        // если пользователь уже закрыл — не показываем даже если скролл меняется
+        // ✅ если закрыли уже в этой сессии — стоп навсегда до refresh
         if (isBlockedThisSession()) {
           activated = true;
           return;
@@ -149,12 +140,20 @@ export default function FeedbackPopup() {
         const p = calcProgress();
         if (p >= SCROLL_THRESHOLD) {
           activated = true;
+
+          // ✅ фиксируем реальный % скролла
           triggeredScrollRef.current = Math.max(0, Math.min(100, Math.round(p * 100)));
+
+          // ✅ важно: как только показали — тоже блокируем до refresh
+          // чтобы не было “поймал скролл → открыл → закрыл → снова открыл”
+          blockThisSession();
+
           setOpen(true);
         }
       });
     };
 
+    // run once (если человек уже проскроллил)
     onScroll();
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -162,7 +161,7 @@ export default function FeedbackPopup() {
       window.removeEventListener("scroll", onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, [alreadyDoneForever, isHome, open, success]);
+  }, [isHome, open, success, isBlockedThisSession, blockThisSession]);
 
   // focus + lock scroll + ESC
   useEffect(() => {
@@ -231,7 +230,7 @@ export default function FeedbackPopup() {
         fullName: form.fullName.trim(),
         phone: form.phone.trim(),
         phoneDigits: form.phone.replace(/\D/g, ""),
-        scrollPercent: triggeredScrollRef.current ?? 40,
+        scrollPercent: triggeredScrollRef.current ?? Math.round(SCROLL_THRESHOLD * 100),
       });
 
       const res = await fetch("/api/lead", {
@@ -246,16 +245,7 @@ export default function FeedbackPopup() {
         throw new Error(data?.error || `send_failed_${res.status}`);
       }
 
-      // ✅ после успешной отправки — тоже блокируем до refresh
-      blockThisSession();
-
-      // ✅ если хочешь “навсегда после отправки”
-      try {
-        localStorage.setItem(STORAGE_KEY, "1");
-      } catch {
-        // ignore
-      }
-
+      // ✅ после успешной отправки — просто показываем success (сессия уже блокирована)
       setSuccess(true);
     } catch (err) {
       console.error("Popup lead submit error:", err);

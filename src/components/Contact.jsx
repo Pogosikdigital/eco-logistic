@@ -2,6 +2,7 @@
 import React, { useState, useCallback, useMemo } from "react";
 import "./styles/contact.css";
 import usePhoneInput from "../hooks/usePhoneInput";
+import { getLeadContext } from "../utils/sourceMapper";
 
 const initialForm = {
   name: "",
@@ -14,20 +15,21 @@ const initialForm = {
   company: "",
 };
 
-function getUTM() {
-  if (typeof window === "undefined") return {};
-  const params = new URLSearchParams(window.location.search);
-  const pick = (k) => {
-    const v = params.get(k);
-    return v ? String(v) : "";
-  };
-  return {
-    utm_source: pick("utm_source"),
-    utm_medium: pick("utm_medium"),
-    utm_campaign: pick("utm_campaign"),
-    utm_term: pick("utm_term"),
-    utm_content: pick("utm_content"),
-  };
+function getSessionId() {
+  if (typeof window === "undefined") return "";
+  try {
+    const key = "ecohub_session_id";
+    const existing = sessionStorage.getItem(key);
+    if (existing) return existing;
+    const id =
+      (crypto?.randomUUID?.() || String(Date.now())) +
+      "_" +
+      Math.random().toString(16).slice(2);
+    sessionStorage.setItem(key, id);
+    return id;
+  } catch {
+    return "";
+  }
 }
 
 function getScrollPercent() {
@@ -49,7 +51,6 @@ export default function Contact() {
 
   const apiUrl = "/api/lead";
 
-  // Phone via custom hook
   const {
     country,
     countries,
@@ -58,7 +59,7 @@ export default function Contact() {
     digits: phoneDigits,
     e164Phone,
     setCountryIso2,
-    setInputValue, // optional
+    setInputValue,
   } = usePhoneInput({
     defaultIso2: "US",
     initialValue: "",
@@ -101,6 +102,8 @@ export default function Contact() {
     return e;
   }, [form, phoneDigits]);
 
+  const canonicalPhone = useMemo(() => "+16509999660", []);
+
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
@@ -128,13 +131,10 @@ export default function Contact() {
       setSubmitted(false);
 
       try {
-        const utm = getUTM();
-        const scrollPercent = getScrollPercent();
-
-        const payload = {
+        const payload = getLeadContext({
           source: "contact-form",
 
-          // form
+          // form fields
           name: form.name.trim(),
           email: form.email.trim(),
           pickup: form.pickup.trim(),
@@ -142,23 +142,20 @@ export default function Contact() {
           vehicle: form.vehicle.trim(),
           message: form.message.trim(),
 
-          // phone
-          phone: (e164Phone || "").trim() || `+1${phoneDigits || ""}`,
+          // phone normalized
+          phone: e164Phone || `+1${phoneDigits || ""}`,
           phoneDigits: phoneDigits || "",
-          country: country?.iso2 || "us",
+          country: country.iso2,
 
-          // source mapping
-          path: typeof window !== "undefined" ? window.location.pathname : "/",
-          fullUrl:
-            typeof window !== "undefined"
-              ? window.location.href
-              : "https://www.ecohublogistics.com/",
-          referrer: typeof document !== "undefined" ? document.referrer : "",
-          scrollPercent,
+          // extra tracking (полезно для отчётов)
+          pageTitle: typeof document !== "undefined" ? document.title : "",
+          scrollPercent: getScrollPercent(),
+          ts: new Date().toISOString(),
+          sessionId: getSessionId(),
 
-          // utm
-          ...utm,
-        };
+          // honeypot: не отправляем
+          company: undefined,
+        });
 
         const res = await fetch(apiUrl, {
           method: "POST",
@@ -185,9 +182,6 @@ export default function Contact() {
     [apiUrl, form, e164Phone, phoneDigits, country, validate, setInputValue]
   );
 
-  // ✅ microdata helper (лёгкая SEO-разметка контактов)
-  const canonicalPhone = useMemo(() => "+16509999660", []);
-
   return (
     <section
       id="contact"
@@ -196,7 +190,6 @@ export default function Contact() {
       itemScope
       itemType="https://schema.org/ContactPage"
     >
-      {/* Organization microdata (внутри секции) */}
       <div
         className="seo-preload"
         itemScope
@@ -208,7 +201,6 @@ export default function Contact() {
         <meta itemProp="email" content="info@ecohublogistics.com" />
         <meta itemProp="telephone" content={canonicalPhone} />
 
-        {/* ContactPoint (SEO) */}
         <div itemProp="contactPoint" itemScope itemType="https://schema.org/ContactPoint">
           <meta itemProp="contactType" content="customer support" />
           <meta itemProp="telephone" content={canonicalPhone} />
