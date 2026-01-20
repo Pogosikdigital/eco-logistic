@@ -5,6 +5,7 @@ import "./styles/feedback-popup.css";
 import { getLeadContext } from "../utils/sourceMapper";
 
 const STORAGE_KEY = "ecohub_feedback_popup_v2";
+const SESSION_KEY = "ecohub_feedback_popup_session_v2";
 const SCROLL_THRESHOLD = 0.4; // 40%
 
 const initialForm = {
@@ -23,7 +24,6 @@ export default function FeedbackPopup() {
   const isHome = location.pathname === "/";
 
   const [open, setOpen] = useState(false);
-  const [dontShow, setDontShow] = useState(false);
 
   const [form, setForm] = useState(initialForm);
   const [touched, setTouched] = useState({});
@@ -35,16 +35,29 @@ export default function FeedbackPopup() {
   const dialogRef = useRef(null);
   const firstInputRef = useRef(null);
 
-  // запоминаем реальный скролл при срабатывании
+  // фиксируем реальный % скролла при срабатывании
   const triggeredScrollRef = useRef(null);
 
   const alreadyDone = useMemo(() => {
     try {
-      return localStorage.getItem(STORAGE_KEY) === "1";
+      // 1) навсегда для браузера
+      if (localStorage.getItem(STORAGE_KEY) === "1") return true;
+      // 2) на сессию вкладки (чтобы не мигало даже если localStorage недоступен)
+      if (sessionStorage.getItem(SESSION_KEY) === "1") return true;
+      return false;
     } catch {
       return false;
     }
   }, []);
+
+  const markDone = () => {
+    try {
+      localStorage.setItem(STORAGE_KEY, "1");
+      sessionStorage.setItem(SESSION_KEY, "1");
+    } catch {
+      // ignore
+    }
+  };
 
   const validateField = (name, value) => {
     const v = String(value || "").trim();
@@ -72,15 +85,6 @@ export default function FeedbackPopup() {
     return next;
   };
 
-  const persistDontShow = () => {
-    if (!dontShow) return;
-    try {
-      localStorage.setItem(STORAGE_KEY, "1");
-    } catch {
-      // ignore
-    }
-  };
-
   const resetState = () => {
     setSuccess(false);
     setIsSubmitting(false);
@@ -92,11 +96,10 @@ export default function FeedbackPopup() {
   };
 
   const close = () => {
-    // ✅ закрываем всегда, без условий
-    persistDontShow();
+    // ✅ ВАЖНО: если человек закрыл — больше не показываем вообще
+    markDone();
     setOpen(false);
 
-    // сброс после небольшой анимации (если есть)
     setTimeout(() => resetState(), 180);
   };
 
@@ -106,6 +109,8 @@ export default function FeedbackPopup() {
       setOpen(false);
       return;
     }
+
+    // ✅ если уже показали / закрыли / отправили — никогда не показываем
     if (alreadyDone) return;
     if (open) return;
     if (success) return;
@@ -126,12 +131,12 @@ export default function FeedbackPopup() {
 
       raf = window.requestAnimationFrame(() => {
         raf = 0;
-        const p = calcProgress();
 
+        const p = calcProgress();
         if (p >= SCROLL_THRESHOLD) {
           activated = true;
 
-          // ✅ фиксируем реальный % скролла
+          // ✅ фиксируем % для телеги
           triggeredScrollRef.current = Math.max(0, Math.min(100, Math.round(p * 100)));
 
           setOpen(true);
@@ -139,7 +144,7 @@ export default function FeedbackPopup() {
       });
     };
 
-    // run once (если человек уже проскроллил)
+    // run once
     onScroll();
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -159,7 +164,6 @@ export default function FeedbackPopup() {
     const t = setTimeout(() => firstInputRef.current?.focus(), 60);
 
     const onKey = (e) => {
-      // ✅ ESC всегда закрывает
       if (e.key === "Escape") close();
     };
 
@@ -173,7 +177,6 @@ export default function FeedbackPopup() {
   }, [open]);
 
   const onBackdropClick = (e) => {
-    // ✅ клик по затемнению закрывает
     if (e.target === e.currentTarget) close();
   };
 
@@ -218,7 +221,7 @@ export default function FeedbackPopup() {
         fullName: form.fullName.trim(),
         phone: form.phone.trim(),
         phoneDigits: form.phone.replace(/\D/g, ""),
-        scrollPercent: triggeredScrollRef.current ?? Math.round(SCROLL_THRESHOLD * 100),
+        scrollPercent: triggeredScrollRef.current ?? 40,
       });
 
       const res = await fetch("/api/lead", {
@@ -227,23 +230,14 @@ export default function FeedbackPopup() {
         body: JSON.stringify(payload),
       });
 
-      let data = null;
-      try {
-        data = await res.json();
-      } catch {
-        // ignore
-      }
+      const data = await res.json().catch(() => null);
 
       if (!res.ok || (data && data.ok === false)) {
         throw new Error(data?.error || `send_failed_${res.status}`);
       }
 
-      // ✅ после успешной отправки — не показывать снова
-      try {
-        localStorage.setItem(STORAGE_KEY, "1");
-      } catch {
-        // ignore
-      }
+      // ✅ после успешной отправки — тоже навсегда скрываем
+      markDone();
 
       setSuccess(true);
     } catch (err) {
@@ -268,7 +262,6 @@ export default function FeedbackPopup() {
       >
         <div className="fp-glow" />
 
-        {/* ✅ X closes always */}
         <button className="fp-close" type="button" onClick={close} aria-label="Close popup">
           ✕
         </button>
@@ -338,15 +331,6 @@ export default function FeedbackPopup() {
               </div>
 
               <div className="fp-foot">
-                <label className="fp-check">
-                  <input
-                    type="checkbox"
-                    checked={dontShow}
-                    onChange={(e) => setDontShow(e.target.checked)}
-                  />
-                  <span>Don’t show again</span>
-                </label>
-
                 <button className="fp-btn" type="submit" disabled={isSubmitting}>
                   {isSubmitting ? "Sending..." : "Send ▸"}
                 </button>
