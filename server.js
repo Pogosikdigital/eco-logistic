@@ -29,6 +29,16 @@ function compact(v) {
   return String(v || "").trim();
 }
 
+// ✅ HTML-экранирование чтобы Telegram HTML не ломался
+function escapeHtml(input) {
+  return String(input || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 function normalizeLead(body = {}) {
   const fullName =
     body.fullName ||
@@ -48,9 +58,21 @@ function getHeaderRef(req) {
 function safeLine(label, value) {
   const v = compact(value);
   if (!v) return null;
-  return `<b>${label}:</b> ${v}`;
+  return `<b>${escapeHtml(label)}:</b> ${escapeHtml(v)}`;
 }
 
+// ✅ URL строка кликабельная (Telegram HTML)
+function safeUrlLine(label, url) {
+  const v = compact(url);
+  if (!v) return null;
+  return `<b>${escapeHtml(label)}:</b> <a href="${escapeHtml(v)}">${escapeHtml(v)}</a>`;
+}
+
+function divider() {
+  return "— — — — —";
+}
+
+// ✅ более аккуратные подписи + защита от пустых
 function buildUtmLine(prefix, obj) {
   const src = compact(obj[`${prefix}utm_source`] ?? obj.utm_source);
   const med = compact(obj[`${prefix}utm_medium`] ?? obj.utm_medium);
@@ -69,7 +91,7 @@ function buildUtmLine(prefix, obj) {
   if (!parts.length) return null;
 
   const label = prefix ? "UTM (first)" : "UTM (current)";
-  return `<b>${label}:</b> ${parts.join(" | ")}`;
+  return `<b>${escapeHtml(label)}:</b> ${escapeHtml(parts.join(" | "))}`;
 }
 
 function buildClickIdsLine(prefix, obj) {
@@ -88,7 +110,7 @@ function buildClickIdsLine(prefix, obj) {
   if (!parts.length) return null;
 
   const label = prefix ? "Click IDs (first)" : "Click IDs (current)";
-  return `<b>${label}:</b> ${parts.join(" | ")}`;
+  return `<b>${escapeHtml(label)}:</b> ${escapeHtml(parts.join(" | "))}`;
 }
 
 function buildLeadMessage(data) {
@@ -128,14 +150,14 @@ function buildLeadMessage(data) {
     landingReferrer,
     firstTs,
 
-    // current utm (already in data)
+    // current utm
     utm_source,
     utm_medium,
     utm_campaign,
     utm_term,
     utm_content,
 
-    // first utm (from sourceMapper)
+    // first utm
     first_utm_source,
     first_utm_medium,
     first_utm_campaign,
@@ -157,33 +179,51 @@ function buildLeadMessage(data) {
 
   const lines = [];
 
+  // Header
   lines.push("<b>🚗 New lead — EcoHub Logistics</b>");
 
-  // meta
-  safeLine("Source", source) && lines.push(safeLine("Source", source));
-  safeLine("Time", ts) && lines.push(safeLine("Time", ts));
-  safeLine("Session", sessionId) && lines.push(safeLine("Session", sessionId));
+  // Meta
+  const meta = [];
+  meta.push(safeLine("Source", source));
+  meta.push(safeLine("Time", ts));
+  meta.push(safeLine("Session", sessionId));
 
-  // current page
-  (pagePath || fullUrl || pageTitle || referrer || scrollPercent != null) &&
-    lines.push("— — — — —");
+  if (meta.filter(Boolean).length) {
+    lines.push("");
+    lines.push("🧭 <b>META</b>");
+    lines.push(meta.filter(Boolean).join("\n"));
+  }
 
-  safeLine("Path", pagePath) && lines.push(safeLine("Path", pagePath));
-  safeLine("URL", fullUrl) && lines.push(safeLine("URL", fullUrl));
-  safeLine("Title", pageTitle) && lines.push(safeLine("Title", pageTitle));
-  safeLine("Referrer (current)", referrer) && lines.push(safeLine("Referrer (current)", referrer));
-  if (scrollPercent != null) lines.push(`<b>Scroll:</b> ${scrollPercent}%`);
+  // Current page
+  const page = [];
+  page.push(safeLine("Path", pagePath));
+  page.push(safeUrlLine("URL", fullUrl));
+  page.push(safeLine("Title", pageTitle));
+  page.push(safeLine("Referrer (current)", referrer));
+  if (scrollPercent != null) page.push(`<b>Scroll:</b> ${escapeHtml(String(scrollPercent))}%`);
 
-  // first touch
-  (landingPath || landingUrl || landingReferrer || firstTs || first_utm_source || first_gclid) &&
-    lines.push("— — — — —");
+  if (page.filter(Boolean).length) {
+    lines.push("");
+    lines.push(divider());
+    lines.push("📍 <b>CURRENT PAGE</b>");
+    lines.push(page.filter(Boolean).join("\n"));
+  }
 
-  safeLine("Landing path", landingPath) && lines.push(safeLine("Landing path", landingPath));
-  safeLine("Landing URL", landingUrl) && lines.push(safeLine("Landing URL", landingUrl));
-  safeLine("Referrer (first)", landingReferrer) && lines.push(safeLine("Referrer (first)", landingReferrer));
-  safeLine("First touch time", firstTs) && lines.push(safeLine("First touch time", firstTs));
+  // First touch
+  const first = [];
+  first.push(safeLine("Landing path", landingPath));
+  first.push(safeUrlLine("Landing URL", landingUrl));
+  first.push(safeLine("Referrer (first)", landingReferrer));
+  first.push(safeLine("First touch time", firstTs));
 
-  // attribution
+  if (first.filter(Boolean).length) {
+    lines.push("");
+    lines.push(divider());
+    lines.push("🧲 <b>FIRST TOUCH</b>");
+    lines.push(first.filter(Boolean).join("\n"));
+  }
+
+  // Attribution
   const utmCurrent = buildUtmLine("", {
     utm_source,
     utm_medium,
@@ -191,6 +231,7 @@ function buildLeadMessage(data) {
     utm_term,
     utm_content,
   });
+
   const utmFirst = buildUtmLine("first_", {
     first_utm_source,
     first_utm_medium,
@@ -207,27 +248,37 @@ function buildLeadMessage(data) {
     first_ttclid,
   });
 
-  (utmCurrent || clickCurrent || utmFirst || clickFirst) && lines.push("— — — — —");
-  utmCurrent && lines.push(utmCurrent);
-  clickCurrent && lines.push(clickCurrent);
-  utmFirst && lines.push(utmFirst);
-  clickFirst && lines.push(clickFirst);
+  const attr = [utmCurrent, clickCurrent, utmFirst, clickFirst].filter(Boolean);
+  if (attr.length) {
+    lines.push("");
+    lines.push(divider());
+    lines.push("🎯 <b>ATTRIBUTION</b>");
+    lines.push(attr.join("\n"));
+  }
 
-  // lead details
-  (fullName || phone || email || pickup || pickupZip || message || notes) && lines.push("— — — — —");
-  safeLine("Name", fullName) && lines.push(safeLine("Name", fullName));
-  safeLine("Phone", phone) && lines.push(safeLine("Phone", phone));
-  safeLine("Digits", phoneDigits) && lines.push(safeLine("Digits", phoneDigits));
-  safeLine("Email", email) && lines.push(safeLine("Email", email));
+  // Lead details
+  const pickupVal = compact(pickup) || compact(pickupZip);
+  const deliveryVal = compact(delivery) || compact(deliveryZip);
+  const detailsVal = compact(message) || compact(notes);
 
-  safeLine("Pickup", pickup || pickupZip) && lines.push(safeLine("Pickup", pickup || pickupZip));
-  safeLine("Delivery", delivery || deliveryZip) && lines.push(safeLine("Delivery", delivery || deliveryZip));
+  const lead = [];
+  lead.push(safeLine("Name", fullName));
+  lead.push(safeLine("Phone", phone));
+  lead.push(safeLine("Digits", phoneDigits));
+  lead.push(safeLine("Email", email));
+  lead.push(pickupVal ? safeLine("Pickup", pickupVal) : null);
+  lead.push(deliveryVal ? safeLine("Delivery", deliveryVal) : null);
+  lead.push(safeLine("Vehicle", vehicle));
+  lead.push(safeLine("Transport type", transportType));
+  lead.push(safeLine("Preferred pickup", pickupDate));
+  lead.push(detailsVal ? safeLine("Details", detailsVal) : null);
 
-  safeLine("Vehicle", vehicle) && lines.push(safeLine("Vehicle", vehicle));
-  safeLine("Transport type", transportType) && lines.push(safeLine("Transport type", transportType));
-  safeLine("Preferred pickup", pickupDate) && lines.push(safeLine("Preferred pickup", pickupDate));
-
-  safeLine("Details", message || notes) && lines.push(safeLine("Details", message || notes));
+  if (lead.filter(Boolean).length) {
+    lines.push("");
+    lines.push(divider());
+    lines.push("📦 <b>REQUEST</b>");
+    lines.push(lead.filter(Boolean).join("\n"));
+  }
 
   return lines.filter(Boolean).join("\n");
 }
