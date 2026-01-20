@@ -4,8 +4,8 @@ import { useLocation } from "react-router-dom";
 import "./styles/feedback-popup.css";
 import { getLeadContext } from "../utils/sourceMapper";
 
-const STORAGE_KEY = "ecohub_feedback_popup_v2";
-const SESSION_KEY = "ecohub_feedback_popup_session_v2";
+const STORAGE_KEY = "ecohub_feedback_popup_v2"; // если хочешь “навсегда” — можно использовать
+const SESSION_BLOCK_KEY = "ecohub_popup_closed_this_session_v1";
 const SCROLL_THRESHOLD = 0.4; // 40%
 
 const initialForm = {
@@ -34,26 +34,30 @@ export default function FeedbackPopup() {
 
   const dialogRef = useRef(null);
   const firstInputRef = useRef(null);
-
-  // фиксируем реальный % скролла при срабатывании
   const triggeredScrollRef = useRef(null);
 
-  const alreadyDone = useMemo(() => {
+  const alreadyDoneForever = useMemo(() => {
+    // ⚠️ если ты НЕ хочешь “навсегда”, просто оставь false
+    // return false;
+
     try {
-      // 1) навсегда для браузера
-      if (localStorage.getItem(STORAGE_KEY) === "1") return true;
-      // 2) на сессию вкладки (чтобы не мигало даже если localStorage недоступен)
-      if (sessionStorage.getItem(SESSION_KEY) === "1") return true;
-      return false;
+      return localStorage.getItem(STORAGE_KEY) === "1";
     } catch {
       return false;
     }
   }, []);
 
-  const markDone = () => {
+  const isBlockedThisSession = () => {
     try {
-      localStorage.setItem(STORAGE_KEY, "1");
-      sessionStorage.setItem(SESSION_KEY, "1");
+      return sessionStorage.getItem(SESSION_BLOCK_KEY) === "1";
+    } catch {
+      return false;
+    }
+  };
+
+  const blockThisSession = () => {
+    try {
+      sessionStorage.setItem(SESSION_BLOCK_KEY, "1");
     } catch {
       // ignore
     }
@@ -96,10 +100,10 @@ export default function FeedbackPopup() {
   };
 
   const close = () => {
-    // ✅ ВАЖНО: если человек закрыл — больше не показываем вообще
-    markDone();
-    setOpen(false);
+    // ✅ главное: закрыли — больше не всплывает до обновления страницы
+    blockThisSession();
 
+    setOpen(false);
     setTimeout(() => resetState(), 180);
   };
 
@@ -110,8 +114,12 @@ export default function FeedbackPopup() {
       return;
     }
 
-    // ✅ если уже показали / закрыли / отправили — никогда не показываем
-    if (alreadyDone) return;
+    // ✅ блок “на сессию страницы”
+    if (isBlockedThisSession()) return;
+
+    // ✅ если ты используешь “навсегда после отправки” — оставляем
+    if (alreadyDoneForever) return;
+
     if (open) return;
     if (success) return;
 
@@ -132,19 +140,21 @@ export default function FeedbackPopup() {
       raf = window.requestAnimationFrame(() => {
         raf = 0;
 
+        // если пользователь уже закрыл — не показываем даже если скролл меняется
+        if (isBlockedThisSession()) {
+          activated = true;
+          return;
+        }
+
         const p = calcProgress();
         if (p >= SCROLL_THRESHOLD) {
           activated = true;
-
-          // ✅ фиксируем % для телеги
           triggeredScrollRef.current = Math.max(0, Math.min(100, Math.round(p * 100)));
-
           setOpen(true);
         }
       });
     };
 
-    // run once
     onScroll();
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -152,7 +162,7 @@ export default function FeedbackPopup() {
       window.removeEventListener("scroll", onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, [alreadyDone, isHome, open, success]);
+  }, [alreadyDoneForever, isHome, open, success]);
 
   // focus + lock scroll + ESC
   useEffect(() => {
@@ -236,8 +246,15 @@ export default function FeedbackPopup() {
         throw new Error(data?.error || `send_failed_${res.status}`);
       }
 
-      // ✅ после успешной отправки — тоже навсегда скрываем
-      markDone();
+      // ✅ после успешной отправки — тоже блокируем до refresh
+      blockThisSession();
+
+      // ✅ если хочешь “навсегда после отправки”
+      try {
+        localStorage.setItem(STORAGE_KEY, "1");
+      } catch {
+        // ignore
+      }
 
       setSuccess(true);
     } catch (err) {
