@@ -1,3 +1,4 @@
+// src/components/Footer.jsx
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./styles/footer.css";
@@ -20,16 +21,27 @@ export default function Footer() {
   return (
     <footer
       className="footer-section"
+      aria-label="Site footer"
       itemScope
       itemType="https://schema.org/Organization"
-      aria-label="Site footer"
     >
-      {/* Organization schema */}
+      {/* ✅ Organization microdata (clean & correct) */}
       <meta itemProp="name" content="EcoHub Logistics Inc" />
+      <meta itemProp="url" content="https://www.ecohublogistics.com/" />
       <meta
         itemProp="description"
         content="EcoHub Logistics Inc provides nationwide auto transport across the USA with transparent pricing and reliable dispatch."
       />
+      <meta itemProp="email" content="info@ecohublogistics.com" />
+      <meta itemProp="telephone" content="+1-650-999-9660" />
+      <meta itemProp="logo" content="https://www.ecohublogistics.com/favicon-96x96.png" />
+
+      {/* ✅ sameAs social proof */}
+      <meta
+        itemProp="sameAs"
+        content="https://www.facebook.com/profile.php?id=61572534053753"
+      />
+      <meta itemProp="sameAs" content="https://www.instagram.com/eco.hub.logistics" />
 
       <div className="footer-inner">
         <div className="footer-container">
@@ -37,8 +49,13 @@ export default function Footer() {
           <div className="footer-col footer-about">
             <h2
               className="footer-logo-text"
-              itemProp="brand"
               onClick={() => goToSection("home")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") goToSection("home");
+              }}
+              aria-label="Go to home section"
             >
               EcoHub Logistics
             </h2>
@@ -68,7 +85,11 @@ export default function Footer() {
                   </button>
                 </li>
                 <li>
-                  <button className="footer-link-btn" onClick={() => goToSection("how")}>
+                  {/* ✅ match your App.jsx anchors: /how-it-works -> /#how-it-works */}
+                  <button
+                    className="footer-link-btn"
+                    onClick={() => goToSection("how-it-works")}
+                  >
                     How it works
                   </button>
                 </li>
@@ -99,8 +120,9 @@ export default function Footer() {
                     About Us
                   </button>
                 </li>
+                {/* ✅ use the real route */}
                 <li>
-                  <Link to="/earn" className="footer-link-router">
+                  <Link to="/earn-with-us" className="footer-link-router">
                     Earn With Us
                   </Link>
                 </li>
@@ -133,7 +155,8 @@ export default function Footer() {
                 <span itemProp="streetAddress">1142 John Young Pkwy</span>,{" "}
                 <span itemProp="addressLocality">Orlando</span>,{" "}
                 <span itemProp="addressRegion">FL</span>{" "}
-                <span itemProp="postalCode">32808</span>
+                <span itemProp="postalCode">32808</span>,{" "}
+                <span itemProp="addressCountry">US</span>
               </p>
             </address>
 
@@ -141,8 +164,8 @@ export default function Footer() {
               <a
                 href="mailto:info@ecohublogistics.com"
                 className="footer-contact-link"
-                itemProp="email"
                 aria-label="Email EcoHub Logistics"
+                itemProp="email"
               >
                 info@ecohublogistics.com
               </a>
@@ -152,8 +175,8 @@ export default function Footer() {
               <a
                 href="tel:+16509999660"
                 className="footer-contact-link"
-                itemProp="telephone"
                 aria-label="Call EcoHub Logistics"
+                itemProp="telephone"
               >
                 (650) 999-9660
               </a>

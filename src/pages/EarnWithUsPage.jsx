@@ -8,16 +8,21 @@ export default function EarnWithUsPage() {
   return (
     <>
       <MetaSEO
+        // ❗️без бренда — MetaSEO сам добавит
         title="Affiliate & Referral Program for Auto Transport"
         description="Join EcoHub Logistics affiliate & referral program. Earn up to 40% commission by referring vehicle shipping clients across the USA. No paperwork, no fees."
         canonical={canonical}
+        robots="index,follow"
         og={{
+          type: "website",
+          url: canonical,
           title: "Earn with EcoHub Logistics — Affiliate Program",
           description:
             "Earn up to 40% commission by referring auto transport clients. Simple, transparent affiliate & referral program.",
           image: "https://www.ecohublogistics.com/og/earn-with-us.jpg",
         }}
         twitter={{
+          card: "summary_large_image",
           title: "Earn with EcoHub Logistics",
           description:
             "Join our affiliate & referral program and earn up to 40% per completed vehicle shipment.",

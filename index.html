@@ -6,7 +6,10 @@
     <!-- MOBILE VIEWPORT -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- PRIMARY SEO -->
+    <!-- BASIC / SECURITY -->
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- PRIMARY SEO (DEFAULT / HOME FALLBACK) -->
     <title>Car Shipping Services | EcoHub Logistics</title>
     <meta
       name="description"
@@ -15,27 +18,29 @@
     <meta name="robots" content="index,follow" />
     <meta name="author" content="EcoHub Logistics" />
 
-    <!-- GEO -->
+    <!-- GEO (optional, ok to keep) -->
     <meta name="geo.region" content="US-FL" />
     <meta name="geo.placename" content="Orlando" />
     <meta name="geo.position" content="28.5383;-81.3792" />
     <meta name="ICBM" content="28.5383, -81.3792" />
 
-    <!-- CANONICAL -->
+    <!-- CANONICAL (HOME DEFAULT) -->
     <link rel="canonical" href="https://www.ecohublogistics.com/" />
 
     <!-- FAVICONS -->
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- LCP PRELOAD -->
+    <!-- LCP IMAGE PRELOAD -->
     <link rel="preload" as="image" href="/hero.webp" fetchpriority="high" />
 
     <!-- OPEN GRAPH -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="EcoHub Logistics" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="Car Shipping Services | EcoHub Logistics" />
     <meta
       property="og:description"
@@ -45,6 +50,7 @@
     <meta property="og:image" content="https://www.ecohublogistics.com/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="EcoHub Logistics — nationwide car shipping across the USA" />
 
     <!-- TWITTER -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -54,12 +60,13 @@
       content="Insured door-to-door auto transport across the USA. Get a free quote."
     />
     <meta name="twitter:image" content="https://www.ecohublogistics.com/og-image.jpg" />
+    <meta name="twitter:image:alt" content="EcoHub Logistics — nationwide car shipping across the USA" />
 
     <!-- THEME -->
     <meta name="color-scheme" content="dark light" />
     <meta name="theme-color" content="#020617" />
 
-    <!-- STRUCTURED DATA -->
+    <!-- STRUCTURED DATA: LOGISTICS BUSINESS -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -78,76 +85,46 @@
           "postalCode": "32808",
           "addressCountry": "US"
         },
-        "areaServed": "US"
+        "areaServed": "US",
+        "sameAs": [
+          "https://www.facebook.com/profile.php?id=61572534053753",
+          "https://www.instagram.com/eco.hub.logistics"
+        ]
       }
     </script>
 
-    <!-- PRECONNECT -->
+    <!-- PRECONNECT / DNS -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
 
-    <!-- FONTAWESOME (load non-blocking) -->
-    <link
-      rel="preload"
-      as="style"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      crossorigin
-    />
+    <!-- FONTAWESOME (REAL NON-BLOCKING) -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
       crossorigin
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        crossorigin
+      />
+    </noscript>
 
     <!-- VITE ENTRY -->
     <script type="module" src="/src/main.jsx"></script>
   </head>
 
   <body>
-    <main class="seo-preload" aria-label="EcoHub Logistics SEO content">
-      <h1>Car Shipping & Auto Transport Across the USA</h1>
+    <!-- SAFE NOSCRIPT (NO CLOAKING RISK) -->
+    <noscript>
+      EcoHub Logistics provides insured door-to-door car shipping across the USA.
+      Please enable JavaScript to request a quote online.
+    </noscript>
 
-      <p>
-        EcoHub Logistics provides insured, door-to-door vehicle shipping nationwide.
-        We help individuals, dealerships, and fleets move cars, SUVs, and light trucks across the United States
-        with transparent pricing and support from pickup to delivery.
-      </p>
-
-      <h2>Nationwide vehicle shipping with transparent pricing</h2>
-      <p>
-        Looking for reliable auto transport? We connect you with vetted, insured carriers and coordinate
-        your shipment based on your route, timing, and vehicle type. Choose open transport for the best value
-        or enclosed transport for premium protection on high-value vehicles.
-      </p>
-
-      <h2>How our auto transport works</h2>
-      <ol>
-        <li>Request a free quote and confirm pickup and delivery locations.</li>
-        <li>Schedule pickup — door-to-door when available on your route.</li>
-        <li>Receive updates until delivery and complete final inspection.</li>
-      </ol>
-
-      <h2>Why choose EcoHub Logistics</h2>
-      <ul>
-        <li>Insured shipments and vetted carriers</li>
-        <li>No hidden fees — clear pricing and support</li>
-        <li>Nationwide coverage across the USA</li>
-        <li>Dedicated coordination from booking to delivery</li>
-      </ul>
-
-      <h2>Open vs enclosed car shipping</h2>
-      <p>
-        Open carrier transport is the most common and cost-effective option for most vehicles.
-        Enclosed transport is recommended for luxury, classic, or collectible cars when you want extra protection
-        from weather and road debris.
-      </p>
-
-      <h2>Get a fast quote today</h2>
-      <p>
-        Request your free quote in minutes. Our team will help you choose the best transport option based on your
-        budget and timeline and guide you through pickup, transit, and delivery.
-      </p>
-    </main>
-
+    <!-- REACT ROOT -->
     <div id="root"></div>
   </body>
 </html>

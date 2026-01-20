@@ -14,7 +14,6 @@ export default function ReviewsPage() {
 
   const reviews = useMemo(() => reviewsData || [], []);
 
-  // ---------------- SEO (computed) ----------------
   const avgRating = useMemo(() => {
     if (!reviews.length) return null;
     const total = reviews.reduce((sum, r) => sum + (Number(r.rating) || 0), 0);
@@ -23,7 +22,6 @@ export default function ReviewsPage() {
 
   const reviewCount = reviews.length || 0;
 
-  /* Reveal */
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) {
@@ -57,7 +55,6 @@ export default function ReviewsPage() {
     };
   }, []);
 
-  /* Tilt */
   useEffect(() => {
     const update = () => setEnableTilt(window.innerWidth >= 900);
     update();
@@ -100,6 +97,7 @@ export default function ReviewsPage() {
   return (
     <>
       <MetaSEO
+        // ❗️без бренда — MetaSEO сам добавит
         title="Customer Reviews"
         description="Read real customer reviews about EcoHub Logistics. Verified feedback from people across the USA who shipped cars, motorcycles, trucks, and boats."
         canonical={canonical}
@@ -152,6 +150,7 @@ export default function ReviewsPage() {
             ],
           },
 
+          // ✅ Лучший вариант: AggregateRating как часть Organization
           ...(reviewCount && avgRating
             ? [
                 {
@@ -176,20 +175,12 @@ export default function ReviewsPage() {
         ref={sectionRef}
         className={`reviews-page ${visible ? "reviews-page--visible" : ""}`}
         aria-label="All customer reviews — EcoHub Logistics"
-        itemScope
-        itemType="https://schema.org/CollectionPage"
       >
-        <meta itemProp="name" content="Customer Reviews — EcoHub Logistics" />
-        <meta
-          itemProp="description"
-          content="All verified reviews from real customers who shipped vehicles using EcoHub Logistics."
-        />
-
         <div className="reviews-page__container">
-          {/* HEAD (Hero style) */}
           <header className="reviews-page__head">
             <span className="reviews-page__badge">Customer feedback</span>
 
+            {/* ✅ One true H1 on this page */}
             <h1 className="reviews-page__title">Customer Reviews</h1>
 
             <p className="reviews-page__subtitle">
@@ -219,7 +210,6 @@ export default function ReviewsPage() {
             </div>
           </header>
 
-          {/* GRID */}
           <div className="reviews-page__grid" role="list">
             {reviews.map((r, i) => (
               <article
@@ -243,11 +233,7 @@ export default function ReviewsPage() {
                   </div>
 
                   <div className="reviews-page__meta">
-                    <div
-                      itemProp="author"
-                      itemScope
-                      itemType="https://schema.org/Person"
-                    >
+                    <div itemProp="author" itemScope itemType="https://schema.org/Person">
                       <p className="reviews-page__author" itemProp="name">
                         {r.author}
                       </p>
