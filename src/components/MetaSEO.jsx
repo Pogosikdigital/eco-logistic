@@ -12,26 +12,26 @@ export default function MetaSEO({
 }) {
   const baseUrl = "https://www.ecohublogistics.com";
 
-  // Title
+  // ✅ Title (MetaSEO сам добавляет бренд)
   const fullTitle = title
     ? `${title} | EcoHub Logistics`
     : "EcoHub Logistics – Nationwide Vehicle Shipping & Auto Transport";
 
-  // Description
+  // ✅ Description
   const finalDescription =
     description ||
     "EcoHub Logistics provides insured, reliable vehicle shipping across the USA. Door-to-door auto transport with transparent pricing. Get a free quote.";
 
-  // Current URL (client) fallback (server)
+  // ✅ Current URL (client fallback)
   const currentUrl =
     typeof window !== "undefined"
       ? `${baseUrl}${window.location.pathname}${window.location.search}`
       : baseUrl;
 
-  // Canonical
+  // ✅ Canonical
   const canonicalUrl = canonical || currentUrl;
 
-  // Open Graph defaults
+  // ✅ Open Graph defaults (page-safe)
   const ogData = {
     type: "website",
     url: canonicalUrl,
@@ -40,20 +40,21 @@ export default function MetaSEO({
     image: `${baseUrl}/og-image.jpg`,
     site_name: "EcoHub Logistics",
     locale: "en_US",
+    imageWidth: "1200",
+    imageHeight: "630",
     ...og,
   };
 
-  // Twitter defaults
+  // ✅ Twitter defaults
   const twitterData = {
     card: "summary_large_image",
     title: ogData.title,
     description: ogData.description,
     image: ogData.image,
-    // site: "@yourhandle", // если будет — добавишь
     ...twitter,
   };
 
-  // JSON-LD scripts
+  // ✅ JSON-LD scripts
   const ldArray = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
   const ldScripts = ldArray
     .filter(Boolean)
@@ -64,12 +65,9 @@ export default function MetaSEO({
 
   useHead({
     title: fullTitle,
-    meta: [
-      // Base
-      { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "theme-color", content: "#0B0F1A" },
 
+    // ✅ ONLY dynamic/meta-per-page stuff (no charset/viewport duplicates)
+    meta: [
       // SEO
       { name: "description", content: finalDescription },
       { name: "robots", content: robots },
@@ -82,6 +80,8 @@ export default function MetaSEO({
       { property: "og:description", content: ogData.description },
       { property: "og:url", content: ogData.url },
       { property: "og:image", content: ogData.image },
+      { property: "og:image:width", content: String(ogData.imageWidth || "1200") },
+      { property: "og:image:height", content: String(ogData.imageHeight || "630") },
 
       // Twitter
       { name: "twitter:card", content: twitterData.card },
@@ -89,7 +89,11 @@ export default function MetaSEO({
       { name: "twitter:description", content: twitterData.description },
       { name: "twitter:image", content: twitterData.image },
     ],
+
+    // Canonical
     link: [{ rel: "canonical", href: canonicalUrl }],
+
+    // JSON-LD
     script: ldScripts,
   });
 

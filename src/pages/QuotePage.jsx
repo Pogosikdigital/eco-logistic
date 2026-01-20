@@ -1,14 +1,15 @@
 // src/pages/QuotePage.jsx
 import QuoteSection from "../components/QuoteSection";
-import SEO from "../components/MetaSEO";
+import MetaSEO from "../components/MetaSEO";
 
 export default function QuotePage() {
   const canonical = "https://www.ecohublogistics.com/quote";
 
   return (
     <>
-      <SEO
-        title="Free Car Shipping Quote | EcoHub Logistics"
+      <MetaSEO
+        // ❗️НЕ добавляем бренд — MetaSEO сам добавит " | EcoHub Logistics"
+        title="Free Car Shipping Quote"
         description="Get a free, no-obligation car shipping quote in minutes. Nationwide door-to-door auto transport across the USA. Open & enclosed options. Insured carriers."
         canonical={canonical}
         robots="index,follow"

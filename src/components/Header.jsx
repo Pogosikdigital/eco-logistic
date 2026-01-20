@@ -1,16 +1,16 @@
 // src/components/Header.jsx
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "/logo.webp";
 import "./styles/header.css";
 
 const NAV_LINKS = [
   { id: "home", label: "Home", type: "anchor" },
-  { id: "how-it-works", label: "How it works", type: "anchor" },
-  { id: "services", label: "Services", type: "anchor" },
-  { id: "about", label: "About Us", type: "anchor" },
   { id: "reviews", label: "Reviews", type: "anchor" },
-  { id: "earn-with-us", label: "Earn With Us", type: "page" },
+  { id: "services", label: "Services", type: "anchor" },
+  { id: "how-it-works", label: "How it works", type: "anchor" },
+  { id: "about", label: "About Us", type: "anchor" },
+  { id: "earn-with-us", label: "Earn With Us", type: "page", to: "/earn-with-us" },
   { id: "contact", label: "Contact", type: "anchor" },
 ];
 
@@ -39,21 +39,24 @@ export default function Header() {
 
   const toggleTheme = () => setTheme((p) => (p === "dark" ? "light" : "dark"));
 
-  // Smooth anchor navigation
-  const handleAnchor = (e, id) => {
-    e.preventDefault();
-    setMenuOpen(false);
+  // ✅ Smooth anchor navigation (stable callback)
+  const handleAnchor = useCallback(
+    (e, id) => {
+      e.preventDefault();
+      setMenuOpen(false);
 
-    if (!isHome) {
-      navigate(`/#${id}`);
-      return;
-    }
+      if (!isHome) {
+        navigate(`/#${id}`);
+        return;
+      }
 
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    },
+    [isHome, navigate]
+  );
 
-  // Lightweight scroll handler (only progress + headerSmall) with rAF
+  // Lightweight scroll handler (progress + headerSmall) with rAF
   useEffect(() => {
     const onScroll = () => {
       lastYRef.current = window.scrollY || 0;
@@ -72,17 +75,16 @@ export default function Header() {
       });
     };
 
-    // run once
     onScroll();
-
     window.addEventListener("scroll", onScroll, { passive: true });
+
     return () => {
       window.removeEventListener("scroll", onScroll);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
-  // IntersectionObserver for active section (replaces getBoundingClientRect loop)
+  // IntersectionObserver for active section
   useEffect(() => {
     if (!isHome) return;
 
@@ -94,10 +96,8 @@ export default function Header() {
 
     if (!elements.length) return;
 
-    // When section crosses the “header line” area — mark active
     const observer = new IntersectionObserver(
       (entries) => {
-        // pick the entry most visible
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0))[0];
@@ -106,7 +106,6 @@ export default function Header() {
       },
       {
         root: null,
-        // shift the "activation zone" a bit down from top (header height)
         rootMargin: "-25% 0px -60% 0px",
         threshold: [0.05, 0.1, 0.2, 0.35],
       }
@@ -122,14 +121,21 @@ export default function Header() {
 
       <header className={`header ${headerSmall ? "small" : ""}`}>
         <div className="header-container">
-          {/* LOGO */}
+          {/* ✅ LOGO (semantic + safe SPA anchor) */}
           <a
             href="/#home"
             className="logo-block"
             onClick={(e) => handleAnchor(e, "home")}
             aria-label="EcoHub Logistics home"
           >
-            <img src={logo} className="logo" alt="EcoHub Logistics logo" />
+            <img
+              src={logo}
+              className="logo"
+              alt="EcoHub Logistics logo"
+              width="44"
+              height="44"
+              decoding="async"
+            />
             <div className="logo-text">
               <span className="logo-name">EcoHub Logistics</span>
               <span className="logo-tagline">Auto Transport USA</span>
@@ -146,13 +152,14 @@ export default function Header() {
                       href={`/#${link.id}`}
                       className={active === link.id ? "active" : ""}
                       onClick={(e) => handleAnchor(e, link.id)}
+                      aria-current={active === link.id ? "page" : undefined}
                     >
                       {link.label}
                     </a>
                   </li>
                 ) : (
                   <li key={link.id}>
-                    <Link to="/earn-with-us">{link.label}</Link>
+                    <Link to={link.to || "/"}>{link.label}</Link>
                   </li>
                 )
               )}
@@ -160,12 +167,17 @@ export default function Header() {
           </nav>
 
           {/* QUOTE BUTTON */}
-          <Link to="/quote" className="quote-btn">
+          <Link to="/quote" className="quote-btn" aria-label="Get a free quote">
             Get a Free Quote ▷
           </Link>
 
           {/* THEME BUTTON */}
-          <button className="theme-btn" onClick={toggleTheme} aria-label="Toggle theme">
+          <button
+            className="theme-btn"
+            onClick={toggleTheme}
+            aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+            type="button"
+          >
             {theme === "dark" ? "🌞" : "🌙"}
           </button>
 
@@ -173,8 +185,10 @@ export default function Header() {
           <button
             className={`burger ${menuOpen ? "open" : ""}`}
             onClick={() => setMenuOpen((v) => !v)}
-            aria-label="Open menu"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            type="button"
           >
             <span />
             <span />
@@ -184,7 +198,7 @@ export default function Header() {
       </header>
 
       {/* MOBILE MENU */}
-      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+      <div id="mobile-menu" className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         <ul>
           {navLinks.map((link) =>
             link.type === "anchor" ? (
@@ -195,7 +209,7 @@ export default function Header() {
               </li>
             ) : (
               <li key={link.id}>
-                <Link to="/earn-with-us" onClick={() => setMenuOpen(false)}>
+                <Link to={link.to || "/"} onClick={() => setMenuOpen(false)}>
                   {link.label}
                 </Link>
               </li>
