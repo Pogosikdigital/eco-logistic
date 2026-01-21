@@ -14,10 +14,32 @@ const NAV_LINKS = [
   { id: "contact", label: "Contact", type: "anchor" },
 ];
 
+// ✅ SEO-friendly routes for sections (no hash)
+const ROUTE_BY_ID = {
+  home: "/",
+  reviews: "/testimonials",
+  services: "/services",
+  "how-it-works": "/how-it-works",
+  about: "/about",
+  contact: "/contact",
+};
+
+// ✅ route -> active id
+const ID_BY_ROUTE = {
+  "/": "home",
+  "/testimonials": "reviews",
+  "/services": "services",
+  "/how-it-works": "how-it-works",
+  "/about": "about",
+  "/contact": "contact",
+};
+
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
-  const isHome = location.pathname === "/";
+
+  // ✅ treat these routes as "home-like" (same page, scroll sections)
+  const isHomeLike = !!ID_BY_ROUTE[location.pathname];
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [headerSmall, setHeaderSmall] = useState(false);
@@ -39,21 +61,28 @@ export default function Header() {
 
   const toggleTheme = () => setTheme((p) => (p === "dark" ? "light" : "dark"));
 
-  // ✅ Smooth anchor navigation (stable callback)
+  // ✅ Smooth section navigation WITHOUT "jump" (no re-render when already on home-like)
   const handleAnchor = useCallback(
     (e, id) => {
       e.preventDefault();
       setMenuOpen(false);
 
-      if (!isHome) {
-        navigate(`/#${id}`);
+      const to = ROUTE_BY_ID[id] || "/";
+
+      // ✅ If already on Home-like routes: update URL without navigation + smooth scroll
+      if (isHomeLike) {
+        window.history.replaceState(null, "", to);
+
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+
         return;
       }
 
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      // ✅ If on other pages: do normal navigate (App.jsx will scroll after render)
+      navigate(to);
     },
-    [isHome, navigate]
+    [navigate, isHomeLike]
   );
 
   // Lightweight scroll handler (progress + headerSmall) with rAF
@@ -84,9 +113,15 @@ export default function Header() {
     };
   }, []);
 
-  // IntersectionObserver for active section
+  // ✅ Keep active tab in sync with pathname (SEO routes)
   useEffect(() => {
-    if (!isHome) return;
+    const id = ID_BY_ROUTE[location.pathname];
+    if (id) setActive(id);
+  }, [location.pathname]);
+
+  // IntersectionObserver for active section (works on home-like routes)
+  useEffect(() => {
+    if (!isHomeLike) return;
 
     const anchorIds = navLinks.filter((l) => l.type === "anchor").map((l) => l.id);
 
@@ -113,7 +148,7 @@ export default function Header() {
 
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [isHome, navLinks]);
+  }, [isHomeLike, navLinks]);
 
   return (
     <>
@@ -121,9 +156,9 @@ export default function Header() {
 
       <header className={`header ${headerSmall ? "small" : ""}`}>
         <div className="header-container">
-          {/* ✅ LOGO (semantic + safe SPA anchor) */}
+          {/* ✅ LOGO (same structure, SEO route, smooth behavior) */}
           <a
-            href="/#home"
+            href="/"
             className="logo-block"
             onClick={(e) => handleAnchor(e, "home")}
             aria-label="EcoHub Logistics home"
@@ -149,7 +184,7 @@ export default function Header() {
                 link.type === "anchor" ? (
                   <li key={link.id}>
                     <a
-                      href={`/#${link.id}`}
+                      href={ROUTE_BY_ID[link.id] || "/"}
                       className={active === link.id ? "active" : ""}
                       onClick={(e) => handleAnchor(e, link.id)}
                       aria-current={active === link.id ? "page" : undefined}
@@ -203,7 +238,7 @@ export default function Header() {
           {navLinks.map((link) =>
             link.type === "anchor" ? (
               <li key={link.id}>
-                <a href={`/#${link.id}`} onClick={(e) => handleAnchor(e, link.id)}>
+                <a href={ROUTE_BY_ID[link.id] || "/"} onClick={(e) => handleAnchor(e, link.id)}>
                   {link.label}
                 </a>
               </li>

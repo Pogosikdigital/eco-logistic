@@ -32,19 +32,37 @@ import RvMotorhomeSemiTruckTransportPage from "./pages/services/RvMotorhomeSemiT
 function App() {
   const location = useLocation();
 
-  // Scroll to top on normal navigation
+  // ✅ map SEO routes -> section ids
+  const sectionByPath = {
+    "/": "home",
+    "/services": "services",
+    "/how-it-works": "how-it-works",
+    "/about": "about",
+    "/contact": "contact",
+    "/testimonials": "reviews",
+  };
+
+  // ✅ Scroll to top ONLY for real pages (not for section routes)
   useEffect(() => {
+    const isSectionRoute = !!sectionByPath[location.pathname];
+    if (isSectionRoute) return;
+
+    // also ignore hash navigation
     if (location.hash) return;
+
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
 
-  // Anchor navigation
+  // ✅ Anchor + SEO route scroll
   useEffect(() => {
-    if (!location.hash) return;
+    const hashId = location.hash ? location.hash.replace("#", "") : null;
+    const pathId = sectionByPath[location.pathname] || null;
 
-    const sectionId = location.hash.replace("#", "");
+    const targetId = hashId || pathId;
+    if (!targetId) return;
+
     const t = setTimeout(() => {
-      const section = document.getElementById(sectionId);
+      const section = document.getElementById(targetId);
       if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 80);
 
@@ -108,15 +126,13 @@ function App() {
 
   return (
     <Routes>
-      {/* HOME */}
+      {/* ✅ HOME + SEO section routes (URL stays clean!) */}
       <Route path="/" element={Home} />
-
-      {/* SEO-friendly anchor paths */}
-      <Route path="/services" element={<Navigate to="/#services" replace />} />
-      <Route path="/how-it-works" element={<Navigate to="/#how-it-works" replace />} />
-      <Route path="/about" element={<Navigate to="/#about" replace />} />
-      <Route path="/contact" element={<Navigate to="/#contact" replace />} />
-      <Route path="/testimonials" element={<Navigate to="/#reviews" replace />} />
+      <Route path="/services" element={Home} />
+      <Route path="/how-it-works" element={Home} />
+      <Route path="/about" element={Home} />
+      <Route path="/contact" element={Home} />
+      <Route path="/testimonials" element={Home} />
 
       {/* REAL PAGES */}
       <Route
@@ -233,3 +249,4 @@ function App() {
 }
 
 export default App;
+
