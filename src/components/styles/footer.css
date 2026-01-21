@@ -423,3 +423,22 @@
     transform: none !important;
   }
 }
+/* ===========================================================
+   PRIVACY POLICY LINK (footer bottom)
+   =========================================================== */
+
+.footer-policy {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.92rem;
+  color: rgba(148, 163, 184, 0.95);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+
+.footer-policy:hover {
+  color: #ffffff;
+  opacity: 1;
+}
+

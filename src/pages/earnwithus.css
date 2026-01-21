@@ -405,3 +405,19 @@
     width: 100%;
   }
 }
+/* ===========================================================
+   MOBILE — HIDE ICONS + TRUCK (CLEAN)
+   =========================================================== */
+
+@media (max-width: 520px) {
+  /* hide 3 icon cards */
+  .earn-icon-grid {
+    display: none !important;
+  }
+
+  /* hide truck completely */
+  .earn-right {
+    display: none !important;
+  }
+}
+

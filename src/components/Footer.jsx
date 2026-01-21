@@ -25,7 +25,7 @@ export default function Footer() {
       itemScope
       itemType="https://schema.org/Organization"
     >
-      {/* ✅ Organization microdata (clean & correct) */}
+      {/* ✅ Organization microdata */}
       <meta itemProp="name" content="EcoHub Logistics Inc" />
       <meta itemProp="url" content="https://www.ecohublogistics.com/" />
       <meta
@@ -34,14 +34,20 @@ export default function Footer() {
       />
       <meta itemProp="email" content="info@ecohublogistics.com" />
       <meta itemProp="telephone" content="+1-650-999-9660" />
-      <meta itemProp="logo" content="https://www.ecohublogistics.com/favicon-96x96.png" />
+      <meta
+        itemProp="logo"
+        content="https://www.ecohublogistics.com/favicon-96x96.png"
+      />
 
       {/* ✅ sameAs social proof */}
       <meta
         itemProp="sameAs"
         content="https://www.facebook.com/profile.php?id=61572534053753"
       />
-      <meta itemProp="sameAs" content="https://www.instagram.com/eco.hub.logistics" />
+      <meta
+        itemProp="sameAs"
+        content="https://www.instagram.com/eco.hub.logistics"
+      />
 
       <div className="footer-inner">
         <div className="footer-container">
@@ -53,7 +59,8 @@ export default function Footer() {
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") goToSection("home");
+                if (e.key === "Enter" || e.key === " ")
+                  goToSection("home");
               }}
               aria-label="Go to home section"
             >
@@ -80,12 +87,14 @@ export default function Footer() {
             <div className="footer-nav-grid">
               <ul className="footer-links">
                 <li>
-                  <button className="footer-link-btn" onClick={() => goToSection("home")}>
+                  <button
+                    className="footer-link-btn"
+                    onClick={() => goToSection("home")}
+                  >
                     Home
                   </button>
                 </li>
                 <li>
-                  {/* ✅ match your App.jsx anchors: /how-it-works -> /#how-it-works */}
                   <button
                     className="footer-link-btn"
                     onClick={() => goToSection("how-it-works")}
@@ -120,7 +129,6 @@ export default function Footer() {
                     About Us
                   </button>
                 </li>
-                {/* ✅ use the real route */}
                 <li>
                   <Link to="/earn-with-us" className="footer-link-router">
                     Earn With Us
@@ -141,7 +149,7 @@ export default function Footer() {
             </div>
           </nav>
 
-          {/* CONTACT INFO */}
+          {/* CONTACT */}
           <div className="footer-col footer-contact">
             <h3 className="footer-title">Contact</h3>
 
@@ -164,7 +172,6 @@ export default function Footer() {
               <a
                 href="mailto:info@ecohublogistics.com"
                 className="footer-contact-link"
-                aria-label="Email EcoHub Logistics"
                 itemProp="email"
               >
                 info@ecohublogistics.com
@@ -175,27 +182,23 @@ export default function Footer() {
               <a
                 href="tel:+16509999660"
                 className="footer-contact-link"
-                aria-label="Call EcoHub Logistics"
                 itemProp="telephone"
               >
                 (650) 999-9660
               </a>
             </p>
 
-            <div className="footer-social" aria-label="Social media links">
+            <div className="footer-social">
               <a
                 href="https://www.facebook.com/profile.php?id=61572534053753"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-link"
-                aria-label="EcoHub Logistics on Facebook"
               >
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
                   className="social-img"
                   alt="Facebook"
-                  loading="lazy"
-                  decoding="async"
                 />
               </a>
 
@@ -204,22 +207,25 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-link"
-                aria-label="EcoHub Logistics on Instagram"
               >
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg"
                   className="social-img"
                   alt="Instagram"
-                  loading="lazy"
-                  decoding="async"
                 />
               </a>
             </div>
           </div>
         </div>
 
+        {/* ✅ BOTTOM */}
         <div className="footer-bottom">
           <p>© 2025 EcoHub Logistics — All Rights Reserved.</p>
+
+          {/* ✅ NEW: Privacy Policy */}
+          <Link to="/privacy-policy" className="footer-policy">
+            Privacy Policy
+          </Link>
         </div>
       </div>
     </footer>
