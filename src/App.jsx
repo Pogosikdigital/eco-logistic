@@ -19,6 +19,7 @@ import QuotePage from "./pages/QuotePage";
 import ReviewsPage from "./pages/ReviewsPage";
 import EarnWithUsPage from "./pages/EarnWithUsPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
 
 // Service pages
 import EnclosedTransportPage from "./pages/services/EnclosedTransportPage";
@@ -150,6 +151,15 @@ function App() {
         element={
           <MainLayout>
             <PrivacyPolicy />
+          </MainLayout>
+        }
+      />
+
+      <Route
+        path="/terms-and-conditions"
+        element={
+          <MainLayout>
+            <TermsAndConditions />
           </MainLayout>
         }
       />

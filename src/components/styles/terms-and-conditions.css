@@ -1,0 +1,132 @@
+/* ===========================================================
+   TERMS & CONDITIONS — HERO / GLASS STYLE
+   =========================================================== */
+
+.terms {
+  position: relative;
+  overflow: hidden;
+
+  max-width: 1280px;
+  margin: 60px auto;
+  border-radius: 28px;
+
+  color: #fff;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.94), rgba(30, 64, 175, 0.94));
+  border: 1px solid rgba(96, 165, 250, 0.55);
+  box-shadow:
+    0 26px 80px rgba(15, 23, 42, 0.85),
+    0 0 42px rgba(56, 189, 248, 0.18);
+}
+
+/* glow */
+.terms::before,
+.terms::after {
+  content: "";
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.terms::before {
+  top: -220px;
+  left: -220px;
+  background: rgba(56, 189, 248, 0.55);
+}
+
+.terms::after {
+  bottom: -260px;
+  right: -220px;
+  background: rgba(37, 99, 235, 0.55);
+}
+
+/* inner */
+.terms__container {
+  position: relative;
+  z-index: 2;
+  padding: 48px 44px 44px;
+}
+
+/* header */
+.terms__head {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.terms__badge {
+  display: inline-flex;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: #dbeafe;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(96, 165, 250, 0.5);
+}
+
+.terms__title {
+  margin: 0;
+  font-size: 2.1rem;
+  font-weight: 800;
+  line-height: 1.15;
+  text-shadow:
+    0 0 1px rgba(148, 163, 184, 0.85),
+    0 0 22px rgba(56, 189, 248, 0.28);
+}
+
+.terms__updated {
+  font-size: 0.9rem;
+  color: rgba(148, 163, 184, 0.95);
+}
+
+/* content */
+.terms__content {
+  display: grid;
+  gap: 14px;
+}
+
+.terms__block {
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.30);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.28);
+  padding: 16px 16px;
+}
+
+.terms__h2 {
+  margin: 0 0 10px;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.terms__p {
+  margin: 0;
+  color: rgba(226, 232, 240, 0.9);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .terms__container {
+    padding: 36px 22px 28px;
+  }
+
+  .terms__title {
+    font-size: 1.7rem;
+    text-align: center;
+  }
+
+  .terms__badge,
+  .terms__updated {
+    margin-inline: auto;
+    text-align: center;
+  }
+}
