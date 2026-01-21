@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ecohublogistics.com/sitemap.xml
+Sitemap: https://www.ecohublogistics.com/sitemap.xml
