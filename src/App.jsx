@@ -18,6 +18,7 @@ import Contact from "./components/Contact";
 import QuotePage from "./pages/QuotePage";
 import ReviewsPage from "./pages/ReviewsPage";
 import EarnWithUsPage from "./pages/EarnWithUsPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 // Service pages
 import EnclosedTransportPage from "./pages/services/EnclosedTransportPage";
@@ -51,7 +52,7 @@ function App() {
 
   const Home = (
     <MainLayout>
-      {/* ✅ HOME SEO (dynamic head tags for SPA) */}
+      {/* HOME SEO */}
       <MetaSEO
         title="Car Shipping Services"
         description="Insured door-to-door car shipping across the USA. Open & enclosed auto transport for individuals, dealerships, and fleets. Get a free quote."
@@ -95,10 +96,7 @@ function App() {
       />
 
       <Hero />
-
-      {/* ✅ REVIEWS moved прямо под Hero */}
       <Reviews />
-
       <Services />
       <HowItWorks />
       <About />
@@ -143,6 +141,15 @@ function App() {
         element={
           <MainLayout>
             <EarnWithUsPage />
+          </MainLayout>
+        }
+      />
+
+      <Route
+        path="/privacy-policy"
+        element={
+          <MainLayout>
+            <PrivacyPolicy />
           </MainLayout>
         }
       />
