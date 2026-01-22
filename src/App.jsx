@@ -20,6 +20,7 @@ import ReviewsPage from "./pages/ReviewsPage";
 import EarnWithUsPage from "./pages/EarnWithUsPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
+import NotFoundPage from "./pages/NotFoundPage";
 
 // Service pages
 import EnclosedTransportPage from "./pages/services/EnclosedTransportPage";
@@ -32,7 +33,7 @@ import RvMotorhomeSemiTruckTransportPage from "./pages/services/RvMotorhomeSemiT
 function App() {
   const location = useLocation();
 
-  // ✅ map SEO routes -> section ids
+  // SEO section routes → scroll to section
   const sectionByPath = {
     "/": "home",
     "/services": "services",
@@ -42,76 +43,39 @@ function App() {
     "/testimonials": "reviews",
   };
 
-  // ✅ Scroll to top ONLY for real pages (not for section routes)
+  // Scroll to top for real pages
   useEffect(() => {
     const isSectionRoute = !!sectionByPath[location.pathname];
     if (isSectionRoute) return;
-
-    // also ignore hash navigation
     if (location.hash) return;
 
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, [location.pathname, location.hash]);
 
-  // ✅ Anchor + SEO route scroll
+  // Scroll to section (SEO routes)
   useEffect(() => {
-    const hashId = location.hash ? location.hash.replace("#", "") : null;
-    const pathId = sectionByPath[location.pathname] || null;
-
+    const hashId = location.hash?.replace("#", "");
+    const pathId = sectionByPath[location.pathname];
     const targetId = hashId || pathId;
+
     if (!targetId) return;
 
     const t = setTimeout(() => {
-      const section = document.getElementById(targetId);
-      if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+      const el = document.getElementById(targetId);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 80);
 
     return () => clearTimeout(t);
   }, [location]);
 
+  // HOME (single-page sections)
   const Home = (
     <MainLayout>
-      {/* HOME SEO */}
       <MetaSEO
-        title="Car Shipping Services"
-        description="Insured door-to-door car shipping across the USA. Open & enclosed auto transport for individuals, dealerships, and fleets. Get a free quote."
+        title="Car Shipping Services | EcoHub Logistics"
+        description="Insured door-to-door car shipping across the USA. Open & enclosed auto transport for individuals and businesses."
         canonical="https://www.ecohublogistics.com/"
         robots="index,follow"
-        og={{
-          type: "website",
-          url: "https://www.ecohublogistics.com/",
-          title: "Car Shipping Services | EcoHub Logistics",
-          description:
-            "Insured, reliable vehicle shipping across the USA. Door-to-door delivery with a dedicated coordinator. Get a free quote.",
-          image: "https://www.ecohublogistics.com/og-image.jpg",
-        }}
-        twitter={{
-          card: "summary_large_image",
-          title: "Car Shipping Services | EcoHub Logistics",
-          description:
-            "Insured door-to-door auto transport across the USA. Get a free quote.",
-          image: "https://www.ecohublogistics.com/og-image.jpg",
-        }}
-        jsonLd={[
-          {
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "EcoHub Logistics",
-            url: "https://www.ecohublogistics.com/",
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "EcoHub Logistics",
-            url: "https://www.ecohublogistics.com/",
-            telephone: "+1-650-999-9660",
-            email: "info@ecohublogistics.com",
-            sameAs: [
-              "https://www.facebook.com/profile.php?id=61572534053753",
-              "https://www.instagram.com/eco.hub.logistics",
-            ],
-          },
-        ]}
       />
 
       <Hero />
@@ -126,7 +90,7 @@ function App() {
 
   return (
     <Routes>
-      {/* ✅ HOME + SEO section routes (URL stays clean!) */}
+      {/* HOME + SEO SECTION ROUTES */}
       <Route path="/" element={Home} />
       <Route path="/services" element={Home} />
       <Route path="/how-it-works" element={Home} />
@@ -235,18 +199,24 @@ function App() {
         }
       />
 
-      {/* Backward compatibility */}
+      {/* BACKWARD COMPATIBILITY */}
       <Route path="/earn" element={<Navigate to="/earn-with-us" replace />} />
       <Route path="/contact-us" element={<Navigate to="/contact" replace />} />
       <Route path="/about-us" element={<Navigate to="/about" replace />} />
       <Route path="/home" element={<Navigate to="/" replace />} />
       <Route path="/index" element={<Navigate to="/" replace />} />
 
-      {/* Catch-all */}
-      <Route path="*" element={<Navigate to="/" replace />} />
+      {/* 404 — LAST */}
+      <Route
+        path="*"
+        element={
+          <MainLayout>
+            <NotFoundPage />
+          </MainLayout>
+        }
+      />
     </Routes>
   );
 }
 
 export default App;
-
