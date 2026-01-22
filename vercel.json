@@ -1,14 +1,43 @@
 {
-  "redirects": [
-    {
-      "source": "/:yyyy(\\d{4})/:mm(\\d{2})/:dd(\\d{2})/:slug*",
-      "destination": "/",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/services/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/how-it-works",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/reviews",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/testimonials",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/earn-with-us",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/quote",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/services",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/",
       "destination": "/index.html"
     }
   ]
