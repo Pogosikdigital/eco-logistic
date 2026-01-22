@@ -1,4 +1,19 @@
 User-agent: *
 Allow: /
 
+# ❌ Запрещаем всё наследие WordPress
+Disallow: /wp-admin/
+Disallow: /wp-content/
+Disallow: /wp-includes/
+Disallow: /wp-json/
+Disallow: /comments/
+Disallow: /tag/
+Disallow: /category/
+Disallow: /author/
+Disallow: /feed/
+Disallow: /*?*
+Disallow: /2025/
+Disallow: /page/
+
+# ✅ Указываем актуальный sitemap
 Sitemap: https://www.ecohublogistics.com/sitemap.xml
