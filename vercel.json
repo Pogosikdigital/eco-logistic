@@ -1,24 +1,19 @@
 {
-  "rewrites": [
-    { "source": "/", "destination": "/index.html" },
+  "version": 2,
+  "routes": [
+    { "handle": "filesystem" },
 
-    { "source": "/services", "destination": "/index.html" },
-    { "source": "/how-it-works", "destination": "/index.html" },
-    { "source": "/reviews", "destination": "/index.html" },
-    { "source": "/testimonials", "destination": "/index.html" },
-    { "source": "/earn-with-us", "destination": "/index.html" },
-    { "source": "/quote", "destination": "/index.html" },
-    { "source": "/about", "destination": "/index.html" },
-    { "source": "/contact", "destination": "/index.html" },
+    {
+      "src": "^/(wp-admin|wp-login\\.php|wp-content|wp-includes|wp-json|xmlrpc\\.php|comments|feed|tag)(/.*)?$",
+      "status": 404,
+      "dest": "/404"
+    },
+    {
+      "src": "^/20\\d{2}(/.*)?$",
+      "status": 404,
+      "dest": "/404"
+    },
 
-    { "source": "/privacy-policy", "destination": "/index.html" },
-    { "source": "/terms-and-conditions", "destination": "/index.html" },
-
-    { "source": "/services/car-shipping", "destination": "/index.html" },
-    { "source": "/services/inoperable-vehicle-transport", "destination": "/index.html" },
-    { "source": "/services/boat-transport", "destination": "/index.html" },
-    { "source": "/services/rv-motorhome-semitruck-transport", "destination": "/index.html" },
-    { "source": "/services/motorcycle-shipping", "destination": "/index.html" },
-    { "source": "/services/enclosed-transport", "destination": "/index.html" }
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
