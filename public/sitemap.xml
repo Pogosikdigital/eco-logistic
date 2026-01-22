@@ -9,12 +9,7 @@
 
   <!-- CORE PAGES -->
   <url>
-    <loc>https://www.ecohublogistics.com/services</loc>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecohublogistics.com/how-it-works</loc>
+    <loc>https://www.ecohublogistics.com/quote</loc>
     <priority>0.8</priority>
   </url>
 
@@ -24,28 +19,18 @@
   </url>
 
   <url>
-    <loc>https://www.ecohublogistics.com/testimonials</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
     <loc>https://www.ecohublogistics.com/earn-with-us</loc>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://www.ecohublogistics.com/quote</loc>
-    <priority>0.7</priority>
+    <loc>https://www.ecohublogistics.com/privacy-policy</loc>
+    <priority>0.3</priority>
   </url>
 
   <url>
-    <loc>https://www.ecohublogistics.com/about</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://www.ecohublogistics.com/contact</loc>
-    <priority>0.8</priority>
+    <loc>https://www.ecohublogistics.com/terms-and-conditions</loc>
+    <priority>0.3</priority>
   </url>
 
   <!-- SERVICES -->

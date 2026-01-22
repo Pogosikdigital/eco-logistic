@@ -1,15 +1,18 @@
 {
   "redirects": [
-    {
-      "source": "/:yyyy(\\d{4})/:mm(\\d{2})/:dd(\\d{2})/:slug*",
-      "destination": "/",
-      "permanent": true
-    }
+    { "source": "/contact-us", "destination": "/contact", "permanent": true },
+    { "source": "/about-us", "destination": "/about", "permanent": true },
+    { "source": "/home", "destination": "/", "permanent": true },
+    { "source": "/index", "destination": "/", "permanent": true },
+
+    { "source": "/boat-transport", "destination": "/services/boat-transport", "permanent": true },
+    { "source": "/car-shipping", "destination": "/services/car-shipping", "permanent": true },
+    { "source": "/motorcycle-shipping", "destination": "/services/motorcycle-shipping", "permanent": true },
+    { "source": "/enclosed-transport", "destination": "/services/enclosed-transport", "permanent": true },
+    { "source": "/inoperable-vehicle-transport", "destination": "/services/inoperable-vehicle-transport", "permanent": true },
+    { "source": "/rv-motorhome-semitruck-transport", "destination": "/services/rv-motorhome-semitruck-transport", "permanent": true }
   ],
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
