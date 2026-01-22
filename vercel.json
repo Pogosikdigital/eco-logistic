@@ -1,39 +1,44 @@
 {
-  "cleanUrls": true,
-  "routes": [
+  "rewrites": [
     {
-      "src": "^/(robots\\.txt|sitemap\\.xml)$",
-      "dest": "/$1"
+      "source": "/services/:path*",
+      "destination": "/index.html"
     },
-
     {
-      "src": "^/$",
-      "dest": "/index.html"
+      "source": "/about",
+      "destination": "/index.html"
     },
-
     {
-      "src": "^/(services|about|contact|how-it-works|reviews|testimonials|earn-with-us|quote)$",
-      "dest": "/index.html"
+      "source": "/contact",
+      "destination": "/index.html"
     },
-
     {
-      "src": "^/services/.*$",
-      "dest": "/index.html"
+      "source": "/how-it-works",
+      "destination": "/index.html"
     },
-
     {
-      "src": "^/(2025|2024|2023|tag|category|wp-content|wp-includes|wp-admin|wp-json|comments|feed)(/.*)?$",
-      "status": 404,
-      "dest": "/404.html"
+      "source": "/reviews",
+      "destination": "/index.html"
     },
-
     {
-      "handle": "filesystem"
+      "source": "/testimonials",
+      "destination": "/index.html"
     },
-
     {
-      "src": ".*",
-      "dest": "/index.html"
+      "source": "/earn-with-us",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/quote",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/services",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
     }
   ]
 }
