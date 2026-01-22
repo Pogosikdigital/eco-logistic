@@ -1,15 +1,39 @@
 {
-  "redirects": [
+  "cleanUrls": true,
+  "routes": [
     {
-      "source": "/:yyyy(\\d{4})/:mm(\\d{2})/:dd(\\d{2})/:slug*",
-      "destination": "/",
-      "permanent": true
-    }
-  ],
-  "rewrites": [
+      "src": "^/(robots\\.txt|sitemap\\.xml)$",
+      "dest": "/$1"
+    },
+
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "^/$",
+      "dest": "/index.html"
+    },
+
+    {
+      "src": "^/(services|about|contact|how-it-works|reviews|testimonials|earn-with-us|quote)$",
+      "dest": "/index.html"
+    },
+
+    {
+      "src": "^/services/.*$",
+      "dest": "/index.html"
+    },
+
+    {
+      "src": "^/(2025|2024|2023|tag|category|wp-content|wp-includes|wp-admin|wp-json|comments|feed)(/.*)?$",
+      "status": 404,
+      "dest": "/404.html"
+    },
+
+    {
+      "handle": "filesystem"
+    },
+
+    {
+      "src": ".*",
+      "dest": "/index.html"
     }
   ]
 }
