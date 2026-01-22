@@ -1,19 +1,15 @@
 {
-  "version": 2,
-  "routes": [
-    { "handle": "filesystem" },
-
+  "redirects": [
     {
-      "src": "^/(wp-admin|wp-login\\.php|wp-content|wp-includes|wp-json|xmlrpc\\.php|comments|feed|tag)(/.*)?$",
-      "status": 404,
-      "dest": "/404"
-    },
+      "source": "/:yyyy(\\d{4})/:mm(\\d{2})/:dd(\\d{2})/:slug*",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
     {
-      "src": "^/20\\d{2}(/.*)?$",
-      "status": 404,
-      "dest": "/404"
-    },
-
-    { "src": "/(.*)", "dest": "/index.html" }
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
