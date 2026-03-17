@@ -16,6 +16,7 @@
     { "source": "/rv-motorhome-semitruck-transport", "destination": "/services/rv-motorhome-semitruck-transport", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
