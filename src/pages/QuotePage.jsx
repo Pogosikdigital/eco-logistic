@@ -18,7 +18,7 @@ export default function QuotePage() {
           title: "Free Car Shipping Quote | EcoHub Logistics",
           description:
             "Request a fast, insured auto transport quote across the USA. Open & enclosed shipping. Door-to-door delivery.",
-          image: "https://www.ecohublogistics.com/og/quote.png",
+          image: "https://www.ecohublogistics.com/og/quote.webp",
           imageAlt: "Get a free shipping quote from EcoHub Logistics",
         }}
         twitter={{
@@ -26,7 +26,7 @@ export default function QuotePage() {
           title: "Free Car Shipping Quote | EcoHub Logistics",
           description:
             "Get a free auto transport quote across the USA. Door-to-door shipping. Open & enclosed options.",
-          image: "https://www.ecohublogistics.com/og/quote.png",
+          image: "https://www.ecohublogistics.com/og/quote.webp",
           imageAlt: "Get a free shipping quote from EcoHub Logistics",
         }}
         jsonLd={[

@@ -76,7 +76,7 @@ function App() {
           title: "Car Shipping Services | EcoHub Logistics",
           description:
             "Insured, reliable vehicle shipping across the USA. Door-to-door delivery with a dedicated coordinator. Get a free quote.",
-          image: "https://www.ecohublogistics.com/og/car-shipping.png",
+          image: "https://www.ecohublogistics.com/og/car-shipping.webp",
           imageAlt: "EcoHub Logistics car shipping across the USA",
         }}
         twitter={{
@@ -84,7 +84,7 @@ function App() {
           title: "Car Shipping Services | EcoHub Logistics",
           description:
             "Insured door-to-door auto transport across the USA. Get a free quote.",
-          image: "https://www.ecohublogistics.com/og/car-shipping.png",
+          image: "https://www.ecohublogistics.com/og/car-shipping.webp",
           imageAlt: "EcoHub Logistics car shipping across the USA",
         }}
         jsonLd={[

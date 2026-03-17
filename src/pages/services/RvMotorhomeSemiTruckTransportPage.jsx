@@ -25,7 +25,7 @@ export default function RvMotorhomeSemiTruckTransportPage() {
           title: "RV, Motorhome & Semi-Truck Transport | EcoHub Logistics",
           description:
             "Nationwide RV, motorhome & semi-truck transport. Insured carriers, careful handling, flexible scheduling, fast quotes.",
-          image: "https://www.ecohublogistics.com/og/rv-transport.png",
+          image: "https://www.ecohublogistics.com/og/rv-transport.webp",
           imageAlt: "RV and heavy vehicle transport by EcoHub Logistics",
         }}
         twitter={{
@@ -33,7 +33,7 @@ export default function RvMotorhomeSemiTruckTransportPage() {
           title: "RV, Motorhome & Semi-Truck Transport | EcoHub Logistics",
           description:
             "Transport RVs and commercial vehicles nationwide with insured carriers and coordinator support.",
-          image: "https://www.ecohublogistics.com/og/rv-transport.png",
+          image: "https://www.ecohublogistics.com/og/rv-transport.webp",
           imageAlt: "RV and heavy vehicle transport by EcoHub Logistics",
         }}
         jsonLd={[

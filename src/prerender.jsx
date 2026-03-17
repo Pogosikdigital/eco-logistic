@@ -41,7 +41,7 @@ function getHeadForRoute(url) {
     description:
       "Insured door-to-door car shipping across the USA. Open & enclosed auto transport for individuals, dealerships, and fleets. Get a free quote.",
     canonical: absolute("/"),
-    ogImage: absolute("/og/car-shipping.png"),
+    ogImage: absolute("/og/car-shipping.webp"),
     ogImageAlt: "EcoHub Logistics car shipping across the USA",
   };
 
@@ -51,7 +51,7 @@ function getHeadForRoute(url) {
       description:
         "Insured door-to-door car shipping across the USA. Open & enclosed auto transport for individuals, dealerships, and fleets. Get a free quote.",
       canonical: absolute("/"),
-      ogImage: absolute("/og/car-shipping.png"),
+      ogImage: absolute("/og/car-shipping.webp"),
       ogImageAlt: "EcoHub Logistics car shipping across the USA",
     },
     "/quote": {
@@ -59,7 +59,7 @@ function getHeadForRoute(url) {
       description:
         "Request a free auto transport quote. Fast response, transparent pricing, and insured nationwide car shipping.",
       canonical: absolute("/quote"),
-      ogImage: absolute("/og/quote.png"),
+      ogImage: absolute("/og/quote.webp"),
       ogImageAlt: "Get a free shipping quote from EcoHub Logistics",
     },
     "/reviews": {
@@ -67,7 +67,7 @@ function getHeadForRoute(url) {
       description:
         "Read customer reviews and testimonials about EcoHub Logistics car shipping services across the USA.",
       canonical: absolute("/reviews"),
-      ogImage: absolute("/og/car-shipping.png"),
+      ogImage: absolute("/og/car-shipping.webp"),
       ogImageAlt: "EcoHub Logistics customer reviews",
     },
     "/earn-with-us": {
@@ -75,7 +75,7 @@ function getHeadForRoute(url) {
       description:
         "Partner with EcoHub Logistics and explore flexible opportunities to earn with our transportation network.",
       canonical: absolute("/earn-with-us"),
-      ogImage: absolute("/og/car-shipping.png"),
+      ogImage: absolute("/og/car-shipping.webp"),
       ogImageAlt: "Earn with EcoHub Logistics",
     },
     "/privacy-policy": {
@@ -83,7 +83,7 @@ function getHeadForRoute(url) {
       description:
         "Read the EcoHub Logistics privacy policy and learn how we handle your information.",
       canonical: absolute("/privacy-policy"),
-      ogImage: absolute("/og/car-shipping.png"),
+      ogImage: absolute("/og/car-shipping.webp"),
       ogImageAlt: "EcoHub Logistics privacy policy",
     },
     "/terms-and-conditions": {
@@ -91,7 +91,7 @@ function getHeadForRoute(url) {
       description:
         "Review the terms and conditions for using EcoHub Logistics services and website.",
       canonical: absolute("/terms-and-conditions"),
-      ogImage: absolute("/og/car-shipping.png"),
+      ogImage: absolute("/og/car-shipping.webp"),
       ogImageAlt: "EcoHub Logistics terms and conditions",
     },
     "/services/car-shipping": {
@@ -99,7 +99,7 @@ function getHeadForRoute(url) {
       description:
         "Reliable car shipping across the USA with insured carriers, door-to-door delivery, and dedicated coordinator support.",
       canonical: absolute("/services/car-shipping"),
-      ogImage: absolute("/og/car-shipping.png"),
+      ogImage: absolute("/og/car-shipping.webp"),
       ogImageAlt: "Car shipping across the USA by EcoHub Logistics",
     },
     "/services/enclosed-transport": {
@@ -107,7 +107,7 @@ function getHeadForRoute(url) {
       description:
         "Premium enclosed auto transport for luxury, classic, and high-value vehicles with secure nationwide delivery.",
       canonical: absolute("/services/enclosed-transport"),
-      ogImage: absolute("/og/enclosed-transport.png"),
+      ogImage: absolute("/og/enclosed-transport.webp"),
       ogImageAlt: "Enclosed auto transport by EcoHub Logistics",
     },
     "/services/motorcycle-shipping": {
@@ -115,7 +115,7 @@ function getHeadForRoute(url) {
       description:
         "Safe, insured motorcycle shipping nationwide with door-to-door delivery and professional handling.",
       canonical: absolute("/services/motorcycle-shipping"),
-      ogImage: absolute("/og/motorcycle-shipping.png"),
+      ogImage: absolute("/og/motorcycle-shipping.webp"),
       ogImageAlt: "Motorcycle shipping across the USA by EcoHub Logistics",
     },
     "/services/inoperable-vehicle-transport": {
@@ -123,7 +123,7 @@ function getHeadForRoute(url) {
       description:
         "Transport non-running vehicles safely across the USA with insured carriers and specialized handling.",
       canonical: absolute("/services/inoperable-vehicle-transport"),
-      ogImage: absolute("/og/inoperable.png"),
+      ogImage: absolute("/og/inoperable.webp"),
       ogImageAlt: "Non-running vehicle transport by EcoHub Logistics",
     },
     "/services/boat-transport": {
@@ -131,7 +131,7 @@ function getHeadForRoute(url) {
       description:
         "Reliable boat transport across the USA with secure handling, scheduling support, and insured delivery.",
       canonical: absolute("/services/boat-transport"),
-      ogImage: absolute("/og/boat-transport.png"),
+      ogImage: absolute("/og/boat-transport.webp"),
       ogImageAlt: "Boat transport service by EcoHub Logistics",
     },
     "/services/rv-motorhome-semitruck-transport": {
@@ -139,7 +139,7 @@ function getHeadForRoute(url) {
       description:
         "Professional oversized vehicle transport for RVs, motorhomes, and semi-trucks across the USA.",
       canonical: absolute("/services/rv-motorhome-semitruck-transport"),
-      ogImage: absolute("/og/rv-transport.png"),
+      ogImage: absolute("/og/rv-transport.webp"),
       ogImageAlt: "RV and heavy vehicle transport by EcoHub Logistics",
     },
   };

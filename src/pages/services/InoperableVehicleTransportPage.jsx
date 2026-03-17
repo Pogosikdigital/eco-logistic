@@ -25,7 +25,7 @@ export default function InoperableVehicleTransportPage() {
           title: "Inoperable Vehicle Transport | EcoHub Logistics",
           description:
             "Non-running car shipping with winch-assisted loading. Door-to-door across the USA with insured carriers and fast quotes.",
-          image: "https://www.ecohublogistics.com/og/inoperable.png",
+          image: "https://www.ecohublogistics.com/og/inoperable.webp",
           imageAlt: "Non-running vehicle transport by EcoHub Logistics",
         }}
         twitter={{
@@ -33,7 +33,7 @@ export default function InoperableVehicleTransportPage() {
           title: "Inoperable Vehicle Transport | EcoHub Logistics",
           description:
             "Winch-assisted transport for non-running vehicles. Insured carriers, door-to-door delivery, fast quotes.",
-          image: "https://www.ecohublogistics.com/og/inoperable.png",
+          image: "https://www.ecohublogistics.com/og/inoperable.webp",
           imageAlt: "Non-running vehicle transport by EcoHub Logistics",
         }}
         jsonLd={[

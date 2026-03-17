@@ -24,7 +24,7 @@ export default function BoatTransportPage() {
           title: "Boat Transport | EcoHub Logistics",
           description:
             "Boat shipping across the USA with insured carriers. Flexible scheduling and professional coordination.",
-          image: "https://www.ecohublogistics.com/og/boat-transport.png",
+          image: "https://www.ecohublogistics.com/og/boat-transport.webp",
           imageAlt: "Boat transport service by EcoHub Logistics",
         }}
         twitter={{
@@ -32,7 +32,7 @@ export default function BoatTransportPage() {
           title: "Boat Transport | EcoHub Logistics",
           description:
             "Reliable boat transport nationwide. Insured carriers, careful handling, fast quotes.",
-          image: "https://www.ecohublogistics.com/og/boat-transport.png",
+          image: "https://www.ecohublogistics.com/og/boat-transport.webp",
           imageAlt: "Boat transport service by EcoHub Logistics",
         }}
         jsonLd={[

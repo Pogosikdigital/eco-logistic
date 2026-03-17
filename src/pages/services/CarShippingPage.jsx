@@ -24,7 +24,7 @@ export default function CarShippingPage() {
           title: "Car Shipping Across the USA | EcoHub Logistics",
           description:
             "Door-to-door car shipping across the USA. Insured carriers, open & enclosed transport options, fast pickup scheduling.",
-          image: "https://www.ecohublogistics.com/og/car-shipping.png",
+          image: "https://www.ecohublogistics.com/og/car-shipping.webp",
           imageAlt: "Car shipping across the USA by EcoHub Logistics",
         }}
         twitter={{
@@ -32,7 +32,7 @@ export default function CarShippingPage() {
           title: "Car Shipping Across the USA | EcoHub Logistics",
           description:
             "Reliable nationwide car shipping with insured carriers and transparent pricing.",
-          image: "https://www.ecohublogistics.com/og/car-shipping.png",
+          image: "https://www.ecohublogistics.com/og/car-shipping.webp",
           imageAlt: "Car shipping across the USA by EcoHub Logistics",
         }}
         jsonLd={[

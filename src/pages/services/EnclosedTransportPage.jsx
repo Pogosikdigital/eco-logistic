@@ -24,7 +24,7 @@ export default function EnclosedTransportPage() {
           title: "Enclosed Auto Transport | EcoHub Logistics",
           description:
             "Maximum protection for luxury, exotic and classic vehicles. Enclosed shipping across the USA. Door-to-door, insured carriers, fast quotes.",
-          image: "https://www.ecohublogistics.com/og/enclosed-transport.png",
+          image: "https://www.ecohublogistics.com/og/enclosed-transport.webp",
           imageAlt: "Enclosed auto transport by EcoHub Logistics",
         }}
         twitter={{
@@ -32,7 +32,7 @@ export default function EnclosedTransportPage() {
           title: "Enclosed Auto Transport | EcoHub Logistics",
           description:
             "Premium enclosed car shipping across the USA. Door-to-door, insured carriers, fast quotes.",
-          image: "https://www.ecohublogistics.com/og/enclosed-transport.png",
+          image: "https://www.ecohublogistics.com/og/enclosed-transport.webp",
           imageAlt: "Enclosed auto transport by EcoHub Logistics",
         }}
         jsonLd={[

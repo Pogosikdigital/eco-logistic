@@ -31,13 +31,13 @@ export default function MetaSEO({
   // ✅ Canonical
   const canonicalUrl = canonical || currentUrl;
 
-  // ✅ Open Graph defaults (page-safe)
+  // ✅ Open Graph defaults (исправлено на webp)
   const ogData = {
     type: "website",
     url: canonicalUrl,
     title: fullTitle,
     description: finalDescription,
-    image: `${baseUrl}/og-image.jpg`,
+    image: `${baseUrl}/og/car-shipping.webp`, // ✅ FIX
     site_name: "EcoHub Logistics",
     locale: "en_US",
     imageWidth: "1200",
@@ -66,7 +66,6 @@ export default function MetaSEO({
   useHead({
     title: fullTitle,
 
-    // ✅ ONLY dynamic/meta-per-page stuff (no charset/viewport duplicates)
     meta: [
       // SEO
       { name: "description", content: finalDescription },
@@ -80,8 +79,14 @@ export default function MetaSEO({
       { property: "og:description", content: ogData.description },
       { property: "og:url", content: ogData.url },
       { property: "og:image", content: ogData.image },
-      { property: "og:image:width", content: String(ogData.imageWidth || "1200") },
-      { property: "og:image:height", content: String(ogData.imageHeight || "630") },
+      {
+        property: "og:image:width",
+        content: String(ogData.imageWidth || "1200"),
+      },
+      {
+        property: "og:image:height",
+        content: String(ogData.imageHeight || "630"),
+      },
 
       // Twitter
       { name: "twitter:card", content: twitterData.card },
