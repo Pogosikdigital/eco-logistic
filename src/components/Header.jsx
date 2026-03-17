@@ -14,32 +14,30 @@ const NAV_LINKS = [
   { id: "contact", label: "Contact", type: "anchor" },
 ];
 
-// ✅ SEO-friendly routes for sections (no hash)
-const ROUTE_BY_ID = {
+// Hash-based section URLs on home page
+const HASH_BY_ID = {
   home: "/",
-  reviews: "/testimonials",
-  services: "/services",
-  "how-it-works": "/how-it-works",
-  about: "/about",
-  contact: "/contact",
+  reviews: "/#reviews",
+  services: "/#services",
+  "how-it-works": "/#how-it-works",
+  about: "/#about",
+  contact: "/#contact",
 };
 
-// ✅ route -> active id
-const ID_BY_ROUTE = {
-  "/": "home",
-  "/testimonials": "reviews",
-  "/services": "services",
-  "/how-it-works": "how-it-works",
-  "/about": "about",
-  "/contact": "contact",
+// Hash -> active tab id
+const ID_BY_HASH = {
+  "#reviews": "reviews",
+  "#services": "services",
+  "#how-it-works": "how-it-works",
+  "#about": "about",
+  "#contact": "contact",
 };
 
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // ✅ treat these routes as "home-like" (same page, scroll sections)
-  const isHomeLike = !!ID_BY_ROUTE[location.pathname];
+  const isHomeLike = location.pathname === "/";
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [headerSmall, setHeaderSmall] = useState(false);
@@ -47,30 +45,25 @@ export default function Header() {
   const [active, setActive] = useState("home");
   const [theme, setTheme] = useState("dark");
 
-  // rAF throttling refs
   const rafRef = useRef(0);
   const lastYRef = useRef(0);
 
-  // Keep links stable
   const navLinks = useMemo(() => NAV_LINKS, []);
 
-  // Theme
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
   const toggleTheme = () => setTheme((p) => (p === "dark" ? "light" : "dark"));
 
-  // ✅ Smooth section navigation WITHOUT "jump" (no re-render when already on home-like)
   const handleAnchor = useCallback(
     (e, id) => {
       e.preventDefault();
       setMenuOpen(false);
 
-      const to = ROUTE_BY_ID[id] || "/";
+      const to = HASH_BY_ID[id] || "/";
 
-      // ✅ If already on Home-like routes: update URL without navigation + smooth scroll
-      if (isHomeLike) {
+      if (location.pathname === "/") {
         window.history.replaceState(null, "", to);
 
         const el = document.getElementById(id);
@@ -79,13 +72,11 @@ export default function Header() {
         return;
       }
 
-      // ✅ If on other pages: do normal navigate (App.jsx will scroll after render)
       navigate(to);
     },
-    [navigate, isHomeLike]
+    [navigate, location.pathname]
   );
 
-  // Lightweight scroll handler (progress + headerSmall) with rAF
   useEffect(() => {
     const onScroll = () => {
       lastYRef.current = window.scrollY || 0;
@@ -113,13 +104,18 @@ export default function Header() {
     };
   }, []);
 
-  // ✅ Keep active tab in sync with pathname (SEO routes)
   useEffect(() => {
-    const id = ID_BY_ROUTE[location.pathname];
-    if (id) setActive(id);
-  }, [location.pathname]);
+    if (location.pathname !== "/") return;
 
-  // IntersectionObserver for active section (works on home-like routes)
+    if (!location.hash) {
+      setActive("home");
+      return;
+    }
+
+    const id = ID_BY_HASH[location.hash];
+    if (id) setActive(id);
+  }, [location.pathname, location.hash]);
+
   useEffect(() => {
     if (!isHomeLike) return;
 
@@ -156,7 +152,6 @@ export default function Header() {
 
       <header className={`header ${headerSmall ? "small" : ""}`}>
         <div className="header-container">
-          {/* ✅ LOGO (same structure, SEO route, smooth behavior) */}
           <a
             href="/"
             className="logo-block"
@@ -177,14 +172,13 @@ export default function Header() {
             </div>
           </a>
 
-          {/* DESKTOP NAV */}
           <nav className="desktop-nav" aria-label="Primary navigation">
             <ul>
               {navLinks.map((link) =>
                 link.type === "anchor" ? (
                   <li key={link.id}>
                     <a
-                      href={ROUTE_BY_ID[link.id] || "/"}
+                      href={HASH_BY_ID[link.id] || "/"}
                       className={active === link.id ? "active" : ""}
                       onClick={(e) => handleAnchor(e, link.id)}
                       aria-current={active === link.id ? "page" : undefined}
@@ -201,12 +195,10 @@ export default function Header() {
             </ul>
           </nav>
 
-          {/* QUOTE BUTTON */}
           <Link to="/quote" className="quote-btn" aria-label="Get a free quote">
             Get a Free Quote ▷
           </Link>
 
-          {/* THEME BUTTON */}
           <button
             className="theme-btn"
             onClick={toggleTheme}
@@ -216,7 +208,6 @@ export default function Header() {
             {theme === "dark" ? "🌞" : "🌙"}
           </button>
 
-          {/* BURGER */}
           <button
             className={`burger ${menuOpen ? "open" : ""}`}
             onClick={() => setMenuOpen((v) => !v)}
@@ -232,13 +223,12 @@ export default function Header() {
         </div>
       </header>
 
-      {/* MOBILE MENU */}
       <div id="mobile-menu" className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         <ul>
           {navLinks.map((link) =>
             link.type === "anchor" ? (
               <li key={link.id}>
-                <a href={ROUTE_BY_ID[link.id] || "/"} onClick={(e) => handleAnchor(e, link.id)}>
+                <a href={HASH_BY_ID[link.id] || "/"} onClick={(e) => handleAnchor(e, link.id)}>
                   {link.label}
                 </a>
               </li>

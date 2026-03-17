@@ -34,7 +34,6 @@ function HowItWorksComponent() {
     []
   );
 
-  // progress
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -73,7 +72,6 @@ function HowItWorksComponent() {
     };
   }, []);
 
-  // visible (observer)
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -106,7 +104,6 @@ function HowItWorksComponent() {
       itemScope
       itemType="https://schema.org/HowTo"
     >
-      {/* ✅ SEO Microdata */}
       <meta itemProp="name" content="How EcoHub Logistics auto transport works" />
       <meta
         itemProp="description"
@@ -128,7 +125,7 @@ function HowItWorksComponent() {
               Get a free quote
             </Link>
 
-            <a href="/contact" className="how-btn-ghost">
+            <a href="/#contact" className="how-btn-ghost">
               Contact
             </a>
           </div>

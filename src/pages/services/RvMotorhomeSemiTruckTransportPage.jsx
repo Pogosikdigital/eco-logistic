@@ -25,14 +25,16 @@ export default function RvMotorhomeSemiTruckTransportPage() {
           title: "RV, Motorhome & Semi-Truck Transport | EcoHub Logistics",
           description:
             "Nationwide RV, motorhome & semi-truck transport. Insured carriers, careful handling, flexible scheduling, fast quotes.",
-          image: "https://www.ecohublogistics.com/og/rv-transport.jpg",
+          image: "https://www.ecohublogistics.com/og/rv-transport.png",
+          imageAlt: "RV and heavy vehicle transport by EcoHub Logistics",
         }}
         twitter={{
           card: "summary_large_image",
           title: "RV, Motorhome & Semi-Truck Transport | EcoHub Logistics",
           description:
             "Transport RVs and commercial vehicles nationwide with insured carriers and coordinator support.",
-          image: "https://www.ecohublogistics.com/og/rv-transport.jpg",
+          image: "https://www.ecohublogistics.com/og/rv-transport.png",
+          imageAlt: "RV and heavy vehicle transport by EcoHub Logistics",
         }}
         jsonLd={[
           {
@@ -63,12 +65,6 @@ export default function RvMotorhomeSemiTruckTransportPage() {
               {
                 "@type": "ListItem",
                 position: 2,
-                name: "Services",
-                item: "https://www.ecohublogistics.com/services",
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
                 name: "RV, Motorhome & Semi-Truck Transport",
                 item: canonical,
               },
@@ -77,13 +73,11 @@ export default function RvMotorhomeSemiTruckTransportPage() {
         ]}
       />
 
-      {/* ---------------- HERO ---------------- */}
       <section className="svc-hero" aria-label="RV and commercial transport hero">
         <div className="svc-hero-bg" />
 
         <div className="svc-container">
           <div className="svc-hero-inner">
-            {/* LEFT */}
             <div>
               <span className="svc-badge">COMMERCIAL TRANSPORT</span>
 
@@ -120,15 +114,17 @@ export default function RvMotorhomeSemiTruckTransportPage() {
               </p>
             </div>
 
-            {/* RIGHT (BMW-style media frame) */}
             <div className="svc-card svc-card--image" aria-hidden="true">
               <div className="svc-card-glow" />
               <div className="svc-hero-media">
                 <img
                   src={heroImg}
                   alt="RV, motorhome and semi-truck transport across the USA"
+                  width="1200"
+                  height="800"
                   loading="eager"
                   decoding="async"
+                  fetchPriority="high"
                   className="svc-hero-img"
                 />
               </div>
@@ -137,12 +133,10 @@ export default function RvMotorhomeSemiTruckTransportPage() {
         </div>
       </section>
 
-      {/* ---------------- CONTENT GRID ---------------- */}
       <section
         className="svc-container svc-grid"
         aria-label="RV and commercial transport info"
       >
-        {/* LEFT BLOCK */}
         <article className="svc-block">
           <h2 className="svc-h2">How RV &amp; commercial transport works</h2>
 
@@ -164,7 +158,6 @@ export default function RvMotorhomeSemiTruckTransportPage() {
           </ul>
         </article>
 
-        {/* RIGHT BLOCK */}
         <aside className="svc-block svc-block--accent">
           <h2 className="svc-h2">Recommended prep checklist</h2>
 
@@ -195,7 +188,6 @@ export default function RvMotorhomeSemiTruckTransportPage() {
         </aside>
       </section>
 
-      {/* ---------------- FAQ ---------------- */}
       <section className="svc-container svc-faq" aria-label="FAQ">
         <h2 className="svc-h2">RV &amp; commercial transport FAQ</h2>
 
@@ -226,7 +218,6 @@ export default function RvMotorhomeSemiTruckTransportPage() {
         </div>
       </section>
 
-      {/* ---------------- QUOTE ---------------- */}
       <section className="svc-quote" aria-label="Get a quote">
         <QuoteSection />
       </section>

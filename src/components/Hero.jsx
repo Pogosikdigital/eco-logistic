@@ -1,7 +1,7 @@
 // src/components/Hero.jsx
 import React from "react";
 import { Link } from "react-router-dom";
-import heroTruck from "/hero.webp"; // можешь заменить на любую картинку
+import heroTruck from "/hero.webp";
 import "./styles/hero.css";
 
 const FEATURES = [
@@ -36,13 +36,11 @@ export default function Hero() {
     >
       <div className="home-hero__container">
         <div className="home-hero__grid">
-          {/* LEFT */}
           <div className="home-hero__left">
             <span className="home-hero__badge">
               Insured • Door-to-door • Nationwide
             </span>
 
-            {/* ✅ ONE TRUE H1 ON HOME */}
             <h1 className="home-hero__title" itemProp="name">
               Car Shipping & Auto Transport Across the USA
             </h1>
@@ -73,7 +71,7 @@ export default function Hero() {
                 Get a free quote
               </Link>
 
-              <a href="/how-it-works" className="home-btn-ghost">
+              <a href="/#how-it-works" className="home-btn-ghost">
                 How it works
               </a>
             </div>
@@ -83,11 +81,9 @@ export default function Hero() {
             </p>
           </div>
 
-          {/* RIGHT (card like BMW services) */}
           <div className="home-hero__card" aria-hidden="true">
             <div className="home-hero__glow" />
             <div className="home-hero__media">
-              {/* ✅ LCP: not lazy */}
               <img
                 className="home-hero__img"
                 src={heroTruck}
@@ -100,7 +96,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* FEATURES */}
         <div className="home-hero__features" aria-label="Key benefits">
           {FEATURES.map((f) => {
             const Icon = f.icon;
@@ -122,8 +117,6 @@ export default function Hero() {
     </section>
   );
 }
-
-/* ===== icons (small, clean, white) ===== */
 
 function CoverageIcon() {
   return (

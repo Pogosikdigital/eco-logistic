@@ -14,7 +14,7 @@ const initialForm = {
   transportType: "open",
   pickupDate: "",
   notes: "",
-  company: "", // honeypot
+  company: "",
 };
 
 function getTodayISO() {
@@ -26,14 +26,16 @@ function getTodayISO() {
   return `${yyyy}-${mm}-${dd}`;
 }
 
-// легкая метка сессии (для "пока не обновит страницу")
 function getSessionId() {
   if (typeof window === "undefined") return "";
   try {
     const key = "ecohub_session_id";
     const existing = sessionStorage.getItem(key);
     if (existing) return existing;
-    const id = (crypto?.randomUUID?.() || String(Date.now())) + "_" + Math.random().toString(16).slice(2);
+    const id =
+      (crypto?.randomUUID?.() || String(Date.now())) +
+      "_" +
+      Math.random().toString(16).slice(2);
     sessionStorage.setItem(key, id);
     return id;
   } catch {
@@ -44,7 +46,7 @@ function getSessionId() {
 function getScrollPercent() {
   if (typeof window === "undefined") return null;
   const doc = document.documentElement;
-  const total = (doc.scrollHeight - window.innerHeight) || 1;
+  const total = doc.scrollHeight - window.innerHeight || 1;
   const y = window.scrollY || 0;
   const p = Math.round((y / total) * 100);
   return Math.max(0, Math.min(100, p));
@@ -114,7 +116,7 @@ export default function QuoteSection() {
   const validateForm = (data) => {
     const newErrors = {};
     Object.keys(data).forEach((key) => {
-      if (key === "company") return; // honeypot не валидируем
+      if (key === "company") return;
       const error = validateField(key, data[key]);
       if (error) newErrors[key] = error;
     });
@@ -147,7 +149,6 @@ export default function QuoteSection() {
     setSubmitSuccess(false);
     setSubmitError("");
 
-    // honeypot
     if (form.company && form.company.trim().length > 0) {
       setSubmitSuccess(true);
       setForm(initialForm);
@@ -158,7 +159,9 @@ export default function QuoteSection() {
 
     const foundErrors = validateForm(form);
     setErrors(foundErrors);
-    setTouched(Object.keys(form).reduce((acc, key) => ({ ...acc, [key]: true }), {}));
+    setTouched(
+      Object.keys(form).reduce((acc, key) => ({ ...acc, [key]: true }), {})
+    );
 
     if (Object.keys(foundErrors).length > 0) {
       const firstErrorField = Object.keys(foundErrors)[0];
@@ -172,8 +175,6 @@ export default function QuoteSection() {
     try {
       const payload = getLeadContext({
         source: "quote-form",
-
-        // form fields
         fullName: form.fullName.trim(),
         email: form.email.trim(),
         phone: form.phone.trim(),
@@ -184,8 +185,6 @@ export default function QuoteSection() {
         transportType: form.transportType,
         pickupDate: form.pickupDate,
         notes: form.notes.trim(),
-
-        // extra tracking
         pageTitle: typeof document !== "undefined" ? document.title : "",
         scrollPercent: getScrollPercent(),
         ts: new Date().toISOString(),
@@ -247,7 +246,6 @@ export default function QuoteSection() {
       itemScope
       itemType="https://schema.org/WebPage"
     >
-      {/* ✅ SEO microdata */}
       <div
         className="seo-preload"
         itemScope
@@ -266,7 +264,10 @@ export default function QuoteSection() {
 
       <div itemScope itemType="https://schema.org/Service" itemProp="mainEntity">
         <meta itemProp="name" content="Auto Transport Quote" />
-        <meta itemProp="serviceType" content="Vehicle shipping / auto transport quote request" />
+        <meta
+          itemProp="serviceType"
+          content="Vehicle shipping / auto transport quote request"
+        />
         <meta itemProp="areaServed" content="United States" />
         <meta
           itemProp="description"
@@ -281,7 +282,9 @@ export default function QuoteSection() {
             Get a Free Quote
           </h2>
 
-          <p className="quote-subtitle">No hidden fees. Quick response by a real coordinator.</p>
+          <p className="quote-subtitle">
+            No hidden fees. Quick response by a real coordinator.
+          </p>
 
           {submitSuccess && (
             <div className="quote-trust" role="status" aria-live="polite">
@@ -319,7 +322,9 @@ export default function QuoteSection() {
                 </button>
               </div>
 
-              <p className="quote-trust-note">Tip: if you don’t see a reply, check missed calls or spam.</p>
+              <p className="quote-trust-note">
+                Tip: if you don’t see a reply, check missed calls or spam.
+              </p>
             </div>
           )}
 
@@ -329,13 +334,21 @@ export default function QuoteSection() {
             </p>
           )}
 
-          <form className="quote-form" onSubmit={handleSubmit} noValidate itemScope itemType="https://schema.org/QuoteAction">
+          <form
+            className="quote-form"
+            onSubmit={handleSubmit}
+            noValidate
+            itemScope
+            itemType="https://schema.org/QuoteAction"
+          >
             <meta itemProp="name" content="Request Quote" />
             <meta itemProp="target" content={`${canonicalUrl}/quote`} />
             <meta itemProp="provider" content="EcoHub Logistics Inc" />
-            <meta itemProp="description" content="Request a free auto transport quote from EcoHub Logistics." />
+            <meta
+              itemProp="description"
+              content="Request a free auto transport quote from EcoHub Logistics."
+            />
 
-            {/* Honeypot */}
             <div
               style={{
                 position: "absolute",
@@ -375,7 +388,11 @@ export default function QuoteSection() {
                   aria-describedby={errors.fullName ? "fullName-error" : undefined}
                   required
                 />
-                {errors.fullName && <span id="fullName-error" className="field-error">{errors.fullName}</span>}
+                {errors.fullName && (
+                  <span id="fullName-error" className="field-error">
+                    {errors.fullName}
+                  </span>
+                )}
               </div>
 
               <div className="field">
@@ -393,7 +410,11 @@ export default function QuoteSection() {
                   aria-describedby={errors.email ? "email-error" : undefined}
                   required
                 />
-                {errors.email && <span id="email-error" className="field-error">{errors.email}</span>}
+                {errors.email && (
+                  <span id="email-error" className="field-error">
+                    {errors.email}
+                  </span>
+                )}
               </div>
 
               <div className="field">
@@ -411,7 +432,11 @@ export default function QuoteSection() {
                   aria-describedby={errors.phone ? "phone-error" : undefined}
                   required
                 />
-                {errors.phone && <span id="phone-error" className="field-error">{errors.phone}</span>}
+                {errors.phone && (
+                  <span id="phone-error" className="field-error">
+                    {errors.phone}
+                  </span>
+                )}
               </div>
 
               <div className="field">
@@ -443,7 +468,11 @@ export default function QuoteSection() {
                   aria-invalid={!!errors.pickupZip}
                   aria-describedby={errors.pickupZip ? "pickupZip-error" : undefined}
                 />
-                {errors.pickupZip && <span id="pickupZip-error" className="field-error">{errors.pickupZip}</span>}
+                {errors.pickupZip && (
+                  <span id="pickupZip-error" className="field-error">
+                    {errors.pickupZip}
+                  </span>
+                )}
               </div>
 
               <div className="field">
@@ -459,9 +488,15 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.deliveryZip}
-                  aria-describedby={errors.deliveryZip ? "deliveryZip-error" : undefined}
+                  aria-describedby={
+                    errors.deliveryZip ? "deliveryZip-error" : undefined
+                  }
                 />
-                {errors.deliveryZip && <span id="deliveryZip-error" className="field-error">{errors.deliveryZip}</span>}
+                {errors.deliveryZip && (
+                  <span id="deliveryZip-error" className="field-error">
+                    {errors.deliveryZip}
+                  </span>
+                )}
               </div>
 
               <div className="field">
@@ -473,12 +508,18 @@ export default function QuoteSection() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   aria-invalid={!!errors.transportType}
-                  aria-describedby={errors.transportType ? "transportType-error" : undefined}
+                  aria-describedby={
+                    errors.transportType ? "transportType-error" : undefined
+                  }
                 >
                   <option value="open">Open</option>
                   <option value="enclosed">Enclosed</option>
                 </select>
-                {errors.transportType && <span id="transportType-error" className="field-error">{errors.transportType}</span>}
+                {errors.transportType && (
+                  <span id="transportType-error" className="field-error">
+                    {errors.transportType}
+                  </span>
+                )}
               </div>
 
               <div className="field">
@@ -492,9 +533,15 @@ export default function QuoteSection() {
                   onBlur={handleBlur}
                   min={todayISO}
                   aria-invalid={!!errors.pickupDate}
-                  aria-describedby={errors.pickupDate ? "pickupDate-error" : undefined}
+                  aria-describedby={
+                    errors.pickupDate ? "pickupDate-error" : undefined
+                  }
                 />
-                {errors.pickupDate && <span id="pickupDate-error" className="field-error">{errors.pickupDate}</span>}
+                {errors.pickupDate && (
+                  <span id="pickupDate-error" className="field-error">
+                    {errors.pickupDate}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -511,11 +558,20 @@ export default function QuoteSection() {
                 aria-describedby={errors.notes ? "notes-error" : undefined}
                 maxLength={600}
               />
-              {errors.notes && <span id="notes-error" className="field-error">{errors.notes}</span>}
+              {errors.notes && (
+                <span id="notes-error" className="field-error">
+                  {errors.notes}
+                </span>
+              )}
             </div>
 
             <div className="quote-footer">
-              <button type="submit" className="btn-quote-primary" disabled={isSubmitting} aria-label="Request a free auto transport quote">
+              <button
+                type="submit"
+                className="btn-quote-primary"
+                disabled={isSubmitting}
+                aria-label="Request a free auto transport quote"
+              >
                 {isSubmitting ? "Sending..." : "Request Quote ▸"}
               </button>
 
@@ -527,14 +583,21 @@ export default function QuoteSection() {
         </div>
 
         <aside className="quote-right">
-          <div ref={rightRef} className={"quote-right-card" + (isRightVisible ? " quote-right-card--visible" : "")}>
+          <div
+            ref={rightRef}
+            className={
+              "quote-right-card" +
+              (isRightVisible ? " quote-right-card--visible" : "")
+            }
+          >
             <div className="quote-right-gradient" />
 
             <div className="quote-right-content">
               <span className="quote-right-label">EcoHub Logistics</span>
               <h3>Nationwide Vehicle Transport</h3>
               <p className="quote-right-text">
-                Door-to-door shipping across the USA with insured carriers and a real coordinator.
+                Door-to-door shipping across the USA with insured carriers and a
+                real coordinator.
               </p>
 
               <div className="quote-right-stats">
@@ -568,7 +631,15 @@ export default function QuoteSection() {
                 rel="noopener noreferrer"
                 aria-label="View EcoHub Logistics service area on Google Maps"
               >
-                <img src={usaMap} alt="USA auto transport service coverage map" loading="lazy" />
+                <img
+                  src={usaMap}
+                  alt="USA auto transport service coverage map"
+                  width="1200"
+                  height="800"
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
+                />
                 <div className="quote-map-overlay">
                   <span className="quote-map-badge">USA coverage</span>
                 </div>

@@ -1,7 +1,10 @@
 {
   "redirects": [
-    { "source": "/contact-us", "destination": "/contact", "permanent": true },
-    { "source": "/about-us", "destination": "/about", "permanent": true },
+    { "source": "/contact-us", "destination": "/#contact", "permanent": true },
+    { "source": "/about-us", "destination": "/#about", "permanent": true },
+    { "source": "/testimonials", "destination": "/#reviews", "permanent": true },
+    { "source": "/how-it-works", "destination": "/#how-it-works", "permanent": true },
+
     { "source": "/home", "destination": "/", "permanent": true },
     { "source": "/index", "destination": "/", "permanent": true },
 

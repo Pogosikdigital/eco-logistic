@@ -24,14 +24,16 @@ export default function CarShippingPage() {
           title: "Car Shipping Across the USA | EcoHub Logistics",
           description:
             "Door-to-door car shipping across the USA. Insured carriers, open & enclosed transport options, fast pickup scheduling.",
-          image: "https://www.ecohublogistics.com/og/car-shipping.jpg",
+          image: "https://www.ecohublogistics.com/og/car-shipping.png",
+          imageAlt: "Car shipping across the USA by EcoHub Logistics",
         }}
         twitter={{
           card: "summary_large_image",
           title: "Car Shipping Across the USA | EcoHub Logistics",
           description:
             "Reliable nationwide car shipping with insured carriers and transparent pricing.",
-          image: "https://www.ecohublogistics.com/og/car-shipping.jpg",
+          image: "https://www.ecohublogistics.com/og/car-shipping.png",
+          imageAlt: "Car shipping across the USA by EcoHub Logistics",
         }}
         jsonLd={[
           {
@@ -62,12 +64,6 @@ export default function CarShippingPage() {
               {
                 "@type": "ListItem",
                 position: 2,
-                name: "Services",
-                item: "https://www.ecohublogistics.com/services",
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
                 name: "Car Shipping",
                 item: canonical,
               },
@@ -76,13 +72,11 @@ export default function CarShippingPage() {
         ]}
       />
 
-      {/* ---------------- HERO ---------------- */}
       <section className="svc-hero" aria-label="Car shipping hero">
         <div className="svc-hero-bg" />
 
         <div className="svc-container">
           <div className="svc-hero-inner">
-            {/* LEFT */}
             <div>
               <span className="svc-badge">AUTO TRANSPORT</span>
 
@@ -98,7 +92,7 @@ export default function CarShippingPage() {
 
               <ul className="svc-bullets">
                 <li>✅ Door-to-door nationwide delivery</li>
-                <li>✅ Open & enclosed transport options</li>
+                <li>✅ Open &amp; enclosed transport options</li>
                 <li>✅ Fully insured carriers</li>
                 <li>✅ Fast pickup scheduling</li>
               </ul>
@@ -119,15 +113,17 @@ export default function CarShippingPage() {
               </p>
             </div>
 
-            {/* RIGHT (IMAGE FULL WIDTH/HEIGHT) */}
             <div className="svc-card svc-card--image" aria-hidden="true">
               <div className="svc-card-glow" />
               <div className="svc-hero-media">
                 <img
                   src={heroImg}
                   alt="Car shipping and auto transport in the USA"
+                  width="1200"
+                  height="800"
                   loading="eager"
                   decoding="async"
+                  fetchPriority="high"
                   className="svc-hero-img"
                 />
               </div>
@@ -136,9 +132,7 @@ export default function CarShippingPage() {
         </div>
       </section>
 
-      {/* ---------------- CONTENT GRID ---------------- */}
       <section className="svc-container svc-grid" aria-label="Car shipping info">
-        {/* LEFT BLOCK */}
         <article className="svc-block">
           <h2 className="svc-h2">How car shipping works</h2>
 
@@ -160,11 +154,12 @@ export default function CarShippingPage() {
           </ul>
         </article>
 
-        {/* RIGHT BLOCK */}
         <aside className="svc-block svc-block--accent">
           <h2 className="svc-h2">Recommended prep checklist</h2>
 
-          <p className="svc-p">A few quick steps help ensure safe loading and delivery.</p>
+          <p className="svc-p">
+            A few quick steps help ensure safe loading and delivery.
+          </p>
 
           <div className="svc-checklist">
             <div className="svc-checkrow">
@@ -189,7 +184,6 @@ export default function CarShippingPage() {
         </aside>
       </section>
 
-      {/* ---------------- FAQ ---------------- */}
       <section className="svc-container svc-faq" aria-label="FAQ">
         <h2 className="svc-h2">Car shipping FAQ</h2>
 
@@ -220,7 +214,6 @@ export default function CarShippingPage() {
         </div>
       </section>
 
-      {/* ---------------- QUOTE SECTION ---------------- */}
       <section className="svc-quote" aria-label="Get a quote">
         <QuoteSection />
       </section>

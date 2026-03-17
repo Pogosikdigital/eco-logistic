@@ -63,12 +63,6 @@ export default function MotorcycleShippingPage() {
               {
                 "@type": "ListItem",
                 position: 2,
-                name: "Services",
-                item: "https://www.ecohublogistics.com/services",
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
                 name: "Motorcycle Shipping",
                 item: canonical,
               },
@@ -77,13 +71,11 @@ export default function MotorcycleShippingPage() {
         ]}
       />
 
-      {/* ---------------- HERO ---------------- */}
       <section className="svc-hero" aria-label="Motorcycle shipping hero">
         <div className="svc-hero-bg" />
 
         <div className="svc-container">
           <div className="svc-hero-inner">
-            {/* LEFT */}
             <div>
               <span className="svc-badge">MOTORCYCLE TRANSPORT</span>
 
@@ -109,7 +101,7 @@ export default function MotorcycleShippingPage() {
                   Get a free quote
                 </Link>
 
-                <Link to="/contact" className="svc-btn-ghost">
+                <Link to="/#contact" className="svc-btn-ghost">
                   Talk to a coordinator
                 </Link>
               </div>
@@ -119,15 +111,17 @@ export default function MotorcycleShippingPage() {
               </p>
             </div>
 
-            {/* RIGHT (IMAGE FULL WIDTH/HEIGHT) */}
             <div className="svc-card svc-card--image" aria-hidden="true">
               <div className="svc-card-glow" />
               <div className="svc-hero-media">
                 <img
                   src={heroImg}
                   alt="Motorcycle shipping service"
+                  width="1200"
+                  height="800"
                   loading="eager"
                   decoding="async"
+                  fetchPriority="high"
                   className="svc-hero-img"
                 />
               </div>
@@ -136,12 +130,10 @@ export default function MotorcycleShippingPage() {
         </div>
       </section>
 
-      {/* ---------------- CONTENT GRID ---------------- */}
       <section
         className="svc-container svc-grid"
         aria-label="Motorcycle shipping info"
       >
-        {/* LEFT BLOCK */}
         <article className="svc-block">
           <h2 className="svc-h2">How motorcycle shipping works</h2>
 
@@ -163,7 +155,6 @@ export default function MotorcycleShippingPage() {
           </ul>
         </article>
 
-        {/* RIGHT BLOCK */}
         <aside className="svc-block svc-block--accent">
           <h2 className="svc-h2">Recommended prep checklist</h2>
 
@@ -194,7 +185,6 @@ export default function MotorcycleShippingPage() {
         </aside>
       </section>
 
-      {/* ---------------- QUOTE ---------------- */}
       <section className="svc-quote" aria-label="Get a quote">
         <QuoteSection />
       </section>

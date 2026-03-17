@@ -10,12 +10,12 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "@unhead/react": "^2.1.2",
+    "@unhead/react": "^3.0.0-beta.9",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router-dom": "^7.9.6"
+    "react-router-dom": "^7.13.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -26,6 +26,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "vite": "^7.2.2"
+    "vite": "^7.2.2",
+    "vite-prerender-plugin": "^0.5.13"
   }
 }

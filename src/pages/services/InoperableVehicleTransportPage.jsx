@@ -25,14 +25,16 @@ export default function InoperableVehicleTransportPage() {
           title: "Inoperable Vehicle Transport | EcoHub Logistics",
           description:
             "Non-running car shipping with winch-assisted loading. Door-to-door across the USA with insured carriers and fast quotes.",
-          image: "https://www.ecohublogistics.com/og/inoperable-vehicle.jpg",
+          image: "https://www.ecohublogistics.com/og/inoperable.png",
+          imageAlt: "Non-running vehicle transport by EcoHub Logistics",
         }}
         twitter={{
           card: "summary_large_image",
           title: "Inoperable Vehicle Transport | EcoHub Logistics",
           description:
             "Winch-assisted transport for non-running vehicles. Insured carriers, door-to-door delivery, fast quotes.",
-          image: "https://www.ecohublogistics.com/og/inoperable-vehicle.jpg",
+          image: "https://www.ecohublogistics.com/og/inoperable.png",
+          imageAlt: "Non-running vehicle transport by EcoHub Logistics",
         }}
         jsonLd={[
           {
@@ -63,12 +65,6 @@ export default function InoperableVehicleTransportPage() {
               {
                 "@type": "ListItem",
                 position: 2,
-                name: "Services",
-                item: "https://www.ecohublogistics.com/services",
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
                 name: "Inoperable Vehicle Transport",
                 item: canonical,
               },
@@ -77,7 +73,6 @@ export default function InoperableVehicleTransportPage() {
         ]}
       />
 
-      {/* ---------------- HERO ---------------- */}
       <section
         className="svc-hero"
         aria-label="Inoperable vehicle transport hero"
@@ -86,7 +81,6 @@ export default function InoperableVehicleTransportPage() {
 
         <div className="svc-container">
           <div className="svc-hero-inner">
-            {/* LEFT */}
             <div>
               <span className="svc-badge">AUTO TRANSPORT</span>
 
@@ -123,7 +117,6 @@ export default function InoperableVehicleTransportPage() {
               </p>
             </div>
 
-            {/* RIGHT — HERO IMAGE (как BMW: внутренняя рамка + отступ) */}
             <div className="svc-card svc-card--image" aria-hidden="true">
               <div className="svc-card-glow" />
 
@@ -132,8 +125,11 @@ export default function InoperableVehicleTransportPage() {
                   className="svc-hero-img"
                   src={heroImg}
                   alt="Inoperable vehicle transport on a carrier"
+                  width="1200"
+                  height="800"
                   loading="eager"
                   decoding="async"
+                  fetchPriority="high"
                 />
               </div>
             </div>
@@ -141,12 +137,10 @@ export default function InoperableVehicleTransportPage() {
         </div>
       </section>
 
-      {/* ---------------- CONTENT GRID ---------------- */}
       <section
         className="svc-container svc-grid"
         aria-label="Inoperable transport info"
       >
-        {/* LEFT BLOCK */}
         <article className="svc-block">
           <h2 className="svc-h2">How inoperable transport works</h2>
 
@@ -168,7 +162,6 @@ export default function InoperableVehicleTransportPage() {
           </ul>
         </article>
 
-        {/* RIGHT BLOCK */}
         <aside className="svc-block svc-block--accent">
           <h2 className="svc-h2">Recommended prep checklist</h2>
 
@@ -199,7 +192,6 @@ export default function InoperableVehicleTransportPage() {
         </aside>
       </section>
 
-      {/* ---------------- FAQ ---------------- */}
       <section className="svc-container svc-faq" aria-label="FAQ">
         <h2 className="svc-h2">Inoperable transport FAQ</h2>
 
@@ -230,7 +222,6 @@ export default function InoperableVehicleTransportPage() {
         </div>
       </section>
 
-      {/* ---------------- QUOTE ---------------- */}
       <section className="svc-quote" aria-label="Get a quote">
         <QuoteSection />
       </section>

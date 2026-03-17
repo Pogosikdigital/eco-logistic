@@ -24,14 +24,16 @@ export default function BoatTransportPage() {
           title: "Boat Transport | EcoHub Logistics",
           description:
             "Boat shipping across the USA with insured carriers. Flexible scheduling and professional coordination.",
-          image: "https://www.ecohublogistics.com/og/boat-transport.jpg",
+          image: "https://www.ecohublogistics.com/og/boat-transport.png",
+          imageAlt: "Boat transport service by EcoHub Logistics",
         }}
         twitter={{
           card: "summary_large_image",
           title: "Boat Transport | EcoHub Logistics",
           description:
             "Reliable boat transport nationwide. Insured carriers, careful handling, fast quotes.",
-          image: "https://www.ecohublogistics.com/og/boat-transport.jpg",
+          image: "https://www.ecohublogistics.com/og/boat-transport.png",
+          imageAlt: "Boat transport service by EcoHub Logistics",
         }}
         jsonLd={[
           {
@@ -62,12 +64,6 @@ export default function BoatTransportPage() {
               {
                 "@type": "ListItem",
                 position: 2,
-                name: "Services",
-                item: "https://www.ecohublogistics.com/services",
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
                 name: "Boat Transport",
                 item: canonical,
               },
@@ -76,13 +72,11 @@ export default function BoatTransportPage() {
         ]}
       />
 
-      {/* ---------------- HERO ---------------- */}
       <section className="svc-hero" aria-label="Boat transport hero">
         <div className="svc-hero-bg" />
 
         <div className="svc-container">
           <div className="svc-hero-inner">
-            {/* LEFT */}
             <div>
               <span className="svc-badge">AUTO TRANSPORT</span>
 
@@ -119,15 +113,17 @@ export default function BoatTransportPage() {
               </p>
             </div>
 
-            {/* RIGHT */}
             <div className="svc-card svc-card--image" aria-hidden="true">
               <div className="svc-card-glow" />
               <div className="svc-hero-media">
                 <img
                   src={heroImg}
                   alt="Boat transport service across the USA"
+                  width="1200"
+                  height="800"
                   loading="eager"
                   decoding="async"
+                  fetchPriority="high"
                   className="svc-hero-img"
                 />
               </div>
@@ -136,9 +132,7 @@ export default function BoatTransportPage() {
         </div>
       </section>
 
-      {/* ---------------- CONTENT GRID ---------------- */}
       <section className="svc-container svc-grid" aria-label="Boat transport info">
-        {/* LEFT BLOCK */}
         <article className="svc-block">
           <h2 className="svc-h2">How boat transport works</h2>
 
@@ -160,7 +154,6 @@ export default function BoatTransportPage() {
           </ul>
         </article>
 
-        {/* RIGHT BLOCK */}
         <aside className="svc-block svc-block--accent">
           <h2 className="svc-h2">Recommended prep checklist</h2>
 
@@ -191,7 +184,6 @@ export default function BoatTransportPage() {
         </aside>
       </section>
 
-      {/* ---------------- FAQ ---------------- */}
       <section className="svc-container svc-faq" aria-label="FAQ">
         <h2 className="svc-h2">Boat transport FAQ</h2>
 
@@ -221,7 +213,6 @@ export default function BoatTransportPage() {
         </div>
       </section>
 
-      {/* ---------------- QUOTE ---------------- */}
       <section className="svc-quote" aria-label="Get a quote">
         <QuoteSection />
       </section>

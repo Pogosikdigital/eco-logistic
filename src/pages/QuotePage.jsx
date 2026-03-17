@@ -8,7 +8,6 @@ export default function QuotePage() {
   return (
     <>
       <MetaSEO
-        // ❗️НЕ добавляем бренд — MetaSEO сам добавит " | EcoHub Logistics"
         title="Free Car Shipping Quote"
         description="Get a free, no-obligation car shipping quote in minutes. Nationwide door-to-door auto transport across the USA. Open & enclosed options. Insured carriers."
         canonical={canonical}
@@ -19,14 +18,16 @@ export default function QuotePage() {
           title: "Free Car Shipping Quote | EcoHub Logistics",
           description:
             "Request a fast, insured auto transport quote across the USA. Open & enclosed shipping. Door-to-door delivery.",
-          image: "https://www.ecohublogistics.com/og/quote.jpg",
+          image: "https://www.ecohublogistics.com/og/quote.png",
+          imageAlt: "Get a free shipping quote from EcoHub Logistics",
         }}
         twitter={{
           card: "summary_large_image",
           title: "Free Car Shipping Quote | EcoHub Logistics",
           description:
             "Get a free auto transport quote across the USA. Door-to-door shipping. Open & enclosed options.",
-          image: "https://www.ecohublogistics.com/og/quote.jpg",
+          image: "https://www.ecohublogistics.com/og/quote.png",
+          imageAlt: "Get a free shipping quote from EcoHub Logistics",
         }}
         jsonLd={[
           {

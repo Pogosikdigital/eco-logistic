@@ -24,14 +24,16 @@ export default function EnclosedTransportPage() {
           title: "Enclosed Auto Transport | EcoHub Logistics",
           description:
             "Maximum protection for luxury, exotic and classic vehicles. Enclosed shipping across the USA. Door-to-door, insured carriers, fast quotes.",
-          image: "https://www.ecohublogistics.com/og/enclosed-transport.jpg",
+          image: "https://www.ecohublogistics.com/og/enclosed-transport.png",
+          imageAlt: "Enclosed auto transport by EcoHub Logistics",
         }}
         twitter={{
           card: "summary_large_image",
           title: "Enclosed Auto Transport | EcoHub Logistics",
           description:
             "Premium enclosed car shipping across the USA. Door-to-door, insured carriers, fast quotes.",
-          image: "https://www.ecohublogistics.com/og/enclosed-transport.jpg",
+          image: "https://www.ecohublogistics.com/og/enclosed-transport.png",
+          imageAlt: "Enclosed auto transport by EcoHub Logistics",
         }}
         jsonLd={[
           {
@@ -60,12 +62,6 @@ export default function EnclosedTransportPage() {
               {
                 "@type": "ListItem",
                 position: 2,
-                name: "Services",
-                item: "https://www.ecohublogistics.com/services",
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
                 name: "Enclosed Transport",
                 item: canonical,
               },
@@ -87,13 +83,11 @@ export default function EnclosedTransportPage() {
       />
 
       <main className="svc-page" aria-label="Enclosed auto transport service page">
-        {/* ================= HERO ================= */}
         <section className="svc-hero" aria-label="Enclosed transport hero">
           <div className="svc-hero-bg" />
 
           <div className="svc-container">
             <div className="svc-hero-inner">
-              {/* LEFT */}
               <div>
                 <span className="svc-badge">PREMIUM PROTECTION</span>
 
@@ -122,10 +116,11 @@ export default function EnclosedTransportPage() {
                   </a>
                 </div>
 
-                <p className="svc-note">Fast response. No hidden fees. Real people, real support.</p>
+                <p className="svc-note">
+                  Fast response. No hidden fees. Real people, real support.
+                </p>
               </div>
 
-              {/* RIGHT — HERO IMAGE (как BMW: внутренний отступ + внутренняя рамка) */}
               <div className="svc-card svc-card--image" aria-hidden="true">
                 <div className="svc-card-glow" />
                 <div className="svc-hero-media">
@@ -133,8 +128,11 @@ export default function EnclosedTransportPage() {
                     className="svc-hero-img"
                     src={heroImg}
                     alt="Enclosed auto transport trailer shipping a luxury car"
+                    width="1200"
+                    height="800"
                     loading="eager"
                     decoding="async"
+                    fetchPriority="high"
                   />
                 </div>
               </div>
@@ -142,9 +140,7 @@ export default function EnclosedTransportPage() {
           </div>
         </section>
 
-        {/* ================= CONTENT GRID ================= */}
         <section className="svc-container svc-grid" aria-label="Enclosed transport info">
-          {/* LEFT BLOCK */}
           <article className="svc-block" itemScope itemType="https://schema.org/Article">
             <h2 className="svc-h2" itemProp="headline">
               What is enclosed transport?
@@ -168,7 +164,6 @@ export default function EnclosedTransportPage() {
             </ul>
           </article>
 
-          {/* RIGHT BLOCK */}
           <aside className="svc-block svc-block--accent">
             <h2 className="svc-h2">Price &amp; timing</h2>
 
@@ -200,7 +195,6 @@ export default function EnclosedTransportPage() {
           </aside>
         </section>
 
-        {/* ================= FAQ ================= */}
         <section className="svc-container svc-faq" aria-label="FAQ">
           <h2 className="svc-h2">FAQ</h2>
 
@@ -236,7 +230,6 @@ export default function EnclosedTransportPage() {
           </div>
         </section>
 
-        {/* ================= QUOTE ================= */}
         <section className="svc-container svc-quote" aria-label="Get a quote">
           <QuoteSection />
         </section>

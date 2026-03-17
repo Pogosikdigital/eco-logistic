@@ -33,28 +33,19 @@ import RvMotorhomeSemiTruckTransportPage from "./pages/services/RvMotorhomeSemiT
 function App() {
   const location = useLocation();
 
-  // ✅ map SEO routes -> section ids (these are section routes, not separate SEO pages)
   const sectionByPath = {
     "/": "home",
-    "/services": "services",
-    "/how-it-works": "how-it-works",
-    "/about": "about",
-    "/contact": "contact",
-    "/testimonials": "reviews",
   };
 
-  // ✅ Scroll to top ONLY for real pages (not for section routes)
   useEffect(() => {
     const isSectionRoute = !!sectionByPath[location.pathname];
-    if (isSectionRoute) return;
 
-    // also ignore hash navigation
+    if (isSectionRoute && !location.hash) return;
     if (location.hash) return;
 
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [location.pathname, location.hash]);
 
-  // ✅ Anchor + SEO route scroll
   useEffect(() => {
     const hashId = location.hash ? location.hash.replace("#", "") : null;
     const pathId = sectionByPath[location.pathname] || null;
@@ -64,7 +55,9 @@ function App() {
 
     const t = setTimeout(() => {
       const section = document.getElementById(targetId);
-      if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }, 80);
 
     return () => clearTimeout(t);
@@ -72,7 +65,6 @@ function App() {
 
   const Home = (
     <MainLayout>
-      {/* HOME SEO */}
       <MetaSEO
         title="Car Shipping Services"
         description="Insured door-to-door car shipping across the USA. Open & enclosed auto transport for individuals, dealerships, and fleets. Get a free quote."
@@ -84,13 +76,16 @@ function App() {
           title: "Car Shipping Services | EcoHub Logistics",
           description:
             "Insured, reliable vehicle shipping across the USA. Door-to-door delivery with a dedicated coordinator. Get a free quote.",
-          image: "https://www.ecohublogistics.com/og-image.jpg",
+          image: "https://www.ecohublogistics.com/og/car-shipping.png",
+          imageAlt: "EcoHub Logistics car shipping across the USA",
         }}
         twitter={{
           card: "summary_large_image",
           title: "Car Shipping Services | EcoHub Logistics",
-          description: "Insured door-to-door auto transport across the USA. Get a free quote.",
-          image: "https://www.ecohublogistics.com/og-image.jpg",
+          description:
+            "Insured door-to-door auto transport across the USA. Get a free quote.",
+          image: "https://www.ecohublogistics.com/og/car-shipping.png",
+          imageAlt: "EcoHub Logistics car shipping across the USA",
         }}
         jsonLd={[
           {
@@ -126,15 +121,8 @@ function App() {
 
   return (
     <Routes>
-      {/* ✅ HOME + Section routes (they scroll to sections) */}
       <Route path="/" element={Home} />
-      <Route path="/services" element={Home} />
-      <Route path="/how-it-works" element={Home} />
-      <Route path="/about" element={Home} />
-      <Route path="/contact" element={Home} />
-      <Route path="/testimonials" element={Home} />
 
-      {/* REAL PAGES */}
       <Route
         path="/quote"
         element={
@@ -180,7 +168,6 @@ function App() {
         }
       />
 
-      {/* SERVICE PAGES */}
       <Route
         path="/services/enclosed-transport"
         element={
@@ -235,31 +222,50 @@ function App() {
         }
       />
 
-      {/* Backward compatibility (old URLs -> new) */}
+      <Route path="/services" element={<Navigate to="/#services" replace />} />
+      <Route
+        path="/how-it-works"
+        element={<Navigate to="/#how-it-works" replace />}
+      />
+      <Route path="/about" element={<Navigate to="/#about" replace />} />
+      <Route path="/contact" element={<Navigate to="/#contact" replace />} />
+      <Route path="/testimonials" element={<Navigate to="/#reviews" replace />} />
+
       <Route path="/earn" element={<Navigate to="/earn-with-us" replace />} />
-      <Route path="/contact-us" element={<Navigate to="/contact" replace />} />
-      <Route path="/about-us" element={<Navigate to="/about" replace />} />
+      <Route path="/contact-us" element={<Navigate to="/#contact" replace />} />
+      <Route path="/about-us" element={<Navigate to="/#about" replace />} />
       <Route path="/home" element={<Navigate to="/" replace />} />
       <Route path="/index" element={<Navigate to="/" replace />} />
 
-      {/* Old service URLs (if they exist in Google index) */}
-      <Route path="/boat-transport" element={<Navigate to="/services/boat-transport" replace />} />
-      <Route path="/car-shipping" element={<Navigate to="/services/car-shipping" replace />} />
+      <Route
+        path="/boat-transport"
+        element={<Navigate to="/services/boat-transport" replace />}
+      />
+      <Route
+        path="/car-shipping"
+        element={<Navigate to="/services/car-shipping" replace />}
+      />
       <Route
         path="/motorcycle-shipping"
         element={<Navigate to="/services/motorcycle-shipping" replace />}
       />
-      <Route path="/enclosed-transport" element={<Navigate to="/services/enclosed-transport" replace />} />
+      <Route
+        path="/enclosed-transport"
+        element={<Navigate to="/services/enclosed-transport" replace />}
+      />
       <Route
         path="/inoperable-vehicle-transport"
-        element={<Navigate to="/services/inoperable-vehicle-transport" replace />}
+        element={
+          <Navigate to="/services/inoperable-vehicle-transport" replace />
+        }
       />
       <Route
         path="/rv-motorhome-semitruck-transport"
-        element={<Navigate to="/services/rv-motorhome-semitruck-transport" replace />}
+        element={
+          <Navigate to="/services/rv-motorhome-semitruck-transport" replace />
+        }
       />
 
-      {/* 404 page route (optional but useful) */}
       <Route
         path="/404"
         element={
@@ -269,7 +275,6 @@ function App() {
         }
       />
 
-      {/* Catch-all -> REAL 404 (no redirect to home!) */}
       <Route
         path="*"
         element={
