@@ -19,14 +19,14 @@ export default function EarnWithUsPage() {
           title: "Earn with EcoHub Logistics — Affiliate Program",
           description:
             "Earn up to 40% commission by referring auto transport clients. Simple, transparent affiliate & referral program.",
-          image: "https://www.ecohublogistics.com/og/earn-with-us.jpg",
+          image: "https://www.ecohublogistics.com/og/earn-with-us.webp",
         }}
         twitter={{
           card: "summary_large_image",
           title: "Earn with EcoHub Logistics",
           description:
             "Join our affiliate & referral program and earn up to 40% per completed vehicle shipment.",
-          image: "https://www.ecohublogistics.com/og/earn-with-us.jpg",
+          image: "https://www.ecohublogistics.com/og/earn-with-us.webp",
         }}
         jsonLd={[
           {

@@ -1,7 +1,7 @@
 import React from "react";
 import "./discount.css";
 
-import discountImg from "../assets/discount-truck.jpg";
+import discountImg from "../assets/discount-truck.webp";
 
 export default function DiscountProgram() {
   const goToContact = () => {

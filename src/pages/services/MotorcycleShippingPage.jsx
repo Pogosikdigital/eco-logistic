@@ -25,14 +25,14 @@ export default function MotorcycleShippingPage() {
           title: "Motorcycle Shipping Across the USA | EcoHub Logistics",
           description:
             "Safe, insured motorcycle shipping nationwide. Door-to-door delivery, flexible scheduling, and real coordinator support.",
-          image: "https://www.ecohublogistics.com/og/motorcycle-shipping.jpg",
+          image: "https://www.ecohublogistics.com/og/motorcycle-shipping.webp",
         }}
         twitter={{
           card: "summary_large_image",
           title: "Motorcycle Shipping Across the USA | EcoHub Logistics",
           description:
             "Fast motorcycle shipping across the USA with insured carriers and professional handling.",
-          image: "https://www.ecohublogistics.com/og/motorcycle-shipping.jpg",
+          image: "https://www.ecohublogistics.com/og/motorcycle-shipping.webp",
         }}
         jsonLd={[
           {

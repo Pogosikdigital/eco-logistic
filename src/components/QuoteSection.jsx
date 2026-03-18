@@ -1,7 +1,7 @@
 // src/components/QuoteSection.jsx
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import "./styles/quotesection.css";
-import usaMap from "./../assets/usa-map.png";
+import usaMap from "./../assets/usa-map.webp";
 import { getLeadContext } from "../utils/sourceMapper";
 
 const initialForm = {

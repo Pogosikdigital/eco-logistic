@@ -34,7 +34,7 @@ export default function Footer() {
       />
       <meta itemProp="email" content="info@ecohublogistics.com" />
       <meta itemProp="telephone" content="+1-650-999-9660" />
-      <meta itemProp="logo" content="https://www.ecohublogistics.com/favicon-96x96.png" />
+      <meta itemProp="logo" content="https://www.ecohublogistics.com/favicon-96x96.webp" />
 
       {/* ✅ sameAs social proof */}
       <meta

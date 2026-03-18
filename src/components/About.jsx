@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import "./styles/about.css";
-import trucksImage from "../assets/truck.jpg";
+import trucksImage from "../assets/truck.webp";
 
 function AboutSectionComponent() {
   const sectionRef = useRef(null);

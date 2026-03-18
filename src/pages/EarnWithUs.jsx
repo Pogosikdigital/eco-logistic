@@ -1,11 +1,11 @@
 import React from "react";
 import "./earnwithus.css";
 
-import iconPaperwork from "../assets/icon-paperwork.png";
-import iconProfit from "../assets/icon-profit.png";
-import iconSideIncome from "../assets/icon-sideincome.png";
+import iconPaperwork from "../assets/icon-paperwork.webp";
+import iconProfit from "../assets/icon-profit.webp";
+import iconSideIncome from "../assets/icon-sideincome.webp";
 
-import heroTruck from "../assets/truck1.png";
+import heroTruck from "../assets/truck1.webp";
 import WhyPartner from "./WhyPartner";
 import DiscountProgram from "./DiscountProgram";
 

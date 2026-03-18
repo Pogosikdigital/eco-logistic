@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./why.css";
 
-import photoRefer from "../assets/photo-refer.jpg";
-import photoLogistics from "../assets/photo-logistics.jpg";
-import photoFlexible from "../assets/photo-flexible.jpg";
+import photoRefer from "../assets/photo-refer.webp";
+import photoLogistics from "../assets/photo-logistics.webp";
+import photoFlexible from "../assets/photo-flexible.webp";
 
 export default function WhyPartner() {
   const ref = useRef(null);

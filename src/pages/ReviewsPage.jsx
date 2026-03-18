@@ -108,14 +108,14 @@ export default function ReviewsPage() {
           title: "Customer Reviews | EcoHub Logistics",
           description:
             "Verified customer reviews for EcoHub Logistics — nationwide auto transport across the USA.",
-          image: "https://www.ecohublogistics.com/og/reviews.jpg",
+          image: "https://www.ecohublogistics.com/og/reviews.webp",
         }}
         twitter={{
           card: "summary_large_image",
           title: "Customer Reviews | EcoHub Logistics",
           description:
             "See verified reviews from customers who shipped vehicles with EcoHub Logistics.",
-          image: "https://www.ecohublogistics.com/og/reviews.jpg",
+          image: "https://www.ecohublogistics.com/og/reviews.webp",
         }}
         jsonLd={[
           {
