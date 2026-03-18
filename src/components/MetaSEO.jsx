@@ -11,50 +11,49 @@ export default function MetaSEO({
   jsonLd = [],
 }) {
   const baseUrl = "https://www.ecohublogistics.com";
+  const brand = "EcoHub Logistics";
 
-  // ✅ Title (MetaSEO сам добавляет бренд)
-  const fullTitle = title
-    ? `${title} | EcoHub Logistics`
-    : "EcoHub Logistics – Nationwide Vehicle Shipping & Auto Transport";
+  const normalizedTitle = title?.trim();
+  const fullTitle = normalizedTitle
+    ? normalizedTitle.toLowerCase().includes(brand.toLowerCase())
+      ? normalizedTitle
+      : `${normalizedTitle} | ${brand}`
+    : "Nationwide Vehicle Shipping & Auto Transport | EcoHub Logistics";
 
-  // ✅ Description
   const finalDescription =
     description ||
     "EcoHub Logistics provides insured, reliable vehicle shipping across the USA. Door-to-door auto transport with transparent pricing. Get a free quote.";
 
-  // ✅ Current URL (client fallback)
   const currentUrl =
     typeof window !== "undefined"
       ? `${baseUrl}${window.location.pathname}${window.location.search}`
       : baseUrl;
 
-  // ✅ Canonical
   const canonicalUrl = canonical || currentUrl;
 
-  // ✅ Open Graph defaults (исправлено на webp)
   const ogData = {
     type: "website",
     url: canonicalUrl,
     title: fullTitle,
     description: finalDescription,
-    image: `${baseUrl}/og/car-shipping.webp`, // ✅ FIX
-    site_name: "EcoHub Logistics",
+    image: `${baseUrl}/og/car-shipping.webp`,
+    imageAlt: "EcoHub Logistics car shipping across the USA",
+    site_name: brand,
     locale: "en_US",
     imageWidth: "1200",
     imageHeight: "630",
     ...og,
   };
 
-  // ✅ Twitter defaults
   const twitterData = {
     card: "summary_large_image",
     title: ogData.title,
     description: ogData.description,
     image: ogData.image,
+    imageAlt: ogData.imageAlt,
     ...twitter,
   };
 
-  // ✅ JSON-LD scripts
   const ldArray = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
   const ldScripts = ldArray
     .filter(Boolean)
@@ -66,12 +65,14 @@ export default function MetaSEO({
   useHead({
     title: fullTitle,
 
+    htmlAttrs: {
+      lang: "en-US",
+    },
+
     meta: [
-      // SEO
       { name: "description", content: finalDescription },
       { name: "robots", content: robots },
 
-      // Open Graph
       { property: "og:type", content: ogData.type },
       { property: "og:site_name", content: ogData.site_name },
       { property: "og:locale", content: ogData.locale },
@@ -79,26 +80,19 @@ export default function MetaSEO({
       { property: "og:description", content: ogData.description },
       { property: "og:url", content: ogData.url },
       { property: "og:image", content: ogData.image },
-      {
-        property: "og:image:width",
-        content: String(ogData.imageWidth || "1200"),
-      },
-      {
-        property: "og:image:height",
-        content: String(ogData.imageHeight || "630"),
-      },
+      { property: "og:image:alt", content: ogData.imageAlt },
+      { property: "og:image:width", content: String(ogData.imageWidth) },
+      { property: "og:image:height", content: String(ogData.imageHeight) },
 
-      // Twitter
       { name: "twitter:card", content: twitterData.card },
       { name: "twitter:title", content: twitterData.title },
       { name: "twitter:description", content: twitterData.description },
       { name: "twitter:image", content: twitterData.image },
+      { name: "twitter:image:alt", content: twitterData.imageAlt },
     ],
 
-    // Canonical
     link: [{ rel: "canonical", href: canonicalUrl }],
 
-    // JSON-LD
     script: ldScripts,
   });
 
