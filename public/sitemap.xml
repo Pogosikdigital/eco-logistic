@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <!-- HOME -->
   <url>
     <loc>https://www.ecohublogistics.com/</loc>
     <lastmod>2026-03-17</lastmod>
@@ -9,7 +7,6 @@
     <priority>1.0</priority>
   </url>
 
-  <!-- CORE -->
   <url>
     <loc>https://www.ecohublogistics.com/quote</loc>
     <lastmod>2026-03-17</lastmod>
@@ -31,7 +28,6 @@
     <priority>0.6</priority>
   </url>
 
-  <!-- SERVICES (самые важные SEO страницы) -->
   <url>
     <loc>https://www.ecohublogistics.com/services/car-shipping</loc>
     <lastmod>2026-03-17</lastmod>
@@ -74,7 +70,6 @@
     <priority>0.85</priority>
   </url>
 
-  <!-- LEGAL -->
   <url>
     <loc>https://www.ecohublogistics.com/privacy-policy</loc>
     <lastmod>2026-03-17</lastmod>
@@ -88,5 +83,4 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-
 </urlset>
