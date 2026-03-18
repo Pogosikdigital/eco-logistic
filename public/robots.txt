@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 
+# Block unnecessary system paths
+Disallow: /node_modules/
+Disallow: /dist/
+Disallow: /.git/
+
+# Sitemap
 Sitemap: https://www.ecohublogistics.com/sitemap.xml
