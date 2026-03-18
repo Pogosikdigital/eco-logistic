@@ -45,7 +45,6 @@ function App() {
   useEffect(() => {
     const isSectionRoute = !!sectionByPath[location.pathname];
     if (isSectionRoute) return;
-
     if (location.hash) return;
 
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
@@ -54,39 +53,43 @@ function App() {
   useEffect(() => {
     const hashId = location.hash ? location.hash.replace("#", "") : null;
     const pathId = sectionByPath[location.pathname] || null;
-
     const targetId = hashId || pathId;
+
     if (!targetId) return;
 
     const t = setTimeout(() => {
       const section = document.getElementById(targetId);
-      if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }, 80);
 
     return () => clearTimeout(t);
-  }, [location]);
+  }, [location, sectionByPath]);
 
   const Home = (
     <MainLayout>
       <MetaSEO
-        title="Car Shipping Services | EcoHub Logistics"
+        title="Car Shipping Services"
         description="Insured door-to-door car shipping across the USA. Open and enclosed auto transport for individuals, dealerships, and fleets. Get a free quote."
         canonical="https://www.ecohublogistics.com/"
         robots="index,follow"
         og={{
           type: "website",
           url: "https://www.ecohublogistics.com/",
-          title: "Car Shipping Services | EcoHub Logistics",
+          title: "Car Shipping Services",
           description:
             "Insured, reliable vehicle shipping across the USA. Door-to-door delivery with a dedicated coordinator. Get a free quote.",
           image: "https://www.ecohublogistics.com/og/car-shipping.webp",
+          imageAlt: "EcoHub Logistics car shipping across the USA",
         }}
         twitter={{
           card: "summary_large_image",
-          title: "Car Shipping Services | EcoHub Logistics",
+          title: "Car Shipping Services",
           description:
             "Insured door-to-door auto transport across the USA. Get a free quote.",
           image: "https://www.ecohublogistics.com/og/car-shipping.webp",
+          imageAlt: "EcoHub Logistics car shipping across the USA",
         }}
         jsonLd={[
           {
@@ -94,12 +97,15 @@ function App() {
             "@type": "WebSite",
             name: "EcoHub Logistics",
             url: "https://www.ecohublogistics.com/",
+            description:
+              "Insured door-to-door car shipping across the USA with open and enclosed auto transport.",
           },
           {
             "@context": "https://schema.org",
             "@type": "Organization",
             name: "EcoHub Logistics",
             url: "https://www.ecohublogistics.com/",
+            logo: "https://www.ecohublogistics.com/logo.webp",
             telephone: "+1-650-999-9660",
             email: "info@ecohublogistics.com",
             sameAs: [
@@ -122,7 +128,6 @@ function App() {
 
   return (
     <Routes>
-      {/* HOME + Section routes */}
       <Route path="/" element={Home} />
       <Route path="/services" element={Home} />
       <Route path="/how-it-works" element={Home} />
@@ -130,7 +135,6 @@ function App() {
       <Route path="/contact" element={Home} />
       <Route path="/testimonials" element={Home} />
 
-      {/* REAL PAGES */}
       <Route
         path="/quote"
         element={
@@ -176,7 +180,6 @@ function App() {
         }
       />
 
-      {/* SERVICE PAGES */}
       <Route
         path="/services/enclosed-transport"
         element={
@@ -231,7 +234,6 @@ function App() {
         }
       />
 
-      {/* Redirects */}
       <Route path="/earn" element={<Navigate to="/earn-with-us" replace />} />
       <Route path="/contact-us" element={<Navigate to="/contact" replace />} />
       <Route path="/about-us" element={<Navigate to="/about" replace />} />
@@ -263,7 +265,6 @@ function App() {
         element={<Navigate to="/services/rv-motorhome-semitruck-transport" replace />}
       />
 
-      {/* 404 */}
       <Route
         path="/404"
         element={
