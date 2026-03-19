@@ -1,16 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import MetaSEO from "../../components/MetaSEO";
+import "../services/service-page.css";
 
 export default function OpenVsEnclosedCarShippingPage() {
-  const canonical =
-    "https://www.ecohublogistics.com/open-vs-enclosed-car-shipping";
+  const canonical = "https://www.ecohublogistics.com/open-vs-enclosed-car-shipping";
 
   return (
-    <main className="svc-container" style={{ paddingTop: "2rem", paddingBottom: "3rem" }}>
+    <main className="svc-page" itemScope itemType="https://schema.org/Article">
       <MetaSEO
         title="Open vs Enclosed Car Shipping"
-        description="Compare open vs enclosed car shipping. Learn pricing differences, protection levels, and which auto transport option is best for your vehicle."
+        description="Compare open vs enclosed car shipping. Learn the cost difference, protection level, and which auto transport option is right for your vehicle."
         canonical={canonical}
         robots="index,follow"
         og={{
@@ -18,7 +18,7 @@ export default function OpenVsEnclosedCarShippingPage() {
           url: canonical,
           title: "Open vs Enclosed Car Shipping",
           description:
-            "Learn the difference between open and enclosed car shipping, including pricing, protection, and when each option makes sense.",
+            "Compare open and enclosed auto transport, including cost, protection, and best use cases.",
           image: "https://www.ecohublogistics.com/og/enclosed-transport.webp",
           imageAlt: "Open vs enclosed car shipping comparison",
         }}
@@ -26,175 +26,152 @@ export default function OpenVsEnclosedCarShippingPage() {
           card: "summary_large_image",
           title: "Open vs Enclosed Car Shipping",
           description:
-            "Compare open and enclosed auto transport to choose the best shipping option for your vehicle.",
+            "Learn the difference between open and enclosed car shipping before booking auto transport.",
           image: "https://www.ecohublogistics.com/og/enclosed-transport.webp",
           imageAlt: "Open vs enclosed car shipping comparison",
         }}
-        jsonLd={[
-          {
-            "@context": "https://schema.org",
-            "@type": "Article",
-            headline: "Open vs Enclosed Car Shipping",
-            description:
-              "Compare open vs enclosed car shipping, including cost, protection, and best use cases.",
-            author: {
-              "@type": "Organization",
-              name: "EcoHub Logistics",
-            },
-            publisher: {
-              "@type": "Organization",
-              name: "EcoHub Logistics",
-              logo: {
-                "@type": "ImageObject",
-                url: "https://www.ecohublogistics.com/logo.webp",
-              },
-            },
-            mainEntityOfPage: canonical,
-            url: canonical,
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://www.ecohublogistics.com/",
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "Open vs Enclosed Car Shipping",
-                item: canonical,
-              },
-            ],
-          },
-        ]}
       />
 
-      <article style={{ maxWidth: "900px" }}>
-        <h1>Open vs Enclosed Car Shipping</h1>
+      <section className="svc-hero" aria-label="Open vs enclosed shipping guide hero">
+        <div className="svc-hero-bg" />
+        <div className="svc-container">
+          <div className="svc-hero-inner" style={{ gridTemplateColumns: "1fr" }}>
+            <div>
+              <span className="svc-badge">AUTO TRANSPORT GUIDE</span>
 
-        <p>
-          If you are comparing open vs enclosed car shipping, the right choice
-          depends on your vehicle, budget, route, and how much protection you
-          want during transport. Both options are widely used in the auto
-          transport industry, but they serve different needs.
-        </p>
+              <h1 className="svc-title">Open vs Enclosed Car Shipping</h1>
 
-        <p>
-          Open car shipping is the most common and affordable option. Enclosed
-          car shipping costs more, but it provides additional protection from
-          weather, dust, and road debris. Understanding the difference can help
-          you make a better decision before booking transport.
-        </p>
+              <p className="svc-subtitle">
+                Open transport is the most common and affordable option. Enclosed transport
+                costs more but gives extra protection from weather and road debris.
+                The best choice depends on your vehicle and your priorities.
+              </p>
 
-        <h2>What Is Open Car Shipping?</h2>
-        <p>
-          Open car shipping means your vehicle is transported on an open carrier,
-          usually the same type of trailer commonly seen delivering multiple cars
-          on highways. This is the standard method used for most everyday
-          vehicles in the United States.
-        </p>
-
-        <h3>Pros of Open Transport</h3>
-        <ul>
-          <li>Lower cost than enclosed shipping</li>
-          <li>More carrier availability</li>
-          <li>Faster scheduling on many routes</li>
-          <li>Best option for most standard vehicles</li>
-        </ul>
-
-        <h3>Cons of Open Transport</h3>
-        <ul>
-          <li>Vehicle is exposed to weather</li>
-          <li>More exposure to road dust and debris</li>
-          <li>Less ideal for rare or high-value cars</li>
-        </ul>
-
-        <h2>What Is Enclosed Car Shipping?</h2>
-        <p>
-          Enclosed car shipping means your vehicle travels inside a covered
-          trailer. This adds an extra layer of protection and is often chosen
-          for luxury cars, exotic vehicles, collector cars, classics, and show
-          vehicles.
-        </p>
-
-        <h3>Pros of Enclosed Transport</h3>
-        <ul>
-          <li>Better protection from road debris and weather</li>
-          <li>More suitable for high-value vehicles</li>
-          <li>Preferred for classic, exotic, and luxury cars</li>
-          <li>Extra peace of mind for sensitive shipments</li>
-        </ul>
-
-        <h3>Cons of Enclosed Transport</h3>
-        <ul>
-          <li>Higher cost than open transport</li>
-          <li>Fewer enclosed carriers available</li>
-          <li>Scheduling may take longer on some routes</li>
-        </ul>
-
-        <h2>How Much More Does Enclosed Shipping Cost?</h2>
-        <p>
-          Enclosed car shipping often costs about 30% to 60% more than open car
-          shipping, depending on route, season, and vehicle type. The exact
-          difference varies, but enclosed transport is generally considered the
-          premium option.
-        </p>
-
-        <p>
-          If you are shipping a standard sedan, SUV, or daily driver, open
-          transport is usually the most practical choice. If you are shipping a
-          high-end car or collectible vehicle, enclosed transport is often worth
-          the extra cost.
-        </p>
-
-        <h2>Which Option Is Best for Your Vehicle?</h2>
-        <p>
-          Open transport is best for:
-        </p>
-        <ul>
-          <li>Everyday cars</li>
-          <li>Sedans and SUVs</li>
-          <li>Budget-focused shipments</li>
-          <li>Common interstate routes</li>
-        </ul>
-
-        <p>
-          Enclosed transport is best for:
-        </p>
-        <ul>
-          <li>Luxury vehicles</li>
-          <li>Exotic and specialty cars</li>
-          <li>Classic and collector cars</li>
-          <li>Vehicles needing extra protection</li>
-        </ul>
-
-        <h2>Final Recommendation</h2>
-        <p>
-          The best option comes down to cost versus protection. Open shipping is
-          ideal for most people because it is efficient and affordable. Enclosed
-          shipping is the better choice when vehicle condition, rarity, or value
-          matters more than price.
-        </p>
-
-        <p>
-          If you are unsure which option is right for your shipment, EcoHub
-          Logistics can help compare pricing and recommend the best transport
-          type for your route.
-        </p>
-
-        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginTop: "2rem" }}>
-          <Link to="/quote" className="svc-btn-primary">
-            Get a Free Quote
-          </Link>
-          <Link to="/services/enclosed-transport" className="svc-btn-ghost">
-            View Enclosed Transport
-          </Link>
+              <div className="svc-actions">
+                <Link to="/quote" className="svc-btn-primary">
+                  Get a free quote
+                </Link>
+                <Link to="/services/enclosed-transport" className="svc-btn-ghost">
+                  View enclosed transport
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
-      </article>
+      </section>
+
+      <section className="svc-container svc-grid" aria-label="Comparison overview">
+        <article className="svc-block">
+          <h2 className="svc-h2">Open car shipping</h2>
+          <p className="svc-p">
+            Open transport means the vehicle moves on an open carrier. This is the standard
+            method used for most shipments in the USA.
+          </p>
+
+          <div className="svc-divider" />
+
+          <h3 className="svc-h3">Best for</h3>
+          <ul className="svc-list svc-list--bullets">
+            <li>Daily drivers</li>
+            <li>Standard sedans and SUVs</li>
+            <li>Budget-focused shipments</li>
+            <li>Common interstate routes</li>
+          </ul>
+        </article>
+
+        <aside className="svc-block svc-block--accent">
+          <h2 className="svc-h2">Enclosed car shipping</h2>
+          <p className="svc-p">
+            Enclosed transport places the vehicle inside a covered trailer, reducing exposure
+            to weather, dust, and road debris.
+          </p>
+
+          <div className="svc-checklist">
+            <div className="svc-checkrow">
+              <span className="svc-checkrow-k">Protection</span>
+              <span className="svc-tag svc-tag--ok">Higher</span>
+            </div>
+            <div className="svc-checkrow">
+              <span className="svc-checkrow-k">Cost</span>
+              <span className="svc-tag svc-tag--help">Higher</span>
+            </div>
+            <div className="svc-checkrow">
+              <span className="svc-checkrow-k">Availability</span>
+              <span className="svc-tag svc-tag--help">Lower</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section className="svc-container">
+        <article className="svc-block">
+          <h2 className="svc-h2">Which one should you choose?</h2>
+
+          <h3 className="svc-h3">Choose open transport if:</h3>
+          <ul className="svc-list svc-list--bullets">
+            <li>You want the most affordable shipping option</li>
+            <li>Your vehicle is a standard daily-use car</li>
+            <li>You want more route availability</li>
+          </ul>
+
+          <h3 className="svc-h3">Choose enclosed transport if:</h3>
+          <ul className="svc-list svc-list--bullets">
+            <li>You are shipping a luxury, exotic, or classic vehicle</li>
+            <li>Extra protection matters more than lowest price</li>
+            <li>You want maximum protection during transit</li>
+          </ul>
+
+          <p className="svc-p">
+            In most cases, open shipping is the right choice for regular vehicles.
+            Enclosed transport is typically worth the extra cost when vehicle value
+            or condition is the top priority.
+          </p>
+        </article>
+      </section>
+
+      <section className="svc-container svc-faq" aria-label="FAQ">
+        <h2 className="svc-h2">Open vs enclosed FAQ</h2>
+
+        <div className="svc-faq-grid">
+          <details className="svc-faq-item">
+            <summary>Is enclosed transport safer than open?</summary>
+            <p>
+              It provides more protection from weather and road debris, so it is often preferred for high-value vehicles.
+            </p>
+          </details>
+
+          <details className="svc-faq-item">
+            <summary>Is open transport cheaper?</summary>
+            <p>
+              Yes. Open transport is usually the most affordable and common auto shipping method.
+            </p>
+          </details>
+
+          <details className="svc-faq-item">
+            <summary>Which option is best for a normal sedan?</summary>
+            <p>
+              Open transport is usually the best balance of cost and practicality for a standard sedan.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <section className="svc-container">
+        <article className="svc-block">
+          <h2 className="svc-h2">Related guides</h2>
+          <ul className="svc-list svc-list--bullets">
+            <li>
+              <Link to="/how-much-does-car-shipping-cost">How much does car shipping cost?</Link>
+            </li>
+            <li>
+              <Link to="/how-long-does-car-shipping-take">How long does car shipping take?</Link>
+            </li>
+            <li>
+              <Link to="/services/enclosed-transport">Enclosed auto transport</Link>
+            </li>
+          </ul>
+        </article>
+      </section>
     </main>
   );
 }
