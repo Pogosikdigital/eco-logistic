@@ -97,25 +97,26 @@ export default function ReviewsPage() {
   return (
     <>
       <MetaSEO
-        // ❗️без бренда — MetaSEO сам добавит
         title="Customer Reviews"
-        description="Read real customer reviews about EcoHub Logistics. Verified feedback from people across the USA who shipped cars, motorcycles, trucks, and boats."
+        description="Read real customer reviews about EcoHub Logistics. Verified feedback from customers across the USA who shipped cars, motorcycles, boats, and other vehicles."
         canonical={canonical}
         robots="index,follow"
         og={{
           type: "website",
           url: canonical,
-          title: "Customer Reviews | EcoHub Logistics",
+          title: "Customer Reviews",
           description:
-            "Verified customer reviews for EcoHub Logistics — nationwide auto transport across the USA.",
+            "Verified customer reviews for EcoHub Logistics vehicle transport services across the USA.",
           image: "https://www.ecohublogistics.com/og/reviews.webp",
+          imageAlt: "Customer reviews for EcoHub Logistics",
         }}
         twitter={{
           card: "summary_large_image",
-          title: "Customer Reviews | EcoHub Logistics",
+          title: "Customer Reviews",
           description:
             "See verified reviews from customers who shipped vehicles with EcoHub Logistics.",
           image: "https://www.ecohublogistics.com/og/reviews.webp",
+          imageAlt: "Customer reviews for EcoHub Logistics",
         }}
         jsonLd={[
           {
@@ -149,8 +150,6 @@ export default function ReviewsPage() {
               },
             ],
           },
-
-          // ✅ Лучший вариант: AggregateRating как часть Organization
           ...(reviewCount && avgRating
             ? [
                 {
@@ -180,12 +179,16 @@ export default function ReviewsPage() {
           <header className="reviews-page__head">
             <span className="reviews-page__badge">Customer feedback</span>
 
-            {/* ✅ One true H1 on this page */}
             <h1 className="reviews-page__title">Customer Reviews</h1>
 
             <p className="reviews-page__subtitle">
-              Real reviews from people across the US who shipped cars, motorcycles,
-              trucks and boats with EcoHub Logistics.
+              Real reviews from customers across the USA who shipped cars,
+              motorcycles, boats, and other vehicles with EcoHub Logistics.
+            </p>
+
+            <p className="reviews-page__subtitle">
+              We focus on clear communication, insured carriers, practical
+              scheduling, and reliable coordination from pickup to delivery.
             </p>
 
             {reviewCount > 0 && avgRating && (
@@ -207,6 +210,38 @@ export default function ReviewsPage() {
               <Link to="/" className="home-btn-ghost reviews-page__btn">
                 Back to home
               </Link>
+            </div>
+
+            <div style={{ marginTop: "1.5rem", textAlign: "left", maxWidth: "900px" }}>
+              <p style={{ marginBottom: "0.75rem", fontWeight: 600 }}>
+                Popular transport pages:
+              </p>
+              <ul style={{ paddingLeft: "1.25rem", display: "grid", gap: "0.5rem" }}>
+                <li>
+                  <Link to="/services/car-shipping">Car shipping across the USA</Link>
+                </li>
+                <li>
+                  <Link to="/services/enclosed-transport">Enclosed auto transport</Link>
+                </li>
+                <li>
+                  <Link to="/services/motorcycle-shipping">
+                    Motorcycle shipping across the USA
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/services/inoperable-vehicle-transport">
+                    Inoperable vehicle transport
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/services/boat-transport">Boat transport services</Link>
+                </li>
+                <li>
+                  <Link to="/services/rv-motorhome-semitruck-transport">
+                    RV, motorhome, and semi-truck transport
+                  </Link>
+                </li>
+              </ul>
             </div>
           </header>
 
