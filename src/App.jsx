@@ -14,7 +14,7 @@ import About from "./components/About";
 import SEOSection from "./components/SEOSection";
 import Contact from "./components/Contact";
 
-// Pages
+// Core pages
 import QuotePage from "./pages/QuotePage";
 import ReviewsPage from "./pages/ReviewsPage";
 import EarnWithUsPage from "./pages/EarnWithUsPage";
@@ -29,6 +29,14 @@ import MotorcycleShippingPage from "./pages/services/MotorcycleShippingPage";
 import InoperableVehicleTransportPage from "./pages/services/InoperableVehicleTransportPage";
 import BoatTransportPage from "./pages/services/BoatTransportPage";
 import RvMotorhomeSemiTruckTransportPage from "./pages/services/RvMotorhomeSemiTruckTransportPage";
+
+// Location SEO pages
+import CarShippingFloridaPage from "./pages/CarShippingFloridaPage";
+import CarShippingCaliforniaPage from "./pages/CarShippingCaliforniaPage";
+import CarShippingTexasPage from "./pages/CarShippingTexasPage";
+
+// Blog pages
+import CarShippingCostPage from "./pages/blog/CarShippingCostPage";
 
 function App() {
   const location = useLocation();
@@ -65,7 +73,7 @@ function App() {
     }, 80);
 
     return () => clearTimeout(t);
-  }, [location, sectionByPath]);
+  }, [location.pathname, location.hash]);
 
   const Home = (
     <MainLayout>
@@ -128,6 +136,7 @@ function App() {
 
   return (
     <Routes>
+      {/* Home + section routes */}
       <Route path="/" element={Home} />
       <Route path="/services" element={Home} />
       <Route path="/how-it-works" element={Home} />
@@ -135,6 +144,7 @@ function App() {
       <Route path="/contact" element={Home} />
       <Route path="/testimonials" element={Home} />
 
+      {/* Core pages */}
       <Route
         path="/quote"
         element={
@@ -180,6 +190,7 @@ function App() {
         }
       />
 
+      {/* Main service pages */}
       <Route
         path="/services/enclosed-transport"
         element={
@@ -234,6 +245,45 @@ function App() {
         }
       />
 
+      {/* Location SEO pages */}
+      <Route
+        path="/car-shipping-florida"
+        element={
+          <MainLayout>
+            <CarShippingFloridaPage />
+          </MainLayout>
+        }
+      />
+
+      <Route
+        path="/car-shipping-california"
+        element={
+          <MainLayout>
+            <CarShippingCaliforniaPage />
+          </MainLayout>
+        }
+      />
+
+      <Route
+        path="/car-shipping-texas"
+        element={
+          <MainLayout>
+            <CarShippingTexasPage />
+          </MainLayout>
+        }
+      />
+
+      {/* Blog pages */}
+      <Route
+        path="/how-much-does-car-shipping-cost"
+        element={
+          <MainLayout>
+            <CarShippingCostPage />
+          </MainLayout>
+        }
+      />
+
+      {/* Redirects */}
       <Route path="/earn" element={<Navigate to="/earn-with-us" replace />} />
       <Route path="/contact-us" element={<Navigate to="/contact" replace />} />
       <Route path="/about-us" element={<Navigate to="/about" replace />} />
@@ -265,6 +315,7 @@ function App() {
         element={<Navigate to="/services/rv-motorhome-semitruck-transport" replace />}
       />
 
+      {/* 404 */}
       <Route
         path="/404"
         element={
