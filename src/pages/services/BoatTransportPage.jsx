@@ -14,24 +14,24 @@ export default function BoatTransportPage() {
   return (
     <main className="svc-page" itemScope itemType="https://schema.org/WebPage">
       <MetaSEO
-        title="Boat Transport"
-        description="Reliable boat transport across the USA. Door-to-door options, insured carriers, careful handling, and real coordinator support."
+        title="Boat Transport Across the USA"
+        description="Reliable boat transport across the USA with insured carriers, careful handling, flexible scheduling, and coordinator support from pickup to delivery."
         canonical={canonical}
         robots="index,follow"
         og={{
           type: "website",
           url: canonical,
-          title: "Boat Transport | EcoHub Logistics",
+          title: "Boat Transport Across the USA",
           description:
-            "Boat shipping across the USA with insured carriers. Flexible scheduling and professional coordination.",
+            "Reliable boat shipping across the USA with insured carriers, flexible scheduling, and professional coordination.",
           image: "https://www.ecohublogistics.com/og/boat-transport.webp",
           imageAlt: "Boat transport service by EcoHub Logistics",
         }}
         twitter={{
           card: "summary_large_image",
-          title: "Boat Transport | EcoHub Logistics",
+          title: "Boat Transport Across the USA",
           description:
-            "Reliable boat transport nationwide. Insured carriers, careful handling, fast quotes.",
+            "Reliable boat transport nationwide with insured carriers, careful handling, and fast quotes.",
           image: "https://www.ecohublogistics.com/og/boat-transport.webp",
           imageAlt: "Boat transport service by EcoHub Logistics",
         }}
@@ -39,17 +39,51 @@ export default function BoatTransportPage() {
           {
             "@context": "https://schema.org",
             "@type": "Service",
-            name: "Boat Transport",
-            provider: {
-              "@type": "Organization",
-              name: "EcoHub Logistics",
-              url: "https://www.ecohublogistics.com/",
-            },
-            areaServed: "US",
+            name: "Boat Transport Across the USA",
             serviceType: "Boat Transport",
             url: canonical,
             description:
               "Reliable boat transport across the USA with insured carriers and coordinator support.",
+            areaServed: {
+              "@type": "Country",
+              name: "United States",
+            },
+            provider: {
+              "@type": "Organization",
+              name: "EcoHub Logistics",
+              url: "https://www.ecohublogistics.com/",
+              telephone: "+1-650-999-9660",
+            },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "Can you ship a boat without a trailer?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes, depending on boat size, route, and location. Share the details and we can match the right carrier and equipment.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Do boats require permits for transport?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Some oversized boats may require permits. Permit requirements depend on overall dimensions and the route being used.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Is the boat insured during transport?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Carriers are insured. Coverage details can be confirmed before pickup based on the assigned carrier and shipment setup.",
+                },
+              },
+            ],
           },
           {
             "@context": "https://schema.org",
@@ -78,7 +112,7 @@ export default function BoatTransportPage() {
         <div className="svc-container">
           <div className="svc-hero-inner">
             <div>
-              <span className="svc-badge">AUTO TRANSPORT</span>
+              <span className="svc-badge">BOAT TRANSPORT</span>
 
               <h1 className="svc-title" itemProp="name">
                 Boat Transport Across the USA
@@ -91,8 +125,8 @@ export default function BoatTransportPage() {
               </p>
 
               <ul className="svc-bullets">
-                <li>✅ Nationwide boat transport (various sizes)</li>
-                <li>✅ Insured carriers + professional handling</li>
+                <li>✅ Nationwide boat transport for multiple sizes</li>
+                <li>✅ Insured carriers with professional handling</li>
                 <li>✅ Flexible pickup scheduling</li>
                 <li>✅ Coordinator support from start to finish</li>
               </ul>
@@ -108,8 +142,8 @@ export default function BoatTransportPage() {
               </div>
 
               <p className="svc-note">
-                Tip: have boat length, beam width, height, and trailer status
-                ready for the fastest pricing.
+                Tip: have boat length, beam width, overall height, and trailer
+                status ready for the fastest pricing.
               </p>
             </div>
 
@@ -138,18 +172,19 @@ export default function BoatTransportPage() {
 
           <p className="svc-p">
             Share pickup and delivery ZIP codes, your boat dimensions, and
-            whether it&apos;s on a trailer. We match the shipment with the right
-            carrier and coordinate the move end-to-end.
+            whether the boat is already on a trailer. We match the shipment with
+            the right carrier and coordinate the transport from pickup to
+            delivery.
           </p>
 
           <div className="svc-divider" />
 
-          <h3 className="svc-h3">What affects price</h3>
+          <h3 className="svc-h3">What affects the price</h3>
 
           <ul className="svc-list svc-list--bullets">
-            <li>Boat size (length, beam, height)</li>
-            <li>Trailer availability / loading requirements</li>
-            <li>Route demand & permits (if needed)</li>
+            <li>Boat size: length, beam, and height</li>
+            <li>Trailer availability and loading requirements</li>
+            <li>Route demand and permit needs</li>
             <li>Timing and seasonality</li>
           </ul>
         </article>
@@ -158,12 +193,12 @@ export default function BoatTransportPage() {
           <h2 className="svc-h2">Recommended prep checklist</h2>
 
           <p className="svc-p">
-            Simple prep helps ensure safe pickup and delivery.
+            Simple preparation helps ensure safe pickup and delivery.
           </p>
 
           <div className="svc-checklist">
             <div className="svc-checkrow">
-              <span className="svc-checkrow-k">Confirm dimensions (L / W / H)</span>
+              <span className="svc-checkrow-k">Confirm dimensions: L / W / H</span>
               <span className="svc-tag svc-tag--ok">✅ Recommended</span>
             </div>
 
@@ -173,7 +208,7 @@ export default function BoatTransportPage() {
             </div>
 
             <div className="svc-checkrow">
-              <span className="svc-checkrow-k">Check trailer tires / lights</span>
+              <span className="svc-checkrow-k">Check trailer tires and lights</span>
               <span className="svc-tag svc-tag--help">✅ Helpful</span>
             </div>
           </div>
@@ -184,6 +219,27 @@ export default function BoatTransportPage() {
         </aside>
       </section>
 
+      <section className="svc-container" aria-label="Why choose boat transport">
+        <article className="svc-block">
+          <h2 className="svc-h2">Why professional boat transport matters</h2>
+
+          <p className="svc-p">
+            Boat transport often requires more planning than standard vehicle
+            shipping because dimensions, trailer setup, and permit requirements
+            can all affect the move. That is why accurate measurements and route
+            planning matter from the start.
+          </p>
+
+          <p className="svc-p">
+            EcoHub Logistics helps coordinate boat shipping with insured
+            carriers, flexible scheduling, and practical communication. Whether
+            you are moving a fishing boat, personal watercraft setup, sailboat,
+            or another recreational vessel, we help plan a safer and smoother
+            transport process.
+          </p>
+        </article>
+      </section>
+
       <section className="svc-container svc-faq" aria-label="FAQ">
         <h2 className="svc-h2">Boat transport FAQ</h2>
 
@@ -191,8 +247,8 @@ export default function BoatTransportPage() {
           <details className="svc-faq-item">
             <summary>Can you ship a boat without a trailer?</summary>
             <p>
-              Yes, depending on size and location. Share the details and we’ll
-              match the right equipment and carrier.
+              Yes, depending on the size and pickup location. Share the details
+              and we will help match the right equipment and carrier.
             </p>
           </details>
 
@@ -200,7 +256,7 @@ export default function BoatTransportPage() {
             <summary>Do boats require permits?</summary>
             <p>
               Some oversized boats may require permits. Your coordinator will
-              advise based on dimensions and route.
+              advise based on overall dimensions and route.
             </p>
           </details>
 
@@ -211,6 +267,45 @@ export default function BoatTransportPage() {
             </p>
           </details>
         </div>
+      </section>
+
+      <section className="svc-container" aria-label="Related vehicle transport services">
+        <article className="svc-block">
+          <h2 className="svc-h2">Related transport services</h2>
+
+          <p className="svc-p">
+            Explore related shipping options depending on the type of transport
+            you need.
+          </p>
+
+          <ul className="svc-list svc-list--bullets">
+            <li>
+              <Link to="/services/car-shipping">
+                Standard car shipping across the USA
+              </Link>
+            </li>
+            <li>
+              <Link to="/services/enclosed-transport">
+                Enclosed auto transport for luxury and classic vehicles
+              </Link>
+            </li>
+            <li>
+              <Link to="/services/motorcycle-shipping">
+                Motorcycle shipping across the USA
+              </Link>
+            </li>
+            <li>
+              <Link to="/services/inoperable-vehicle-transport">
+                Inoperable vehicle transport
+              </Link>
+            </li>
+            <li>
+              <Link to="/services/rv-motorhome-semitruck-transport">
+                RV, motorhome, and semi-truck transport
+              </Link>
+            </li>
+          </ul>
+        </article>
       </section>
 
       <section className="svc-quote" aria-label="Get a quote">
