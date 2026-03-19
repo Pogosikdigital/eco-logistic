@@ -15,21 +15,21 @@ export default function CarShippingPage() {
     <main className="svc-page" itemScope itemType="https://schema.org/WebPage">
       <MetaSEO
         title="Car Shipping Across the USA"
-        description="Reliable door-to-door car shipping with insured carriers. Transparent pricing, flexible scheduling, and a real coordinator helping you at every step."
+        description="Reliable door-to-door car shipping across the USA with insured carriers, transparent pricing, flexible scheduling, and dedicated coordinator support."
         canonical={canonical}
         robots="index,follow"
         og={{
           type: "website",
           url: canonical,
-          title: "Car Shipping Across the USA | EcoHub Logistics",
+          title: "Car Shipping Across the USA",
           description:
-            "Door-to-door car shipping across the USA. Insured carriers, open & enclosed transport options, fast pickup scheduling.",
+            "Door-to-door car shipping across the USA with insured carriers, open and enclosed transport options, and fast pickup scheduling.",
           image: "https://www.ecohublogistics.com/og/car-shipping.webp",
           imageAlt: "Car shipping across the USA by EcoHub Logistics",
         }}
         twitter={{
           card: "summary_large_image",
-          title: "Car Shipping Across the USA | EcoHub Logistics",
+          title: "Car Shipping Across the USA",
           description:
             "Reliable nationwide car shipping with insured carriers and transparent pricing.",
           image: "https://www.ecohublogistics.com/og/car-shipping.webp",
@@ -40,16 +40,50 @@ export default function CarShippingPage() {
             "@context": "https://schema.org",
             "@type": "Service",
             name: "Car Shipping Across the USA",
+            serviceType: "Car Shipping",
+            url: canonical,
+            description:
+              "Reliable door-to-door car shipping across the USA with insured carriers. Open and enclosed transport options available.",
+            areaServed: {
+              "@type": "Country",
+              name: "United States",
+            },
             provider: {
               "@type": "Organization",
               name: "EcoHub Logistics",
               url: "https://www.ecohublogistics.com/",
+              telephone: "+1-650-999-9660",
             },
-            areaServed: "US",
-            serviceType: "Auto Transport",
-            url: canonical,
-            description:
-              "Reliable door-to-door car shipping with insured carriers. Open and enclosed transport options available.",
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "How long does car shipping usually take?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Transit time depends on distance, route demand, weather, and pickup timing. Many routes take a few days, while coast-to-coast shipments may take longer.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Is my vehicle insured during transport?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes. Carriers are insured, and your coordinator can confirm coverage details before pickup.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Do you offer enclosed transport?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes. Enclosed transport is available for luxury, exotic, classic, and high-value vehicles that need added protection.",
+                },
+              },
+            ],
           },
           {
             "@context": "https://schema.org",
@@ -184,6 +218,29 @@ export default function CarShippingPage() {
         </aside>
       </section>
 
+      <section className="svc-container" aria-label="Why choose EcoHub Logistics">
+        <article className="svc-block">
+          <h2 className="svc-h2">Why customers choose our car shipping service</h2>
+
+          <p className="svc-p">
+            EcoHub Logistics helps individuals, dealerships, online vehicle
+            buyers, and fleet clients move cars across the country with reliable
+            scheduling and transparent communication. Whether you need open
+            transport for everyday vehicles or extra protection for a specialty
+            car, our team helps you choose the right option based on route,
+            timing, and vehicle type.
+          </p>
+
+          <p className="svc-p">
+            We focus on practical support: clear pickup windows, insured
+            carriers, direct communication, and nationwide coverage. That makes
+            car shipping easier whether you are relocating, buying a car out of
+            state, sending a vehicle to a family member, or coordinating
+            dealership transport.
+          </p>
+        </article>
+      </section>
+
       <section className="svc-container svc-faq" aria-label="FAQ">
         <h2 className="svc-h2">Car shipping FAQ</h2>
 
@@ -191,8 +248,9 @@ export default function CarShippingPage() {
           <details className="svc-faq-item">
             <summary>How long does car shipping usually take?</summary>
             <p>
-              Transit time depends on distance and route demand. Many routes
-              take a few days, while coast-to-coast shipments may take longer.
+              Transit time depends on distance, route demand, weather, and pickup
+              timing. Many routes take a few days, while coast-to-coast
+              shipments may take longer.
             </p>
           </details>
 
@@ -212,6 +270,43 @@ export default function CarShippingPage() {
             </p>
           </details>
         </div>
+      </section>
+
+      <section className="svc-container" aria-label="Related vehicle transport services">
+        <article className="svc-block">
+          <h2 className="svc-h2">Related transport services</h2>
+
+          <p className="svc-p">
+            Looking for a more specific transport option? Explore our related
+            services below.
+          </p>
+
+          <ul className="svc-list svc-list--bullets">
+            <li>
+              <Link to="/services/enclosed-transport">
+                Enclosed car transport for luxury, exotic, and classic vehicles
+              </Link>
+            </li>
+            <li>
+              <Link to="/services/motorcycle-shipping">
+                Motorcycle shipping across the USA
+              </Link>
+            </li>
+            <li>
+              <Link to="/services/inoperable-vehicle-transport">
+                Inoperable vehicle transport
+              </Link>
+            </li>
+            <li>
+              <Link to="/services/boat-transport">Boat transport services</Link>
+            </li>
+            <li>
+              <Link to="/services/rv-motorhome-semitruck-transport">
+                RV, motorhome, and semi-truck transport
+              </Link>
+            </li>
+          </ul>
+        </article>
       </section>
 
       <section className="svc-quote" aria-label="Get a quote">
