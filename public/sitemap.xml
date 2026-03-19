@@ -1,51 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- MAIN -->
   <url>
     <loc>https://www.ecohublogistics.com/</loc>
     <lastmod>2026-03-19</lastmod>
   </url>
+
   <url>
     <loc>https://www.ecohublogistics.com/quote</loc>
     <lastmod>2026-03-19</lastmod>
   </url>
+
   <url>
     <loc>https://www.ecohublogistics.com/reviews</loc>
     <lastmod>2026-03-19</lastmod>
   </url>
+
   <url>
     <loc>https://www.ecohublogistics.com/earn-with-us</loc>
     <lastmod>2026-03-19</lastmod>
   </url>
+
+  <!-- SERVICES -->
   <url>
     <loc>https://www.ecohublogistics.com/services/car-shipping</loc>
     <lastmod>2026-03-19</lastmod>
   </url>
+
   <url>
     <loc>https://www.ecohublogistics.com/services/enclosed-transport</loc>
     <lastmod>2026-03-19</lastmod>
   </url>
+
   <url>
     <loc>https://www.ecohublogistics.com/services/motorcycle-shipping</loc>
     <lastmod>2026-03-19</lastmod>
   </url>
+
   <url>
     <loc>https://www.ecohublogistics.com/services/inoperable-vehicle-transport</loc>
     <lastmod>2026-03-19</lastmod>
   </url>
+
   <url>
     <loc>https://www.ecohublogistics.com/services/boat-transport</loc>
     <lastmod>2026-03-19</lastmod>
   </url>
+
   <url>
     <loc>https://www.ecohublogistics.com/services/rv-motorhome-semitruck-transport</loc>
     <lastmod>2026-03-19</lastmod>
   </url>
+
+  <!-- LOCATION PAGES -->
+  <url>
+    <loc>https://www.ecohublogistics.com/car-shipping-florida</loc>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.ecohublogistics.com/car-shipping-california</loc>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.ecohublogistics.com/car-shipping-texas</loc>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+
+  <!-- BLOG (🔥 САМОЕ ВАЖНОЕ ДЛЯ ТРАФИКА) -->
+  <url>
+    <loc>https://www.ecohublogistics.com/how-much-does-car-shipping-cost</loc>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.ecohublogistics.com/open-vs-enclosed-car-shipping</loc>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+
+  <url>
+    <loc>https://www.ecohublogistics.com/how-long-does-car-shipping-take</loc>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+
+  <!-- LEGAL -->
   <url>
     <loc>https://www.ecohublogistics.com/privacy-policy</loc>
     <lastmod>2026-03-19</lastmod>
   </url>
+
   <url>
     <loc>https://www.ecohublogistics.com/terms-and-conditions</loc>
     <lastmod>2026-03-19</lastmod>
   </url>
+
 </urlset>
