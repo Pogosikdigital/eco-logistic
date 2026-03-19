@@ -15,40 +15,76 @@ export default function MotorcycleShippingPage() {
   return (
     <main className="svc-page" itemScope itemType="https://schema.org/WebPage">
       <MetaSEO
-        title="Motorcycle Shipping Services"
-        description="Fast, insured motorcycle shipping across the USA. Door-to-door delivery with professional handling and flexible scheduling."
+        title="Motorcycle Shipping Across the USA"
+        description="Fast, insured motorcycle shipping across the USA with door-to-door delivery, professional handling, flexible scheduling, and coordinator support."
         canonical={canonical}
         robots="index,follow"
         og={{
           type: "website",
           url: canonical,
-          title: "Motorcycle Shipping Across the USA | EcoHub Logistics",
+          title: "Motorcycle Shipping Across the USA",
           description:
-            "Safe, insured motorcycle shipping nationwide. Door-to-door delivery, flexible scheduling, and real coordinator support.",
+            "Safe, insured motorcycle shipping nationwide with door-to-door delivery, flexible scheduling, and coordinator support.",
           image: "https://www.ecohublogistics.com/og/motorcycle-shipping.webp",
+          imageAlt: "Motorcycle shipping across the USA by EcoHub Logistics",
         }}
         twitter={{
           card: "summary_large_image",
-          title: "Motorcycle Shipping Across the USA | EcoHub Logistics",
+          title: "Motorcycle Shipping Across the USA",
           description:
             "Fast motorcycle shipping across the USA with insured carriers and professional handling.",
           image: "https://www.ecohublogistics.com/og/motorcycle-shipping.webp",
+          imageAlt: "Motorcycle shipping across the USA by EcoHub Logistics",
         }}
         jsonLd={[
           {
             "@context": "https://schema.org",
             "@type": "Service",
-            name: "Motorcycle Shipping Services",
+            name: "Motorcycle Shipping Across the USA",
+            serviceType: "Motorcycle Transport",
+            url: canonical,
+            description:
+              "Nationwide motorcycle shipping with insured carriers, door-to-door delivery, and coordinator support.",
+            areaServed: {
+              "@type": "Country",
+              name: "United States",
+            },
             provider: {
               "@type": "Organization",
               name: "EcoHub Logistics",
               url: "https://www.ecohublogistics.com/",
+              telephone: "+1-650-999-9660",
             },
-            areaServed: "US",
-            serviceType: "Motorcycle Transport",
-            url: canonical,
-            description:
-              "Nationwide motorcycle shipping with insured carriers, door-to-door delivery and coordinator support.",
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "How does motorcycle shipping work?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "You share pickup and delivery ZIP codes, motorcycle details, and a preferred pickup date. A coordinator matches your shipment with a trusted carrier and manages the process from pickup to delivery.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Do you offer enclosed motorcycle transport?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes. Both open and enclosed transport options may be available depending on route, timing, and protection needs.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Is motorcycle shipping insured?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Carriers are insured. Exact coverage details depend on the assigned carrier and shipment terms.",
+                },
+              },
+            ],
           },
           {
             "@context": "https://schema.org",
@@ -90,9 +126,9 @@ export default function MotorcycleShippingPage() {
               </p>
 
               <ul className="svc-bullets">
-                <li>✅ Secure strapping &amp; professional handling</li>
+                <li>✅ Secure strapping and professional handling</li>
                 <li>✅ Door-to-door nationwide delivery</li>
-                <li>✅ Open &amp; enclosed transport options</li>
+                <li>✅ Open and enclosed transport options</li>
                 <li>✅ Fully insured shipments</li>
               </ul>
 
@@ -101,9 +137,9 @@ export default function MotorcycleShippingPage() {
                   Get a free quote
                 </Link>
 
-                <Link to="/#contact" className="svc-btn-ghost">
+                <a className="svc-btn-ghost" href="tel:+16509999660">
                   Talk to a coordinator
-                </Link>
+                </a>
               </div>
 
               <p className="svc-note">
@@ -116,7 +152,7 @@ export default function MotorcycleShippingPage() {
               <div className="svc-hero-media">
                 <img
                   src={heroImg}
-                  alt="Motorcycle shipping service"
+                  alt="Motorcycle shipping service in the USA"
                   width="1200"
                   height="800"
                   loading="eager"
@@ -148,10 +184,10 @@ export default function MotorcycleShippingPage() {
           <h3 className="svc-h3">What affects the price</h3>
 
           <ul className="svc-list svc-list--bullets">
-            <li>Distance &amp; route demand</li>
-            <li>Pickup &amp; delivery accessibility</li>
-            <li>Seasonality &amp; timing</li>
-            <li>Protection level (open vs enclosed)</li>
+            <li>Distance and route demand</li>
+            <li>Pickup and delivery accessibility</li>
+            <li>Seasonality and timing</li>
+            <li>Protection level: open vs enclosed</li>
           </ul>
         </article>
 
@@ -183,6 +219,95 @@ export default function MotorcycleShippingPage() {
             Request a fast quote →
           </Link>
         </aside>
+      </section>
+
+      <section className="svc-container" aria-label="Why choose motorcycle shipping">
+        <article className="svc-block">
+          <h2 className="svc-h2">Why riders choose professional motorcycle shipping</h2>
+
+          <p className="svc-p">
+            Motorcycle shipping is often the simplest way to move a bike safely
+            across the country without adding mileage, coordinating a long ride,
+            or dealing with weather and route risks. Professional handling is
+            especially helpful for custom bikes, sport bikes, touring bikes, and
+            motorcycles being purchased or sold out of state.
+          </p>
+
+          <p className="svc-p">
+            EcoHub Logistics helps coordinate reliable motorcycle transport with
+            insured carriers, flexible scheduling, and clear communication. We
+            help customers compare route options and choose the right transport
+            setup based on timing, distance, and protection needs.
+          </p>
+        </article>
+      </section>
+
+      <section className="svc-container svc-faq" aria-label="Motorcycle shipping FAQ">
+        <h2 className="svc-h2">Motorcycle shipping FAQ</h2>
+
+        <div className="svc-faq-grid">
+          <details className="svc-faq-item">
+            <summary>How does motorcycle shipping work?</summary>
+            <p>
+              You provide pickup and delivery ZIP codes, bike details, and your
+              target shipping window. A coordinator then arranges transport with
+              a carrier and keeps the shipment moving from pickup to delivery.
+            </p>
+          </details>
+
+          <details className="svc-faq-item">
+            <summary>Do you offer enclosed motorcycle transport?</summary>
+            <p>
+              Yes. Open and enclosed options may be available depending on the
+              route, timing, and level of protection you want.
+            </p>
+          </details>
+
+          <details className="svc-faq-item">
+            <summary>Is motorcycle shipping insured?</summary>
+            <p>
+              Carriers are insured. Coverage details depend on the assigned
+              carrier and shipment terms.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <section className="svc-container" aria-label="Related vehicle transport services">
+        <article className="svc-block">
+          <h2 className="svc-h2">Related transport services</h2>
+
+          <p className="svc-p">
+            Explore related shipping options depending on the type of vehicle you
+            need to move.
+          </p>
+
+          <ul className="svc-list svc-list--bullets">
+            <li>
+              <Link to="/services/car-shipping">
+                Standard car shipping across the USA
+              </Link>
+            </li>
+            <li>
+              <Link to="/services/enclosed-transport">
+                Enclosed auto transport for luxury and classic vehicles
+              </Link>
+            </li>
+            <li>
+              <Link to="/services/inoperable-vehicle-transport">
+                Inoperable vehicle transport
+              </Link>
+            </li>
+            <li>
+              <Link to="/services/boat-transport">Boat transport services</Link>
+            </li>
+            <li>
+              <Link to="/services/rv-motorhome-semitruck-transport">
+                RV, motorhome, and semi-truck transport
+              </Link>
+            </li>
+          </ul>
+        </article>
       </section>
 
       <section className="svc-quote" aria-label="Get a quote">
