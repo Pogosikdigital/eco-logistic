@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 import QuoteSection from "../components/QuoteSection";
 import MetaSEO from "../components/MetaSEO";
+import "./services/service-page.css";
 
 export default function QuotePage() {
   const canonical = "https://www.ecohublogistics.com/quote";
@@ -84,76 +85,108 @@ export default function QuotePage() {
         ]}
       />
 
-      <main
-        style={{
-          paddingTop: "2rem",
-          paddingBottom: "3rem",
-        }}
-      >
-        <section
-          style={{
-            maxWidth: "1100px",
-            margin: "0 auto",
-            padding: "0 1rem 2rem",
-          }}
-          aria-label="Quote page introduction"
-        >
-          <h1
-            style={{
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              lineHeight: 1.1,
-              marginBottom: "1rem",
-            }}
-          >
-            Get a Free Car Shipping Quote
-          </h1>
+      <main className="svc-page">
+        <section className="svc-hero" aria-label="Quote page hero">
+          <div className="svc-hero-bg" />
 
-          <p
-            style={{
-              fontSize: "1.05rem",
-              lineHeight: 1.7,
-              maxWidth: "850px",
-              marginBottom: "1rem",
-            }}
-          >
-            Request a free, no-obligation quote for vehicle transport across the
-            USA. EcoHub Logistics helps coordinate car shipping, enclosed
-            transport, motorcycle shipping, inoperable vehicle transport, boat
-            transport, and RV or heavy vehicle transport with insured carriers
-            and practical support from pickup to delivery.
-          </p>
+          <div className="svc-container">
+            <div className="svc-hero-inner" style={{ gridTemplateColumns: "1fr" }}>
+              <div>
+                <span className="svc-badge">FREE QUOTE • AUTO TRANSPORT</span>
 
-          <p
-            style={{
-              fontSize: "1.05rem",
-              lineHeight: 1.7,
-              maxWidth: "850px",
-              marginBottom: "1.5rem",
-            }}
-          >
-            For the fastest and most accurate quote, have your pickup ZIP code,
-            delivery ZIP code, vehicle type, and preferred shipping window ready.
-          </p>
+                <h1 className="svc-title">Get a Free Car Shipping Quote</h1>
 
-          <div
-            style={{
-              display: "grid",
-              gap: "0.75rem",
-              maxWidth: "850px",
-            }}
-          >
-            <p style={{ margin: 0, fontWeight: 600 }}>
-              Popular transport pages:
+                <p className="svc-subtitle">
+                  Request a free, no-obligation quote for vehicle transport
+                  across the USA. EcoHub Logistics helps coordinate car
+                  shipping, enclosed transport, motorcycle shipping, inoperable
+                  vehicle transport, boat transport, and RV or heavy vehicle
+                  transport with insured carriers and practical support from
+                  pickup to delivery.
+                </p>
+
+                <p className="svc-subtitle">
+                  For the fastest and most accurate quote, have your pickup ZIP
+                  code, delivery ZIP code, vehicle type, and preferred shipping
+                  window ready.
+                </p>
+
+                <div className="svc-actions">
+                  <a href="#quote-form" className="svc-btn-primary">
+                    Start your quote
+                  </a>
+
+                  <a className="svc-btn-ghost" href="tel:+16509999660">
+                    Talk to a coordinator
+                  </a>
+                </div>
+
+                <p className="svc-note">
+                  Fast response, transparent pricing, and real support from a
+                  coordinator.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="svc-container svc-grid" aria-label="Quote page information">
+          <article className="svc-block">
+            <h2 className="svc-h2">What to prepare before requesting a quote</h2>
+
+            <p className="svc-p">
+              A few details help us give you a faster and more accurate vehicle
+              shipping estimate.
             </p>
 
-            <ul
-              style={{
-                paddingLeft: "1.25rem",
-                display: "grid",
-                gap: "0.6rem",
-                margin: 0,
-              }}
-            >
+            <div className="svc-divider" />
+
+            <ul className="svc-list svc-list--bullets">
+              <li>Pickup ZIP code</li>
+              <li>Delivery ZIP code</li>
+              <li>Vehicle year, make, and model</li>
+              <li>Preferred pickup window</li>
+              <li>Open or enclosed transport preference</li>
+              <li>Whether the vehicle is running or non-running</li>
+            </ul>
+          </article>
+
+          <aside className="svc-block svc-block--accent">
+            <h2 className="svc-h2">Why customers request quotes with us</h2>
+
+            <div className="svc-checklist">
+              <div className="svc-checkrow">
+                <span className="svc-checkrow-k">Door-to-door shipping</span>
+                <span className="svc-tag svc-tag--ok">✅ Available</span>
+              </div>
+
+              <div className="svc-checkrow">
+                <span className="svc-checkrow-k">Open & enclosed options</span>
+                <span className="svc-tag svc-tag--help">✅ Flexible</span>
+              </div>
+
+              <div className="svc-checkrow">
+                <span className="svc-checkrow-k">Insured carriers</span>
+                <span className="svc-tag svc-tag--ok">✅ Included</span>
+              </div>
+            </div>
+
+            <Link to="/reviews" className="svc-mini-cta">
+              Read customer reviews →
+            </Link>
+          </aside>
+        </section>
+
+        <section className="svc-container" aria-label="Popular transport pages">
+          <article className="svc-block">
+            <h2 className="svc-h2">Popular transport pages</h2>
+
+            <p className="svc-p">
+              Explore our most important transport services before requesting
+              your quote.
+            </p>
+
+            <ul className="svc-list svc-list--bullets">
               <li>
                 <Link to="/services/car-shipping">
                   Car shipping across the USA
@@ -185,10 +218,16 @@ export default function QuotePage() {
                 </Link>
               </li>
             </ul>
-          </div>
+          </article>
         </section>
 
-        <QuoteSection />
+        <section
+          id="quote-form"
+          className="svc-quote"
+          aria-label="Quote form section"
+        >
+          <QuoteSection />
+        </section>
       </main>
     </>
   );
