@@ -81,7 +81,10 @@ function Services() {
         </div>
 
         <div className="services__seo-links" aria-label="Service page links">
-          <h3 className="services__title" style={{ fontSize: "1.25rem", marginTop: "2rem" }}>
+          <h3
+            className="services__title"
+            style={{ fontSize: "1.25rem", marginTop: "2rem" }}
+          >
             Explore Service Pages
           </h3>
 
@@ -121,6 +124,68 @@ function Services() {
             <li>
               <Link to="/services/rv-motorhome-semitruck-transport">
                 RV, motorhome, and semi-truck transport
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="services__seo-links" aria-label="Location page links">
+          <h3
+            className="services__title"
+            style={{ fontSize: "1.25rem", marginTop: "2rem" }}
+          >
+            Popular Location Pages
+          </h3>
+
+          <ul
+            style={{
+              marginTop: "1rem",
+              display: "grid",
+              gap: "0.75rem",
+              paddingLeft: "1.25rem",
+            }}
+          >
+            <li>
+              <Link to="/car-shipping-florida">Car shipping in Florida</Link>
+            </li>
+            <li>
+              <Link to="/car-shipping-california">Car shipping in California</Link>
+            </li>
+            <li>
+              <Link to="/car-shipping-texas">Car shipping in Texas</Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="services__seo-links" aria-label="Auto transport guide links">
+          <h3
+            className="services__title"
+            style={{ fontSize: "1.25rem", marginTop: "2rem" }}
+          >
+            Helpful Auto Transport Guides
+          </h3>
+
+          <ul
+            style={{
+              marginTop: "1rem",
+              display: "grid",
+              gap: "0.75rem",
+              paddingLeft: "1.25rem",
+            }}
+          >
+            <li>
+              <Link to="/how-much-does-car-shipping-cost">
+                How much does car shipping cost?
+              </Link>
+            </li>
+            <li>
+              <Link to="/open-vs-enclosed-car-shipping">
+                Open vs enclosed car shipping
+              </Link>
+            </li>
+            <li>
+              <Link to="/how-long-does-car-shipping-take">
+                How long does car shipping take?
               </Link>
             </li>
           </ul>

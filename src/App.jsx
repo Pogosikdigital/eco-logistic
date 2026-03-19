@@ -37,6 +37,8 @@ import CarShippingTexasPage from "./pages/CarShippingTexasPage";
 
 // Blog pages
 import CarShippingCostPage from "./pages/blog/CarShippingCostPage";
+import OpenVsEnclosedCarShippingPage from "./pages/blog/OpenVsEnclosedCarShippingPage";
+import HowLongDoesCarShippingTakePage from "./pages/blog/HowLongDoesCarShippingTakePage";
 
 function App() {
   const location = useLocation();
@@ -279,6 +281,24 @@ function App() {
         element={
           <MainLayout>
             <CarShippingCostPage />
+          </MainLayout>
+        }
+      />
+
+      <Route
+        path="/open-vs-enclosed-car-shipping"
+        element={
+          <MainLayout>
+            <OpenVsEnclosedCarShippingPage />
+          </MainLayout>
+        }
+      />
+
+      <Route
+        path="/how-long-does-car-shipping-take"
+        element={
+          <MainLayout>
+            <HowLongDoesCarShippingTakePage />
           </MainLayout>
         }
       />

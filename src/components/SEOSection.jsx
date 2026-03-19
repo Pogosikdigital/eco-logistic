@@ -190,6 +190,46 @@ export default function SEOSection() {
                   </p>
                 </div>
               </div>
+
+              <div className="seo__split">
+                <div className="seo__block">
+                  <h3 className="seo__h3">Helpful Auto Transport Guides</h3>
+                  <ul className="seo__list" aria-label="Blog and guide pages">
+                    <li>
+                      <Link to="/how-much-does-car-shipping-cost">
+                        How much does car shipping cost?
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/open-vs-enclosed-car-shipping">
+                        Open vs enclosed car shipping
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/how-long-does-car-shipping-take">
+                        How long does car shipping take?
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="seo__block">
+                  <h3 className="seo__h3">Learn Before You Book</h3>
+                  <p className="seo__p">
+                    Our auto transport guides help explain common pricing
+                    questions, transit timing, and the difference between open
+                    and enclosed transport. These resources are designed to help
+                    customers make better shipping decisions before requesting a
+                    quote.
+                  </p>
+
+                  <p className="seo__p">
+                    Internal links between service pages, location pages, and blog
+                    articles also help search engines understand the structure of
+                    the site and discover your most important pages faster.
+                  </p>
+                </div>
+              </div>
             </div>
           </article>
 
